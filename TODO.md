@@ -1,4 +1,9 @@
 ## Things to be added
+
+- [ ] Setup when starting the dude for the first time
+
+- [ ] When bored, the dude suggests what to do, depending on the user's interests (something to read, places to take good photos, something to watch, etc)
+
 - [ ] git
   - [ ] Save credentials to make it convenient for the user
   - [ ] Know status of all the git repos (pretty display of git commits, I remember seeing a github repo for that)
