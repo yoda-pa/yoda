@@ -9,14 +9,14 @@
   - [ ] Know status of all the git repos (pretty display of git commits, I remember seeing a github repo for that)
   - [ ] Agenda (show all the repos worked on in the past and suggest which ones should be worked on depending on code coverage etc) (creating a roadmap, basically)
   - [ ] Push all (or someting similar with which the day's work can be automatically pushed to remote host)
-  
+
 - [ ] chat
   - [ ] Fetch dev related news for user. Can be set by the user
   - [ ] A good NLP functionality
   - [ ] books
   - [ ] movies
   - [ ] anime / manga
-  - [ ] news 
+  - [ ] news
   - [ ] weather
   - [ ] currency
   - [ ] random jokes / quotes
@@ -37,7 +37,7 @@
 
 - [ ] family & friends
   - [ ] places where loved ones live and news related to the same
-  - [ ] their profiles 
+  - [ ] their profiles
   - [ ] their birthdays and things they like
   - [ ] gift recommendations for them
   - [ ] personalized notes for every person, the system learns from that and tries to understand about the kind of people
@@ -61,8 +61,8 @@
   - [ ] cloud storage (google drive integration, maybe)
   - [ ] account registration with google account, but only for storage
 
-- [ ] pretty display of everything
+- [ ] pretty display of everything (colors, formatting and stuff)
 
-- [ ] multiple word input so that the user wouldn't need to put the chat query in quotes
+- [x] multiple word input so that the user wouldn't need to put the chat query in quotes
 
-- [ ] allow user to input in natural language. Detect what theuser wants and use the most suitable package for them
+- [ ] allow user to input in natural language. Detect what the user wants and use the most suitable package for them
