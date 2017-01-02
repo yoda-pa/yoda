@@ -33,7 +33,8 @@
   - [ ] ping
   - [ ] nerd humor
   - [ ] hacker news
-  - [ ] dev env
+  - [ ] dev env setup, status and details
+  - [ ] internet speed check
 
 - [ ] family & friends
   - [ ] places where loved ones live and news related to the same
@@ -56,6 +57,29 @@
   - [ ] one can add entry to the files by just a command and at the end of the day they can go through it
   - [ ] one command for summary of whatever is done, planned, etc
   - [ ] diary entries to be appended to local files named according to the current date
+
+- [ ] money
+  - [ ] set long term goals to save a required amount of money for different plans
+  - [ ] the dude suggests appropriate amount of money to be saved per month, keeping in mind the currency exchange rates
+  - [ ] money manager for managing different accounts 
+
+- [ ] study
+  - [ ] set long term goals and the system helps to learn the same by suggesting appropriate reading materials and tracking progress 
+  
+- [ ] health
+  - [ ] weight loss 
+  - [ ] healthy diet 
+  - [ ] optimum amount of water, calories etc needed for a person of particular weight/height 
+  - [ ] BMI and other stuff that matters 
+  
+- [ ] learn
+  - [ ] daily vocabulary 
+  - [ ] reverse dictionary
+  - [ ] learn new skill
+  
+- [ ] style / fashion
+  - [ ] build personal profile according to height/weight
+  - [ ] daily clothing style management
 
 - [ ] storage
   - [ ] cloud storage (google drive integration, maybe)
