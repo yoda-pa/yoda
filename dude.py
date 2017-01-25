@@ -1,5 +1,7 @@
 import click
 import chalk
+import sys
+from modules import *
 
 @click.group()
 @click.option('--verbose', is_flag=True)
@@ -28,6 +30,7 @@ def git(input):
 		test_string = ''
 		for i in input:
 			test_string += (i + ' ')
+		data = sys.modules['modules.git'].process(test_string)
 	else:
 		click.echo('No input specified. Run with --help for info')
 
@@ -40,7 +43,7 @@ def chat(input):
 		test_string = ''
 		for i in input:
 			test_string += (i + ' ')
-		click.echo(chalk.red('input = %s' % test_string))
+			click.echo(chalk.red('input = %s' % test_string))
 	else:
 		click.echo('No input specified. Run with --help for info')
 
