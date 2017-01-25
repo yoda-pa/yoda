@@ -1,7 +1,7 @@
 # dude
 [![Build Status](https://travis-ci.org/dude-pa/dude.png)](https://travis-ci.org/dude-pa/dude)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/dude-pa/dude/master/LICENSE)
-[![Project status](https://img.shields.io/badge/Current%20stage-initial-lightgrey.svg)](https://github.com/dude-pa/dude)
+[![Project status](https://img.shields.io/badge/version-0.0.0-lightgrey.svg)](https://github.com/dude-pa/dude)
 
 Dudely Command line interface to help with daily tasks
 
@@ -18,9 +18,12 @@ Dudely Command line interface to help with daily tasks
 virtualenv venv  
 . venv/bin/activate
 ```
-- install dependencies and run  
+- install dependencies  
 ```bash
-pip install .  
+pip install --editable .  
+```
+- use the package  
+```bash
 dude
 ```
 ### Contributing
