@@ -87,6 +87,8 @@
   - [ ] cloud storage (google drive integration, maybe)
   - [ ] account registration with google account, but only for storage
 
-- [ ] pretty display of everything (colors, formatting and stuff)
+- [ ] pretty display
+  - [x] colors
+  - [ ] formatting
 
 - [ ] allow user to input in natural language. Detect what the user wants and use the most suitable package for them

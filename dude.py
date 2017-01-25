@@ -1,4 +1,5 @@
 import click
+import chalk
 
 @click.group()
 @click.option('--verbose', is_flag=True)
@@ -39,7 +40,7 @@ def chat(input):
 		test_string = ''
 		for i in input:
 			test_string += (i + ' ')
-		click.echo('input = %s' % test_string)
+		click.echo(chalk.red('input = %s' % test_string))
 	else:
 		click.echo('No input specified. Run with --help for info')
 

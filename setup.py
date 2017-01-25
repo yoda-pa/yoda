@@ -5,7 +5,8 @@ setup(
     version='0.0.0',
     py_modules=['dude'],
     install_requires=[
-        'Click'
+        'Click',
+        'pychalk'
     ],
     entry_points='''
         [console_scripts]
