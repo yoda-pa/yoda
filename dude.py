@@ -25,7 +25,16 @@ def test(input):
 @cli.command()
 @click.argument('input', nargs=-1)
 def git(input):
-	''' git '''
+	'''
+	Helps with your git operations\n
+	------------------------------\n
+	Some commands that can be used:\n
+	dude git all status  - goes into all repos in current directory and shows the status of all\n
+	dude git credentials - shows your credentials. If not set, it would prompt for input\n
+	dude git agenda      - Show all the repos worked on in the past and suggest which ones should be worked on depending on commits etc\n
+	dude git push all    - Pushes everything with automatically generated commits (you will have the option to manually enter the commit messages before committing)\n
+	re
+	'''
 	if input:
 		test_string = ''
 		for i in input:
@@ -43,19 +52,20 @@ def chat(input):
 		test_string = ''
 		for i in input:
 			test_string += (i + ' ')
-			click.echo(chalk.red('input = %s' % test_string))
+		data = sys.modules['modules.chat'].process(test_string)
 	else:
 		click.echo('No input specified. Run with --help for info')
 
 # devtools
 @cli.command()
 @click.argument('input', nargs=-1)
-def devtools(input):
-	''' devtools '''
+def dev(input):
+	''' dev tools '''
 	if input:
 		test_string = ''
 		for i in input:
 			test_string += (i + ' ')
+		data = sys.modules['modules.dev'].process(test_string)
 	else:
 		click.echo('No input specified. Run with --help for info')
 
@@ -68,6 +78,7 @@ def family(input):
 		test_string = ''
 		for i in input:
 			test_string += (i + ' ')
+		data = sys.modules['modules.family'].process(test_string)
 	else:
 		click.echo('No input specified. Run with --help for info')
 
@@ -80,6 +91,7 @@ def love(input):
 		test_string = ''
 		for i in input:
 			test_string += (i + ' ')
+		data = sys.modules['modules.love'].process(test_string)
 	else:
 		click.echo('No input specified. Run with --help for info')
 
@@ -92,6 +104,7 @@ def diary(input):
 		test_string = ''
 		for i in input:
 			test_string += (i + ' ')
+		data = sys.modules['modules.diary'].process(test_string)
 	else:
 		click.echo('No input specified. Run with --help for info')
 
@@ -104,6 +117,7 @@ def money(input):
 		test_string = ''
 		for i in input:
 			test_string += (i + ' ')
+		data = sys.modules['modules.money'].process(test_string)
 	else:
 		click.echo('No input specified. Run with --help for info')
 
@@ -116,6 +130,7 @@ def study(input):
 		test_string = ''
 		for i in input:
 			test_string += (i + ' ')
+		data = sys.modules['modules.study'].process(test_string)
 	else:
 		click.echo('No input specified. Run with --help for info')
 
@@ -128,6 +143,7 @@ def health(input):
 		test_string = ''
 		for i in input:
 			test_string += (i + ' ')
+		data = sys.modules['modules.health'].process(test_string)
 	else:
 		click.echo('No input specified. Run with --help for info')
 
@@ -140,6 +156,7 @@ def learn(input):
 		test_string = ''
 		for i in input:
 			test_string += (i + ' ')
+		data = sys.modules['modules.learn'].process(test_string)
 	else:
 		click.echo('No input specified. Run with --help for info')
 
@@ -152,5 +169,6 @@ def fashion(input):
 		test_string = ''
 		for i in input:
 			test_string += (i + ' ')
+		data = sys.modules['modules.fashion'].process(test_string)
 	else:
 		click.echo('No input specified. Run with --help for info')

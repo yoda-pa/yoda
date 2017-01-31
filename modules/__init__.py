@@ -1,3 +1,13 @@
 __all__ = [
-    'git'
+    'git',
+    'chat',
+    'dev',
+    'family',
+    'love',
+    'diary',
+    'money',
+    'study',
+    'health',
+    'learn',
+    'fashion'
 ]
