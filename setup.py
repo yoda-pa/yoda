@@ -6,7 +6,8 @@ setup(
     py_modules=['dude'],
     install_requires=[
         'Click',
-        'pychalk'
+        'pychalk',
+        'apiai'
     ],
     entry_points='''
         [console_scripts]

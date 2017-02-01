@@ -13,8 +13,8 @@
   - [ ] Push all (or something similar with which the day's work can be automatically pushed to remote host)
 
 - [ ] chat
+  - [x] A good NLP functionality
   - [ ] Fetch dev related news for user. Can be set by the user
-  - [ ] A good NLP functionality
   - [ ] books
   - [ ] movies
   - [ ] anime / manga

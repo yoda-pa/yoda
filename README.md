@@ -27,4 +27,6 @@ pip install --editable .
 dude
 ```
 ### Contributing
-You can contribute to this project by suggesting features that can be added to [this](TODO.md) file or by implementing the things already there in the file.
+You can contribute to this project by suggesting features that can be added to [this](TODO.md) file or by implementing the things already there in the file.  
+
+You can test the chat functionality on api.ai agent website [here](https://bot.api.ai/ff4ba99e-e444-4e19-8b4e-91fb0b93e414) 
