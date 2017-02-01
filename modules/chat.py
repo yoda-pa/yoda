@@ -4,6 +4,7 @@ import config
 import os
 import apiai
 import json
+import emoji
 
 CLIENT_ACCESS_TOKEN = os.environ.get('API_AI_TOKEN', config.API_AI_TOKEN)
 ai = apiai.ApiAI(CLIENT_ACCESS_TOKEN)
@@ -20,6 +21,6 @@ def process(input):
     answer = output["result"]["fulfillment"]["speech"]
     if output['status']['errorType'] == 'success':
         click.echo(response)
-        click.echo()
+        click.echo(emoji.emojize('The dude is :fire:'))
     else:
         click.echo('some error')

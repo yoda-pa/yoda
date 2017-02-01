@@ -7,7 +7,8 @@ setup(
     install_requires=[
         'Click',
         'pychalk',
-        'apiai'
+        'apiai',
+        'emoji'
     ],
     entry_points='''
         [console_scripts]
