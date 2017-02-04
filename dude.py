@@ -172,3 +172,16 @@ def fashion(input):
 		data = sys.modules['modules.fashion'].process(test_string)
 	else:
 		click.echo('No input specified. Run with --help for info')
+
+# setup
+@cli.command()
+@click.argument('input', nargs=-1)
+def setup(input):
+	''' setup '''
+	if input:
+		test_string = ''
+		for i in input:
+			test_string += (i + ' ')
+		data = sys.modules['modules.setup'].process(test_string)
+	else:
+		click.echo('No input specified. Run with --help for info')

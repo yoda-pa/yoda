@@ -8,7 +8,10 @@ setup(
         'Click',
         'pychalk',
         'apiai',
-        'emoji'
+        'emoji',
+        'pyyaml',
+        'lepl',
+        'pycrypto'
     ],
     entry_points='''
         [console_scripts]
