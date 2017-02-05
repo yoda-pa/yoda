@@ -8,9 +8,10 @@ import os.path
 from Crypto.Cipher import AES
 import string
 import random
+import config
 
-current_system = platform.system().lower()
-config_file_path = os.path.expanduser('~') + '/.dudeconfig.yml'
+PLATFORM = os.environ.get('CONFIG_FILE_PATH', config.CONFIG_FILE_PATH)
+CONFIG_FILE_PATH = os.environ.get('CONFIG_FILE_PATH', config.CONFIG_FILE_PATH)
 
 # used to generate key and IV456 for Crypto
 def cypher_pass_generator(size = 16, chars=string.ascii_uppercase + string.digits):
@@ -22,7 +23,7 @@ def encrypt_password(cipher_key, cipher_IV456, password):
 
 # to decrypt the password from the cipher text. written to test the functionality of pycrypto
 def decrypt_password():
-    config_file = open(config_file_path, 'r')
+    config_file = open(CONFIG_FILE_PATH, 'r')
     contents = yaml.load(config_file)
     cipher_key = contents['encryption']['cipher_key']
     cipher_IV456 = contents['encryption']['cipher_IV456']
@@ -32,7 +33,7 @@ def decrypt_password():
 
 # create new config file
 def new():
-    click.echo('new setup will be done for system: %s' % current_system)
+    click.echo('new setup will be done for system: %s' % PLATFORM)
     chalk.blue('Tell me your name, dude:')
     name = raw_input().strip()
     while len(name) == 0:
@@ -80,20 +81,27 @@ def new():
         )
     )
 
-    if os.path.isfile(config_file_path):
+    if not os.path.exists(os.path.dirname(CONFIG_FILE_PATH)):
+        try:
+            os.makedirs(os.path.dirname(CONFIG_FILE_PATH))
+        except OSError as exc: # Guard against race condition
+            if exc.errno != errno.EEXIST:
+                raise
+
+    if os.path.isfile(CONFIG_FILE_PATH):
         chalk.red('A configuration file already exists. Are you sure you want to overwrite it? (y/n)')
         overwrite_response = raw_input().lower()
         if not (overwrite_response == 'y' or overwrite_response == 'yes'):
             return
 
-    with open(config_file_path, 'w') as config_file:
+    with open(CONFIG_FILE_PATH, 'w') as config_file:
         yaml.dump(setup_data, config_file, default_flow_style=False)
 
 # check existing setup
 def check():
     # TODO: beautify output
-    if os.path.isfile(config_file_path):
-        with open(config_file_path, 'r') as config_file:
+    if os.path.isfile(CONFIG_FILE_PATH):
+        with open(CONFIG_FILE_PATH, 'r') as config_file:
             contents = yaml.load(config_file)
             click.echo(contents)
             click.echo(decrypt_password())
@@ -102,26 +110,26 @@ def check():
 
 # delete config_file
 def delete():
-    if os.path.isfile(config_file_path):
+    if os.path.isfile(CONFIG_FILE_PATH):
         chalk.red('Are you sure you want to delete previous configuration? (y/n)')
         delete_response = raw_input().lower().strip()
         if delete_response != 'y':
             click.echo('Operation cancelled')
             return
-        os.remove(config_file_path)
+        os.remove(CONFIG_FILE_PATH)
         chalk.red('Configuration file deleted')
     else:
         chalk.red('Configuration file does not exist!')
 
 # checks which command to execute
 def check_sub_command(c):
-    options = {
+    sub_commands = {
         'new' : new,
         'check' : check,
         'delete' : delete
     }
     try:
-        return options[c]()
+        return sub_commands[c]()
     except KeyError:
         chalk.red('Command does not exist!')
         click.echo('Try "dude setup --help" for more info')

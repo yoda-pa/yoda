@@ -11,7 +11,9 @@ setup(
         'emoji',
         'pyyaml',
         'lepl',
-        'pycrypto'
+        'pycrypto',
+        'pyspeedtest',
+        'forex-python'
     ],
     entry_points='''
         [console_scripts]

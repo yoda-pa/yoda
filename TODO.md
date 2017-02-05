@@ -2,7 +2,7 @@
 
 - [x] multiple word input so that the user wouldn't need to put the chat query in quotes
 
-- [ ] Setup when starting the dude for the first time
+- [x] Setup when starting the dude for the first time
 
 - [ ] When bored, the dude suggests what to do, depending on the user's interests (something to read, places to take good photos, something to watch, etc)
 
@@ -30,13 +30,12 @@
   - [ ] time in diff areas
   - [ ] music search lyrics or play
 
-- [ ] devtools
+- [ ] dev tools
   - [ ] url shortener
-  - [ ] ping
+  - [x] internet speed test
   - [ ] nerd humor
   - [ ] hacker news
   - [ ] dev env setup, status and details
-  - [ ] internet speed check
 
 - [ ] family & friends
   - [ ] places where loved ones live and news related to the same
