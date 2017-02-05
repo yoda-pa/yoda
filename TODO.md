@@ -4,8 +4,6 @@
 
 - [x] Setup when starting the dude for the first time
 
-- [ ] When bored, the dude suggests what to do, depending on the user's interests (something to read, places to take good photos, something to watch, etc)
-
 - [ ] git
   - [ ] Save credentials to make it convenient for the user
   - [ ] Know status of all the git repos (pretty display of git commits, I remember seeing a github repo for that)
@@ -29,6 +27,7 @@
   - [ ] calculator
   - [ ] time in diff areas
   - [ ] music search lyrics or play
+  - [ ] When bored, the dude suggests what to do, depending on the user's interests (something to read, places to take good photos, something to watch, etc)
 
 - [ ] dev tools
   - [ ] url shortener
@@ -55,9 +54,9 @@
 
 - [ ] diary
   - [ ] bullet journal
-  - [ ] one can add entry to the files by just a command and at the end of the day they can go through it
+  - [x] one can add entry to the files by just a command and at the end of the day they can go through it
   - [ ] one command for summary of whatever is done, planned, etc
-  - [ ] diary entries to be appended to local files named according to the current date
+  - [x] diary entries to be appended to local files named according to the current date
 
 - [ ] money
   - [ ] set long term goals to save a required amount of money for different plans

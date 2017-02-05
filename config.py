@@ -9,3 +9,4 @@ PLATFORM = platform.system().lower()
 if PLATFORM == 'linux':
     CONFIG_FILE_PATH = os.path.expanduser('~') + '/.dude/.dudeconfig.yml'
     MONEY_CONFIG_FILE_PATH = os.path.expanduser('~') + '/.dude/money/.moneyconfig.yml'
+    DIARY_CONFIG_FILE_PATH = os.path.expanduser('~') + '/.dude/diary/.diaryconfig.yml'

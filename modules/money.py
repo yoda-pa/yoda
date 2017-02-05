@@ -1,6 +1,5 @@
 import click
 import chalk
-import platform
 import os.path
 import yaml
 import config
@@ -51,16 +50,20 @@ def setup():
         initial_money = initial_money
     )
 
-    with open(MONEY_CONFIG_FILE_PATH, 'w') as config_file:
+    with open(MONEY_CONFIG_FILE_PATH, 'a') as config_file:
         yaml.dump(setup_data, config_file, default_flow_style=False)
 
-
+# command checker
 def check_sub_command(c):
     sub_commands = {
         'status' : status,
         'setup' : setup
     }
-    return sub_commands[c]()
+    try:
+        return sub_commands[c]()
+    except KeyError:
+        chalk.red('Command does not exist!')
+        click.echo('Try "dude setup --help" for more info')
 
 # the main process
 def process(input):
