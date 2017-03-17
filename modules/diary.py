@@ -26,6 +26,9 @@ def todays_tasks_entry_file_path():
 def todays_notes_entry_file_path():
     return DIARY_CONFIG_FOLDER_PATH + '/' + now_date() + "-notes.yaml"
 
+TODAYS_TASKS_ENTRY_FILE_PATH = todays_tasks_entry_file_path()
+TODAYS_NOTES_ENTRY_FILE_PATH = todays_notes_entry_file_path()
+
 # check if today's diary entry file exists. If not, create
 def today_entry_check():
     if not os.path.exists(DIARY_CONFIG_FOLDER_PATH):
@@ -56,13 +59,13 @@ def new_task():
     chalk.blue('Input your entry for task:')
     note = raw_input().strip()
 
-    if os.path.isfile(todays_tasks_entry_file_path()):
+    if os.path.isfile(TODAYS_TASKS_ENTRY_FILE_PATH):
         setup_data = dict(
             time = now_time(),
             text = note,
             status = 0
         )
-        append_data_into_file(setup_data, todays_tasks_entry_file_path())
+        append_data_into_file(setup_data, TODAYS_TASKS_ENTRY_FILE_PATH)
     else:
         setup_data = dict (
             entries = [
@@ -73,7 +76,7 @@ def new_task():
                 )
             ]
         )
-        input_data(setup_data, todays_tasks_entry_file_path())
+        input_data(setup_data, TODAYS_TASKS_ENTRY_FILE_PATH)
 
 def new_note():
     today_entry_check()
@@ -81,13 +84,13 @@ def new_note():
     chalk.blue('Input your entry for note:')
     note = raw_input().strip()
 
-    if os.path.isfile(todays_notes_entry_file_path()):
-        with open(todays_notes_entry_file_path(), "r") as todays_notes_entry:
+    if os.path.isfile(TODAYS_NOTES_ENTRY_FILE_PATH):
+        with open(TODAYS_NOTES_ENTRY_FILE_PATH, "r") as todays_notes_entry:
             setup_data = dict(
                 time = now_time(),
                 text = note
             )
-            append_data_into_file(setup_data, todays_notes_entry_file_path())
+            append_data_into_file(setup_data, TODAYS_NOTES_ENTRY_FILE_PATH)
     else:
         setup_data = dict (
             entries = [
@@ -97,21 +100,21 @@ def new_note():
                 )
             ]
         )
-        input_data(setup_data, todays_notes_entry_file_path())
+        input_data(setup_data, TODAYS_NOTES_ENTRY_FILE_PATH)
 
 # strikethrough text
 def strike(text):
     return u'\u0336'.join(text) + u'\u0336'
 
 def tasks():
-    if os.path.isfile(todays_tasks_entry_file_path()):
+    if os.path.isfile(TODAYS_TASKS_ENTRY_FILE_PATH):
         click.echo('Today\'s agenda:')
         click.echo('----------------')
         click.echo("Status |  Time   | Text")
         click.echo("-------|---------|-----")
         incomplete_tasks = 0
         total_tasks = 0
-        with open(todays_tasks_entry_file_path(), 'r') as todays_tasks_entry:
+        with open(TODAYS_TASKS_ENTRY_FILE_PATH, 'r') as todays_tasks_entry:
             contents = yaml.load(todays_tasks_entry)
             for entry in contents['entries']:
                 total_tasks += 1
@@ -134,8 +137,8 @@ def tasks():
         click.echo('There are no tasks for today. Add a new task by entering "dude diary nt"')
 
 def complete_task():
-    if os.path.isfile(todays_tasks_entry_file_path()):
-        with open(todays_tasks_entry_file_path(), 'r') as todays_tasks_entry:
+    if os.path.isfile(TODAYS_TASKS_ENTRY_FILE_PATH):
+        with open(TODAYS_TASKS_ENTRY_FILE_PATH, 'r') as todays_tasks_entry:
             contents = yaml.load(todays_tasks_entry)
             i = 0
             no_task_left = True
@@ -165,13 +168,13 @@ def complete_task():
                 chalk.blue('Enter the task number that you would like to set as completed')
                 task_to_be_completed = int(raw_input())
                 contents['entries'][task_to_be_completed - 1]['status'] = 1
-                input_data(contents, todays_tasks_entry_file_path())
+                input_data(contents, TODAYS_TASKS_ENTRY_FILE_PATH)
     else:
         chalk.red('There are no tasks for today. Add a new task by entering "dude diary nt"')
 
 def notes():
-    if os.path.isfile(todays_notes_entry_file_path()):
-        with open(todays_notes_entry_file_path(), 'r') as todays_notes_entry:
+    if os.path.isfile(TODAYS_NOTES_ENTRY_FILE_PATH):
+        with open(TODAYS_NOTES_ENTRY_FILE_PATH, 'r') as todays_notes_entry:
             contents = yaml.load(todays_notes_entry)
 
             click.echo('Today\'s notes:')
