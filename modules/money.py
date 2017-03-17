@@ -44,7 +44,7 @@ def setup():
         initial_money = initial_money
     )
 
-    input_data(MONEY_CONFIG_FILE_PATH, setup_data)
+    input_data(setup_data, MONEY_CONFIG_FILE_PATH)
 
 # command checker
 def check_sub_command(c):

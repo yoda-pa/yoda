@@ -22,7 +22,7 @@ def ask_overwrite(file_path):
     return False
 
 # inputs dict into a .yaml file
-def input_data(file_path, data):
+def input_data(data, file_path):
     with open(file_path, 'a') as config_file:
         yaml.dump(data, config_file, default_flow_style=False)
 
