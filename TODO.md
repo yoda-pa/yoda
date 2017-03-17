@@ -1,8 +1,8 @@
 ## Things to be added
 
-- [x] multiple word input so that the user wouldn't need to put the chat query in quotes
+- [x] ~~multiple word input so that the user wouldn't need to put the chat query in quotes~~
 
-- [x] Setup when starting the dude for the first time
+- [x] ~~Setup when starting the dude for the first time~~
 
 - [ ] git
   - [ ] Save credentials to make it convenient for the user
@@ -11,7 +11,7 @@
   - [ ] Push all (or something similar with which the day's work can be automatically pushed to remote host)
 
 - [ ] chat
-  - [x] A good NLP functionality
+  - [x] ~~A good NLP functionality~~
   - [ ] Fetch dev related news for user. Can be set by the user
   - [ ] books
   - [ ] movies
@@ -50,15 +50,16 @@
   - [ ] things they like
   - [ ] gift recommendations
   - [ ] time in their place, to know when they will be available to talk
-  - [ ] personalized notes for them
+  - [x] ~~personalized notes for them~~
 
-- [ ] diary
-  - [ ] bullet journal
-  - [x] one can add entry to the files by just a command and at the end of the day they can go through it
-  - [ ] one command for summary of whatever is done, planned, etc
-  - [x] diary entries to be appended to local files named according to the current date
+- [x] ~~Diary~~
+  - [x] ~~bullet journal~~
+  - [x]~~ one can add entry to the files by just a command and at the end of the day they can go through it~~
+  - [x] ~~one command for summary of whatever is done, planned, etc~~
+  - [x] ~~diary entries to be appended to local files named according to the current date~~
 
 - [ ] money
+  - [x] ~~personalized setup~~
   - [ ] set long term goals to save a required amount of money for different plans
   - [ ] the dude suggests appropriate amount of money to be saved per month, keeping in mind the currency exchange rates
   - [ ] money manager for managing different accounts
@@ -86,7 +87,7 @@
   - [ ] account registration with google account, but only for storage
 
 - [ ] pretty display
-  - [x] colors
+  - [x] ~~colors~~
   - [ ] formatting
 
 - [ ] allow user to input in natural language. Detect what the user wants and use the most suitable package for them
