@@ -31,7 +31,7 @@
 
 - [ ] dev tools
   - [ ] url shortener
-  - [x] internet speed test
+  - [x] ~~internet speed test~~
   - [ ] nerd humor
   - [ ] hacker news
   - [ ] dev env setup, status and details
@@ -54,7 +54,7 @@
 
 - [x] ~~Diary~~
   - [x] ~~bullet journal~~
-  - [x]~~ one can add entry to the files by just a command and at the end of the day they can go through it~~
+  - [x] ~~one can add entry to the files by just a command and at the end of the day they can go through it~~
   - [x] ~~one command for summary of whatever is done, planned, etc~~
   - [x] ~~diary entries to be appended to local files named according to the current date~~
 
