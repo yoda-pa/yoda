@@ -99,11 +99,11 @@ def new_note():
         )
         input_data(setup_data, todays_notes_entry_file_path())
 
-
+# strikethrough text
 def strike(text):
     return u'\u0336'.join(text) + u'\u0336'
 
-def agenda():
+def tasks():
     if os.path.isfile(todays_tasks_entry_file_path()):
         click.echo('Today\'s agenda:')
         click.echo('----------------')
@@ -131,7 +131,7 @@ def agenda():
             chalk.green("Completed tasks: " + str(total_tasks - incomplete_tasks))
 
     else:
-        click.echo('There is no agenda for today. Add a new task by entering "dude diary nt"')
+        click.echo('There are no tasks for today. Add a new task by entering "dude diary nt"')
 
 def complete_task():
     if os.path.isfile(todays_tasks_entry_file_path()):
@@ -149,7 +149,7 @@ def complete_task():
             else:
                 click.echo('Today\'s agenda:')
                 click.echo('----------------')
-                click.echo("Number |  Time   | Text")
+                click.echo("Number |  Time   | Task")
                 click.echo("-------|---------|-----")
 
                 i = 0
@@ -167,15 +167,34 @@ def complete_task():
                 contents['entries'][task_to_be_completed - 1]['status'] = 1
                 input_data(contents, todays_tasks_entry_file_path())
     else:
-        click.echo('There is no agenda for today. Add a new task by entering "dude nt *task*"')
+        chalk.red('There are no tasks for today. Add a new task by entering "dude diary nt"')
+
+def notes():
+    if os.path.isfile(todays_notes_entry_file_path()):
+        with open(todays_notes_entry_file_path(), 'r') as todays_notes_entry:
+            contents = yaml.load(todays_notes_entry)
+
+            click.echo('Today\'s notes:')
+            click.echo('----------------')
+            click.echo("  Time  | Note")
+            click.echo("--------|-----")
+
+            for entry in contents['entries']:
+                time = entry['time']
+                text = entry['text']
+                click.echo(time + "| " + text)
+
+    else:
+        chalk.red('There are no notes for today. Add a new note by entering "dude diary nn"')
 
 # command checker
 def check_sub_command(c):
     sub_commands = {
-        'agenda' : agenda,
+        'tasks' : tasks,
         'nn' : new_note,
         'nt' : new_task,
-        'ct' : complete_task
+        'ct' : complete_task,
+        'notes' : notes
     }
     # try:
     #     return sub_commands[c]()
