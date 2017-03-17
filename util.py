@@ -25,3 +25,7 @@ def ask_overwrite(file_path):
 def input_data(file_path, data):
     with open(file_path, 'a') as config_file:
         yaml.dump(data, config_file, default_flow_style=False)
+
+# get folder path from file path
+def get_folder_path_from_file_path(file_path):
+    return os.path.dirname(file_path)

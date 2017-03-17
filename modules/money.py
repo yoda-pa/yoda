@@ -1,6 +1,5 @@
 import click
 import chalk
-import os.path
 import yaml
 from forex_python.converter import CurrencyRates, CurrencyCodes
 
@@ -9,6 +8,7 @@ from util import *
 
 # config file path
 MONEY_CONFIG_FILE_PATH = config_file_paths['MONEY_CONFIG_FILE_PATH']
+MONEY_CONFIG_FOLDER_PATH = get_folder_path_from_file_path(MONEY_CONFIG_FILE_PATH)
 
 # currency converter
 currency_rates = CurrencyRates()
@@ -25,7 +25,7 @@ def status():
 
 # create new setup config
 def setup():
-    create_folder(MONEY_CONFIG_FILE_PATH)
+    create_folder(MONEY_CONFIG_FOLDER_PATH)
 
     if ask_overwrite(MONEY_CONFIG_FILE_PATH):
         return

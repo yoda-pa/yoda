@@ -4,9 +4,11 @@ from config import config_file_paths
 import os.path
 import time
 import yaml
+from util import *
 
 # config file path
 DIARY_CONFIG_FILE_PATH = config_file_paths['DIARY_CONFIG_FILE_PATH']
+DIARY_CONFIG_FOLDER_PATH = get_folder_path_from_file_path(DIARY_CONFIG_FILE_PATH)
 
 # get time
 def now_time():
@@ -18,17 +20,17 @@ def now_date():
 
 # get file path for today's tasks entry file
 def todays_tasks_entry_file_path():
-    return os.path.dirname(DIARY_CONFIG_FILE_PATH) + '/' + now_date() + "-tasks.yaml"
+    return DIARY_CONFIG_FOLDER_PATH + '/' + now_date() + "-tasks.yaml"
 
 # get file path for today's notes entry file
 def todays_notes_entry_file_path():
-    return os.path.dirname(DIARY_CONFIG_FILE_PATH) + '/' + now_date() + "-notes.yaml"
+    return DIARY_CONFIG_FOLDER_PATH + '/' + now_date() + "-notes.yaml"
 
 # check if today's diary entry file exists. If not, create
 def today_entry_check():
-    if not os.path.exists(os.path.dirname(DIARY_CONFIG_FILE_PATH)):
+    if not os.path.exists(DIARY_CONFIG_FOLDER_PATH):
         try:
-            os.makedirs(os.path.dirname(DIARY_CONFIG_FILE_PATH))
+            os.makedirs(DIARY_CONFIG_FOLDER_PATH)
         except OSError as exc: # Guard against race condition
             if exc.errno != errno.EEXIST:
                 raise
@@ -37,13 +39,40 @@ def today_entry_check():
 # operations: new task, task complete, task postponed, take notes
 def new_task():
     today_entry_check()
-    with open(todays_tasks_entry_file_path(), "a") as todays_tasks_entry:
-        todays_tasks_entry.write("appended text")
+
+    chalk.blue('Input your entry for task:')
+    note = raw_input().strip()
+
+    if os.path.isfile(todays_tasks_entry_file_path()):
+        with open(todays_tasks_entry_file_path(), "r") as todays_tasks_entry:
+
+            contents = yaml.load(todays_tasks_entry)
+            contents['entries'].append(
+                dict(
+                    time = now_time(),
+                    text = note
+                )
+            )
+
+            with open(todays_tasks_entry_file_path(), "w") as todays_tasks_entry:
+                yaml.dump(contents, todays_tasks_entry, default_flow_style=False)
+    else:
+        with open(todays_tasks_entry_file_path(), "w") as todays_tasks_entry:
+            setup_data = dict (
+                entries = [
+                    dict(
+                        time = now_time(),
+                        text = note
+                    )
+                ]
+            )
+            yaml.dump(setup_data, todays_tasks_entry, default_flow_style=False)
+
 
 def new_note():
     today_entry_check()
 
-    chalk.blue('Input your entry:')
+    chalk.blue('Input your entry for note:')
     note = raw_input().strip()
 
     if os.path.isfile(todays_notes_entry_file_path()):

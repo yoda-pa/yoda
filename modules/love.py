@@ -1,12 +1,11 @@
 import click
 import chalk
 from config import config_file_paths
-import os.path
 from util import *
 
 # config file path
 LOVE_CONFIG_FILE_PATH = config_file_paths["LOVE_CONFIG_FILE_PATH"]
-LOVE_CONFIG_FOLDER_PATH = os.path.dirname(LOVE_CONFIG_FILE_PATH)
+LOVE_CONFIG_FOLDER_PATH = get_folder_path_from_file_path(LOVE_CONFIG_FILE_PATH)
 
 # check status of setup
 def status():
@@ -26,7 +25,7 @@ def setup():
     chalk.blue('Enter their name:')
     name = (raw_input().strip())
 
-    chalk.blue('Where edo they live?')
+    chalk.blue('Where do they live?')
     place = (raw_input().strip())
 
     setup_data = dict (
