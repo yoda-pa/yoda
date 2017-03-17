@@ -1,6 +1,5 @@
 import click
 import chalk
-import platform
 import getpass
 import lepl.apps.rfc3696
 import yaml
@@ -8,10 +7,9 @@ import os.path
 from Crypto.Cipher import AES
 import string
 import random
-import config
+from config import config_file_paths
 
-PLATFORM = os.environ.get('CONFIG_FILE_PATH', config.CONFIG_FILE_PATH)
-CONFIG_FILE_PATH = os.environ.get('CONFIG_FILE_PATH', config.CONFIG_FILE_PATH)
+CONFIG_FILE_PATH = config_file_paths['CONFIG_FILE_PATH']
 
 # used to generate key and IV456 for Crypto
 def cypher_pass_generator(size = 16, chars=string.ascii_uppercase + string.digits):
@@ -33,7 +31,6 @@ def decrypt_password():
 
 # create new config file
 def new():
-    click.echo('new setup will be done for system: %s' % PLATFORM)
     chalk.blue('Tell me your name, dude:')
     name = raw_input().strip()
     while len(name) == 0:

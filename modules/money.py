@@ -2,11 +2,13 @@ import click
 import chalk
 import os.path
 import yaml
-import config
 from forex_python.converter import CurrencyRates, CurrencyCodes
 
+from config import config_file_paths
+from util import *
+
 # config file path
-MONEY_CONFIG_FILE_PATH = os.environ.get('MONEY_CONFIG_FILE_PATH', config.MONEY_CONFIG_FILE_PATH)
+MONEY_CONFIG_FILE_PATH = config_file_paths['MONEY_CONFIG_FILE_PATH']
 
 # currency converter
 currency_rates = CurrencyRates()
@@ -23,18 +25,10 @@ def status():
 
 # create new setup config
 def setup():
-    if not os.path.exists(os.path.dirname(MONEY_CONFIG_FILE_PATH)):
-        try:
-            os.makedirs(os.path.dirname(MONEY_CONFIG_FILE_PATH))
-        except OSError as exc: # Guard against race condition
-            if exc.errno != errno.EEXIST:
-                raise
+    create_folder(MONEY_CONFIG_FILE_PATH)
 
-    if os.path.isfile(MONEY_CONFIG_FILE_PATH):
-        chalk.red('A configuration file already exists. Are you sure you want to overwrite it? (y/n)')
-        overwrite_response = raw_input().lower()
-        if not (overwrite_response == 'y' or overwrite_response == 'yes'):
-            return
+    if ask_overwrite(MONEY_CONFIG_FILE_PATH):
+        return
 
     chalk.blue('Enter default currency code:')
     currency_code = (raw_input().strip())
@@ -50,8 +44,7 @@ def setup():
         initial_money = initial_money
     )
 
-    with open(MONEY_CONFIG_FILE_PATH, 'a') as config_file:
-        yaml.dump(setup_data, config_file, default_flow_style=False)
+    input_data(MONEY_CONFIG_FILE_PATH, setup_data)
 
 # command checker
 def check_sub_command(c):

@@ -1,12 +1,12 @@
 import click
 import chalk
-import config
+from config import config_file_paths
 import os.path
 import time
 import yaml
 
 # config file path
-DIARY_CONFIG_FILE_PATH = os.environ.get('DIARY_CONFIG_FILE_PATH', config.DIARY_CONFIG_FILE_PATH)
+DIARY_CONFIG_FILE_PATH = config_file_paths['DIARY_CONFIG_FILE_PATH']
 
 # get time
 def now_time():
@@ -72,14 +72,14 @@ def new_note():
             yaml.dump(setup_data, todays_notes_entry, default_flow_style=False)
 
 def agenda():
-    click.echo('Today\'s agenda:')
     if os.path.isfile(todays_notes_entry_file_path()):
+        click.echo('Today\'s agenda:')
         with open(todays_notes_entry_file_path(), 'r') as config_file:
             contents = yaml.load(config_file)
             # TODO: beautify output
             click.echo(contents)
     else:
-        click.echo('The configuration file for this module does not exist. Please type "dude money setup" to create a new one')
+        click.echo('There is no agenda for today. Add a new task by entering "dude nt *task*"')
 
 # command checker
 def check_sub_command(c):
