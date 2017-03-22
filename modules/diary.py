@@ -199,12 +199,11 @@ def check_sub_command(c):
         'ct' : complete_task,
         'notes' : notes
     }
-    # try:
-    #     return sub_commands[c]()
-    # except KeyError:
-    #     chalk.red('Command does not exist!')
-    #     click.echo('Try "dude setup --help" for more info')
-    return sub_commands[c]()
+    try:
+        return sub_commands[c]()
+    except KeyError:
+        chalk.red('Command does not exist!')
+        click.echo('Try "dude setup --help" for more info')
 
 # the main process
 def process(input):

@@ -90,12 +90,11 @@ def check_sub_command(c):
         'note' : note,
         'notes': notes
     }
-    return sub_commands[c]()
-    # try:
-    #     return sub_commands[c]()
-    # except KeyError:
-    #     chalk.red('Command does not exist!')
-    #     click.echo('Try "dude setup --help" for more info')
+    try:
+        return sub_commands[c]()
+    except KeyError:
+        chalk.red('Command does not exist!')
+        click.echo('Try "dude setup --help" for more info')
 
 def process(input):
     input = input.lower().strip()
