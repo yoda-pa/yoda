@@ -10,5 +10,6 @@ config_file_paths = {
     "CONFIG_FILE_PATH": USER_HOME_DIR + '/.dude/.dudeconfig.yml',
     "LOVE_CONFIG_FILE_PATH": USER_HOME_DIR + '/.dude/love/.loveconfig.yml',
     "MONEY_CONFIG_FILE_PATH": os.path.expanduser('~') + '/.dude/money/.moneyconfig.yml',
-    "DIARY_CONFIG_FILE_PATH": os.path.expanduser('~') + '/.dude/diary/.diaryconfig.yml'
+    "DIARY_CONFIG_FILE_PATH": os.path.expanduser('~') + '/.dude/diary/.diaryconfig.yml',
+    "STUDY_CONFIG_FILE_PATH": os.path.expanduser('~') + '/.dude/study/.studyconfig.yml'
 }

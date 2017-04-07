@@ -29,3 +29,11 @@ def input_data(data, file_path):
 # get folder path from file path
 def get_folder_path_from_file_path(file_path):
     return os.path.dirname(file_path)
+
+# convert tuple to string
+def tuple_to_string(input):
+    if input:
+        test_string = ''
+        for i in input:
+            test_string += (i + ' ')
+        return test_string.lower().strip()

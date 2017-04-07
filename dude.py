@@ -121,18 +121,9 @@ def money(input):
 	else:
 		click.echo('No input specified. Run with --help for info')
 
-# study
-@cli.command()
-@click.argument('input', nargs=-1)
-def study(input):
-	''' study '''
-	if input:
-		test_string = ''
-		for i in input:
-			test_string += (i + ' ')
-		data = sys.modules['modules.study'].process(test_string)
-	else:
-		click.echo('No input specified. Run with --help for info')
+# The study module
+cli.add_command(study.study)
+cli.add_command(study.vocabulary)
 
 # health
 @cli.command()

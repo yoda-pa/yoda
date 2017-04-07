@@ -20,7 +20,7 @@ def process(input):
     output = json.loads(response)
     answer = output["result"]["fulfillment"]["speech"]
     if output['status']['errorType'] == 'success':
-        click.echo(response)
+        click.echo(answer)
         click.echo(emoji.emojize('The dude is :fire:'))
     else:
         click.echo('some error')

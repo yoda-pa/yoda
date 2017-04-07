@@ -35,6 +35,8 @@
   - [ ] nerd humor
   - [ ] hacker news
   - [ ] dev env setup, status and details
+  - [ ] command keeper (save commands so that you don't need to remember those again, and also provide the option to create aliases for them)
+  - [ ] add new commands / modules
 
 - [ ] family & friends
   - [ ] places where loved ones live and news related to the same
