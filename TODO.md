@@ -68,6 +68,7 @@
 
 - [ ] study
   - [ ] set long term goals and the system helps to learn the same by suggesting appropriate reading materials and tracking progress
+  - [ ] flashcards for learning anything
 
 - [ ] health
   - [ ] weight loss
