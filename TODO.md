@@ -12,22 +12,22 @@
 
 - [ ] chat
   - [x] ~~A good NLP functionality~~
-  - [ ] Fetch dev related news for user. Can be set by the user
   - [ ] books
   - [ ] movies
   - [ ] anime / manga
   - [ ] news
   - [ ] weather
-  - [ ] currency
-  - [ ] random jokes / quotes
   - [ ] dictionary
   - [ ] wiki / google search about something
-  - [ ] cocktail recommendations
-  - [ ] restaurants
   - [ ] calculator
   - [ ] time in diff areas
   - [ ] music search lyrics or play
-  - [ ] When bored, the dude suggests what to do, depending on the user's interests (something to read, places to take good photos, something to watch, etc)
+  - [ ] When bored, the dude suggests what to do, depending on the user's interests (something to read, places to take good photos, something to watch, etc)  
+
+- [ ] food
+  - [ ] restaurant suggestions
+  - [ ] recipe suggestions
+  - [ ] drinks suggestions
 
 - [ ] dev tools
   - [ ] url shortener
