@@ -7,6 +7,7 @@ import json
 from forex_python.converter import CurrencyRates, CurrencyCodes
 import time
 import datetime
+import shlex
 
 from config import config_file_paths
 from util import *
@@ -65,18 +66,26 @@ def expense():
         output = json.loads(response)
         # click.echo(output)
         currency_name = output['result']['parameters']['currency-name']
-        item = output['result']['parameters']['any']
+        item = output['result']['parameters']['any'] if len(output['result']['parameters']['any'].split()) == 1 else ('"' + output['result']['parameters']['any'] + '"')
         number = output['result']['parameters']['number']
 
         timestamp = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
         fp.write('{} {} {} {}\n'.format(timestamp, currency_name, number, item))
+
+def expenses():
+    with open(MONEY_CONFIG_FOLDER_PATH + '/expenditures.txt') as fp:
+        for line in fp.read().split('\n'):
+            if len(line) == 0: continue
+            (date, time, currency_name, number, item) = shlex.split(line)
+            click.echo(date + ' ' + time + ' ' + currency_name + ' ' + number + ' ' + item)
 
 # command checker
 def check_sub_command(c):
     sub_commands = {
         'status' : status,
         'setup' : setup,
-        'exp' : expense
+        'exp' : expense,
+        'exps' : expenses
     }
     try:
         return sub_commands[c]()
