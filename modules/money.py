@@ -77,7 +77,10 @@ def expenses():
         for line in fp.read().split('\n'):
             if len(line) == 0: continue
             (date, time, currency_name, number, item) = shlex.split(line)
-            click.echo(date + ' ' + time + ' ' + currency_name + ' ' + number + ' ' + item)
+            y, m, d = map(int, date.split('-'))
+
+            if datetime.datetime(y, m, d).month == datetime.datetime.now().month:
+                click.echo(date + ' ' + time + ' ' + currency_name + ' ' + number + ' ' + item)
 
 # command checker
 def check_sub_command(c):
