@@ -5,6 +5,8 @@ import apiai
 import config
 import json
 from forex_python.converter import CurrencyRates, CurrencyCodes
+import time
+import datetime
 
 from config import config_file_paths
 from util import *
@@ -55,11 +57,19 @@ def setup():
     input_data(setup_data, MONEY_CONFIG_FILE_PATH)
 
 def expense():
-    request.query = raw_input()
-    click.echo('output: ')
-    response = request.getresponse().read()
-    output = json.loads(response)
-    click.echo(output)
+    create_folder(MONEY_CONFIG_FOLDER_PATH)
+    with open(MONEY_CONFIG_FOLDER_PATH + '/expenditures.txt', 'a') as fp:
+        request.query = raw_input()
+        click.echo('output: ')
+        response = request.getresponse().read()
+        output = json.loads(response)
+        # click.echo(output)
+        currency_name = output['result']['parameters']['currency-name']
+        item = output['result']['parameters']['any']
+        number = output['result']['parameters']['number']
+
+        timestamp = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
+        fp.write('{} {} {} {}\n'.format(timestamp, currency_name, number, item))
 
 # command checker
 def check_sub_command(c):

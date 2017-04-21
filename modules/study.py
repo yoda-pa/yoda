@@ -37,7 +37,7 @@ def random_word():
     click.echo(meaning)
 
     # check if the user knows about this word or not
-    result = raw_input('Did you know remember the meaning?\n')
+    result = raw_input('Did you know / remember the meaning?\n')
     correct = 0
     incorrect = 0
     if result == 'y' or result == 'yes':
