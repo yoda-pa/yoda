@@ -34,6 +34,7 @@
   - [x] ~~internet speed test~~
   - [ ] nerd humor
   - [ ] hacker news
+  - [ ] option to compile any language without installing its compiler ([something like this](https://github.com/imshyam/ComIt))
   - [ ] dev env setup, status and details
   - [ ] command keeper (save commands so that you don't need to remember those again, and also provide the option to create aliases for them)
   - [ ] add new commands / modules
