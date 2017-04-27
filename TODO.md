@@ -86,8 +86,7 @@
   - [ ] daily clothing style management
 
 - [ ] storage
-  - [ ] cloud storage (google drive integration, maybe)
-  - [ ] account registration with google account, but only for storage
+  - [ ] dude, try github integration! Create a private repo in the user's profile automatically and create commands to save, upload and sync configurations
 
 - [ ] pretty display
   - [x] ~~colors~~
