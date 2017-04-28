@@ -13,7 +13,9 @@ setup(
         'lepl',
         'pycrypto',
         'pyspeedtest',
-        'forex-python'
+        'forex-python',
+        'dulwich',
+        'PyGithub'
     ],
     entry_points='''
         [console_scripts]

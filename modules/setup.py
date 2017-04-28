@@ -53,11 +53,11 @@ def new():
         chalk.blue('What\'s your github username, dude?')
         gh_username = raw_input().strip()
 
-    chalk.blue('Enter your password:')
+    chalk.blue('Enter your github password:')
     gh_password = getpass.getpass()
     while len(gh_password) == 0:
         chalk.red("You entered nothing, dude!")
-        chalk.blue('Enter your password:')
+        chalk.blue('Enter your github password:')
         gh_password = getpass.getpass()
     #let's encrypt our password
     cipher_key = cypher_pass_generator()
@@ -100,8 +100,11 @@ def check():
     if os.path.isfile(CONFIG_FILE_PATH):
         with open(CONFIG_FILE_PATH, 'r') as config_file:
             contents = yaml.load(config_file)
-            click.echo(contents)
-            click.echo(decrypt_password())
+            click.echo('Name: ' + contents['name'])
+            click.echo('Email: ' + contents['email'])
+            click.echo('Github username: ' + contents['github']['username'])
+
+            #click.echo(decrypt_password())
     else:
         chalk.red('The configuration file does not exist. Please type "dude setup new" to create a new one')
 
@@ -130,6 +133,11 @@ def check_sub_command(c):
     except KeyError:
         chalk.red('Command does not exist!')
         click.echo('Try "dude setup --help" for more info')
+
+def get_gh_username():
+    config_file = open(CONFIG_FILE_PATH, 'r')
+    contents = yaml.load(config_file)
+    return contents['github']['username']
 
 # the main process
 def process(input):
