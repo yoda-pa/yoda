@@ -33,7 +33,6 @@ def git(input):
 	dude git credentials - shows your credentials. If not set, it would prompt for input\n
 	dude git agenda      - Show all the repos worked on in the past and suggest which ones should be worked on depending on commits etc\n
 	dude git push all    - Pushes everything with automatically generated commits (you will have the option to manually enter the commit messages before committing)\n
-	re
 	'''
 	if input:
 		test_string = ''

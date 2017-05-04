@@ -94,3 +94,5 @@
   - [ ] formatting
 
 - [ ] allow user to input in natural language. Detect what the user wants and use the most suitable package for them
+
+- [ ] command aliases, since some commands seem to be pretty long to call due to grouping
