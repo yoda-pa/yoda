@@ -47,7 +47,7 @@ $ dude setup check
 This package contains a simple chatbot as well! The `chat` command can be used to chat with it
 ```bash
 $ dude chat hi!
-Howdy.
+Dude says: Howdy.
 
 # Simply write messages with more than one word
 $ dude chat how are you?
@@ -68,7 +68,7 @@ Upload: 203.13 MB/s
 This command can be used to maintain a personal diary, roughly based on the concept of [Bullet Journal](http://bulletjournal.com/).
 ```bash
 # new note
-$ dude diary nn 
+$ dude diary nn
 Input your entry for note:
 hey there
 
@@ -82,7 +82,7 @@ Today\'s notes:
 12:54:45| hi, this is the dude
 
 # new task
-$ dude diary nt 
+$ dude diary nt
 Input your entry for task:
 go office
 

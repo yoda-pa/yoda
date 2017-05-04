@@ -12,15 +12,15 @@ request = ai.text_request()
 request.session_id = os.environ.get('API_AI_SESSION_ID', config.API_AI_SESSION_ID)
 
 def process(input):
-    click.echo(chalk.blue('you are in chat module'))
-    click.echo('input = %s' % input)
+    # click.echo(chalk.blue('you are in chat module'))
+    # click.echo('input = %s' % input)
     request.query = input
-    click.echo('output: ')
+    # click.echo('output: ')
     response = request.getresponse().read()
     output = json.loads(response)
     answer = output["result"]["fulfillment"]["speech"]
     if output['status']['errorType'] == 'success':
-        click.echo(answer)
-        click.echo(emoji.emojize('The dude is :fire:'))
+        click.echo('Dude says: ' + answer)
+        # click.echo(emoji.emojize('The dude is :fire:'))
     else:
         click.echo('some error')
