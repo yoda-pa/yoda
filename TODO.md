@@ -30,9 +30,9 @@
   - [ ] drinks suggestions
 
 - [ ] dev tools
-  - [ ] url shortener
+  - [x] ~~url shortener~~
   - [x] ~~internet speed test~~
-  - [ ] nerd humor
+  - [ ] ~~nerd humor (not implementing, since displaying photos in the command line can be weird)~~
   - [ ] hacker news
   - [ ] option to compile any language without installing its compiler ([something like this](https://github.com/imshyam/ComIt))
   - [ ] dev env setup, status and details

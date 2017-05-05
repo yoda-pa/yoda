@@ -153,8 +153,9 @@ spent 30 dollars on shoes
 $ dude money exps
 2017-05-04 16:06:00 SGD 30 shoes
 ```
-#### vocabulary
-For enhancing your vocabulary and tracking your progress.
+#### learn
+This command group contains commands that will be helpful in learning new things.
+- vocabulary: For enhancing your vocabulary and tracking your progress.
 ```bash
 # get a random word
 $  dude vocabulary word
@@ -163,6 +164,17 @@ sinecure:
 a job that pays a salary but requires little work
 Did you know / remember the meaning?
 no
+
+# view your progress
+$  dude vocabulary accuracy
+Words asked in the past:
+sinecure-- times used: 8 accuracy: 50.0
+squalid-- times used: 6 accuracy: 66.0
+```
+- flashcards: for learning anything! ([inspiration](https://github.com/zergov/flashcards))
+```bash
+# get a random word
+$  dude flashcards sets new
 
 # view your progress
 $  dude vocabulary accuracy

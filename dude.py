@@ -134,6 +134,7 @@ def money(input):
 # The learn module
 cli.add_command(learn.learn)
 cli.add_command(learn.vocabulary)
+cli.add_command(learn.flashcards)
 
 # health
 @cli.command()

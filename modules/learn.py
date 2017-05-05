@@ -97,3 +97,60 @@ def vocabulary(input):
     """
     input = tuple_to_string(input)
     check_sub_command_vocab(input)
+
+# command checker flashcards cards
+def check_sub_command_cards_flashcards(c):
+    sub_commands = {
+        'addcard' : add_card_fc,
+        'cards' : cards_fc
+    }
+    try:
+        return sub_commands[c]()
+    except KeyError:
+        chalk.red('Command does not exist!')
+        click.echo('Try "dude flashcards --help" for more info')
+
+# command checker flashcards sets
+def check_sub_command_sets_flashcards(c):
+    sub_commands = {
+        'sets' : sets_fc,
+        'addset' : add_set_fc,
+        'set' : select_set
+    }
+    try:
+        return sub_commands[c]()
+    except KeyError:
+        chalk.red('Command does not exist!')
+        click.echo('Try "dude flashcards --help" for more info')
+
+@learn.command()
+@click.argument('domain', nargs=1)
+@click.argument('action', nargs=1)
+def flashcards(domain, action):
+    """
+        Flashcards for learning anything and tracking your progress\n\n
+        Domains:\n
+        \t sets: Study sets\n
+        \t \t Actions:\n
+        \t \t new: create a new study set\n
+        \t \t modify: modify a study set\n
+        \t cards: Flash cards\n
+        \t \t Actions:\n
+        \t \t add: add a flashcard to the working study set\n
+        \t \t modify: modify cards in the selected study set\n
+        \t select: select an existing study set\n
+        \t study: start studying a study set
+    """
+    domain = str(domain)
+    action = str(action)
+    domains = {
+        'cards' : check_sub_command_cards_flashcards,
+        'sets' : check_sub_command_sets_flashcards,
+        'status' : status_fc,
+        'study' : study_fc
+    }
+    try:
+        domains[domain](action)
+    except KeyError:
+        chalk.red('Command does not exist!')
+        click.echo('Try "dude flashcards --help" for more info')
