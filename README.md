@@ -32,7 +32,7 @@ $ dude
 
 ## How to use this package
 #### setup
-This command helps to create a setup configuration for you to save some information locally. You can also save this in a github repository
+This command helps to create a setup configuration for you to save some information locally. You can also save this in a github repository. Your password is saved in the config file after encrypting, so you need not worry about it.
 ```bash
 # To create a configuration
 $ dude setup new
@@ -159,9 +159,18 @@ Words asked in the past:
 sinecure-- times used: 8 accuracy: 50.0
 squalid-- times used: 6 accuracy: 66.0
 ```
-## Little features
-- Colorful syntax
-- emojis!
+## Packages used
+- [Click](http://click.pocoo.org/5/): for building command line application
+- [pychalk](https://github.com/anthonyalmarza/chalk): Colors in terminal
+- [apiai](https://github.com/api-ai/apiai-python-client): api-ai for natural language understanding
+- [pyyaml](https://pypi.python.org/pypi/PyYAML): for parsing yaml files
+- [emoji](https://pypi.python.org/pypi/emoji/): emojis!
+- [lepl](https://pypi.python.org/pypi/LEPL/): for formatted parsing
+- [pycrypto](https://pypi.python.org/pypi/pycrypto): To encrypt / decrypt your password
+- [pyspeedtest](https://pypi.python.org/pypi/pyspeedtest): To test network bandwidth
+- [forex-python](https://pypi.python.org/pypi/forex-python): Foreign exchange rates and currency conversion
+- [dulwich](https://github.com/jelmer/dulwich): for git
+- [PyGithub](https://github.com/PyGithub/PyGithub): for using Github API v3
 
 ## Contributing
 #### Feature suggestions / bug reports
