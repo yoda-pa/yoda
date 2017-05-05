@@ -17,6 +17,7 @@ def learn():
         The learn module
     """
 
+# ----------------------- / vocabulary code -----------------------#
 words = {}
 with open('resources/vocab-words.txt') as fp:
     for line in fp.read().split('\n'):
@@ -97,52 +98,93 @@ def vocabulary(input):
     """
     input = tuple_to_string(input)
     check_sub_command_vocab(input)
+# ----------------------- / vocabulary code -----------------------#
 
-# command checker flashcards cards
-def check_sub_command_cards_flashcards(c):
-    sub_commands = {
-        'addcard' : add_card_fc,
-        'cards' : cards_fc
-    }
-    try:
-        return sub_commands[c]()
-    except KeyError:
-        chalk.red('Command does not exist!')
-        click.echo('Try "dude flashcards --help" for more info')
+
+# ----------------------- flashcards code -----------------------#
+# ----- functions for sets -----
+def list_sets_fc(dummy):
+    print('list sets')
+
+def new_set_fc(name):
+    if name:
+        if len(name.split()) > 1:
+            chalk.red('The length of name should not be more than one')
+        else:
+            # here
+            print('new set ' + name)
+    else:
+        chalk.red('Please enter the name of new study set after the command')
+
+def modify_set_fc(name):
+    print('modify set ' + name)
 
 # command checker flashcards sets
-def check_sub_command_sets_flashcards(c):
+def check_sub_command_sets_flashcards(c, name):
     sub_commands = {
-        'sets' : sets_fc,
-        'addset' : add_set_fc,
-        'set' : select_set
+        'list' : list_sets_fc,
+        'new' : new_set_fc,
+        'modify' : modify_set_fc
     }
     try:
-        return sub_commands[c]()
+        return sub_commands[c](name)
     except KeyError:
         chalk.red('Command does not exist!')
         click.echo('Try "dude flashcards --help" for more info')
+# ----- / functions for sets -----
+
+# ----- functions for cards -----
+def add_card_fc(name):
+    print('add card ' + name)
+
+def modify_cards_fc(dummy):
+    # we will show all cards and ask which one to modify
+    print('modify cards')
+
+# command checker flashcards cards
+def check_sub_command_cards_flashcards(c, name):
+    sub_commands = {
+        'add' : add_card_fc,
+        'modify' : modify_cards_fc
+    }
+    try:
+        return sub_commands[c](name)
+    except KeyError:
+        chalk.red('Command does not exist!')
+        click.echo('Try "dude flashcards --help" for more info')
+# ----- / functions for cards -----
+
+def status_fc(set, dummy):
+    print('selected set: ' + set)
+
+def study_fc(set, dummy):
+    print('study set: ' + set)
+    # if no set is specified, study selected set.
+    # if no selected, panic!
 
 @learn.command()
 @click.argument('domain', nargs=1)
 @click.argument('action', nargs=1)
-def flashcards(domain, action):
+@click.argument('name', nargs=-1, required=False)
+def flashcards(domain, action, name):
     """
         Flashcards for learning anything and tracking your progress\n\n
         Domains:\n
         \t sets: Study sets\n
         \t \t Actions:\n
-        \t \t new: create a new study set\n
-        \t \t modify: modify a study set\n
+        \t \t list: view study sets\n
+        \t \t new <name>: create a new study set\n
+        \t \t modify <name>: modify a study set\n
         \t cards: Flash cards\n
         \t \t Actions:\n
-        \t \t add: add a flashcard to the working study set\n
+        \t \t add <name>: add a flashcard to the working study set\n
         \t \t modify: modify cards in the selected study set\n
         \t select: select an existing study set\n
         \t study: start studying a study set
     """
     domain = str(domain)
     action = str(action)
+    name = tuple_to_string(name)
     domains = {
         'cards' : check_sub_command_cards_flashcards,
         'sets' : check_sub_command_sets_flashcards,
@@ -150,7 +192,8 @@ def flashcards(domain, action):
         'study' : study_fc
     }
     try:
-        domains[domain](action)
+        domains[domain](action, name)
     except KeyError:
         chalk.red('Command does not exist!')
         click.echo('Try "dude flashcards --help" for more info')
+# ----------------------- / flashcards code -----------------------#

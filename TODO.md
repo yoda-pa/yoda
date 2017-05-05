@@ -38,6 +38,7 @@
   - [ ] dev env setup, status and details
   - [ ] command keeper (save commands so that you don't need to remember those again, and also provide the option to create aliases for them)
   - [ ] add new commands / modules
+  - [ ] get github contributions from today (including issues, PRs, commits, additions & deletions, etc) and create a summary. Add option to create a graph. Create rewards when work done in the day is more than usual
 
 - [ ] family & friends
   - [ ] places where loved ones live and news related to the same

@@ -3,7 +3,7 @@
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/dude-pa/dude/master/LICENSE)
 [![Project status](https://img.shields.io/badge/version-0.0.1-yellow.svg)](https://github.com/dude-pa/dude)
 
-Dudely Command line interface to help with daily tasks
+Personal assistant based on the command line
 
 ## Installation
 #### Requirements
@@ -173,14 +173,27 @@ squalid-- times used: 6 accuracy: 66.0
 ```
 - flashcards: for learning anything! ([inspiration](https://github.com/zergov/flashcards))
 ```bash
-# get a random word
-$  dude flashcards sets new
+# create new set (remember to keep the name to one word)
+$  dude flashcards sets new English
 
-# view your progress
-$  dude vocabulary accuracy
-Words asked in the past:
-sinecure-- times used: 8 accuracy: 50.0
-squalid-- times used: 6 accuracy: 66.0
+# modify set
+$  dude flashcards sets modify English
+
+# list all sets
+$  dude flashcards sets list
+
+# select a study set
+$  dude flashcards select English
+
+# create new card in selected set (card name length can be more than 1 word)
+$  dude flashcards cards new Oxford comma
+
+# modify a card
+$  dude flashcards cards modify
+
+# study a study set. This will show you all the cards in a study set
+# one by one. You will be prompted to choose if you want to view the cards in linear fashion, or randomly
+$  dude flashcards study English
 ```
 ## Packages used
 - [Click](http://click.pocoo.org/5/): for building command line application
