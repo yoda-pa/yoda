@@ -58,7 +58,7 @@ You can test the chat functionality on api.ai agent website [here](https://bot.a
 This command group contains some sub-commands that may be helpful for developers and tech-geeks.
 ```bash
 # run a speed test for your internet connection
-$ dude dev speedtest
+$ dude speedtest
 Speed test results:
 Ping: 3.04 ms
 Download: 144.90 MB/s

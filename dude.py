@@ -55,6 +55,11 @@ def chat(input):
 	else:
 		click.echo('No input specified. Run with --help for info')
 
+
+# The devtools module
+cli.add_command(dev.dev)
+cli.add_command(dev.speedtest)
+
 # devtools
 @cli.command()
 @click.argument('input', nargs=-1)

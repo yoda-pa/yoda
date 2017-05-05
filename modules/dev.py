@@ -2,6 +2,14 @@ import click
 import chalk
 import pyspeedtest
 
+@click.group()
+def dev():
+    """
+        The dev module
+    """
+
+@dev.command()
+#@click.argument('input', nargs=-1)
 def speedtest():
     speed_test = pyspeedtest.SpeedTest()
 
@@ -15,13 +23,3 @@ def speedtest():
 
     upload_speed = speed_test.upload() / (1024 * 1024)
     click.echo('Upload: ' + '{:.2f}'.format(upload_speed) + ' MB/s')
-
-def check_sub_command(c):
-    sub_commands = {
-        'speedtest' : speedtest
-    }
-    return sub_commands[c]()
-
-def process(input):
-    input = input.lower().strip()
-    check_sub_command(input)
