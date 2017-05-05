@@ -120,9 +120,9 @@ def money(input):
 	else:
 		click.echo('No input specified. Run with --help for info')
 
-# The study module
-cli.add_command(study.study)
-cli.add_command(study.vocabulary)
+# The learn module
+cli.add_command(learn.learn)
+cli.add_command(learn.vocabulary)
 
 # health
 @cli.command()
@@ -134,19 +134,6 @@ def health(input):
 		for i in input:
 			test_string += (i + ' ')
 		data = sys.modules['modules.health'].process(test_string)
-	else:
-		click.echo('No input specified. Run with --help for info')
-
-# learn
-@cli.command()
-@click.argument('input', nargs=-1)
-def learn(input):
-	''' learn '''
-	if input:
-		test_string = ''
-		for i in input:
-			test_string += (i + ' ')
-		data = sys.modules['modules.learn'].process(test_string)
 	else:
 		click.echo('No input specified. Run with --help for info')
 

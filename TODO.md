@@ -67,10 +67,6 @@
   - [ ] the dude suggests appropriate amount of money to be saved per month, keeping in mind the currency exchange rates
   - [ ] money manager for managing different accounts
 
-- [ ] study
-  - [ ] set long term goals and the system helps to learn the same by suggesting appropriate reading materials and tracking progress
-  - [ ] flashcards for learning anything
-
 - [ ] health
   - [ ] weight loss
   - [ ] healthy diet
@@ -78,9 +74,11 @@
   - [ ] BMI and other stuff that matters
 
 - [ ] learn
-  - [ ] daily vocabulary
+  - [x] ~~vocabulary~~
   - [ ] reverse dictionary
   - [ ] learn new skill
+  - [ ] flashcards for learning anything
+  - [ ] set long term goals and the system helps to learn the same by suggesting appropriate reading materials and tracking progress
 
 - [ ] style / fashion
   - [ ] build personal profile according to height/weight

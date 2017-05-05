@@ -51,7 +51,7 @@ Dude says: Howdy.
 
 # Simply write messages with more than one word
 $ dude chat how are you?
-Lovely, thanks.
+Dude says: Lovely, thanks.
 ```
 You can test the chat functionality on api.ai agent website [here](https://bot.api.ai/ff4ba99e-e444-4e19-8b4e-91fb0b93e414)
 #### dev

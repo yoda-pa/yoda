@@ -6,7 +6,6 @@ __all__ = [
     'love',
     'diary',
     'money',
-    'study',
     'health',
     'learn',
     'fashion',
