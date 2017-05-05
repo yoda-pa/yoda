@@ -4,22 +4,8 @@ import sys
 from modules import *
 
 @click.group()
-@click.option('--verbose', is_flag=True)
-def cli(verbose):
+def cli():
 	''' Dudely Command line interface to help with daily tasks '''
-	if verbose:
-		click.echo('Verbose mode activated')
-
-# test
-@cli.command()
-@click.argument('input', nargs=-1)
-def test(input):
-	''' For testing new features '''
-	if input:
-		for i in input:
-			click.echo('input = %s' % i)
-	else:
-		click.echo('no input specified')
 
 # git
 @cli.command()
