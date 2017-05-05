@@ -90,7 +90,10 @@ def check_sub_command_vocab(c):
 @click.argument('input', nargs=-1)
 def vocabulary(input):
     """
-        Helps you in vocab
+        For enhancing your vocabulary and tracking your progress\n\n
+    	Commands:\n
+    	word: get a random word\n
+    	accuracy: view your progress
     """
     input = tuple_to_string(input)
     check_sub_command_vocab(input)

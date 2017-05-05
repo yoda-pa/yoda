@@ -5,12 +5,16 @@ import pyspeedtest
 @click.group()
 def dev():
     """
-        The dev module
+        Dev command group:\n
+        contains commands helpful for developers
     """
 
 @dev.command()
 #@click.argument('input', nargs=-1)
 def speedtest():
+    """
+    run a speed test for your internet connection
+    """
     speed_test = pyspeedtest.SpeedTest()
 
     click.echo('Speed test results:')

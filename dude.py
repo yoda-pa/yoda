@@ -46,7 +46,10 @@ def git(input):
 @cli.command()
 @click.argument('input', nargs=-1)
 def chat(input):
-	''' chat '''
+	'''
+	A simple chatbot\n
+	To use, type: dude chat <message>
+	'''
 	if input:
 		test_string = ''
 		for i in input:
@@ -59,19 +62,6 @@ def chat(input):
 # The devtools module
 cli.add_command(dev.dev)
 cli.add_command(dev.speedtest)
-
-# devtools
-@cli.command()
-@click.argument('input', nargs=-1)
-def dev(input):
-	''' dev tools '''
-	if input:
-		test_string = ''
-		for i in input:
-			test_string += (i + ' ')
-		data = sys.modules['modules.dev'].process(test_string)
-	else:
-		click.echo('No input specified. Run with --help for info')
 
 # family
 @cli.command()
@@ -90,7 +80,7 @@ def family(input):
 @cli.command()
 @click.argument('input', nargs=-1)
 def love(input):
-	''' love '''
+	''' maintain a profile of someone you love '''
 	if input:
 		test_string = ''
 		for i in input:
@@ -103,7 +93,16 @@ def love(input):
 @cli.command()
 @click.argument('input', nargs=-1)
 def diary(input):
-	''' diary '''
+	''' Maintain a personal diary\n
+	roughly based on the concept of Bullet Journal (http://bulletjournal.com/) \n\n
+
+	Commands:\n
+	nn: New note\n
+	nt: new Task\n
+	notes: view all notes\n
+	tasks: view all completed and incomplete tasks\n
+	ct: complete task
+	'''
 	if input:
 		test_string = ''
 		for i in input:
@@ -116,7 +115,13 @@ def diary(input):
 @cli.command()
 @click.argument('input', nargs=-1)
 def money(input):
-	''' money '''
+	''' For tracking money \n\n
+	Commands:\n
+	setup: set a profile with default currency and initial money\n
+	status: check config\n
+	exp: add an expense\n
+	exps: view all expenses\n
+	'''
 	if input:
 		test_string = ''
 		for i in input:
@@ -159,7 +164,7 @@ def fashion(input):
 @cli.command()
 @click.argument('input', nargs=-1)
 def setup(input):
-	''' setup '''
+	''' create a setup configuration for you to save some information locally '''
 	if input:
 		test_string = ''
 		for i in input:
