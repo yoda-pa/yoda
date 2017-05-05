@@ -3,6 +3,7 @@ import chalk
 import pyspeedtest
 import requests
 import json
+from util import *
 
 GOOGLE_URL_SHORTENER_API_KEY = "AIzaSyCBAXe-kId9UwvOQ7M2cLYR7hyCpvfdr7w"
 
@@ -54,23 +55,28 @@ def url_expand(url):
     click.echo(response)
 
 # command checker for url shortener and expander
-def check_sub_command_url(c):
-    inputs = c.split()
+def check_sub_command_url(action, url):
     sub_commands = {
         'shorten' : url_shorten,
         'expand' : url_expand
     }
     try:
-        return sub_commands[inputs[0]](inputs[1:])
+        return sub_commands[action](url)
     except KeyError:
         chalk.red('Command does not exist!')
         click.echo('Try "dude url --help" for more info')
 
 @dev.command()
-@click.argument('input', nargs=-1)
-def url(input):
+@click.argument('input', nargs=1)
+@click.argument('url', nargs=1)
+def url(input, url):
     """
-        url
+        URL shortener and expander\n\n
+
+        Commands:
+        shorten: to shorten the given URL
+        expand: to expand shortened URL
     """
-    input = tuple_to_string(input)
-    check_sub_command_url(input)
+    input = str(input)
+    url = str(url)
+    check_sub_command_url(input, url)

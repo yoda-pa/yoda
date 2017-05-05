@@ -56,6 +56,7 @@ Dude says: Lovely, thanks.
 You can test the chat functionality on api.ai agent website [here](https://bot.api.ai/ff4ba99e-e444-4e19-8b4e-91fb0b93e414)
 #### dev
 This command group contains some sub-commands that may be helpful for developers and tech-geeks.
+- speedtest
 ```bash
 # run a speed test for your internet connection
 $ dude speedtest
@@ -63,6 +64,16 @@ Speed test results:
 Ping: 3.04 ms
 Download: 144.90 MB/s
 Upload: 203.13 MB/s
+```
+- url
+```bash
+# URL shortener and expander
+$ dude url shorten manparvesh.com
+Here\'s your shortened URL:
+https://goo.gl/EVVPzK
+$ dude url expand https://goo.gl/EVVPzK
+Here\'s your original URL:
+http://manparvesh.com/
 ```
 #### diary
 This command can be used to maintain a personal diary, roughly based on the concept of [Bullet Journal](http://bulletjournal.com/).

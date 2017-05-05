@@ -62,6 +62,7 @@ def chat(input):
 # The devtools module
 cli.add_command(dev.dev)
 cli.add_command(dev.speedtest)
+cli.add_command(dev.url)
 
 # family
 @cli.command()
