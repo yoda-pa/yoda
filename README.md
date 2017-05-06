@@ -5,6 +5,8 @@
 
 Personal assistant based on the command line
 
+![logo](https://github.com/dude-pa/dude/blob/master/logo.png)
+
 ## Installation
 #### Requirements
 - [python](https://www.python.org/downloads/)
