@@ -45,6 +45,4 @@ In case you are unsure about where to start, you can look at the `easy` and `up-
 - [up for grabs issues](https://github.com/dude-pa/dude/issues?q=is%3Aopen+is%3Aissue+label%3Aup-for-grabs) - should be a bit more involved than `easy` issues.
 
 #### Sending a pull request
-Push to your fork and [submit a pull request][pr]. Follow the [pull request template][prt]
-[pr]: https://github.com/dude-pa/dude/compare/
-[prt]: PULL_REQUEST_TEMPLATE.md
+Push to your fork and [submit a pull request](https://github.com/dude-pa/dude/compare/). Follow the [pull request template](https://github.com/dude-pa/dude/blob/master/.github/PULL_REQUEST_TEMPLATE.md)  
