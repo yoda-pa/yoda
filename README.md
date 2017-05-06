@@ -209,7 +209,4 @@ $  dude flashcards study English
 - [PyGithub](https://github.com/PyGithub/PyGithub): for using Github API v3
 
 ## Contributing
-#### Feature suggestions / bug reports
-You can contribute to this project by suggesting features or filing bugs by creating an issue [here](https://github.com/dude-pa/dude/issues/new).
-#### Writing code
-If you are interested in contributing by writing code, you can do so by implementing the features listed in [the TODO file](TODO.md).  
+Please refer to the [contributing guidelines](.github/CONTRIBUTING.md) for contributing to this project.
