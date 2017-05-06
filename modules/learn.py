@@ -6,10 +6,6 @@ from config import config_file_paths
 import time
 import datetime
 
-# config file path
-LEARN_CONFIG_FILE_PATH = config_file_paths["LEARN_CONFIG_FILE_PATH"]
-LEARN_CONFIG_FOLDER_PATH = get_folder_path_from_file_path(LEARN_CONFIG_FILE_PATH)
-
 # the main process
 @click.group()
 def learn():
@@ -18,6 +14,12 @@ def learn():
     """
 
 # ----------------------- / vocabulary code -----------------------#
+
+# config file path
+VOCABULARY_CONFIG_FILE_PATH = config_file_paths["VOCABULARY_CONFIG_FILE_PATH"]
+VOCABULARY_CONFIG_FOLDER_PATH = get_folder_path_from_file_path(VOCABULARY_CONFIG_FILE_PATH)
+
+# getting words
 words = {}
 with open('resources/vocab-words.txt') as fp:
     for line in fp.read().split('\n'):
@@ -33,6 +35,7 @@ def get_words_list():
 def random_word():
     words = get_words_list()
     word, meaning = random.choice(words.items())
+    # TODO: process result data and get word depending on the history of it too
     click.echo(click.style(word + ": ", bold = True))
     raw_input('<Enter> to show meaning')
     click.echo(meaning)
@@ -45,16 +48,17 @@ def random_word():
         correct = 1
     else:
         incorrect = 1
-    create_folder(LEARN_CONFIG_FOLDER_PATH)
-    with open(LEARN_CONFIG_FOLDER_PATH + '/results.txt', 'a') as fp:
+    create_folder(VOCABULARY_CONFIG_FOLDER_PATH)
+    with open(VOCABULARY_CONFIG_FOLDER_PATH + '/results.txt', 'a') as fp:
         timestamp = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
         fp.write('{} {} {}\n'.format(timestamp, word, correct))
 
+# calculates accuracy
 def get_word_accuracy_of_previous_words():
     accuracy = {}
     for word in words:
         accuracy[word] = []
-    with open(LEARN_CONFIG_FOLDER_PATH + '/results.txt') as fp:
+    with open(VOCABULARY_CONFIG_FOLDER_PATH + '/results.txt') as fp:
         for line in fp.read().split('\n'):
             if len(line) == 0: continue
             (date, time, word, correct) = line.split()
@@ -102,6 +106,10 @@ def vocabulary(input):
 
 
 # ----------------------- flashcards code -----------------------#
+# config file path
+FLASHCARDS_CONFIG_FILE_PATH = config_file_paths["FLASHCARDS_CONFIG_FILE_PATH"]
+FLASHCARDS_CONFIG_FOLDER_PATH = get_folder_path_from_file_path(FLASHCARDS_CONFIG_FILE_PATH)
+
 # ----- functions for sets -----
 def list_sets_fc(dummy):
     print('list sets')

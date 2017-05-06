@@ -11,5 +11,6 @@ config_file_paths = {
     "LOVE_CONFIG_FILE_PATH": USER_HOME_DIR + '/.dude/love/.loveconfig.yml',
     "MONEY_CONFIG_FILE_PATH": os.path.expanduser('~') + '/.dude/money/.moneyconfig.yml',
     "DIARY_CONFIG_FILE_PATH": os.path.expanduser('~') + '/.dude/diary/.diaryconfig.yml',
-    "LEARN_CONFIG_FILE_PATH": os.path.expanduser('~') + '/.dude/learn/.learnconfig.yml'
+    "VOCABULARY_CONFIG_FILE_PATH": os.path.expanduser('~') + '/.dude/vocabulary/.vocabularyconfig.yml',
+    "FLASHCARDS_CONFIG_FILE_PATH": os.path.expanduser('~') + '/.dude/flashcards/.flashcardsconfig.yml'
 }
