@@ -40,15 +40,17 @@
   - [ ] add new commands / modules
   - [ ] get github contributions from today (including issues, PRs, commits, additions & deletions, etc) and create a summary. Add option to create a graph. Create rewards when work done in the day is more than usual
 
-- [ ] family & friends
-  - [ ] places where loved ones live and news related to the same
+- [ ] people
   - [ ] their profiles
   - [ ] their birthdays and things they like
   - [ ] gift recommendations for them
   - [ ] personalized notes for every person, the system learns from that and tries to understand about the kind of people
 
+- [ ] life
+  - [ ] keep a record of things people have taken from you, and the things you have taken from them - to remind them / yourself to return
+
 - [ ] love
-  - [ ] Place where they live
+  - [x] ~~Place where they live~~
   - [ ] related news
   - [ ] birthday
   - [ ] things they like
@@ -69,21 +71,16 @@
   - [ ] money manager for managing different accounts
 
 - [ ] health
-  - [ ] weight loss
-  - [ ] healthy diet
+  - [ ] weight tracking
   - [ ] optimum amount of water, calories etc needed for a person of particular weight/height
   - [ ] BMI and other stuff that matters
 
 - [ ] learn
-  - [x] ~~vocabulary~~
+  - [ ] vocabulary
   - [ ] reverse dictionary
   - [ ] learn new skill
   - [ ] flashcards for learning anything
   - [ ] set long term goals and the system helps to learn the same by suggesting appropriate reading materials and tracking progress
-
-- [ ] style / fashion
-  - [ ] build personal profile according to height/weight
-  - [ ] daily clothing style management
 
 - [ ] storage
   - [ ] dude, try github integration! Create a private repo in the user's profile automatically and create commands to save, upload and sync configurations
