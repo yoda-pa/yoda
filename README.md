@@ -196,7 +196,7 @@ $  dude flashcards cards modify
 # one by one. You will be prompted to choose if you want to view the cards in linear fashion, or randomly
 $  dude flashcards study English
 ```
-## Packages used
+## Packages and services used
 - [Click](http://click.pocoo.org/5/): for building command line application
 - [pychalk](https://github.com/anthonyalmarza/chalk): Colors in terminal
 - [apiai](https://github.com/api-ai/apiai-python-client): api-ai for natural language understanding
@@ -208,6 +208,7 @@ $  dude flashcards study English
 - [forex-python](https://pypi.python.org/pypi/forex-python): Foreign exchange rates and currency conversion
 - [dulwich](https://github.com/jelmer/dulwich): for git
 - [PyGithub](https://github.com/PyGithub/PyGithub): for using Github API v3
+- [Canva](https://www.canva.com/): for creating the logo
 
 ## Contributing
 Please refer to the [contributing guidelines](.github/CONTRIBUTING.md) for contributing to this project.
