@@ -1,11 +1,10 @@
+![logo](https://github.com/dude-pa/dude/blob/master/logo.png)
 # dude
 [![Build Status](https://travis-ci.org/dude-pa/dude.png)](https://travis-ci.org/dude-pa/dude)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/dude-pa/dude/master/LICENSE)
 [![Project status](https://img.shields.io/badge/version-0.0.1-yellow.svg)](https://github.com/dude-pa/dude)
 
 Personal assistant based on the command line
-
-![logo](https://github.com/dude-pa/dude/blob/master/logo.png)
 
 ## Installation
 #### Requirements
