@@ -7,6 +7,8 @@ import time
 import datetime
 
 # the main process
+
+
 @click.group()
 def learn():
     """
@@ -15,9 +17,11 @@ def learn():
 
 # ----------------------- / vocabulary code -----------------------#
 
+
 # config file path
 VOCABULARY_CONFIG_FILE_PATH = config_file_paths["VOCABULARY_CONFIG_FILE_PATH"]
-VOCABULARY_CONFIG_FOLDER_PATH = get_folder_path_from_file_path(VOCABULARY_CONFIG_FILE_PATH)
+VOCABULARY_CONFIG_FOLDER_PATH = get_folder_path_from_file_path(
+    VOCABULARY_CONFIG_FILE_PATH)
 
 # getting words
 words = {}
@@ -28,15 +32,18 @@ with open('resources/vocab-words.txt') as fp:
             (word, definition) = line.split(' - ')
             words[word.lower().strip()] = definition.strip()
 
+
 def get_words_list():
     return words
 
 # displays a random word
+
+
 def random_word():
     words = get_words_list()
     word, meaning = random.choice(words.items())
     # TODO: process result data and get word depending on the history of it too
-    click.echo(click.style(word + ": ", bold = True))
+    click.echo(click.style(word + ": ", bold=True))
     raw_input('<Enter> to show meaning')
     click.echo(meaning)
 
@@ -50,20 +57,25 @@ def random_word():
         incorrect = 1
     create_folder(VOCABULARY_CONFIG_FOLDER_PATH)
     with open(VOCABULARY_CONFIG_FOLDER_PATH + '/results.txt', 'a') as fp:
-        timestamp = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
+        timestamp = datetime.datetime.fromtimestamp(
+            time.time()).strftime('%Y-%m-%d %H:%M:%S')
         fp.write('{} {} {}\n'.format(timestamp, word, correct))
 
 # calculates accuracy
+
+
 def get_word_accuracy_of_previous_words():
     accuracy = {}
     for word in words:
         accuracy[word] = []
     if not os.path.isfile(VOCABULARY_CONFIG_FOLDER_PATH + '/results.txt'):
-        chalk.red('No words learned in the past. Please use "dude vocabulary word" for the same')
+        chalk.red(
+            'No words learned in the past. Please use "dude vocabulary word" for the same')
         return
     with open(VOCABULARY_CONFIG_FOLDER_PATH + '/results.txt') as fp:
         for line in fp.read().split('\n'):
-            if len(line) == 0: continue
+            if len(line) == 0:
+                continue
             (date, time, word, correct) = line.split()
             correct = int(correct)
             if word in accuracy:
@@ -75,18 +87,22 @@ def get_word_accuracy_of_previous_words():
         if len(lst):
             words_in_history[word] = []
             words_in_history[word].append(len(lst))
-            words_in_history[word].append(round((sum(lst) * 100)/len(lst)) if len(lst) else 0)
+            words_in_history[word].append(
+                round((sum(lst) * 100) / len(lst)) if len(lst) else 0)
 
-    click.echo(click.style("Words asked in the past: ", bold = True))
+    click.echo(click.style("Words asked in the past: ", bold=True))
     # print(words_in_history)
     for word, ar in words_in_history.items():
-        click.echo(word + '-- times used: ' + str (ar[0]) + ' accuracy: ' + str(ar[1]))
+        click.echo(word + '-- times used: ' +
+                   str(ar[0]) + ' accuracy: ' + str(ar[1]))
 
 # command checker
+
+
 def check_sub_command_vocab(c):
     sub_commands = {
-        'word' : random_word,
-        'accuracy' : get_word_accuracy_of_previous_words
+        'word': random_word,
+        'accuracy': get_word_accuracy_of_previous_words
     }
     try:
         return sub_commands[c]()
@@ -94,14 +110,15 @@ def check_sub_command_vocab(c):
         chalk.red('Command does not exist!')
         click.echo('Try "dude setup --help" for more info')
 
+
 @learn.command()
 @click.argument('input', nargs=-1)
 def vocabulary(input):
     """
         For enhancing your vocabulary and tracking your progress\n\n
-    	Commands:\n
-    	word: get a random word\n
-    	accuracy: view your progress
+        Commands:\n
+        word: get a random word\n
+        accuracy: view your progress
     """
     input = tuple_to_string(input)
     check_sub_command_vocab(input)
@@ -111,11 +128,14 @@ def vocabulary(input):
 # ----------------------- flashcards code -----------------------#
 # config file path
 FLASHCARDS_CONFIG_FILE_PATH = config_file_paths["FLASHCARDS_CONFIG_FILE_PATH"]
-FLASHCARDS_CONFIG_FOLDER_PATH = get_folder_path_from_file_path(FLASHCARDS_CONFIG_FILE_PATH)
+FLASHCARDS_CONFIG_FOLDER_PATH = get_folder_path_from_file_path(
+    FLASHCARDS_CONFIG_FILE_PATH)
 
 SELECTED_STUDY_SET = None
 
 # ----- functions for sets -----
+
+
 def get_set_statuses():
     sets = {}
     if not os.path.isfile(FLASHCARDS_CONFIG_FOLDER_PATH + '/sets.txt'):
@@ -127,6 +147,7 @@ def get_set_statuses():
                 (name, is_open, description) = line.split('-')
                 sets[name.lower().strip()] = int(is_open)
     return sets
+
 
 def get_set_descriptions():
     sets = {}
@@ -141,11 +162,14 @@ def get_set_descriptions():
     return sets
 
 # gives you a list of all the study sets
+
+
 def list_sets_fc(dummy):
     sets = get_set_statuses()
     descriptions = get_set_descriptions()
     if not sets:
-        chalk.red('There are no sets right now. Type "dude flashcards sets new <name>" to create one')
+        chalk.red(
+            'There are no sets right now. Type "dude flashcards sets new <name>" to create one')
     else:
         i = 0
         there_are_sets = False
@@ -157,9 +181,12 @@ def list_sets_fc(dummy):
                 i += 1
                 click.echo(str(i) + ') ' + set)
         if not there_are_sets:
-            chalk.red('Looks like all the sets are closed. Please create a new one or open an existing one')
+            chalk.red(
+                'Looks like all the sets are closed. Please create a new one or open an existing one')
 
 # creates new study set
+
+
 def new_set_fc(name):
     if name:
         if len(name.split()) > 1:
@@ -190,6 +217,7 @@ def new_set_fc(name):
     else:
         chalk.red('Please enter the name of new study set after the command')
 
+
 def modify_set_fc_util(name, new_name):
     sets = get_set_statuses()
     descriptions = get_set_descriptions()
@@ -197,7 +225,9 @@ def modify_set_fc_util(name, new_name):
     os.remove(FLASHCARDS_CONFIG_FOLDER_PATH + '/sets.txt')
     for set in sets:
         with open(FLASHCARDS_CONFIG_FOLDER_PATH + '/sets.txt', 'a') as fp:
-            fp.write('{} {}\n'.format(set if set!=name else new_name, sets[set]))
+            fp.write('{} {}\n'.format(set if set !=
+                                      name else new_name, sets[set]))
+
 
 def modify_set_fc_description(name, new_name):
     descriptions = get_set_descriptions()
@@ -205,46 +235,58 @@ def modify_set_fc_description(name, new_name):
     os.remove(FLASHCARDS_CONFIG_FOLDER_PATH + '/sets.txt')
     for set in sets:
         with open(FLASHCARDS_CONFIG_FOLDER_PATH + '/sets.txt', 'a') as fp:
-            fp.write('{}-{}-{}\n'.format(set if set!=name else new_name, sets[set], ))
+            fp.write('{}-{}-{}\n'.format(set if set !=
+                                         name else new_name, sets[set], ))
 
 # modify a set
+
+
 def modify_set_fc(name):
     sets = get_set_statuses()
     if not sets:
-        chalk.red('There are no sets right now. Type "dude flashcards sets new <name>" to create one')
+        chalk.red(
+            'There are no sets right now. Type "dude flashcards sets new <name>" to create one')
     else:
         if not sets[name]:
             chalk.red('There is no set named ' + name + '.')
         else:
-            chalk.blue('Edit a new name for this set: (If you wish to keep it the same, just type a single \'-\' without the quotes)')
+            chalk.blue(
+                'Edit a new name for this set: (If you wish to keep it the same, just type a single \'-\' without the quotes)')
             new_name = raw_input().strip()
             if not (new_name == None or new_name == '-' or new_name == ''):
                 modify_set_fc_name(name, new_name)
                 modify_set_fc_description(name, new_name)
-                print('The name was modified from \'' + name + '\' to \'' + new_name + '\'')
+                print('The name was modified from \'' +
+                      name + '\' to \'' + new_name + '\'')
 
 # select working study set
+
+
 def select_set_fc(name):
     sets = get_set_statuses()
     descriptions = get_set_descriptions()
     if not sets:
-        chalk.red('There are no sets right now. Type "dude flashcards sets new <name>" to create one')
+        chalk.red(
+            'There are no sets right now. Type "dude flashcards sets new <name>" to create one')
     else:
         try:
             if sets[name] == 0:
-                chalk.red('Looks like the study set you want to select is closed. Please modify it first')
+                chalk.red(
+                    'Looks like the study set you want to select is closed. Please modify it first')
             elif sets[name] == 1:
                 SELECTED_STUDY_SET = name
                 chalk.blue('Selected study set: ' + SELECTED_STUDY_SET)
         except KeyError:
             chalk.red('Set does not exist')
 # command checker flashcards sets
+
+
 def check_sub_command_sets_flashcards(c, name):
     sub_commands = {
-        'list' : list_sets_fc,
-        'new' : new_set_fc,
-        'modify' : modify_set_fc,
-        'select' : select_set_fc
+        'list': list_sets_fc,
+        'new': new_set_fc,
+        'modify': modify_set_fc,
+        'select': select_set_fc
     }
     # try:
     return sub_commands[c](name)
@@ -254,18 +296,23 @@ def check_sub_command_sets_flashcards(c, name):
 # ----- / functions for sets -----
 
 # ----- functions for cards -----
+
+
 def add_card_fc(name):
     print('add card ' + name)
+
 
 def modify_cards_fc(dummy):
     # we will show all cards and ask which one to modify
     print('modify cards')
 
 # command checker flashcards cards
+
+
 def check_sub_command_cards_flashcards(c, name):
     sub_commands = {
-        'add' : add_card_fc,
-        'modify' : modify_cards_fc
+        'add': add_card_fc,
+        'modify': modify_cards_fc
     }
     try:
         return sub_commands[c](name)
@@ -274,13 +321,16 @@ def check_sub_command_cards_flashcards(c, name):
         click.echo('Try "dude flashcards --help" for more info')
 # ----- / functions for cards -----
 
+
 def status_fc(set, dummy):
     print('selected set: ' + set)
+
 
 def study_fc(set, dummy):
     print('study set: ' + set)
     # if no set is specified, study selected set.
     # if no selected, panic!
+
 
 @learn.command()
 @click.argument('domain', nargs=1)
@@ -307,10 +357,10 @@ def flashcards(domain, action, name):
     action = str(action)
     name = tuple_to_string(name)
     domains = {
-        'cards' : check_sub_command_cards_flashcards,
-        'sets' : check_sub_command_sets_flashcards,
-        'status' : status_fc,
-        'study' : study_fc
+        'cards': check_sub_command_cards_flashcards,
+        'sets': check_sub_command_sets_flashcards,
+        'status': status_fc,
+        'study': study_fc
     }
     # try:
     domains[domain](action, name)

@@ -7,12 +7,14 @@ from util import *
 
 GOOGLE_URL_SHORTENER_API_KEY = "AIzaSyCBAXe-kId9UwvOQ7M2cLYR7hyCpvfdr7w"
 
+
 @click.group()
 def dev():
     """
         Dev command group:\n
         contains commands helpful for developers
     """
+
 
 @dev.command()
 def speedtest():
@@ -34,6 +36,8 @@ def speedtest():
 
 # code for URL command
 # shorten
+
+
 def url_shorten(url):
     r = requests.post('https://www.googleapis.com/urlshortener/v1/url?key=' + GOOGLE_URL_SHORTENER_API_KEY, data=json.dumps({
         'longUrl': url
@@ -45,6 +49,8 @@ def url_shorten(url):
     click.echo(response)
 
 # expander
+
+
 def url_expand(url):
     r = requests.get('https://www.googleapis.com/urlshortener/v1/url', params={
         'key': GOOGLE_URL_SHORTENER_API_KEY,
@@ -55,16 +61,19 @@ def url_expand(url):
     click.echo(response)
 
 # command checker for url shortener and expander
+
+
 def check_sub_command_url(action, url):
     sub_commands = {
-        'shorten' : url_shorten,
-        'expand' : url_expand
+        'shorten': url_shorten,
+        'expand': url_expand
     }
     try:
         return sub_commands[action](url)
     except KeyError:
         chalk.red('Command does not exist!')
         click.echo('Try "dude url --help" for more info')
+
 
 @dev.command()
 @click.argument('input', nargs=1)
