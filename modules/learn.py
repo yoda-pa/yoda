@@ -131,8 +131,13 @@ FLASHCARDS_CONFIG_FILE_PATH = config_file_paths["FLASHCARDS_CONFIG_FILE_PATH"]
 FLASHCARDS_CONFIG_FOLDER_PATH = get_folder_path_from_file_path(
     FLASHCARDS_CONFIG_FILE_PATH)
 
-SELECTED_STUDY_SET = None
+def get_selected_set():
+    if os.path.isfile(FLASHCARDS_CONFIG_FOLDER_PATH + '/selected_study_set'):
+        with open(FLASHCARDS_CONFIG_FOLDER_PATH + '/selected_study_set') as fp:
+            lines = fp.read().split('\n')
+            return lines[0].strip()
 
+SELECTED_STUDY_SET = get_selected_set()
 # ----- functions for sets -----
 
 
@@ -275,6 +280,8 @@ def select_set_fc(name):
                     'Looks like the study set you want to select is closed. Please modify it first')
             elif sets[name] == 1:
                 SELECTED_STUDY_SET = name
+                with open(FLASHCARDS_CONFIG_FOLDER_PATH + '/selected_study_set', 'w') as fp:
+                    fp.write(SELECTED_STUDY_SET)
                 chalk.blue('Selected study set: ' + SELECTED_STUDY_SET)
         except KeyError:
             chalk.red('Set does not exist')
@@ -323,7 +330,12 @@ def check_sub_command_cards_flashcards(c, name):
 
 
 def status_fc(set, dummy):
-    print('selected set: ' + set)
+    if not SELECTED_STUDY_SET:
+        chalk.red('No set selected')
+    else:
+        description = get_set_descriptions()[SELECTED_STUDY_SET]
+        click.echo('Selected set: ' + SELECTED_STUDY_SET)
+        click.echo('Description: ' + description)
 
 
 def study_fc(set, dummy):
@@ -334,7 +346,7 @@ def study_fc(set, dummy):
 
 @learn.command()
 @click.argument('domain', nargs=1)
-@click.argument('action', nargs=1)
+@click.argument('action', nargs=1, required=False)
 @click.argument('name', nargs=-1, required=False)
 def flashcards(domain, action, name):
     """
@@ -345,7 +357,7 @@ def flashcards(domain, action, name):
         \t \t list: view study sets\n
         \t \t new <name>: create a new study set\n
         \t \t modify <name>: modify a study set\n
-        \t \t select: select an existing study set\n
+        \t \t select <name>: select an existing study set\n
         \t cards: Flash cards\n
         \t \t Actions:\n
         \t \t add <name>: add a flashcard to the working study set\n
