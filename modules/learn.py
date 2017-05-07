@@ -58,6 +58,9 @@ def get_word_accuracy_of_previous_words():
     accuracy = {}
     for word in words:
         accuracy[word] = []
+    if not os.path.isfile(VOCABULARY_CONFIG_FOLDER_PATH + '/results.txt'):
+        chalk.red('No words learned in the past. Please use "dude vocabulary word" for the same')
+        return
     with open(VOCABULARY_CONFIG_FOLDER_PATH + '/results.txt') as fp:
         for line in fp.read().split('\n'):
             if len(line) == 0: continue
