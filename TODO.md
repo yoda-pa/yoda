@@ -48,6 +48,8 @@
 
 - [ ] life
   - [ ] keep a record of things people have taken from you, and the things you have taken from them - to remind them / yourself to return
+  - [ ] reading list
+  - [ ] 
 
 - [ ] love
   - [x] ~~Place where they live~~
@@ -58,11 +60,13 @@
   - [ ] time in their place, to know when they will be available to talk
   - [x] ~~personalized notes for them~~
 
-- [x] ~~Diary~~
+- [ ] Diary
   - [x] ~~bullet journal~~
   - [x] ~~one can add entry to the files by just a command and at the end of the day they can go through it~~
   - [x] ~~one command for summary of whatever is done, planned, etc~~
   - [x] ~~diary entries to be appended to local files named according to the current date~~
+  - [ ] Analysis of the current month's tasks. (what percentage of them were completed, how frequently the entries were made, etc)
+  - [ ] Set weekly targets and do analysis
 
 - [ ] money
   - [x] ~~personalized setup~~
