@@ -113,35 +113,144 @@ def vocabulary(input):
 FLASHCARDS_CONFIG_FILE_PATH = config_file_paths["FLASHCARDS_CONFIG_FILE_PATH"]
 FLASHCARDS_CONFIG_FOLDER_PATH = get_folder_path_from_file_path(FLASHCARDS_CONFIG_FILE_PATH)
 
-# ----- functions for sets -----
-def list_sets_fc(dummy):
-    print('list sets')
+SELECTED_STUDY_SET = None
 
+# ----- functions for sets -----
+def get_set_statuses():
+    sets = {}
+    if not os.path.isfile(FLASHCARDS_CONFIG_FOLDER_PATH + '/sets.txt'):
+        return None
+    with open(FLASHCARDS_CONFIG_FOLDER_PATH + '/sets.txt') as fp:
+        for line in fp.read().split('\n'):
+            line = line.strip()
+            if len(line) > 0:
+                (name, is_open, description) = line.split('-')
+                sets[name.lower().strip()] = int(is_open)
+    return sets
+
+def get_set_descriptions():
+    sets = {}
+    if not os.path.isfile(FLASHCARDS_CONFIG_FOLDER_PATH + '/sets.txt'):
+        return None
+    with open(FLASHCARDS_CONFIG_FOLDER_PATH + '/sets.txt') as fp:
+        for line in fp.read().split('\n'):
+            line = line.strip()
+            if len(line) > 0:
+                (name, is_open, description) = line.split('-')
+                sets[name.lower().strip()] = description
+    return sets
+
+# gives you a list of all the study sets
+def list_sets_fc(dummy):
+    sets = get_set_statuses()
+    descriptions = get_set_descriptions()
+    if not sets:
+        chalk.red('There are no sets right now. Type "dude flashcards sets new <name>" to create one')
+    else:
+        i = 0
+        there_are_sets = False
+        for set in sets:
+            if sets[set] >= 1:
+                if not there_are_sets:
+                    click.echo('List of all the study sets:')
+                    there_are_sets = True
+                i += 1
+                click.echo(str(i) + ') ' + set)
+        if not there_are_sets:
+            chalk.red('Looks like all the sets are closed. Please create a new one or open an existing one')
+
+# creates new study set
 def new_set_fc(name):
     if name:
         if len(name.split()) > 1:
             chalk.red('The length of name should not be more than one')
         else:
-            # here
-            print('new set ' + name)
+            sets = get_set_statuses()
+            if not sets:
+                # there is no file, so create one
+                create_folder(FLASHCARDS_CONFIG_FOLDER_PATH)
+
+                description = raw_input('Enter a description:\n')
+
+                with open(FLASHCARDS_CONFIG_FOLDER_PATH + '/sets.txt', 'a') as fp:
+                    fp.write('{}-{}-{}\n'.format(name, 1, description))
+            else:
+                # assuming that the set exists. if it doesn't, catch
+                try:
+                    if (sets[name] != 0 and sets[name] != 1):
+                        chalk.red('Set already exists')
+                except KeyError:
+                    create_folder(FLASHCARDS_CONFIG_FOLDER_PATH)
+
+                    description = raw_input('Enter a description:\n')
+
+                    with open(FLASHCARDS_CONFIG_FOLDER_PATH + '/sets.txt', 'a') as fp:
+                        fp.write('{}-{}-{}\n'.format(name, 1, description))
+                    chalk.red('Set added')
     else:
         chalk.red('Please enter the name of new study set after the command')
 
-def modify_set_fc(name):
-    print('modify set ' + name)
+def modify_set_fc_util(name, new_name):
+    sets = get_set_statuses()
+    descriptions = get_set_descriptions()
+    # delete existing file
+    os.remove(FLASHCARDS_CONFIG_FOLDER_PATH + '/sets.txt')
+    for set in sets:
+        with open(FLASHCARDS_CONFIG_FOLDER_PATH + '/sets.txt', 'a') as fp:
+            fp.write('{} {}\n'.format(set if set!=name else new_name, sets[set]))
 
+def modify_set_fc_description(name, new_name):
+    descriptions = get_set_descriptions()
+    # delete existing file
+    os.remove(FLASHCARDS_CONFIG_FOLDER_PATH + '/sets.txt')
+    for set in sets:
+        with open(FLASHCARDS_CONFIG_FOLDER_PATH + '/sets.txt', 'a') as fp:
+            fp.write('{}-{}-{}\n'.format(set if set!=name else new_name, sets[set], ))
+
+# modify a set
+def modify_set_fc(name):
+    sets = get_set_statuses()
+    if not sets:
+        chalk.red('There are no sets right now. Type "dude flashcards sets new <name>" to create one')
+    else:
+        if not sets[name]:
+            chalk.red('There is no set named ' + name + '.')
+        else:
+            chalk.blue('Edit a new name for this set: (If you wish to keep it the same, just type a single \'-\' without the quotes)')
+            new_name = raw_input().strip()
+            if not (new_name == None or new_name == '-' or new_name == ''):
+                modify_set_fc_name(name, new_name)
+                modify_set_fc_description(name, new_name)
+                print('The name was modified from \'' + name + '\' to \'' + new_name + '\'')
+
+# select working study set
+def select_set_fc(name):
+    sets = get_set_statuses()
+    descriptions = get_set_descriptions()
+    if not sets:
+        chalk.red('There are no sets right now. Type "dude flashcards sets new <name>" to create one')
+    else:
+        try:
+            if sets[name] == 0:
+                chalk.red('Looks like the study set you want to select is closed. Please modify it first')
+            elif sets[name] == 1:
+                SELECTED_STUDY_SET = name
+                chalk.blue('Selected study set: ' + SELECTED_STUDY_SET)
+        except KeyError:
+            chalk.red('Set does not exist')
 # command checker flashcards sets
 def check_sub_command_sets_flashcards(c, name):
     sub_commands = {
         'list' : list_sets_fc,
         'new' : new_set_fc,
-        'modify' : modify_set_fc
+        'modify' : modify_set_fc,
+        'select' : select_set_fc
     }
-    try:
-        return sub_commands[c](name)
-    except KeyError:
-        chalk.red('Command does not exist!')
-        click.echo('Try "dude flashcards --help" for more info')
+    # try:
+    return sub_commands[c](name)
+    # except KeyError:
+    #     chalk.red('Command does not exist!')
+    #     click.echo('Try "dude flashcards --help" for more info')
 # ----- / functions for sets -----
 
 # ----- functions for cards -----
@@ -186,11 +295,12 @@ def flashcards(domain, action, name):
         \t \t list: view study sets\n
         \t \t new <name>: create a new study set\n
         \t \t modify <name>: modify a study set\n
+        \t \t select: select an existing study set\n
         \t cards: Flash cards\n
         \t \t Actions:\n
         \t \t add <name>: add a flashcard to the working study set\n
         \t \t modify: modify cards in the selected study set\n
-        \t select: select an existing study set\n
+        \t status: Current status of study study set
         \t study: start studying a study set
     """
     domain = str(domain)
@@ -202,9 +312,9 @@ def flashcards(domain, action, name):
         'status' : status_fc,
         'study' : study_fc
     }
-    try:
-        domains[domain](action, name)
-    except KeyError:
-        chalk.red('Command does not exist!')
-        click.echo('Try "dude flashcards --help" for more info')
+    # try:
+    domains[domain](action, name)
+    # except KeyError:
+    #     chalk.red('Command does not exist!')
+    #     click.echo('Try "dude flashcards --help" for more info')
 # ----------------------- / flashcards code -----------------------#
