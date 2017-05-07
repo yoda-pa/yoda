@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/dude-pa/dude.png)](https://travis-ci.org/dude-pa/dude)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/dude-pa/dude/master/LICENSE)
 [![Project status](https://img.shields.io/badge/version-0.0.1-yellow.svg)](https://github.com/dude-pa/dude)
+[![Code Triagers Badge](https://www.codetriage.com/dude-pa/dude/badges/users.svg)](https://www.codetriage.com/dude-pa/dude)
 
 Personal assistant based on the command line
 

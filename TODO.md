@@ -81,6 +81,10 @@
 
 - [ ] learn
   - [ ] vocabulary
+    - [x] show a word when prompted
+    - [x] calculate accuracy 
+    - [ ] Analyzing data before getting a new word
+    - [ ] save user's queries and ask them the meaning later
   - [ ] reverse dictionary
   - [ ] learn new skill
   - [ ] flashcards for learning anything
