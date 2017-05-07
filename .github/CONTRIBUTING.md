@@ -40,9 +40,17 @@ $ dude
 # to exit the virtualenv, just type 'deactivate' without quotes
 ```
 #### First contribution
-In case you are unsure about where to start, you can look at the `easy` and `up-for-grabs` issues. 
+In case you are unsure about where to start, you can look at the `easy` and `medium` issues. 
 - [easy issues](https://github.com/dude-pa/dude/issues?q=is%3Aopen+is%3Aissue+label%3A%22difficulty%3A+easy%22) - do not require much work
-- [up for grabs issues](https://github.com/dude-pa/dude/issues?q=is%3Aopen+is%3Aissue+label%3Aup-for-grabs) - should be a bit more involved than `easy` issues.
+- [medium issues](https://github.com/dude-pa/dude/issues?q=is%3Aissue+is%3Aopen+label%3A%22difficulty%3A+medium%22) - should be a bit more involved than `easy` issues.
 
 #### Sending a pull request
 Push to your fork and [submit a pull request](https://github.com/dude-pa/dude/compare/). Follow the [pull request template](https://github.com/dude-pa/dude/blob/master/.github/PULL_REQUEST_TEMPLATE.md)  
+
+## Github labels
+### Issue labels
+- Labels starting with `module: `: these specify the modules in which the changes / enhancements are to be made.
+- `bug`: it's a bug
+- `enhancement`: hacking on the existing code
+- Labels starting with `difficulty: `: specify the difficulty levels of the issue, depending on the work to be done to complete it.
+- `new feature`: new feature introduced

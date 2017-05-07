@@ -21,7 +21,7 @@ What versions of software are you using?
 **Operating System:** …
 
 (For feature suggestion)  
-What should happen?
+Feature description:
 -------------------
 …
 

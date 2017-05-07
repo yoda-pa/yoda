@@ -66,13 +66,14 @@
   - [x] ~~one command for summary of whatever is done, planned, etc~~
   - [x] ~~diary entries to be appended to local files named according to the current date~~
   - [ ] Analysis of the current month's tasks. (what percentage of them were completed, how frequently the entries were made, etc)
-  - [ ] Set weekly targets and do analysis
+  - [ ] Set targets and do analysis
 
 - [ ] money
   - [x] ~~personalized setup~~
   - [ ] set long term goals to save a required amount of money for different plans
   - [ ] the dude suggests appropriate amount of money to be saved per month, keeping in mind the currency exchange rates
   - [ ] money manager for managing different accounts
+  - [ ] recurring charges (set expenses that repeat regularly, eg. rent)
 
 - [ ] health
   - [ ] weight tracking
