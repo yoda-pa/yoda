@@ -176,26 +176,26 @@ squalid-- times used: 6 accuracy: 66.0
 - flashcards: for learning anything! ([inspiration](https://github.com/zergov/flashcards))
 ```bash
 # create new set (remember to keep the name to one word)
-$  dude flashcards sets new English
+$  dude flashcards sets new english
 
 # modify set
-$  dude flashcards sets modify English
+$  dude flashcards sets modify english
 
 # list all sets
 $  dude flashcards sets list
 
 # select a study set
-$  dude flashcards select English
+$  dude flashcards select english
 
 # create new card in selected set (card name length can be more than 1 word)
 $  dude flashcards cards new Oxford comma
 
-# modify a card
-$  dude flashcards cards modify
+# Know which set is selected and its information
+$  dude flashcards status
 
-# study a study set. This will show you all the cards in a study set
-# one by one. You will be prompted to choose if you want to view the cards in linear fashion, or randomly
-$  dude flashcards study English
+# study the selected study set. This will show you all the cards in a study set
+# one by one. 
+$  dude flashcards study
 ```
 - define: to get different meanings of a word. This definition search will be automatically saved, so that while you are working on your vocabulary, you can come through the new word as well.
 ```bash

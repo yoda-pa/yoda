@@ -6,6 +6,7 @@ from config import config_file_paths
 import time
 import datetime
 import requests
+from os import listdir
 # the main process
 
 
@@ -218,6 +219,10 @@ def new_set_fc(name):
 
                     with open(FLASHCARDS_CONFIG_FOLDER_PATH + '/sets.txt', 'a') as fp:
                         fp.write('{}-{}-{}\n'.format(name, 1, description))
+
+                    # create folder for the set to add cards to it
+                    create_folder(FLASHCARDS_CONFIG_FOLDER_PATH + '/' + name)
+
                     chalk.red('Set added')
     else:
         chalk.red('Please enter the name of new study set after the command')
@@ -306,20 +311,31 @@ def check_sub_command_sets_flashcards(c, name):
 
 
 def add_card_fc(name):
-    print('add card ' + name)
+    if SELECTED_STUDY_SET:
+        print('add card "' + name + '"')
+        print('Add description: (press Enter twice to stop)')
+        x = raw_input().strip()
+        description = x
+        while len(x):
+            x = raw_input().strip()
+            description += ('\n' + x)
 
+        description = description.strip()
+        create_folder(FLASHCARDS_CONFIG_FOLDER_PATH + '/' + SELECTED_STUDY_SET)
 
-def modify_cards_fc(dummy):
-    # we will show all cards and ask which one to modify
-    print('modify cards')
+        filename = spaces_to_colons(''.join(e for e in name if (e.isalnum() or e == ' ')))
+
+        with open(FLASHCARDS_CONFIG_FOLDER_PATH + '/' + SELECTED_STUDY_SET + '/' + filename + '.txt', 'a') as fp:
+            fp.write(colons_to_spaces(filename) + '\n')
+            fp.write(description)
+    else:
+        chalk.red('No set selected')
+
 
 # command checker flashcards cards
-
-
 def check_sub_command_cards_flashcards(c, name):
     sub_commands = {
-        'add': add_card_fc,
-        'modify': modify_cards_fc
+        'add': add_card_fc
     }
     try:
         return sub_commands[c](name)
@@ -336,12 +352,48 @@ def status_fc(set, dummy):
         description = get_set_descriptions()[SELECTED_STUDY_SET]
         click.echo('Selected set: ' + SELECTED_STUDY_SET)
         click.echo('Description: ' + description)
+        cards_in_selected_set = str(len(listdir(FLASHCARDS_CONFIG_FOLDER_PATH + '/' + SELECTED_STUDY_SET)))
+        click.echo('No. of cards in selected set: ' + cards_in_selected_set)
 
 
 def study_fc(set, dummy):
-    print('study set: ' + set)
-    # if no set is specified, study selected set.
-    # if no selected, panic!
+    if not SELECTED_STUDY_SET:
+        chalk.red('No set selected')
+    else:
+        description = get_set_descriptions()[SELECTED_STUDY_SET]
+        click.echo('Selected set: ' + SELECTED_STUDY_SET)
+        click.echo('Description: ' + description)
+        cards_in_selected_set = listdir(FLASHCARDS_CONFIG_FOLDER_PATH + '/' + SELECTED_STUDY_SET)
+        len_cards_in_selected_set = len(cards_in_selected_set)
+        width = get_terminal_width()
+        if len_cards_in_selected_set == 0:
+            chalk.red('There are no cards in this set!')
+        else:
+            i = 0
+            chalk.blue('Cards:')
+            chalk.blue('_'*width)
+            for card in cards_in_selected_set:
+                i += 1
+
+                card_path = FLASHCARDS_CONFIG_FOLDER_PATH + '/' + SELECTED_STUDY_SET + '/' + card
+                with open(card_path) as fp:
+                    name = None
+                    description = ''
+                    for line in fp.read().split('\n'):
+                        line = line.strip()
+                        if not name:
+                            name = line
+                        else:
+                            description += (line + '\n')
+                description = description.strip()
+                if i > 0:
+                    click.echo('-'*width)
+                click.echo(str(i) + ': ' + name)
+                click.echo('='*width)
+                click.echo(description)
+                click.echo('='*width)
+                if i < len_cards_in_selected_set:
+                    raw_input('Press Enter to continue to next card')
 
 
 @learn.command()
@@ -361,9 +413,8 @@ def flashcards(domain, action, name):
         \t cards: Flash cards\n
         \t \t Actions:\n
         \t \t add <name>: add a flashcard to the working study set\n
-        \t \t modify: modify cards in the selected study set\n
         \t status: Current status of study study set
-        \t study: start studying a study set
+        \t study: start studying the selected study set
     """
     domain = str(domain)
     action = str(action)

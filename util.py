@@ -1,6 +1,7 @@
 import os.path
 import yaml
 import chalk
+import subprocess
 
 # if folder does not exist, create it
 
@@ -48,3 +49,25 @@ def tuple_to_string(input):
         for i in input:
             test_string += (i + ' ')
         return test_string.lower().strip()
+
+# replaces spaces in text with colons
+def spaces_to_colons(s):
+    return '-'.join(s.split(' '))
+
+# replaces colons in text with spaces
+def colons_to_spaces(s):
+    return ' '.join(s.split('-'))
+
+command = ['tput', 'cols']
+
+def get_terminal_width():
+    try:
+        width = int(subprocess.check_output(command))
+    except OSError as e:
+        print("Invalid Command '{0}': exit status ({1})".format(
+              command[0], e.errno))
+    except subprocess.CalledProcessError as e:
+        print("Command '{0}' returned non-zero exit status: ({1})".format(
+              command, e.returncode))
+    else:
+        return width
