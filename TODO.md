@@ -87,7 +87,7 @@
     - [ ] save user's queries and ask them the meaning later
   - [ ] reverse dictionary
   - [ ] learn new skill
-  - [ ] flashcards for learning anything
+  - [x] ~~flashcards for learning anything~~
   - [ ] set long term goals and the system helps to learn the same by suggesting appropriate reading materials and tracking progress
 
 - [ ] storage
