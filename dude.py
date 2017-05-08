@@ -181,3 +181,18 @@ def setup(input):
         data = sys.modules['modules.setup'].process(test_string)
     else:
         click.echo('No input specified. Run with --help for info')
+
+# feedback
+@cli.command()
+def feedback():
+    '''
+    Provide feedback for this package by:\n
+    - Reporting a bug
+    - Suggesting a feature
+    - General suggestion
+    '''
+    click.echo('For:\n\
+    1. reporting a bug\n\
+    2. For suggesting a feature\n\
+    3. Any general suggestion or question\n\
+Please create an issue in the Github repository:\nhttps://github.com/dude-pa/dude/issues/new')

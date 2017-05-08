@@ -208,6 +208,18 @@ noun: where passengers ride up and down
 noun: a wheeled vehicle adapted to the rails of railroad
 noun: a conveyance for passengers or freight on a cable railway
 ```
+
+#### feedback
+Simple thingy that shows a link to create an issue in the github repository
+```bash
+$  dude feedback
+For:
+    1. reporting a bug
+    2. For suggesting a feature
+    3. Any general suggestion or question
+Please create an issue in the Github repository:
+https://github.com/dude-pa/dude/issues/new
+```
 ## Packages and services used
 - [Click](http://click.pocoo.org/5/): for building command line application
 - [pychalk](https://github.com/anthonyalmarza/chalk): Colors in terminal
