@@ -135,6 +135,7 @@ def money(input):
 cli.add_command(learn.learn)
 cli.add_command(learn.vocabulary)
 cli.add_command(learn.flashcards)
+cli.add_command(learn.define)
 
 # health
 

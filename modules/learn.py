@@ -5,7 +5,7 @@ from util import *
 from config import config_file_paths
 import time
 import datetime
-
+import requests
 # the main process
 
 
@@ -380,3 +380,43 @@ def flashcards(domain, action, name):
     #     chalk.red('Command does not exist!')
     #     click.echo('Try "dude flashcards --help" for more info')
 # ----------------------- / flashcards code -----------------------#
+
+
+@learn.command()
+@click.argument('word', nargs=1)
+def define(word):
+    """
+        Get the meaning of a word
+    """
+    word = str(word)
+    r = requests.get('https://wordsapiv1.p.mashape.com/words/' + word + '/definitions', headers={
+        'X-Mashape-Key': 'Yq72o8odIlmshPTjxnTMN1xixyy5p1lgtd0jsn2NsJfn7pflhR',
+        "Accept": "application/json"
+    })
+    data = r.json()    #output['output'] = TextTemplate('Definition of ' + word + ':\n' + data['definitions'][0]['definition']).get_message()
+
+    try:
+        word = data['word']
+        posted = False
+        if len(data['definitions']):
+            if not posted:
+                chalk.blue('A few definitions of the word "' + word + '" with their parts of speech are given below:')
+                click.echo('---------------------------------')
+                posted = True
+
+            for definition in data['definitions']:
+                print(definition['partOfSpeech'] + ': ' + definition['definition'])
+
+        # if this word is not in the vocabulary list, add to it!
+        if posted:
+            words = get_words_list()
+            if word in words:
+                chalk.blue('This word already exists in the vocabulary set, so you can practice it while using that')
+            else:
+                with open('resources/vocab-words.txt', 'a') as fp:
+                    fp.write('{} - {}\n'.format(word, data['definitions'][0]['definition']))
+                chalk.blue('This word does not exist in the vocabulary set, so it has been added to it so that you can practice it while using that')
+        else:
+            chalk.red('Sorry, no definitions were found for this word')
+    except KeyError:
+        chalk.red('Sorry, no definitions were found for this word')

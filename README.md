@@ -197,6 +197,17 @@ $  dude flashcards cards modify
 # one by one. You will be prompted to choose if you want to view the cards in linear fashion, or randomly
 $  dude flashcards study English
 ```
+- define: to get different meanings of a word. This definition search will be automatically saved, so that while you are working on your vocabulary, you can come through the new word as well.
+```bash
+$  dude define car
+A few definitions of the word "car" with their parts of speech are given below:
+---------------------------------
+noun: a motor vehicle with four wheels; usually propelled by an internal combustion engine
+noun: the compartment that is suspended from an airship and that carries personnel and the cargo and the power plant
+noun: where passengers ride up and down
+noun: a wheeled vehicle adapted to the rails of railroad
+noun: a conveyance for passengers or freight on a cable railway
+```
 ## Packages and services used
 - [Click](http://click.pocoo.org/5/): for building command line application
 - [pychalk](https://github.com/anthonyalmarza/chalk): Colors in terminal
