@@ -25,7 +25,7 @@ $ . venv/bin/activate
 
 # Install the package! In case you want to edit the source code
 # use 'pip install --editable .' so that you don't need to install again and again
-$ pip install
+$ pip install .
 
 # run it!
 $ dude
