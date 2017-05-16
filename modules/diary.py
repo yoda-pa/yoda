@@ -292,4 +292,4 @@ def current_month_task_analysis():
     entry_frequency = total_tasks*100/no_of_days_current_month
     chalk.red('Percentage of incomplete task : '+ str(percent_incomplete_task))
     chalk.green('Percentage of complete task : '+ str(percent_complete_task))
-    chalk.blue("Frequency of adding task : "+ str(entry_frequency))
+    chalk.blue("Frequency of adding task (Task/Day) : "+ str(entry_frequency))

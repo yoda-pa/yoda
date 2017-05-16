@@ -26,7 +26,7 @@ VOCABULARY_CONFIG_FOLDER_PATH = get_folder_path_from_file_path(
 
 # getting words
 words = {}
-with open('resources/vocab-words.txt') as fp:
+with open('/home/rishabh/Developer/python/dude/resources/vocab-words.txt') as fp:
     for line in fp.read().split('\n'):
         line = line.strip()
         if len(line) > 0:
@@ -464,7 +464,7 @@ def define(word):
             if word in words:
                 chalk.blue('This word already exists in the vocabulary set, so you can practice it while using that')
             else:
-                with open('resources/vocab-words.txt', 'a') as fp:
+                with open('/home/rishabh/Developer/python/dude/resources/vocab-words.txt', 'a') as fp:
                     fp.write('{} - {}\n'.format(word, data['definitions'][0]['definition']))
                 chalk.blue('This word does not exist in the vocabulary set, so it has been added to it so that you can practice it while using that')
         else:
