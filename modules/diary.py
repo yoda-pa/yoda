@@ -144,7 +144,6 @@ def tasks():
                 total_tasks += 1
                 incomplete_tasks += (1 if entry['status'] == 0 else 0)
                 time = entry['time']
-		date = entry['date']
                 text = entry['text'] if entry['status'] == 0 else strike(
                     entry['text'])
                 status = "O" if entry['status'] == 0 else "X"
@@ -191,7 +190,6 @@ def complete_task():
                 for entry in contents['entries']:
                     i += 1
                     time = entry['time']
-		    date = entry['date']
                     text = entry['text'] if entry['status'] == 0 else strike(
                         entry['text'])
                     status = "O" if entry['status'] == 0 else "X"
@@ -245,11 +243,11 @@ def check_sub_command(c):
         'notes': notes,
         'analyze': current_month_task_analysis,
     }
-    try:
-        return sub_commands[c]()
-    except KeyError:
-        chalk.red('Command does not exist!')
-        click.echo('Try "dude setup --help" for more info')
+    # try:
+    return sub_commands[c]()
+    # except KeyError:
+    #     chalk.red('Command does not exist!')
+    #     click.echo('Try "dude setup --help" for more info')
 
 # the main process
 
@@ -266,8 +264,8 @@ def list_of_tasks_files():
     files = [f for f in listdir(DIARY_CONFIG_FOLDER_PATH) if os.path.isfile(os.path.join(DIARY_CONFIG_FOLDER_PATH,f))]
     list_of_files = []
     for i in files:
-        x = i[3:10].split('-')
-        if(x[0] == current_month and x[1] == current_year):
+        x = i[3:16].split('-')
+        if(x[0] == current_month and x[1] == current_year and x[2] == 'tasks'):
             list_of_files.append(i)
     return list_of_files
 
@@ -282,7 +280,7 @@ def current_month_task_analysis():
     for i in range(0,len(list_of_files)):
         list_of_files[i] = os.path.join(DIARY_CONFIG_FOLDER_PATH,list_of_files[i])
     for i in list_of_files:
-        with open(i,'r') as fp :
+        with open(i,'r') as fp:
             contents = yaml.load(fp)
             for entry in contents['entries']:
                 total_tasks += 1
