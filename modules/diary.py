@@ -144,7 +144,6 @@ def tasks():
                 total_tasks += 1
                 incomplete_tasks += (1 if entry['status'] == 0 else 0)
                 time = entry['time']
-		date = entry['date']
                 text = entry['text'] if entry['status'] == 0 else strike(
                     entry['text'])
                 status = "O" if entry['status'] == 0 else "X"
@@ -191,7 +190,6 @@ def complete_task():
                 for entry in contents['entries']:
                     i += 1
                     time = entry['time']
-		    date = entry['date']
                     text = entry['text'] if entry['status'] == 0 else strike(
                         entry['text'])
                     status = "O" if entry['status'] == 0 else "X"
@@ -267,7 +265,8 @@ def list_of_tasks_files():
     list_of_files = []
     for i in files:
         x = i[3:10].split('-')
-        if(x[0] == current_month and x[1] == current_year):
+	y = i[11:16]
+        if(x[0] == current_month and x[1] == current_year and y == 'tasks'):
             list_of_files.append(i)
     return list_of_files
 
@@ -287,9 +286,14 @@ def current_month_task_analysis():
             for entry in contents['entries']:
                 total_tasks += 1
                 total_incomplete_tasks += (1 if entry['status'] == 0 else 0)
-    percent_incomplete_task = total_incomplete_tasks*100/total_tasks
-    percent_complete_task = 100 - percent_incomplete_task
-    entry_frequency = total_tasks*100/no_of_days_current_month
+    if total_tasks != 0:
+	percent_incomplete_task = total_incomplete_tasks*100/total_tasks
+    	percent_complete_task = 100 - percent_incomplete_task
+    	entry_frequency = total_tasks*100/no_of_days_current_month
+    else:
+	percent_complete_task = 'NA'
+	percent_incomplete_task = 'NA'
+	entry_frequency = 0
     chalk.red('Percentage of incomplete task : '+ str(percent_incomplete_task))
     chalk.green('Percentage of complete task : '+ str(percent_complete_task))
     chalk.blue("Frequency of adding task (Task/Day) : "+ str(entry_frequency))
