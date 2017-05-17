@@ -2,9 +2,13 @@ import click
 import chalk
 from config import config_file_paths
 import os.path
+from os import listdir
 import time
 import yaml
 from util import *
+import calendar
+import datetime
+
 
 # config file path
 DIARY_CONFIG_FILE_PATH = config_file_paths['DIARY_CONFIG_FILE_PATH']
@@ -140,6 +144,7 @@ def tasks():
                 total_tasks += 1
                 incomplete_tasks += (1 if entry['status'] == 0 else 0)
                 time = entry['time']
+		date = entry['date']
                 text = entry['text'] if entry['status'] == 0 else strike(
                     entry['text'])
                 status = "O" if entry['status'] == 0 else "X"
@@ -162,6 +167,7 @@ def tasks():
 
 
 def complete_task():
+    not_valid_task_number = 1
     if os.path.isfile(TODAYS_TASKS_ENTRY_FILE_PATH):
         with open(TODAYS_TASKS_ENTRY_FILE_PATH, 'r') as todays_tasks_entry:
             contents = yaml.load(todays_tasks_entry)
@@ -185,6 +191,7 @@ def complete_task():
                 for entry in contents['entries']:
                     i += 1
                     time = entry['time']
+		    date = entry['date']
                     text = entry['text'] if entry['status'] == 0 else strike(
                         entry['text'])
                     status = "O" if entry['status'] == 0 else "X"
@@ -192,12 +199,16 @@ def complete_task():
                         no_task_left = False
                         click.echo("   " + str(i) + "   | " +
                                    time + ": " + text)
-
-                chalk.blue(
-                    'Enter the task number that you would like to set as completed')
-                task_to_be_completed = int(raw_input())
-                contents['entries'][task_to_be_completed - 1]['status'] = 1
-                input_data(contents, TODAYS_TASKS_ENTRY_FILE_PATH)
+		while not_valid_task_number :
+                	chalk.blue(
+                    	'Enter the task number that you would like to set as completed')
+                	task_to_be_completed = int(raw_input())
+			if(task_to_be_completed > len(contents['entries'])):
+			 	chalk.red('Please Enter a valid task number!')
+			else:
+				contents['entries'][task_to_be_completed - 1]['status'] = 1
+                		input_data(contents, TODAYS_TASKS_ENTRY_FILE_PATH)
+				not_valid_task_number = 0
     else:
         chalk.red(
             'There are no tasks for today. Add a new task by entering "dude diary nt"')
@@ -231,7 +242,8 @@ def check_sub_command(c):
         'nn': new_note,
         'nt': new_task,
         'ct': complete_task,
-        'notes': notes
+        'notes': notes,
+        'analyze': current_month_task_analysis,
     }
     try:
         return sub_commands[c]()
@@ -245,3 +257,39 @@ def check_sub_command(c):
 def process(input):
     input = input.lower().strip()
     check_sub_command(input)
+
+# list of all tasks files
+
+def list_of_tasks_files():
+    current_month = time.strftime("%m")
+    current_year = time.strftime("%Y")
+    files = [f for f in listdir(DIARY_CONFIG_FOLDER_PATH) if os.path.isfile(os.path.join(DIARY_CONFIG_FOLDER_PATH,f))]
+    list_of_files = []
+    for i in files:
+        x = i[3:10].split('-')
+        if(x[0] == current_month and x[1] == current_year):
+            list_of_files.append(i)
+    return list_of_files
+
+# current month task analysis
+
+def current_month_task_analysis():
+    now = datetime.datetime.now()
+    no_of_days_current_month = calendar.monthrange(now.year,now.month)[1]
+    total_tasks = 0
+    total_incomplete_tasks = 0
+    list_of_files = list_of_tasks_files()
+    for i in range(0,len(list_of_files)):
+        list_of_files[i] = os.path.join(DIARY_CONFIG_FOLDER_PATH,list_of_files[i])
+    for i in list_of_files:
+        with open(i,'r') as fp :
+            contents = yaml.load(fp)
+            for entry in contents['entries']:
+                total_tasks += 1
+                total_incomplete_tasks += (1 if entry['status'] == 0 else 0)
+    percent_incomplete_task = total_incomplete_tasks*100/total_tasks
+    percent_complete_task = 100 - percent_incomplete_task
+    entry_frequency = total_tasks*100/no_of_days_current_month
+    chalk.red('Percentage of incomplete task : '+ str(percent_incomplete_task))
+    chalk.green('Percentage of complete task : '+ str(percent_complete_task))
+    chalk.blue("Frequency of adding task (Task/Day) : "+ str(entry_frequency))
