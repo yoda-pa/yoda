@@ -241,6 +241,7 @@ https://github.com/yoda-pa/yoda/issues/new
 - [dulwich](https://github.com/jelmer/dulwich): for git
 - [PyGithub](https://github.com/PyGithub/PyGithub): for using Github API v3
 - [Canva](https://www.canva.com/): for creating the logo
+- Yoda's illustration SVG was taken from [here](https://www.shareicon.net/yoda-854796)
 
 ## Contributing
 Please refer to the [contributing guidelines](.github/CONTRIBUTING.md) for contributing to this project.
