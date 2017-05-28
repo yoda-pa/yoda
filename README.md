@@ -5,13 +5,20 @@
 <div align="center">
 
   <h1>yoda</h1>
+  <p>Personal assistant, based on the command line. Herh herh</p>
+  <br/>
 
-  [![Build Status](https://travis-ci.org/yoda-pa/yoda.png)](https://travis-ci.org/yoda-pa/yoda)
-  [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://manparvesh.mit-license.org/)
-  [![Project status](https://img.shields.io/badge/version-0.1.0-orange.svg)](https://github.com/yoda-pa/yoda)
+  <a href="https://travis-ci.org/yoda-pa/yoda"><img src="https://travis-ci.org/yoda-pa/yoda.png" alt="Build status"></a> 
+  <a href="https://manparvesh.mit-license.org/"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a> 
+  <a href="https://github.com/yoda-pa/yoda"><img src="https://img.shields.io/badge/version-0.1.0-orange.svg" alt="Project status"></a>
 
   <br/>
-  Personal assistant, based on the command line. Herh herh
+  <!-- Place this tag where you want the button to render. -->
+  <a class="github-button" href="https://github.com/yoda-pa/yoda/archive/master.zip" data-size="large" aria-label="Download yoda-pa/yoda on GitHub">Download</a> 
+      <!-- Place this tag where you want the button to render. -->
+  <a class="github-button" href="https://github.com/yoda-pa/yoda" data-size="large" data-show-count="true" aria-label="Star yoda-pa/yoda on GitHub">Star</a> 
+      <!-- Place this tag where you want the button to render. -->
+  <a class="github-button" href="https://github.com/manparvesh" data-size="large" data-show-count="true" aria-label="Follow @manparvesh on GitHub">Follow @manparvesh</a>
 
 </div>
 
