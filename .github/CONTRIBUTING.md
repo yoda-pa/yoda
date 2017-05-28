@@ -9,7 +9,7 @@ Firstly, thanks for taking the time to contribute! :grin:
 
 ## How Can I Contribute?
 ### Feature suggestions / bug reports
-You can contribute to this project by suggesting features or filing bugs by creating an issue [here](https://github.com/dude-pa/dude/issues/new).
+You can contribute to this project by suggesting features or filing bugs by creating an issue [here](https://github.com/yoda-pa/yoda/issues/new).
 ### Writing code
 If you are interested in contributing by writing code, you can do so by implementing the features listed in [the TODO file](TODO.md).  
 #### Structure
@@ -19,12 +19,12 @@ If you are interested in contributing by writing code, you can do so by implemen
 ├── config.py        # contains configuration
 ├── util.py          # contains utility functions
 ├── setup.py         # the setup script
-└── dude.py          # the main script
+└── yoda.py          # the main script
 ```
 #### Setup
 ```bash
 # Fork, then clone the repo
-$ git clone git@github.com:<your-username>/dude.git
+$ git clone git@github.com:<your-username>/yoda.git
 
 # create a virtualenv
 $ virtualenv venv  
@@ -36,16 +36,16 @@ $ . venv/bin/activate
 $ pip install --editable .
 
 # run it!
-$ dude
+$ yoda
 # to exit the virtualenv, just type 'deactivate' without quotes
 ```
 #### First contribution
-In case you are unsure about where to start, you can look at the `easy` and `medium` issues. 
-- [easy issues](https://github.com/dude-pa/dude/issues?q=is%3Aopen+is%3Aissue+label%3A%22difficulty%3A+easy%22) - do not require much work
-- [medium issues](https://github.com/dude-pa/dude/issues?q=is%3Aissue+is%3Aopen+label%3A%22difficulty%3A+medium%22) - should be a bit more involved than `easy` issues.
+In case you are unsure about where to start, you can look at the `easy` and `medium` issues.
+- [easy issues](https://github.com/yoda-pa/yoda/issues?q=is%3Aopen+is%3Aissue+label%3A%22difficulty%3A+easy%22) - do not require much work
+- [medium issues](https://github.com/yoda-pa/yoda/issues?q=is%3Aissue+is%3Aopen+label%3A%22difficulty%3A+medium%22) - should be a bit more involved than `easy` issues.
 
 #### Sending a pull request
-Push to your fork and [submit a pull request](https://github.com/dude-pa/dude/compare/). Follow the [pull request template](https://github.com/dude-pa/dude/blob/master/.github/PULL_REQUEST_TEMPLATE.md)  
+Push to your fork and [submit a pull request](https://github.com/yoda-pa/yoda/compare/). Follow the [pull request template](https://github.com/yoda-pa/yoda/blob/master/.github/PULL_REQUEST_TEMPLATE.md)  
 
 ## Github labels
 ### Issue labels

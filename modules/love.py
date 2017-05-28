@@ -33,7 +33,7 @@ def status():
             click.echo((contents))
     else:
         chalk.red(
-            'The configuration file for this module does not exist. Please type "dude love setup" to create a new one')
+            'The configuration file for this module does not exist. Please type "yoda love setup" to create a new one')
 
 
 def setup():
@@ -89,7 +89,7 @@ def notes():
                 click.echo(str(i) + ": " + n['note'])
     else:
         chalk.red(
-            'The configuration file for this module does not exist. Please type "dude love setup" to create a new one')
+            'The configuration file for this module does not exist. Please type "yoda love setup" to create a new one')
 
 # command checker
 
@@ -105,7 +105,7 @@ def check_sub_command(c):
         return sub_commands[c]()
     except KeyError:
         chalk.red('Command does not exist!')
-        click.echo('Try "dude setup --help" for more info')
+        click.echo('Try "yoda setup --help" for more info')
 
 
 def process(input):

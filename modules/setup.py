@@ -40,32 +40,32 @@ def decrypt_password():
 
 
 def new():
-    chalk.blue('Tell me your name, dude:')
+    chalk.blue('Tell me your name, yoda:')
     name = raw_input().strip()
     while len(name) == 0:
-        chalk.red("You entered nothing, dude!")
-        chalk.blue('Tell me your name, dude:')
+        chalk.red("You entered nothing, yoda!")
+        chalk.blue('Tell me your name, yoda:')
         name = raw_input().strip()
 
-    chalk.blue('What\'s your email id, dude?')
+    chalk.blue('What\'s your email id, yoda?')
     email = raw_input().strip()
     email_validator = lepl.apps.rfc3696.Email()
     while not email_validator(email):
-        chalk.red("Invalid email, dude!")
-        chalk.blue('What\'s your email id, dude?')
+        chalk.red("Invalid email, yoda!")
+        chalk.blue('What\'s your email id, yoda?')
         email = raw_input().strip()
 
-    chalk.blue('What\'s your github username, dude?')
+    chalk.blue('What\'s your github username, yoda?')
     gh_username = raw_input().strip()
     while len(gh_username) == 0:
-        chalk.red("You entered nothing, dude!")
-        chalk.blue('What\'s your github username, dude?')
+        chalk.red("You entered nothing, yoda!")
+        chalk.blue('What\'s your github username, yoda?')
         gh_username = raw_input().strip()
 
     chalk.blue('Enter your github password:')
     gh_password = getpass.getpass()
     while len(gh_password) == 0:
-        chalk.red("You entered nothing, dude!")
+        chalk.red("You entered nothing, yoda!")
         chalk.blue('Enter your github password:')
         gh_password = getpass.getpass()
     # let's encrypt our password
@@ -120,7 +120,7 @@ def check():
             # click.echo(decrypt_password())
     else:
         chalk.red(
-            'The configuration file does not exist. Please type "dude setup new" to create a new one')
+            'The configuration file does not exist. Please type "yoda setup new" to create a new one')
 
 # delete config_file
 
@@ -150,7 +150,7 @@ def check_sub_command(c):
         return sub_commands[c]()
     except KeyError:
         chalk.red('Command does not exist!')
-        click.echo('Try "dude setup --help" for more info')
+        click.echo('Try "yoda setup --help" for more info')
 
 
 def get_gh_username():

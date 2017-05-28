@@ -7,10 +7,10 @@ API_AI_SESSION_ID = 'dd60fde7-c6ab-4f38-9487-7300c42b4916'
 USER_HOME_DIR = os.path.expanduser('~')
 
 config_file_paths = {
-    "CONFIG_FILE_PATH": USER_HOME_DIR + '/.dude/.dudeconfig.yml',
-    "LOVE_CONFIG_FILE_PATH": USER_HOME_DIR + '/.dude/love/.loveconfig.yml',
-    "MONEY_CONFIG_FILE_PATH": os.path.expanduser('~') + '/.dude/money/.moneyconfig.yml',
-    "DIARY_CONFIG_FILE_PATH": os.path.expanduser('~') + '/.dude/diary/.diaryconfig.yml',
-    "VOCABULARY_CONFIG_FILE_PATH": os.path.expanduser('~') + '/.dude/vocabulary/.vocabularyconfig.yml',
-    "FLASHCARDS_CONFIG_FILE_PATH": os.path.expanduser('~') + '/.dude/flashcards/.flashcardsconfig.yml'
+    "CONFIG_FILE_PATH": USER_HOME_DIR + '/.yoda/.yodaconfig.yml',
+    "LOVE_CONFIG_FILE_PATH": USER_HOME_DIR + '/.yoda/love/.loveconfig.yml',
+    "MONEY_CONFIG_FILE_PATH": os.path.expanduser('~') + '/.yoda/money/.moneyconfig.yml',
+    "DIARY_CONFIG_FILE_PATH": os.path.expanduser('~') + '/.yoda/diary/.diaryconfig.yml',
+    "VOCABULARY_CONFIG_FILE_PATH": os.path.expanduser('~') + '/.yoda/vocabulary/.vocabularyconfig.yml',
+    "FLASHCARDS_CONFIG_FILE_PATH": os.path.expanduser('~') + '/.yoda/flashcards/.flashcardsconfig.yml'
 }

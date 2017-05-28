@@ -1,9 +1,9 @@
 from setuptools import setup
 
 setup(
-    name='dude',
+    name='yoda',
     version='0.1.0',
-    py_modules=['dude'],
+    py_modules=['yoda'],
     install_requires=[
         'Click',
         'pychalk',
@@ -19,6 +19,6 @@ setup(
     ],
     entry_points='''
         [console_scripts]
-        dude=dude:cli
+        yoda=yoda:cli
     '''
 )

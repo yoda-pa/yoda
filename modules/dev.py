@@ -72,7 +72,7 @@ def check_sub_command_url(action, url):
         return sub_commands[action](url)
     except KeyError:
         chalk.red('Command does not exist!')
-        click.echo('Try "dude url --help" for more info')
+        click.echo('Try "yoda url --help" for more info')
 
 
 @dev.command()

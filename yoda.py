@@ -6,7 +6,7 @@ from modules import *
 
 @click.group()
 def cli():
-    ''' Dudely Command line interface to help with daily tasks '''
+    ''' Yoda PA: A personal assistant based on the command line '''
 
 # git
 
@@ -18,10 +18,10 @@ def git(input):
     Helps with your git operations\n
     ------------------------------\n
     Some commands that can be used:\n
-    dude git all status  - goes into all repos in current directory and shows the status of all\n
-    dude git credentials - shows your credentials. If not set, it would prompt for input\n
-    dude git agenda      - Show all the repos worked on in the past and suggest which ones should be worked on depending on commits etc\n
-    dude git push all    - Pushes everything with automatically generated commits (you will have the option to manually enter the commit messages before committing)\n
+    yoda git all status  - goes into all repos in current directory and shows the status of all\n
+    yoda git credentials - shows your credentials. If not set, it would prompt for input\n
+    yoda git agenda      - Show all the repos worked on in the past and suggest which ones should be worked on depending on commits etc\n
+    yoda git push all    - Pushes everything with automatically generated commits (you will have the option to manually enter the commit messages before committing)\n
     '''
     if input:
         test_string = ''
@@ -39,7 +39,7 @@ def git(input):
 def chat(input):
     '''
     A simple chatbot\n
-    To use, type: dude chat <message>
+    To use, type: yoda chat <message>
     '''
     if input:
         test_string = ''
@@ -195,4 +195,4 @@ def feedback():
     1. reporting a bug\n\
     2. For suggesting a feature\n\
     3. Any general suggestion or question\n\
-Please create an issue in the Github repository:\nhttps://github.com/dude-pa/dude/issues/new')
+Please create an issue in the Github repository:\nhttps://github.com/yoda-pa/yoda/issues/new')

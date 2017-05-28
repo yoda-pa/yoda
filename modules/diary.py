@@ -154,7 +154,7 @@ def tasks():
         click.echo('----------------')
         if incomplete_tasks == 0:
             chalk.green(
-                'All tasks have been competed! Add a new task by entering "dude  diary nt"')
+                'All tasks have been competed! Add a new task by entering "yoda  diary nt"')
         else:
             chalk.red("Incomplete tasks: " + str(incomplete_tasks))
             chalk.green("Completed tasks: " +
@@ -162,7 +162,7 @@ def tasks():
 
     else:
         click.echo(
-            'There are no tasks for today. Add a new task by entering "dude diary nt"')
+            'There are no tasks for today. Add a new task by entering "yoda diary nt"')
 
 
 def complete_task():
@@ -179,7 +179,7 @@ def complete_task():
 
             if no_task_left:
                 chalk.green(
-                    'All tasks have been competed! Add a new task by entering "dude  diary nt"')
+                    'All tasks have been competed! Add a new task by entering "yoda  diary nt"')
             else:
                 click.echo('Today\'s agenda:')
                 click.echo('----------------')
@@ -209,7 +209,7 @@ def complete_task():
 				not_valid_task_number = 0
     else:
         chalk.red(
-            'There are no tasks for today. Add a new task by entering "dude diary nt"')
+            'There are no tasks for today. Add a new task by entering "yoda diary nt"')
 
 
 def notes():
@@ -229,7 +229,7 @@ def notes():
 
     else:
         chalk.red(
-            'There are no notes for today. Add a new note by entering "dude diary nn"')
+            'There are no notes for today. Add a new note by entering "yoda diary nn"')
 
 # command checker
 
@@ -247,7 +247,7 @@ def check_sub_command(c):
     return sub_commands[c]()
     # except KeyError:
     #     chalk.red('Command does not exist!')
-    #     click.echo('Try "dude setup --help" for more info')
+    #     click.echo('Try "yoda setup --help" for more info')
 
 # the main process
 

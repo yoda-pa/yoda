@@ -37,7 +37,7 @@ def status():
             click.echo(contents)
     else:
         click.echo(
-            'The configuration file for this module does not exist. Please type "dude money setup" to create a new one')
+            'The configuration file for this module does not exist. Please type "yoda money setup" to create a new one')
 
 # create new setup config
 
@@ -110,7 +110,7 @@ def check_sub_command(c):
         return sub_commands[c]()
     except KeyError:
         chalk.red('Command does not exist!')
-        click.echo('Try "dude money --help" for more info')
+        click.echo('Try "yoda money --help" for more info')
 
 # the main process
 

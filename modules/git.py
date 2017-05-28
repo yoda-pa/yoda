@@ -20,5 +20,5 @@ def process(input):
     repo = porcelain.init(CONFIG_FOLDER_PATH)
     porcelain.add(repo)
     porcelain.commit(repo, "A sample commit")
-    porcelain.remote_add(repo, ".dude", "https://github.com/manparvesh/.dude")
-    porcelain.push(repo, "https://github.com/manparvesh/.dude")
+    porcelain.remote_add(repo, ".yoda", "https://github.com/manparvesh/.yoda")
+    porcelain.push(repo, "https://github.com/manparvesh/.yoda")

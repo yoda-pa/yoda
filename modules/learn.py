@@ -71,7 +71,7 @@ def get_word_accuracy_of_previous_words():
         accuracy[word] = []
     if not os.path.isfile(VOCABULARY_CONFIG_FOLDER_PATH + '/results.txt'):
         chalk.red(
-            'No words learned in the past. Please use "dude vocabulary word" for the same')
+            'No words learned in the past. Please use "yoda vocabulary word" for the same')
         return
     with open(VOCABULARY_CONFIG_FOLDER_PATH + '/results.txt') as fp:
         for line in fp.read().split('\n'):
@@ -109,7 +109,7 @@ def check_sub_command_vocab(c):
         return sub_commands[c]()
     except KeyError:
         chalk.red('Command does not exist!')
-        click.echo('Try "dude setup --help" for more info')
+        click.echo('Try "yoda setup --help" for more info')
 
 
 @learn.command()
@@ -175,7 +175,7 @@ def list_sets_fc(dummy):
     descriptions = get_set_descriptions()
     if not sets:
         chalk.red(
-            'There are no sets right now. Type "dude flashcards sets new <name>" to create one')
+            'There are no sets right now. Type "yoda flashcards sets new <name>" to create one')
     else:
         i = 0
         there_are_sets = False
@@ -255,7 +255,7 @@ def modify_set_fc(name):
     sets = get_set_statuses()
     if not sets:
         chalk.red(
-            'There are no sets right now. Type "dude flashcards sets new <name>" to create one')
+            'There are no sets right now. Type "yoda flashcards sets new <name>" to create one')
     else:
         if not sets[name]:
             chalk.red('There is no set named ' + name + '.')
@@ -277,7 +277,7 @@ def select_set_fc(name):
     descriptions = get_set_descriptions()
     if not sets:
         chalk.red(
-            'There are no sets right now. Type "dude flashcards sets new <name>" to create one')
+            'There are no sets right now. Type "yoda flashcards sets new <name>" to create one')
     else:
         try:
             if sets[name] == 0:
@@ -304,7 +304,7 @@ def check_sub_command_sets_flashcards(c, name):
     return sub_commands[c](name)
     # except KeyError:
     #     chalk.red('Command does not exist!')
-    #     click.echo('Try "dude flashcards --help" for more info')
+    #     click.echo('Try "yoda flashcards --help" for more info')
 # ----- / functions for sets -----
 
 # ----- functions for cards -----
@@ -341,7 +341,7 @@ def check_sub_command_cards_flashcards(c, name):
         return sub_commands[c](name)
     except KeyError:
         chalk.red('Command does not exist!')
-        click.echo('Try "dude flashcards --help" for more info')
+        click.echo('Try "yoda flashcards --help" for more info')
 # ----- / functions for cards -----
 
 
@@ -425,11 +425,11 @@ def flashcards(domain, action, name):
         'status': status_fc,
         'study': study_fc
     }
-    # try:
-    domains[domain](action, name)
-    # except KeyError:
-    #     chalk.red('Command does not exist!')
-    #     click.echo('Try "dude flashcards --help" for more info')
+    try:
+        domains[domain](action, name)
+    except KeyError:
+        chalk.red('Command does not exist!')
+        click.echo('Try "yoda flashcards --help" for more info')
 # ----------------------- / flashcards code -----------------------#
 
 
