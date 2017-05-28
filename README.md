@@ -11,7 +11,7 @@
   [![Project status](https://img.shields.io/badge/version-0.1.0-orange.svg)](https://github.com/yoda-pa/yoda)
 
   <br/>
-  Personal assistant based on the command line
+  Personal assistant, based on the command line. Herh herh
 
 </div>
 
@@ -23,7 +23,7 @@
 
 ### How to run
 ```bash
-# clone this repo
+# Clone this repo, you should.
 $ git clone https://github.com/yoda-pa/yoda
 
 # create a virtualenv
@@ -32,18 +32,18 @@ $ virtualenv venv
 # activate the virtualenv
 $ . venv/bin/activate
 
-# Install the package! In case you want to edit the source code
-# use 'pip install --editable .' so that you don't need to install again and again
+# Install the package, you must! In case you want to edit the source code
+# use 'pip install --editable .'
 $ pip install .
 
-# run it!
+# the time has come
 $ yoda
 # to exit the virtualenv, just type 'deactivate' without quotes
 ```
 
-## How to use this package
+## Use this package, how to
 #### setup
-This command helps to create a setup configuration for you to save some information locally. You can also save this in a github repository. Your password is saved in the config file after encrypting, so you need not worry about it.
+This command helps to create a setup configuration for you to save some information locally. Your password is saved in the config file after encrypting, so you need not worry about it.
 ```bash
 # To create a configuration
 $ yoda setup new
@@ -57,12 +57,14 @@ $ yoda setup check
 #### chat
 This package contains a simple chatbot as well! The `chat` command can be used to chat with it
 ```bash
-$ yoda chat hi!
-yoda says: Howdy.
-
 # Simply write messages with more than one word
-$ yoda chat how are you?
-yoda says: Lovely, thanks.
+$ yoda chat who are you
+Yoda speaks:
+Here to make your life easier than ever, I am. 
+
+$ yoda chat how are you
+Yoda speaks:
+Could be better not.  Yeesssssss.
 ```
 You can test the chat functionality on api.ai agent website [here](https://bot.api.ai/ff4ba99e-e444-4e19-8b4e-91fb0b93e414)
 #### dev
@@ -148,7 +150,7 @@ $ yoda love note
 $ yoda love notes
 ```
 #### money
-This is for tracking money.
+For tracking money, this is.
 ```bash
 # create configuration
 $ yoda money setup
@@ -165,8 +167,8 @@ $ yoda money exps
 2017-05-04 16:06:00 SGD 30 shoes
 ```
 #### learn
-This command group contains commands that will be helpful in learning new things.
-- vocabulary: For enhancing your vocabulary and tracking your progress.
+This command group contains commands that, helpful in learning new things, will be.  Yeesssssss.
+- vocabulary: For your vocabulary and tracking your progress enhancing.
 ```bash
 # get a random word
 $  yoda vocabulary word
@@ -219,7 +221,7 @@ noun: a conveyance for passengers or freight on a cable railway
 ```
 
 #### feedback
-Simple thingy that shows a link to create an issue in the github repository
+To create an issue in the github repository simple thing that shows a link.  Yeesssssss.
 ```bash
 $  yoda feedback
 For:

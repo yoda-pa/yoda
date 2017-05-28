@@ -15,7 +15,8 @@ setup(
         'pyspeedtest',
         'forex-python',
         'dulwich',
-        'PyGithub'
+        'PyGithub',
+        'unirest'
     ],
     entry_points='''
         [console_scripts]
