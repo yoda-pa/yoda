@@ -49,6 +49,7 @@
 - [ ] life
   - [ ] keep a record of things people have taken from you, and the things you have taken from them - to remind them / yourself to return
   - [ ] reading list
+  - [ ] Idea list
 
 - [ ] love
   - [x] ~~Place where they live~~
