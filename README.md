@@ -1,5 +1,5 @@
 <div align="center" style="margin: 20px">
-  <img src="https://github.com/yoda-pa/yoda/blob/master/logo.png">
+  <img src="https://github.com/yoda-pa/yoda/raw/master/logo.png">
 </div>
 
 <div align="center">
@@ -13,18 +13,18 @@
 </div>
 
 
-## Installation
+## Install, how to
 #### Requirements
 - [python](https://www.python.org/downloads/)
-- [virtualenv](https://virtualenv.pypa.io/en/stable/installation/) (only for testing and development)  
+- [virtualenv](https://virtualenv.pypa.io/en/stable/installation/) (only for testing and development)
 
-### How to run
+### Run, how to
 ```
 # Clone this repo, you should.
 $ git clone https://github.com/yoda-pa/yoda
 
 # create a virtualenv
-$ virtualenv venv  
+$ virtualenv venv
 
 # activate the virtualenv
 $ . venv/bin/activate
@@ -57,7 +57,7 @@ This package contains a simple chatbot as well! The `chat` command can be used t
 # Simply write messages with more than one word
 $ yoda chat who are you
 Yoda speaks:
-Here to make your life easier than ever, I am. 
+Here to make your life easier than ever, I am.
 
 $ yoda chat how are you
 Yoda speaks:
@@ -66,6 +66,7 @@ Could be better not.  Yeesssssss.
 You can test the chat functionality on api.ai agent website [here](https://bot.api.ai/ff4ba99e-e444-4e19-8b4e-91fb0b93e414)
 #### dev
 This command group contains some sub-commands that may be helpful for developers and tech-geeks.
+
 - speedtest
 ```
 # run a speed test for your internet connection
@@ -85,6 +86,7 @@ $ yoda url expand https://goo.gl/EVVPzK
 Here's your original URL:
 http://manparvesh.com/
 ```
+
 #### diary
 This command can be used to maintain a personal diary, roughly based on the concept of [Bullet Journal](http://bulletjournal.com/).
 ```
@@ -123,16 +125,16 @@ Completed tasks: 0
 
 # view tasks
 $ yoda diary ct
-Today's agenda:                                                
-----------------                                               
-Number |  Time   | Task                                        
--------|---------|-----                                        
-   1   | 15:50:48: go office                                   
-Enter the task number that you would like to set as completed  
-1          
+Today's agenda:
+----------------
+Number |  Time   | Task
+-------|---------|-----
+   1   | 15:50:48: go office
+Enter the task number that you would like to set as completed
+1
 
 # analyze current month tasks
-$ yoda diary analyze                                                      
+$ yoda diary analyze 
 ```
 #### love
 This command can be used to maintain a profile of someone.
@@ -168,57 +170,63 @@ $ yoda money exps
 ```
 #### learn
 This command group contains commands that, helpful in learning new things, will be.  Yeesssssss.
-- vocabulary: For your vocabulary and tracking your progress enhancing.
-```
-# get a random word
-$  yoda vocabulary word
-sinecure:
-<Enter> to show meaning
-a job that pays a salary but requires little work
-Did you know / remember the meaning?
-no
 
-# view your progress
-$  yoda vocabulary accuracy
-Words asked in the past:
-sinecure-- times used: 8 accuracy: 50.0
-squalid-- times used: 6 accuracy: 66.0
-```
+- vocabulary: For enhancing your vocabulary and tracking your progress.
+
+    ```
+    # get a random word
+    $  yoda vocabulary word
+    sinecure:
+    <Enter> to show meaning
+    a job that pays a salary but requires little work
+    Did you know / remember the meaning?
+    no
+
+    # view your progress
+    $  yoda vocabulary accuracy
+    Words asked in the past:
+    sinecure-- times used: 8 accuracy: 50.0
+    squalid-- times used: 6 accuracy: 66.0
+    ```
+
 - flashcards: for learning anything! ([inspiration](https://github.com/zergov/flashcards))
-```
-# create new set (remember to keep the name to one word)
-$  yoda flashcards sets new english
 
-# modify set
-$  yoda flashcards sets modify english
+    ```
+    # create new set (remember to keep the name to one word)
+    $  yoda flashcards sets new english
 
-# list all sets
-$  yoda flashcards sets list
+    # modify set
+    $  yoda flashcards sets modify english
 
-# select a study set
-$  yoda flashcards select english
+    # list all sets
+    $  yoda flashcards sets list
 
-# create new card in selected set (card name length can be more than 1 word)
-$  yoda flashcards cards new Oxford comma
+    # select a study set
+    $  yoda flashcards select english
 
-# Know which set is selected and its information
-$  yoda flashcards status
+    # create new card in selected set (card name length can be more than 1 word)
+    $  yoda flashcards cards new Oxford comma
 
-# study the selected study set. This will show you all the cards in a study set
-# one by one.
-$  yoda flashcards study
-```
+    # Know which set is selected and its information
+    $  yoda flashcards status
+
+    # study the selected study set. This will show you all the cards in a study set
+    # one by one.
+    $  yoda flashcards study
+    ```
+
 - define: to get different meanings of a word. This definition search will be automatically saved, so that while you are working on your vocabulary, you can come through the new word as well.
-```
-$  yoda define car
-A few definitions of the word "car" with their parts of speech are given below:
----------------------------------
-noun: a motor vehicle with four wheels; usually propelled by an internal combustion engine
-noun: the compartment that is suspended from an airship and that carries personnel and the cargo and the power plant
-noun: where passengers ride up and down
-noun: a wheeled vehicle adapted to the rails of railroad
-noun: a conveyance for passengers or freight on a cable railway
-```
+
+    ```
+    $ yoda define car
+    A few definitions of the word "car" with their parts of speech are given below:
+    #---------------------------------
+    noun: a motor vehicle with four wheels; usually propelled by an internal combustion engine
+    noun: the compartment that is suspended from an airship and that carries personnel and the cargo and the power plant
+    noun: where passengers ride up and down
+    noun: a wheeled vehicle adapted to the rails of railroad
+    noun: a conveyance for passengers or freight on a cable railway
+    ```
 
 #### feedback
 To create an issue in the github repository simple thing that shows a link.  Yeesssssss.
@@ -243,8 +251,8 @@ https://github.com/yoda-pa/yoda/issues/new
 - [forex-python](https://pypi.python.org/pypi/forex-python): Foreign exchange rates and currency conversion
 - [dulwich](https://github.com/jelmer/dulwich): for git
 - [PyGithub](https://github.com/PyGithub/PyGithub): for using Github API v3
-- [Gravit](https://gravit.io): for creating the logo
+- [Gravit](https://gravit.io/): for creating the logo
 - Yoda's illustration SVG was taken from [here](https://www.shareicon.net/yoda-854796)
 
-## Contributing
-Please refer to the [contributing guidelines](.github/CONTRIBUTING.md) for contributing to this project.
+## Contribute, you must
+Please refer to the [contributing guidelines](https://github.com/yoda-pa/yoda/blob/master/.github/CONTRIBUTING.md) for contributing to this project.
