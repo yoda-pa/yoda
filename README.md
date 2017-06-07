@@ -79,10 +79,10 @@ Upload: 203.13 MB/s
 ```
 # URL shortener and expander
 $ yoda url shorten manparvesh.com
-Here\'s your shortened URL:
+Here's your shortened URL:
 https://goo.gl/EVVPzK
 $ yoda url expand https://goo.gl/EVVPzK
-Here\'s your original URL:
+Here's your original URL:
 http://manparvesh.com/
 ```
 #### diary
@@ -95,7 +95,7 @@ hey there
 
 # view notes
 $ yoda diary notes
-Today\'s notes:
+Today's notes:
 ----------------
   Time  | Note
 --------|-----
@@ -109,7 +109,7 @@ go office
 
 # view tasks
 $ yoda diary tasks
-Today\'s agenda:
+Today's agenda:
 ----------------
 Status |  Time   | Text
 -------|---------|-----
@@ -123,7 +123,7 @@ Completed tasks: 0
 
 # view tasks
 $ yoda diary ct
-Today\'s agenda:                                                
+Today's agenda:                                                
 ----------------                                               
 Number |  Time   | Task                                        
 -------|---------|-----                                        
@@ -243,7 +243,7 @@ https://github.com/yoda-pa/yoda/issues/new
 - [forex-python](https://pypi.python.org/pypi/forex-python): Foreign exchange rates and currency conversion
 - [dulwich](https://github.com/jelmer/dulwich): for git
 - [PyGithub](https://github.com/PyGithub/PyGithub): for using Github API v3
-- [Canva](https://www.canva.com/): for creating the logo
+- [Gravit](https://gravit.io): for creating the logo
 - Yoda's illustration SVG was taken from [here](https://www.shareicon.net/yoda-854796)
 
 ## Contributing
