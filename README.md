@@ -19,7 +19,7 @@
 - [virtualenv](https://virtualenv.pypa.io/en/stable/installation/) (only for testing and development)  
 
 ### How to run
-```bash
+```
 # Clone this repo, you should.
 $ git clone https://github.com/yoda-pa/yoda
 
@@ -41,7 +41,7 @@ $ yoda
 ## Use this package, how to
 #### setup
 This command helps to create a setup configuration for you to save some information locally. Your password is saved in the config file after encrypting, so you need not worry about it.
-```bash
+```
 # To create a configuration
 $ yoda setup new
 
@@ -53,7 +53,7 @@ $ yoda setup check
 ```
 #### chat
 This package contains a simple chatbot as well! The `chat` command can be used to chat with it
-```bash
+```
 # Simply write messages with more than one word
 $ yoda chat who are you
 Yoda speaks:
@@ -67,7 +67,7 @@ You can test the chat functionality on api.ai agent website [here](https://bot.a
 #### dev
 This command group contains some sub-commands that may be helpful for developers and tech-geeks.
 - speedtest
-```bash
+```
 # run a speed test for your internet connection
 $ yoda speedtest
 Speed test results:
@@ -76,7 +76,7 @@ Download: 144.90 MB/s
 Upload: 203.13 MB/s
 ```
 - url
-```bash
+```
 # URL shortener and expander
 $ yoda url shorten manparvesh.com
 Here\'s your shortened URL:
@@ -87,7 +87,7 @@ http://manparvesh.com/
 ```
 #### diary
 This command can be used to maintain a personal diary, roughly based on the concept of [Bullet Journal](http://bulletjournal.com/).
-```bash
+```
 # new note
 $ yoda diary nn
 Input your entry for note:
@@ -129,11 +129,14 @@ Number |  Time   | Task
 -------|---------|-----                                        
    1   | 15:50:48: go office                                   
 Enter the task number that you would like to set as completed  
-1                                                              
+1          
+
+# analyze current month tasks
+$ yoda diary analyze                                                      
 ```
 #### love
 This command can be used to maintain a profile of someone.
-```bash
+```
 # create configuration
 $ yoda love setup
 
@@ -148,7 +151,7 @@ $ yoda love notes
 ```
 #### money
 For tracking money, this is.
-```bash
+```
 # create configuration
 $ yoda money setup
 
@@ -166,7 +169,7 @@ $ yoda money exps
 #### learn
 This command group contains commands that, helpful in learning new things, will be.  Yeesssssss.
 - vocabulary: For your vocabulary and tracking your progress enhancing.
-```bash
+```
 # get a random word
 $  yoda vocabulary word
 sinecure:
@@ -182,7 +185,7 @@ sinecure-- times used: 8 accuracy: 50.0
 squalid-- times used: 6 accuracy: 66.0
 ```
 - flashcards: for learning anything! ([inspiration](https://github.com/zergov/flashcards))
-```bash
+```
 # create new set (remember to keep the name to one word)
 $  yoda flashcards sets new english
 
@@ -206,7 +209,7 @@ $  yoda flashcards status
 $  yoda flashcards study
 ```
 - define: to get different meanings of a word. This definition search will be automatically saved, so that while you are working on your vocabulary, you can come through the new word as well.
-```bash
+```
 $  yoda define car
 A few definitions of the word "car" with their parts of speech are given below:
 ---------------------------------
@@ -219,7 +222,7 @@ noun: a conveyance for passengers or freight on a cable railway
 
 #### feedback
 To create an issue in the github repository simple thing that shows a link.  Yeesssssss.
-```bash
+```
 $  yoda feedback
 For:
     1. reporting a bug

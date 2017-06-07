@@ -45,6 +45,7 @@
   - [ ] their birthdays and things they like
   - [ ] gift recommendations for them
   - [ ] personalized notes for every person, the system learns from that and tries to understand about the kind of people
+  - [ ] [similar something - monica](https://monicahq.com/)
 
 - [ ] life
   - [ ] keep a record of things people have taken from you, and the things you have taken from them - to remind them / yourself to return
