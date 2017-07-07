@@ -7,6 +7,7 @@ import time
 import datetime
 import requests
 from os import listdir
+import pkgutil
 # the main process
 
 
@@ -26,12 +27,11 @@ VOCABULARY_CONFIG_FOLDER_PATH = get_folder_path_from_file_path(
 
 # getting words
 words = {}
-with open('resources/vocab-words.txt') as fp:
-    for line in fp.read().split('\n'):
-        line = line.strip()
-        if len(line) > 0:
-            (word, definition) = line.split(' - ')
-            words[word.lower().strip()] = definition.strip()
+for line in pkgutil.get_data('yoda', 'resources/vocab-words.txt').split('\n'):
+    line = line.strip()
+    if len(line) > 0:
+        (word, definition) = line.split(' - ')
+        words[word.lower().strip()] = definition.strip()
 
 
 def get_words_list():
