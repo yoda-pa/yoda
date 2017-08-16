@@ -23,8 +23,12 @@
 # Clone this repo, you should.
 $ git clone https://github.com/yoda-pa/yoda
 
-# create a virtualenv
-$ virtualenv venv
+# Change directory into the cloned repository
+$ cd yoda
+
+# create a virtualenv with python2
+# The path and the name of the executable may be different depending on your OS
+$ virtualenv -p /usr/bin/python2 venv
 
 # activate the virtualenv
 $ . venv/bin/activate
