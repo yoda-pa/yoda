@@ -29,10 +29,10 @@ def speedtest():
     click.echo('Ping: ' + '{:.2f}'.format(ping) + ' ms')
 
     download_speed = speed_test.download() / (1024 * 1024)
-    click.echo('Download: ' + '{:.2f}'.format(download_speed) + ' MB/s')
+    click.echo('Download: ' + '{:.2f}'.format(download_speed) + ' Mb/s')
 
     upload_speed = speed_test.upload() / (1024 * 1024)
-    click.echo('Upload: ' + '{:.2f}'.format(upload_speed) + ' MB/s')
+    click.echo('Upload: ' + '{:.2f}'.format(upload_speed) + ' Mb/s')
 
 # code for URL command
 # shorten
