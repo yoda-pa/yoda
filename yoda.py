@@ -198,3 +198,26 @@ def feedback():
     2. For suggesting a feature\n\
     3. Any general suggestion or question\n\
 Please create an issue in the Github repository:\nhttps://github.com/yoda-pa/yoda/issues/new')
+
+
+# life
+@cli.command()
+@click.argument('input', nargs=-1)
+def life(input):
+    '''
+    A walkthrough for your life\n
+    by providing you a reading list\n
+    \n\n
+
+    Commands:\n
+    rlist: check reading list\n
+    ra: add something to reading list\n
+    '''
+    if input:
+        test_string = ''
+        for i in input:
+            test_string += (i + ' ')
+        data = sys.modules['modules.life'].process(test_string)
+    else:
+        click.echo('No input specified. Run with --help for info')
+

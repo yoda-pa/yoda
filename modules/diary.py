@@ -197,16 +197,16 @@ def complete_task():
                         no_task_left = False
                         click.echo("   " + str(i) + "   | " +
                                    time + ": " + text)
-		while not_valid_task_number :
-                	chalk.blue(
-                    	'Enter the task number that you would like to set as completed')
-                	task_to_be_completed = int(raw_input())
-			if(task_to_be_completed > len(contents['entries'])):
-			 	chalk.red('Please Enter a valid task number!')
-			else:
-				contents['entries'][task_to_be_completed - 1]['status'] = 1
-                		input_data(contents, TODAYS_TASKS_ENTRY_FILE_PATH)
-				not_valid_task_number = 0
+                while not_valid_task_number :
+                        chalk.blue(
+                        'Enter the task number that you would like to set as completed')
+                        task_to_be_completed = int(raw_input())
+                        if(task_to_be_completed > len(contents['entries'])):
+                                chalk.red('Please Enter a valid task number!')
+                        else:
+                                contents['entries'][task_to_be_completed - 1]['status'] = 1
+                                input_data(contents, TODAYS_TASKS_ENTRY_FILE_PATH)
+                                not_valid_task_number = 0
     else:
         chalk.red(
             'There are no tasks for today. Add a new task by entering "yoda diary nt"')

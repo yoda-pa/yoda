@@ -9,5 +9,6 @@ __all__ = [
     'health',
     'learn',
     'fashion',
-    'setup'
+    'setup',
+    'life'
 ]

@@ -12,5 +12,6 @@ config_file_paths = {
     "MONEY_CONFIG_FILE_PATH": os.path.expanduser('~') + '/.yoda/money/.moneyconfig.yml',
     "DIARY_CONFIG_FILE_PATH": os.path.expanduser('~') + '/.yoda/diary/.diaryconfig.yml',
     "VOCABULARY_CONFIG_FILE_PATH": os.path.expanduser('~') + '/.yoda/vocabulary/.vocabularyconfig.yml',
-    "FLASHCARDS_CONFIG_FILE_PATH": os.path.expanduser('~') + '/.yoda/flashcards/.flashcardsconfig.yml'
+    "FLASHCARDS_CONFIG_FILE_PATH": os.path.expanduser('~') + '/.yoda/flashcards/.flashcardsconfig.yml',
+    "LIFE_CONFIG_FILE_PATH": os.path.expanduser('~') + '/.yoda/life/.lifeconfig.yml',
 }
