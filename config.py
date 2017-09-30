@@ -10,6 +10,10 @@ DEFAULT_CONFIG_PATH = os.path.join(os.path.expanduser('~'), '.yoda')
 
 
 def update_config_path(new_path):
+    '''Updates the path where the config files are stored.
+    This is done by changing the contents of YODA_CONFIG_FILE_PATH with new_path
+    of user's config.
+    '''
     if len(new_path) == 0:
         new_path = DEFAULT_CONFIG_PATH
     with open(YODA_CONFIG_FILE_PATH, 'w') as config_file:
@@ -18,6 +22,9 @@ def update_config_path(new_path):
 
 
 def get_config_file_paths():
+    '''Get the absolute config file paths of user
+    config_path_prefix is where the config files are stored.
+    '''
     try:
         with open(YODA_CONFIG_FILE_PATH) as config_file:
             config_path_prefix = config_file.read().strip()
