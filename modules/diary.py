@@ -1,6 +1,6 @@
 import click
 import chalk
-from config import config_file_paths
+from config import get_config_file_paths
 import os.path
 from os import listdir
 import time
@@ -11,7 +11,7 @@ import datetime
 
 
 # config file path
-DIARY_CONFIG_FILE_PATH = config_file_paths['DIARY_CONFIG_FILE_PATH']
+DIARY_CONFIG_FILE_PATH = get_config_file_paths()['DIARY_CONFIG_FILE_PATH']
 DIARY_CONFIG_FOLDER_PATH = get_folder_path_from_file_path(
     DIARY_CONFIG_FILE_PATH)
 
