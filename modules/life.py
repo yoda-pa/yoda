@@ -12,8 +12,27 @@ from util import *
 LIFE_CONFIG_FILE_PATH = config_file_paths['LIFE_CONFIG_FILE_PATH']
 LIFE_CONFIG_FOLDER_PATH = get_folder_path_from_file_path(
     LIFE_CONFIG_FILE_PATH)
+RLIST_PARAMS = ('title', 'author', 'kind', 'tags', 'path')
 
 # get file path for today's tasks entry file
+
+def is_in_params(params, query, article):
+    query = query.lower()
+    filter = article[params]
+
+    if type(filter) is list:
+        filter = [ item.lower() for item in filter ]
+    else:
+        filter = filter.lower()
+
+    return (query in filter)
+
+@click.group()
+def life():
+    '''
+        Life command group:\n
+        contains helpful commands to organize your life
+    '''
 
 
 def reading_list_entry_file_path():
@@ -32,12 +51,12 @@ def empty_list_prompt():
     if decision == "y" or not decision:
         add_to_rlist()
     else:
-        click.echo("Using 'yoda life ra', you can create later.")
+        click.echo("Using 'yoda rlist add', you can create later.")
 
 # prints reading list
 
 
-def print_rlist(contents, only = ""):
+def print_rlist(contents, only=RLIST_PARAMS):
     i = 0
     for entry in contents['entries']:
         i+=1
@@ -48,42 +67,43 @@ def print_rlist(contents, only = ""):
         tags = entry['tags']
         path = entry['path']
 
-        click.echo("Title: " + title) if title or 'title' in only else ''
-        click.echo("Author: " + author) if author or 'author' in only else ''
-        click.echo("Kind: " + kind) if kind or 'kind' in only else ''
-        click.echo("Tags: " + ", ".join(tags)) if tags or 'tags' in only else ''
-        click.echo("Path: " + path) if path or 'path' in only else ''
+        click.echo("Title: " + title) if title and 'title' in only else None
+        click.echo("Author: " + author) if author and 'author' in only else None
+        click.echo("Kind: " + kind) if kind and 'kind' in only else None
+        click.echo("Tags: " + ", ".join(tags)) if tags and 'tags' in only else None
+        click.echo("Path: " + path) if path and 'path' in only else None
 
     click.echo("---END-OF-READING-LIST---")
 
 # get the current reading list
 
 
-def rlist():
+def view_rlist(opts):
     if os.path.isfile(READING_LIST_ENTRY_FILE_PATH):
         with open(READING_LIST_ENTRY_FILE_PATH, 'r') as reading_list_entry:
             contents = yaml.load(reading_list_entry)
-            last_updated = time.ctime(os.path.getmtime(READING_LIST_ENTRY_FILE_PATH))
-
-            chalk.blue("Your awesome reading list")
-            chalk.blue("Last updated: " + last_updated)
-
             contents = dict(contents)
-            print_rlist(contents)
-            # click.echo("Read something? Enter id")
+            last_updated = time.ctime(os.path.getmtime(READING_LIST_ENTRY_FILE_PATH))
+            query = opts[1]
+            params = opts[0]
+            search = ''
 
-            # key = int(get_input())
-            # if key in range(1, len(contents['entries'])+1):
-            #     article = contents['entries'][key-1]
-            #     read_from_rlist(article)
-            # else:
-            #     click.echo("That is why you fail.")
+            if query != 'None':
+                search = "(filtered by " + params + ": " + query + ")"
+                filtered_contents = [ article for article in contents['entries'] if is_in_params(params, query, article) ]
+                contents = dict(entries=filtered_contents)
+
+
+            chalk.blue("Your awesome reading list " + search)
+            chalk.blue("Last updated: " + last_updated)
+            print_rlist(contents)
     else:
-        empty_list_promt()
+        empty_list_prompt()
 
 # add anything to the reading list
 
-def add_to_rlist():
+
+def add_to_rlist(query=""):
     chalk.blue("Title of the article:")
     _title = get_input()
     while len(_title) == 0:
@@ -119,21 +139,39 @@ def add_to_rlist():
 
     chalk.blue("Added " + _title + " to your reading list!")
 
-# command checker
+# the rlist process
 
 
-def check_sub_command(c):
-    sub_commands = {
-        'rlist': rlist,
-        'ra': add_to_rlist,
+@life.command()
+@click.argument('subcommand', nargs=1)
+@click.option('--params', nargs=1, required=False, default="tags")
+@click.argument('query', nargs=1, required=False)
+def rlist(subcommand, params, query):
+    '''
+        Reading list for your daily life
+
+        yoda rlist {ACTION}
+
+        ACTION:
+
+            view [--params="tags"] [query]: view your reading list
+
+                params: reading list parameter to be filtered (defaults to tags)
+
+                query: keyword to be searched
+
+            add: add something to your reading list
+    '''
+    subcommand = str(subcommand)
+    params = str(params)
+    query = str(query)
+    opts = (params, query) if params and query else ()
+    subcommands = {
+        'view': view_rlist,
+        'add': add_to_rlist,
     }
-
-    return sub_commands[c]()
-
-# the main process
-
-
-def process(input):
-    input = input.lower().strip()
-    check_sub_command(input)
-
+    try:
+        subcommands[subcommand](opts)
+    except KeyError:
+        chalk.red("Command " + subcommand  + " does not exist!")
+        click.echo("Try 'yoda rlist --help' for more info'")
