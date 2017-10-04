@@ -15,12 +15,19 @@ request.session_id = os.environ.get(
 
 
 def process(input):
-    # click.echo(chalk.blue('you are in chat module'))
-    # click.echo('input = %s' % input)
     request.query = input
-    # click.echo('output: ')
+
+    click.echo('Getting response...')
+
+    # -Get response of input from ApiAI
     response = request.getresponse().read()
     output = json.loads(response)
+    # --error handling for ApiAI request
+    if output['status']['errorType'] != 'success':
+        click.echo(click.style('An error occurred requesting response from ApiAI', bg = 'white', fg = 'red'))
+        return
+
+    # -Convert response to yoda-speak
     answer = output["result"]["fulfillment"]["speech"]
     response = unirest.get("https://yoda.p.mashape.com/yoda?sentence=" + answer,
         headers={
@@ -28,9 +35,10 @@ def process(input):
             "Accept": "text/plain"
         }
     )
-    if output['status']['errorType'] == 'success':
-        chalk.blue('Yoda speaks:',)
-        click.echo(response.body)
-        # click.echo(emoji.emojize('The yoda is :fire:'))
-    else:
-        click.echo('some error')
+    # --error handling for heroku request
+    if response.code == 503:
+        click.echo(click.style('An error occurred requesting response from speech conversion', bg = 'white', fg = 'red'))
+        return
+
+    # -Print out final reponse
+    click.echo(click.style('Yoda says: {}'.format(response.body), fg = 'green'))
