@@ -40,32 +40,32 @@ def decrypt_password():
 
 
 def new():
-    chalk.blue('Tell me your name, yoda:')
+    chalk.blue('Enter your name:')
     name = raw_input().strip()
     while len(name) == 0:
-        chalk.red("You entered nothing, yoda!")
-        chalk.blue('Tell me your name, yoda:')
+        chalk.red("You entered nothing!")
+        chalk.blue('Enter your name:')
         name = raw_input().strip()
 
-    chalk.blue('What\'s your email id, yoda?')
+    chalk.blue('What\'s your email id?')
     email = raw_input().strip()
     email_validator = lepl.apps.rfc3696.Email()
     while not email_validator(email):
-        chalk.red("Invalid email, yoda!")
-        chalk.blue('What\'s your email id, yoda?')
+        chalk.red("Invalid email ID!")
+        chalk.blue('What\'s your email id?')
         email = raw_input().strip()
 
-    chalk.blue('What\'s your github username, yoda?')
+    chalk.blue('What\'s your github username?')
     gh_username = raw_input().strip()
     while len(gh_username) == 0:
-        chalk.red("You entered nothing, yoda!")
-        chalk.blue('What\'s your github username, yoda?')
+        chalk.red("You entered nothing!")
+        chalk.blue('What\'s your github username?')
         gh_username = raw_input().strip()
 
     chalk.blue('Enter your github password:')
     gh_password = getpass.getpass()
     while len(gh_password) == 0:
-        chalk.red("You entered nothing, yoda!")
+        chalk.red("You entered nothing!")
         chalk.blue('Enter your github password:')
         gh_password = getpass.getpass()
     # let's encrypt our password
