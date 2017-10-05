@@ -19,6 +19,7 @@ setup(
         'PyGithub',
         'unirest'
     ],
+    data_files=[('resources', 'resources/*')],
     entry_points='''
         [console_scripts]
         yoda=yoda:cli
