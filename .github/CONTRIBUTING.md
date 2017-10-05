@@ -11,7 +11,7 @@ Firstly, thanks for taking the time to contribute! :grin:
 ### Feature suggestions / bug reports
 You can contribute to this project by suggesting features or filing bugs by creating an issue [here](https://github.com/yoda-pa/yoda/issues/new).
 ### Writing code
-If you are interested in contributing by writing code, you can do so by implementing the features listed in [the TODO file](TODO.md).  
+If you are interested in contributing by writing code, you can do so by implementing the features listed in [the TODO file](../TODO.md).  
 #### Structure
 ```sh
 ├── modules/         # home for various features
