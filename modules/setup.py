@@ -3,13 +3,15 @@ import chalk
 import getpass
 import lepl.apps.rfc3696
 import yaml
+import errno
 import os.path
 from Crypto.Cipher import AES
 import string
 import random
-from config import config_file_paths
+from config import get_config_file_paths
+from config import update_config_path
 
-CONFIG_FILE_PATH = config_file_paths['CONFIG_FILE_PATH']
+CONFIG_FILE_PATH = get_config_file_paths()['USER_CONFIG_FILE_PATH']
 
 # used to generate key and IV456 for Crypto
 
@@ -40,32 +42,32 @@ def decrypt_password():
 
 
 def new():
-    chalk.blue('Tell me your name, yoda:')
+    chalk.blue('Enter your name:')
     name = raw_input().strip()
     while len(name) == 0:
-        chalk.red("You entered nothing, yoda!")
-        chalk.blue('Tell me your name, yoda:')
+        chalk.red("You entered nothing!")
+        chalk.blue('Enter your name:')
         name = raw_input().strip()
 
-    chalk.blue('What\'s your email id, yoda?')
+    chalk.blue('What\'s your email id?')
     email = raw_input().strip()
     email_validator = lepl.apps.rfc3696.Email()
     while not email_validator(email):
-        chalk.red("Invalid email, yoda!")
-        chalk.blue('What\'s your email id, yoda?')
+        chalk.red("Invalid email ID!")
+        chalk.blue('What\'s your email id?')
         email = raw_input().strip()
 
-    chalk.blue('What\'s your github username, yoda?')
+    chalk.blue('What\'s your github username?')
     gh_username = raw_input().strip()
     while len(gh_username) == 0:
-        chalk.red("You entered nothing, yoda!")
-        chalk.blue('What\'s your github username, yoda?')
+        chalk.red("You entered nothing!")
+        chalk.blue('What\'s your github username?')
         gh_username = raw_input().strip()
 
     chalk.blue('Enter your github password:')
     gh_password = getpass.getpass()
     while len(gh_password) == 0:
-        chalk.red("You entered nothing, yoda!")
+        chalk.red("You entered nothing!")
         chalk.blue('Enter your github password:')
         gh_password = getpass.getpass()
     # let's encrypt our password
@@ -74,6 +76,19 @@ def new():
 
     encrypted_gh_password = encrypt_password(
         cipher_key, cipher_IV456, gh_password)
+
+    chalk.blue('Where shall your config be stored? (Default: ~/.yoda/)')
+    # because os.path.isdir doesn't expand ~
+    config_path = os.path.expanduser(raw_input().strip())
+    while not os.path.isdir(config_path):
+        if len(config_path) == 0:
+            break
+        chalk.red('Path doesn\'t exist, yoda!')
+        chalk.blue('Where shall your config be stored? (Default: ~/.yoda/)')
+        config_path = os.path.expanduser(raw_input().strip())
+
+    update_config_path(config_path)
+    CONFIG_FILE_PATH = get_config_file_paths()['USER_CONFIG_FILE_PATH']
 
     setup_data = dict(
         name=name,

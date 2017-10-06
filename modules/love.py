@@ -1,10 +1,10 @@
 import click
 import chalk
-from config import config_file_paths
+from config import get_config_file_paths
 from util import *
 
 # config file path
-LOVE_CONFIG_FILE_PATH = config_file_paths["LOVE_CONFIG_FILE_PATH"]
+LOVE_CONFIG_FILE_PATH = get_config_file_paths()["LOVE_CONFIG_FILE_PATH"]
 LOVE_CONFIG_FOLDER_PATH = get_folder_path_from_file_path(LOVE_CONFIG_FILE_PATH)
 LOVE_NOTES_FILE_PATH = LOVE_CONFIG_FOLDER_PATH + '/notes.yaml'
 

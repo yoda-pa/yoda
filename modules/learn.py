@@ -2,7 +2,7 @@ import click
 import chalk
 import random
 from util import *
-from config import config_file_paths
+from config import get_config_file_paths
 import time
 import datetime
 import requests
@@ -21,7 +21,7 @@ def learn():
 
 
 # config file path
-VOCABULARY_CONFIG_FILE_PATH = config_file_paths["VOCABULARY_CONFIG_FILE_PATH"]
+VOCABULARY_CONFIG_FILE_PATH = get_config_file_paths()["VOCABULARY_CONFIG_FILE_PATH"]
 VOCABULARY_CONFIG_FOLDER_PATH = get_folder_path_from_file_path(
     VOCABULARY_CONFIG_FILE_PATH)
 
@@ -128,7 +128,7 @@ def vocabulary(input):
 
 # ----------------------- flashcards code -----------------------#
 # config file path
-FLASHCARDS_CONFIG_FILE_PATH = config_file_paths["FLASHCARDS_CONFIG_FILE_PATH"]
+FLASHCARDS_CONFIG_FILE_PATH = get_config_file_paths()["FLASHCARDS_CONFIG_FILE_PATH"]
 FLASHCARDS_CONFIG_FOLDER_PATH = get_folder_path_from_file_path(
     FLASHCARDS_CONFIG_FILE_PATH)
 

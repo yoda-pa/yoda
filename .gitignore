@@ -90,3 +90,5 @@ ENV/
 
 # Editor files
 *~
+
+.idea/
