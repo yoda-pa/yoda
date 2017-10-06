@@ -1,11 +1,13 @@
 import click
 import chalk
+import os
+import yaml
 from config import get_config_file_paths
-from util import *
+import util
 
 # config file path
 LOVE_CONFIG_FILE_PATH = get_config_file_paths()["LOVE_CONFIG_FILE_PATH"]
-LOVE_CONFIG_FOLDER_PATH = get_folder_path_from_file_path(LOVE_CONFIG_FILE_PATH)
+LOVE_CONFIG_FOLDER_PATH = util.get_folder_path_from_file_path(LOVE_CONFIG_FILE_PATH)
 LOVE_NOTES_FILE_PATH = LOVE_CONFIG_FOLDER_PATH + '/notes.yaml'
 
 # append data into existing file
@@ -37,9 +39,9 @@ def status():
 
 
 def setup():
-    create_folder(LOVE_CONFIG_FOLDER_PATH)
+    util.create_folder(LOVE_CONFIG_FOLDER_PATH)
 
-    if ask_overwrite(LOVE_CONFIG_FILE_PATH):
+    if util.ask_overwrite(LOVE_CONFIG_FILE_PATH):
         return
 
     chalk.blue('Enter their name:')
@@ -57,7 +59,7 @@ def setup():
         sex=sex
     )
 
-    input_data(setup_data, LOVE_CONFIG_FILE_PATH)
+    util.input_data(setup_data, LOVE_CONFIG_FILE_PATH)
 
 
 def note():
@@ -74,7 +76,7 @@ def note():
                 )
             ]
         )
-        input_data(data, LOVE_NOTES_FILE_PATH)
+        util.input_data(data, LOVE_NOTES_FILE_PATH)
 
 
 def notes():

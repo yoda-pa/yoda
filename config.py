@@ -32,12 +32,21 @@ def get_config_file_paths():
         config_path_prefix = DEFAULT_CONFIG_PATH
 
     return {
-        "USER_CONFIG_FILE_PATH":       os.path.join(config_path_prefix, '.userconfig.yml'),
-        "LOVE_CONFIG_FILE_PATH":       os.path.join(config_path_prefix, 'love/.loveconfig.yml'),
-        "MONEY_CONFIG_FILE_PATH":      os.path.join(config_path_prefix, 'money/.moneyconfig.yml'),
-        "DIARY_CONFIG_FILE_PATH":      os.path.join(config_path_prefix, 'diary/.diaryconfig.yml'),
-        "VOCABULARY_CONFIG_FILE_PATH": os.path.join(config_path_prefix, 'vocabulary/.vocabularyconfig.yml'),
-        "FLASHCARDS_CONFIG_FILE_PATH": os.path.join(config_path_prefix, 'flashcards/.flashcardsconfig.yml')
-    }
-
-
+        "USER_CONFIG_FILE_PATH": os.path.join(
+            config_path_prefix,
+            '.userconfig.yml'),
+        "LOVE_CONFIG_FILE_PATH": os.path.join(
+            config_path_prefix,
+            'love/.loveconfig.yml'),
+        "MONEY_CONFIG_FILE_PATH": os.path.join(
+            config_path_prefix,
+            'money/.moneyconfig.yml'),
+        "DIARY_CONFIG_FILE_PATH": os.path.join(
+            config_path_prefix,
+            'diary/.diaryconfig.yml'),
+        "VOCABULARY_CONFIG_FILE_PATH": os.path.join(
+            config_path_prefix,
+            'vocabulary/.vocabularyconfig.yml'),
+        "FLASHCARDS_CONFIG_FILE_PATH": os.path.join(
+            config_path_prefix,
+            'flashcards/.flashcardsconfig.yml')}

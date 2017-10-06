@@ -16,14 +16,22 @@ CONFIG_FILE_PATH = get_config_file_paths()['USER_CONFIG_FILE_PATH']
 # used to generate key and IV456 for Crypto
 
 
-def cypher_pass_generator(size=16, chars=string.ascii_uppercase + string.digits):
+def cypher_pass_generator(
+        size=16,
+        chars=string.ascii_uppercase +
+        string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
 
 # to encrypt the password
 
 
 def encrypt_password(cipher_key, cipher_IV456, password):
-    return AES.new(cipher_key, AES.MODE_CBC, cipher_IV456).encrypt(password * 16)
+    return AES.new(
+        cipher_key,
+        AES.MODE_CBC,
+        cipher_IV456).encrypt(
+        password *
+        16)
 
 # to decrypt the password from the cipher text. written to test the
 # functionality of pycrypto

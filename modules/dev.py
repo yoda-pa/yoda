@@ -3,7 +3,6 @@ import chalk
 import pyspeedtest
 import requests
 import json
-from util import *
 
 GOOGLE_URL_SHORTENER_API_KEY = "AIzaSyCBAXe-kId9UwvOQ7M2cLYR7hyCpvfdr7w"
 
@@ -39,11 +38,14 @@ def speedtest():
 
 
 def url_shorten(url):
-    r = requests.post('https://www.googleapis.com/urlshortener/v1/url?key=' + GOOGLE_URL_SHORTENER_API_KEY, data=json.dumps({
-        'longUrl': url
-    }), headers={
-        'Content-Type': 'application/json'
-    })
+    r = requests.post(
+        'https://www.googleapis.com/urlshortener/v1/url?key=' +
+        GOOGLE_URL_SHORTENER_API_KEY,
+        data=json.dumps(
+            {
+                'longUrl': url}),
+        headers={
+            'Content-Type': 'application/json'})
     data = r.json()
     response = 'Here\'s your shortened URL:\n' + data['id']
     click.echo(response)

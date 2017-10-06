@@ -50,15 +50,19 @@ def tuple_to_string(input):
             test_string += (i + ' ')
         return test_string.lower().strip()
 
+
 # replaces spaces in text with colons
 def spaces_to_colons(s):
     return '-'.join(s.split(' '))
+
 
 # replaces colons in text with spaces
 def colons_to_spaces(s):
     return ' '.join(s.split('-'))
 
+
 command = ['tput', 'cols']
+
 
 def get_terminal_width():
     try:
