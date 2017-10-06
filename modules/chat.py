@@ -19,3 +19,4 @@ def process(input_string):
     answer = output["result"]["fulfillment"]["speech"]
     chalk.blue('Yoda speaks:')
     click.echo(answer)
+    return answer
