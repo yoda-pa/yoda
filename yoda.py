@@ -1,9 +1,8 @@
 import click
-import chalk
 import sys
 import os
 sys.path.insert(1, os.getcwd())
-from modules import *
+import modules
 
 
 @click.group()
@@ -29,7 +28,7 @@ def git(input):
         test_string = ''
         for i in input:
             test_string += (i + ' ')
-        data = sys.modules['modules.git'].process(test_string)
+        sys.modules['modules.git'].process(test_string)
     else:
         click.echo('No input specified. Run with --help for info')
 
@@ -47,15 +46,15 @@ def chat(input):
         test_string = ''
         for i in input:
             test_string += (i + ' ')
-        data = sys.modules['modules.chat'].process(test_string)
+        sys.modules['modules.chat'].process(test_string)
     else:
         click.echo('No input specified. Run with --help for info')
 
 
 # The devtools module
-cli.add_command(dev.dev)
-cli.add_command(dev.speedtest)
-cli.add_command(dev.url)
+cli.add_command(modules.dev.dev)
+cli.add_command(modules.dev.speedtest)
+cli.add_command(modules.dev.url)
 
 # family
 
@@ -68,7 +67,7 @@ def family(input):
         test_string = ''
         for i in input:
             test_string += (i + ' ')
-        data = sys.modules['modules.family'].process(test_string)
+        sys.modules['modules.family'].process(test_string)
     else:
         click.echo('No input specified. Run with --help for info')
 
@@ -83,7 +82,7 @@ def love(input):
         test_string = ''
         for i in input:
             test_string += (i + ' ')
-        data = sys.modules['modules.love'].process(test_string)
+        sys.modules['modules.love'].process(test_string)
     else:
         click.echo('No input specified. Run with --help for info')
 
@@ -107,7 +106,7 @@ def diary(input):
         test_string = ''
         for i in input:
             test_string += (i + ' ')
-        data = sys.modules['modules.diary'].process(test_string)
+        sys.modules['modules.diary'].process(test_string)
     else:
         click.echo('No input specified. Run with --help for info')
 
@@ -128,16 +127,16 @@ def money(input):
         test_string = ''
         for i in input:
             test_string += (i + ' ')
-        data = sys.modules['modules.money'].process(test_string)
+        sys.modules['modules.money'].process(test_string)
     else:
         click.echo('No input specified. Run with --help for info')
 
 
 # The learn module
-cli.add_command(learn.learn)
-cli.add_command(learn.vocabulary)
-cli.add_command(learn.flashcards)
-cli.add_command(learn.define)
+cli.add_command(modules.learn.learn)
+cli.add_command(modules.learn.vocabulary)
+cli.add_command(modules.learn.flashcards)
+cli.add_command(modules.learn.define)
 
 # health
 
@@ -150,7 +149,7 @@ def health(input):
         test_string = ''
         for i in input:
             test_string += (i + ' ')
-        data = sys.modules['modules.health'].process(test_string)
+        sys.modules['modules.health'].process(test_string)
     else:
         click.echo('No input specified. Run with --help for info')
 
@@ -165,7 +164,7 @@ def fashion(input):
         test_string = ''
         for i in input:
             test_string += (i + ' ')
-        data = sys.modules['modules.fashion'].process(test_string)
+        sys.modules['modules.fashion'].process(test_string)
     else:
         click.echo('No input specified. Run with --help for info')
 
@@ -180,9 +179,10 @@ def setup(input):
         test_string = ''
         for i in input:
             test_string += (i + ' ')
-        data = sys.modules['modules.setup'].process(test_string)
+        sys.modules['modules.setup'].process(test_string)
     else:
         click.echo('No input specified. Run with --help for info')
+
 
 # feedback
 @cli.command()

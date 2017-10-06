@@ -1,12 +1,12 @@
 import click
 import chalk
 import random
-from util import *
+import util
 from config import get_config_file_paths
 import time
 import datetime
 import requests
-from os import listdir
+import os
 import pkgutil
 # the main process
 
@@ -21,8 +21,9 @@ def learn():
 
 
 # config file path
-VOCABULARY_CONFIG_FILE_PATH = get_config_file_paths()["VOCABULARY_CONFIG_FILE_PATH"]
-VOCABULARY_CONFIG_FOLDER_PATH = get_folder_path_from_file_path(
+VOCABULARY_CONFIG_FILE_PATH = get_config_file_paths()[
+    "VOCABULARY_CONFIG_FILE_PATH"]
+VOCABULARY_CONFIG_FOLDER_PATH = util.get_folder_path_from_file_path(
     VOCABULARY_CONFIG_FILE_PATH)
 
 # getting words
@@ -51,12 +52,9 @@ def random_word():
     # check if the user knows about this word or not
     result = raw_input('Did you know / remember the meaning?\n')
     correct = 0
-    incorrect = 0
     if result == 'y' or result == 'yes':
         correct = 1
-    else:
-        incorrect = 1
-    create_folder(VOCABULARY_CONFIG_FOLDER_PATH)
+    util.create_folder(VOCABULARY_CONFIG_FOLDER_PATH)
     with open(VOCABULARY_CONFIG_FOLDER_PATH + '/results.txt', 'a') as fp:
         timestamp = datetime.datetime.fromtimestamp(
             time.time()).strftime('%Y-%m-%d %H:%M:%S')
@@ -121,22 +119,25 @@ def vocabulary(input):
         word: get a random word\n
         accuracy: view your progress
     """
-    input = tuple_to_string(input)
+    input = util.tuple_to_string(input)
     check_sub_command_vocab(input)
 # ----------------------- / vocabulary code -----------------------#
 
 
 # ----------------------- flashcards code -----------------------#
 # config file path
-FLASHCARDS_CONFIG_FILE_PATH = get_config_file_paths()["FLASHCARDS_CONFIG_FILE_PATH"]
-FLASHCARDS_CONFIG_FOLDER_PATH = get_folder_path_from_file_path(
+FLASHCARDS_CONFIG_FILE_PATH = get_config_file_paths()[
+    "FLASHCARDS_CONFIG_FILE_PATH"]
+FLASHCARDS_CONFIG_FOLDER_PATH = util.get_folder_path_from_file_path(
     FLASHCARDS_CONFIG_FILE_PATH)
+
 
 def get_selected_set():
     if os.path.isfile(FLASHCARDS_CONFIG_FOLDER_PATH + '/selected_study_set'):
         with open(FLASHCARDS_CONFIG_FOLDER_PATH + '/selected_study_set') as fp:
             lines = fp.read().split('\n')
             return lines[0].strip()
+
 
 SELECTED_STUDY_SET = get_selected_set()
 # ----- functions for sets -----
@@ -172,7 +173,7 @@ def get_set_descriptions():
 
 def list_sets_fc(dummy):
     sets = get_set_statuses()
-    descriptions = get_set_descriptions()
+    # descriptions = get_set_descriptions()
     if not sets:
         chalk.red(
             'There are no sets right now. Type "yoda flashcards sets new <name>" to create one')
@@ -201,7 +202,7 @@ def new_set_fc(name):
             sets = get_set_statuses()
             if not sets:
                 # there is no file, so create one
-                create_folder(FLASHCARDS_CONFIG_FOLDER_PATH)
+                util.create_folder(FLASHCARDS_CONFIG_FOLDER_PATH)
 
                 description = raw_input('Enter a description:\n')
 
@@ -213,7 +214,7 @@ def new_set_fc(name):
                     if (sets[name] != 0 and sets[name] != 1):
                         chalk.red('Set already exists')
                 except KeyError:
-                    create_folder(FLASHCARDS_CONFIG_FOLDER_PATH)
+                    util.create_folder(FLASHCARDS_CONFIG_FOLDER_PATH)
 
                     description = raw_input('Enter a description:\n')
 
@@ -221,7 +222,7 @@ def new_set_fc(name):
                         fp.write('{}-{}-{}\n'.format(name, 1, description))
 
                     # create folder for the set to add cards to it
-                    create_folder(FLASHCARDS_CONFIG_FOLDER_PATH + '/' + name)
+                    util.create_folder(FLASHCARDS_CONFIG_FOLDER_PATH + '/' + name)
 
                     chalk.red('Set added')
     else:
@@ -230,7 +231,7 @@ def new_set_fc(name):
 
 def modify_set_fc_util(name, new_name):
     sets = get_set_statuses()
-    descriptions = get_set_descriptions()
+    # descriptions = get_set_descriptions()
     # delete existing file
     os.remove(FLASHCARDS_CONFIG_FOLDER_PATH + '/sets.txt')
     for set in sets:
@@ -240,7 +241,8 @@ def modify_set_fc_util(name, new_name):
 
 
 def modify_set_fc_description(name, new_name):
-    descriptions = get_set_descriptions()
+    sets = get_set_statuses()
+    # descriptions = get_set_descriptions()
     # delete existing file
     os.remove(FLASHCARDS_CONFIG_FOLDER_PATH + '/sets.txt')
     for set in sets:
@@ -263,8 +265,8 @@ def modify_set_fc(name):
             chalk.blue(
                 'Edit a new name for this set: (If you wish to keep it the same, just type a single \'-\' without the quotes)')
             new_name = raw_input().strip()
-            if not (new_name == None or new_name == '-' or new_name == ''):
-                modify_set_fc_name(name, new_name)
+            if not (new_name is None or new_name == '-' or new_name == ''):
+                util.modify_set_fc_name(name, new_name)
                 modify_set_fc_description(name, new_name)
                 print('The name was modified from \'' +
                       name + '\' to \'' + new_name + '\'')
@@ -274,7 +276,7 @@ def modify_set_fc(name):
 
 def select_set_fc(name):
     sets = get_set_statuses()
-    descriptions = get_set_descriptions()
+    # descriptions = get_set_descriptions()
     if not sets:
         chalk.red(
             'There are no sets right now. Type "yoda flashcards sets new <name>" to create one')
@@ -321,12 +323,15 @@ def add_card_fc(name):
             description += ('\n' + x)
 
         description = description.strip()
-        create_folder(FLASHCARDS_CONFIG_FOLDER_PATH + '/' + SELECTED_STUDY_SET)
+        util. create_folder(FLASHCARDS_CONFIG_FOLDER_PATH + '/' + SELECTED_STUDY_SET)
 
-        filename = spaces_to_colons(''.join(e for e in name if (e.isalnum() or e == ' ')))
+        filename = util.spaces_to_colons(
+            ''.join(
+                e for e in name if (
+                    e.isalnum() or e == ' ')))
 
         with open(FLASHCARDS_CONFIG_FOLDER_PATH + '/' + SELECTED_STUDY_SET + '/' + filename + '.txt', 'a') as fp:
-            fp.write(colons_to_spaces(filename) + '\n')
+            fp.write(util.colons_to_spaces(filename) + '\n')
             fp.write(description)
     else:
         chalk.red('No set selected')
@@ -352,7 +357,8 @@ def status_fc(set, dummy):
         description = get_set_descriptions()[SELECTED_STUDY_SET]
         click.echo('Selected set: ' + SELECTED_STUDY_SET)
         click.echo('Description: ' + description)
-        cards_in_selected_set = str(len(listdir(FLASHCARDS_CONFIG_FOLDER_PATH + '/' + SELECTED_STUDY_SET)))
+        cards_in_selected_set = str(
+            len(os.listdir(FLASHCARDS_CONFIG_FOLDER_PATH + '/' + SELECTED_STUDY_SET)))
         click.echo('No. of cards in selected set: ' + cards_in_selected_set)
 
 
@@ -363,19 +369,21 @@ def study_fc(set, dummy):
         description = get_set_descriptions()[SELECTED_STUDY_SET]
         click.echo('Selected set: ' + SELECTED_STUDY_SET)
         click.echo('Description: ' + description)
-        cards_in_selected_set = listdir(FLASHCARDS_CONFIG_FOLDER_PATH + '/' + SELECTED_STUDY_SET)
+        cards_in_selected_set = os.listdir(
+            FLASHCARDS_CONFIG_FOLDER_PATH + '/' + SELECTED_STUDY_SET)
         len_cards_in_selected_set = len(cards_in_selected_set)
-        width = get_terminal_width()
+        width = util.get_terminal_width()
         if len_cards_in_selected_set == 0:
             chalk.red('There are no cards in this set!')
         else:
             i = 0
             chalk.blue('Cards:')
-            chalk.blue('_'*width)
+            chalk.blue('_' * width)
             for card in cards_in_selected_set:
                 i += 1
 
-                card_path = FLASHCARDS_CONFIG_FOLDER_PATH + '/' + SELECTED_STUDY_SET + '/' + card
+                card_path = FLASHCARDS_CONFIG_FOLDER_PATH + \
+                    '/' + SELECTED_STUDY_SET + '/' + card
                 with open(card_path) as fp:
                     name = None
                     description = ''
@@ -387,11 +395,11 @@ def study_fc(set, dummy):
                             description += (line + '\n')
                 description = description.strip()
                 if i > 0:
-                    click.echo('-'*width)
+                    click.echo('-' * width)
                 click.echo(str(i) + ': ' + name)
-                click.echo('='*width)
+                click.echo('=' * width)
                 click.echo(description)
-                click.echo('='*width)
+                click.echo('=' * width)
                 if i < len_cards_in_selected_set:
                     raw_input('Press Enter to continue to next card')
 
@@ -418,7 +426,7 @@ def flashcards(domain, action, name):
     """
     domain = str(domain)
     action = str(action)
-    name = tuple_to_string(name)
+    name = util.tuple_to_string(name)
     domains = {
         'cards': check_sub_command_cards_flashcards,
         'sets': check_sub_command_sets_flashcards,
@@ -440,33 +448,44 @@ def define(word):
         Get the meaning of a word
     """
     word = str(word)
-    r = requests.get('https://wordsapiv1.p.mashape.com/words/' + word + '/definitions', headers={
-        'X-Mashape-Key': 'Yq72o8odIlmshPTjxnTMN1xixyy5p1lgtd0jsn2NsJfn7pflhR',
-        "Accept": "application/json"
-    })
-    data = r.json()    #output['output'] = TextTemplate('Definition of ' + word + ':\n' + data['definitions'][0]['definition']).get_message()
+    r = requests.get(
+        'https://wordsapiv1.p.mashape.com/words/' +
+        word +
+        '/definitions',
+        headers={
+            'X-Mashape-Key': 'Yq72o8odIlmshPTjxnTMN1xixyy5p1lgtd0jsn2NsJfn7pflhR',
+            "Accept": "application/json"})
+    # output['output'] = TextTemplate('Definition of ' + word + ':\n' + data['definitions'][0]['definition']).get_message()
+    data = r.json()
 
     try:
         word = data['word']
         posted = False
         if len(data['definitions']):
             if not posted:
-                chalk.blue('A few definitions of the word "' + word + '" with their parts of speech are given below:')
+                chalk.blue(
+                    'A few definitions of the word "' +
+                    word +
+                    '" with their parts of speech are given below:')
                 click.echo('---------------------------------')
                 posted = True
 
             for definition in data['definitions']:
-                print(definition['partOfSpeech'] + ': ' + definition['definition'])
+                print(definition['partOfSpeech'] +
+                      ': ' + definition['definition'])
 
         # if this word is not in the vocabulary list, add to it!
         if posted:
             words = get_words_list()
             if word in words:
-                chalk.blue('This word already exists in the vocabulary set, so you can practice it while using that')
+                chalk.blue(
+                    'This word already exists in the vocabulary set, so you can practice it while using that')
             else:
                 with open('resources/vocab-words.txt', 'a') as fp:
-                    fp.write('{} - {}\n'.format(word, data['definitions'][0]['definition']))
-                chalk.blue('This word does not exist in the vocabulary set, so it has been added to it so that you can practice it while using that')
+                    fp.write('{} - {}\n'.format(word,
+                                                data['definitions'][0]['definition']))
+                chalk.blue(
+                    'This word does not exist in the vocabulary set, so it has been added to it so that you can practice it while using that')
         else:
             chalk.red('Sorry, no definitions were found for this word')
     except KeyError:

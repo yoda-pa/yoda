@@ -5,14 +5,14 @@ import os.path
 from os import listdir
 import time
 import yaml
-from util import *
+import util
 import calendar
 import datetime
 
 
 # config file path
 DIARY_CONFIG_FILE_PATH = get_config_file_paths()['DIARY_CONFIG_FILE_PATH']
-DIARY_CONFIG_FOLDER_PATH = get_folder_path_from_file_path(
+DIARY_CONFIG_FOLDER_PATH = util.get_folder_path_from_file_path(
     DIARY_CONFIG_FILE_PATH)
 
 # get time
@@ -47,12 +47,7 @@ TODAYS_NOTES_ENTRY_FILE_PATH = todays_notes_entry_file_path()
 
 
 def today_entry_check():
-    if not os.path.exists(DIARY_CONFIG_FOLDER_PATH):
-        try:
-            os.makedirs(DIARY_CONFIG_FOLDER_PATH)
-        except OSError as exc:  # Guard against race condition
-            if exc.errno != errno.EEXIST:
-                raise
+    util.create_folder(DIARY_CONFIG_FOLDER_PATH)
 
 # append data into existing file
 
@@ -96,7 +91,7 @@ def new_task():
                 )
             ]
         )
-        input_data(setup_data, TODAYS_TASKS_ENTRY_FILE_PATH)
+        util.input_data(setup_data, TODAYS_TASKS_ENTRY_FILE_PATH)
 
 
 def new_note():
@@ -106,7 +101,7 @@ def new_note():
     note = raw_input().strip()
 
     if os.path.isfile(TODAYS_NOTES_ENTRY_FILE_PATH):
-        with open(TODAYS_NOTES_ENTRY_FILE_PATH, "r") as todays_notes_entry:
+        with open(TODAYS_NOTES_ENTRY_FILE_PATH, "r"):
             setup_data = dict(
                 time=now_time(),
                 text=note
@@ -121,7 +116,7 @@ def new_note():
                 )
             ]
         )
-        input_data(setup_data, TODAYS_NOTES_ENTRY_FILE_PATH)
+        util.input_data(setup_data, TODAYS_NOTES_ENTRY_FILE_PATH)
 
 # strikethrough text
 
@@ -192,21 +187,22 @@ def complete_task():
                     time = entry['time']
                     text = entry['text'] if entry['status'] == 0 else strike(
                         entry['text'])
-                    status = "O" if entry['status'] == 0 else "X"
+                    # status = "O" if entry['status'] == 0 else "X"
                     if entry['status'] == 0:
                         no_task_left = False
                         click.echo("   " + str(i) + "   | " +
                                    time + ": " + text)
-		while not_valid_task_number :
-                	chalk.blue(
-                    	'Enter the task number that you would like to set as completed')
-                	task_to_be_completed = int(raw_input())
-			if(task_to_be_completed > len(contents['entries'])):
-			 	chalk.red('Please Enter a valid task number!')
-			else:
-				contents['entries'][task_to_be_completed - 1]['status'] = 1
-                		input_data(contents, TODAYS_TASKS_ENTRY_FILE_PATH)
-				not_valid_task_number = 0
+                while not_valid_task_number:
+                    chalk.blue(
+                        'Enter the task number that you would like to set as completed')
+                    task_to_be_completed = int(raw_input())
+                    if(task_to_be_completed > len(contents['entries'])):
+                        chalk.red('Please Enter a valid task number!')
+                    else:
+                        contents['entries'][task_to_be_completed -
+                                            1]['status'] = 1
+                        util.input_data(contents, TODAYS_TASKS_ENTRY_FILE_PATH)
+                        not_valid_task_number = 0
     else:
         chalk.red(
             'There are no tasks for today. Add a new task by entering "yoda diary nt"')
@@ -258,10 +254,15 @@ def process(input):
 
 # list of all tasks files
 
+
 def list_of_tasks_files():
     current_month = time.strftime("%m")
     current_year = time.strftime("%Y")
-    files = [f for f in listdir(DIARY_CONFIG_FOLDER_PATH) if os.path.isfile(os.path.join(DIARY_CONFIG_FOLDER_PATH,f))]
+    files = [
+        f for f in listdir(DIARY_CONFIG_FOLDER_PATH) if os.path.isfile(
+            os.path.join(
+                DIARY_CONFIG_FOLDER_PATH,
+                f))]
     list_of_files = []
     for i in files:
         x = i[3:16].split('-')
@@ -271,23 +272,27 @@ def list_of_tasks_files():
 
 # current month task analysis
 
+
 def current_month_task_analysis():
     now = datetime.datetime.now()
-    no_of_days_current_month = calendar.monthrange(now.year,now.month)[1]
+    no_of_days_current_month = calendar.monthrange(now.year, now.month)[1]
     total_tasks = 0
     total_incomplete_tasks = 0
     list_of_files = list_of_tasks_files()
-    for i in range(0,len(list_of_files)):
-        list_of_files[i] = os.path.join(DIARY_CONFIG_FOLDER_PATH,list_of_files[i])
+    for i in range(0, len(list_of_files)):
+        list_of_files[i] = os.path.join(
+            DIARY_CONFIG_FOLDER_PATH, list_of_files[i])
     for i in list_of_files:
-        with open(i,'r') as fp:
+        with open(i, 'r') as fp:
             contents = yaml.load(fp)
             for entry in contents['entries']:
                 total_tasks += 1
                 total_incomplete_tasks += (1 if entry['status'] == 0 else 0)
-    percent_incomplete_task = total_incomplete_tasks*100/total_tasks
+    percent_incomplete_task = total_incomplete_tasks * 100 / total_tasks
     percent_complete_task = 100 - percent_incomplete_task
-    entry_frequency = total_tasks*100/no_of_days_current_month
-    chalk.red('Percentage of incomplete task : '+ str(percent_incomplete_task))
-    chalk.green('Percentage of complete task : '+ str(percent_complete_task))
-    chalk.blue("Frequency of adding task (Task/Day) : "+ str(entry_frequency))
+    entry_frequency = total_tasks * 100 / no_of_days_current_month
+    chalk.red(
+        'Percentage of incomplete task : ' +
+        str(percent_incomplete_task))
+    chalk.green('Percentage of complete task : ' + str(percent_complete_task))
+    chalk.blue("Frequency of adding task (Task/Day) : " + str(entry_frequency))
