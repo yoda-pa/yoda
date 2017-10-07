@@ -36,6 +36,6 @@ def get_config_file_paths():
         "MONEY_CONFIG_FILE_PATH":      os.path.join(config_path_prefix, 'money/.moneyconfig.yml'),
         "DIARY_CONFIG_FILE_PATH":      os.path.join(config_path_prefix, 'diary/.diaryconfig.yml'),
         "VOCABULARY_CONFIG_FILE_PATH": os.path.join(config_path_prefix, 'vocabulary/.vocabularyconfig.yml'),
-        "FLASHCARDS_CONFIG_FILE_PATH": os.path.join(config_path_prefix, 'flashcards/.flashcardsconfig.yml')
-        "LIFE_CONFIG_FILE_PATH": os.path.expanduser('~') + '/.yoda/life/.lifeconfig.yml',
+        "FLASHCARDS_CONFIG_FILE_PATH": os.path.join(config_path_prefix, 'flashcards/.flashcardsconfig.yml'),
+        "LIFE_CONFIG_FILE_PATH":       os.path.join(config_path_prefix, 'life/.lifeconfig.yml')
     }

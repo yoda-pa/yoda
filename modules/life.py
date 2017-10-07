@@ -1,6 +1,6 @@
 import click
 import chalk
-from config import config_file_paths
+from config import get_config_file_paths
 import os.path
 from os import listdir
 import time
@@ -9,10 +9,10 @@ from util import *
 
 
 # config file path
-LIFE_CONFIG_FILE_PATH = config_file_paths['LIFE_CONFIG_FILE_PATH']
+LIFE_CONFIG_FILE_PATH = get_config_file_paths()['LIFE_CONFIG_FILE_PATH']
 LIFE_CONFIG_FOLDER_PATH = get_folder_path_from_file_path(
     LIFE_CONFIG_FILE_PATH)
-RLIST_PARAMS = ('title', 'author', 'kind', 'tags', 'path')
+RLIST_PARAMS = ('title', 'author', 'kind', 'tags')
 
 # get file path for today's tasks entry file
 
@@ -65,13 +65,11 @@ def print_rlist(contents, only=RLIST_PARAMS):
         author = entry['author']
         kind = entry['kind']
         tags = entry['tags']
-        path = entry['path']
 
         click.echo("Title: " + title) if title and 'title' in only else None
         click.echo("Author: " + author) if author and 'author' in only else None
         click.echo("Kind: " + kind) if kind and 'kind' in only else None
         click.echo("Tags: " + ", ".join(tags)) if tags and 'tags' in only else None
-        click.echo("Path: " + path) if path and 'path' in only else None
 
     click.echo("---END-OF-READING-LIST---")
 
@@ -120,21 +118,18 @@ def add_to_rlist(query=""):
     chalk.blue("Tags for easier filtering/searching (seperated by spaces):")
     _tags = get_input().split()
 
-    chalk.blue("Path to file, to start reading give me:")
-    _path = get_input()
-
     setup_data = dict(
         title=_title,
         author=_author,
         kind=_kind,
-        tags=_tags,
-        path=_path
+        tags=_tags
     )
 
     if os.path.isfile(READING_LIST_ENTRY_FILE_PATH):
         append_data_into_file(setup_data, READING_LIST_ENTRY_FILE_PATH)
     else:
         setup_data = dict(entries=[setup_data])
+        create_folder(LIFE_CONFIG_FOLDER_PATH + '/rlist')
         input_data(setup_data, READING_LIST_ENTRY_FILE_PATH)
 
     chalk.blue("Added " + _title + " to your reading list!")
@@ -150,7 +145,7 @@ def rlist(subcommand, params, query):
     '''
         Reading list for your daily life
 
-        yoda rlist {ACTION}
+        yoda rlist [OPTIONS] SUBCOMMAND [QUERY]
 
         ACTION:
 
