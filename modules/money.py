@@ -9,7 +9,7 @@ import time
 import datetime
 import shlex
 
-from config import config_file_paths
+from config import get_config_file_paths
 from util import *
 
 CLIENT_ACCESS_TOKEN = os.environ.get('API_AI_TOKEN', config.API_AI_TOKEN)
@@ -19,7 +19,7 @@ request.session_id = os.environ.get(
     'API_AI_SESSION_ID', config.API_AI_SESSION_ID)
 
 # config file path
-MONEY_CONFIG_FILE_PATH = config_file_paths['MONEY_CONFIG_FILE_PATH']
+MONEY_CONFIG_FILE_PATH = get_config_file_paths()['MONEY_CONFIG_FILE_PATH']
 MONEY_CONFIG_FOLDER_PATH = get_folder_path_from_file_path(
     MONEY_CONFIG_FILE_PATH)
 
