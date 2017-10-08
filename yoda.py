@@ -198,3 +198,7 @@ def feedback():
     2. For suggesting a feature\n\
     3. Any general suggestion or question\n\
 Please create an issue in the Github repository:\nhttps://github.com/yoda-pa/yoda/issues/new')
+
+
+# life.reading_list module
+cli.add_command(life.rlist)

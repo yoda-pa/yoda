@@ -2,7 +2,6 @@ import os.path
 
 API_AI_TOKEN = 'caca38e8d99d4ea6bd9ffa9a8be15ff9'
 API_AI_SESSION_ID = 'dd60fde7-c6ab-4f38-9487-7300c42b4916'
-
 # this is where yoda's config will be stored
 YODA_CONFIG_FILE_PATH = os.path.join(os.path.expanduser('~'), '.yodaconfig')
 
@@ -37,7 +36,6 @@ def get_config_file_paths():
         "MONEY_CONFIG_FILE_PATH":      os.path.join(config_path_prefix, 'money/.moneyconfig.yml'),
         "DIARY_CONFIG_FILE_PATH":      os.path.join(config_path_prefix, 'diary/.diaryconfig.yml'),
         "VOCABULARY_CONFIG_FILE_PATH": os.path.join(config_path_prefix, 'vocabulary/.vocabularyconfig.yml'),
-        "FLASHCARDS_CONFIG_FILE_PATH": os.path.join(config_path_prefix, 'flashcards/.flashcardsconfig.yml')
+        "FLASHCARDS_CONFIG_FILE_PATH": os.path.join(config_path_prefix, 'flashcards/.flashcardsconfig.yml'),
+        "LIFE_CONFIG_FILE_PATH":       os.path.join(config_path_prefix, 'life/.lifeconfig.yml')
     }
-
-

@@ -71,3 +71,24 @@ def get_terminal_width():
               command, e.returncode))
     else:
         return width
+
+# gets input from the user
+
+
+def get_input():
+    return raw_input().strip()
+
+# append data into existing file
+
+
+def append_data_into_file(data, file_path):
+    with open(file_path, "r") as todays_tasks_entry:
+        # read contents
+        contents = yaml.load(todays_tasks_entry)
+        contents['entries'].append(
+            data
+        )
+
+        # enter data
+        with open(file_path, "w") as todays_tasks_entry:
+            yaml.dump(contents, todays_tasks_entry, default_flow_style=False)
