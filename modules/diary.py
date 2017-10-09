@@ -1,10 +1,9 @@
 import click
-import chalk
+import errno
 from config import get_config_file_paths
 import os.path
 from os import listdir
 import time
-import yaml
 from util import *
 import calendar
 import datetime
@@ -243,11 +242,11 @@ def check_sub_command(c):
         'notes': notes,
         'analyze': current_month_task_analysis,
     }
-    # try:
-    return sub_commands[c]()
-    # except KeyError:
-    #     chalk.red('Command does not exist!')
-    #     click.echo('Try "yoda setup --help" for more info')
+    try:
+        return sub_commands[c]()
+    except KeyError:
+        chalk.red('Command does not exist!')
+        click.echo('Try "yoda diary --help" for more info')
 
 # the main process
 
