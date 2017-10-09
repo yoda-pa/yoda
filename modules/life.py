@@ -36,7 +36,7 @@ def life():
 
 
 def reading_list_entry_file_path():
-    return LIFE_CONFIG_FOLDER_PATH + '/' + "reading_list.yaml"
+    return os.path.join(LIFE_CONFIG_FOLDER_PATH, "reading_list.yaml")
 
 
 READING_LIST_ENTRY_FILE_PATH = reading_list_entry_file_path()
@@ -129,7 +129,7 @@ def add_to_rlist(query=""):
         append_data_into_file(setup_data, READING_LIST_ENTRY_FILE_PATH)
     else:
         setup_data = dict(entries=[setup_data])
-        create_folder(LIFE_CONFIG_FOLDER_PATH + '/rlist')
+        create_folder(os.path.join(LIFE_CONFIG_FOLDER_PATH, 'rlist'))
         input_data(setup_data, READING_LIST_ENTRY_FILE_PATH)
 
     chalk.blue("Added " + _title + " to your reading list!")
