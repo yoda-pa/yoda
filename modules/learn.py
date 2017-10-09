@@ -1,5 +1,4 @@
 import click
-import chalk
 import random
 from util import *
 from config import get_config_file_paths
@@ -109,7 +108,7 @@ def check_sub_command_vocab(c):
         return sub_commands[c]()
     except KeyError:
         chalk.red('Command does not exist!')
-        click.echo('Try "yoda setup --help" for more info')
+        click.echo('Try "yoda vocabulary --help" for more info')
 
 
 @learn.command()
@@ -300,11 +299,11 @@ def check_sub_command_sets_flashcards(c, name):
         'modify': modify_set_fc,
         'select': select_set_fc
     }
-    # try:
-    return sub_commands[c](name)
-    # except KeyError:
-    #     chalk.red('Command does not exist!')
-    #     click.echo('Try "yoda flashcards --help" for more info')
+    try:
+        return sub_commands[c](name)
+    except KeyError:
+        chalk.red('Command does not exist!')
+        click.echo('Try "yoda flashcards --help" for more info')
 # ----- / functions for sets -----
 
 # ----- functions for cards -----

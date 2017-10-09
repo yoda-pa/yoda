@@ -1,5 +1,4 @@
 import click
-import chalk
 from config import get_config_file_paths
 from util import *
 
@@ -105,7 +104,7 @@ def check_sub_command(c):
         return sub_commands[c]()
     except KeyError:
         chalk.red('Command does not exist!')
-        click.echo('Try "yoda setup --help" for more info')
+        click.echo('Try "yoda love --help" for more info')
 
 
 def process(input):

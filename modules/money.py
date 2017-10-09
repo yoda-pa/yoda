@@ -1,6 +1,4 @@
 import click
-import chalk
-import yaml
 import apiai
 import config
 import json
