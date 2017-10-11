@@ -62,10 +62,15 @@ def url_shorten(url):
 
 
 def url_expand(url):
-    r = requests.get('https://www.googleapis.com/urlshortener/v1/url', params={
-        'key': GOOGLE_URL_SHORTENER_API_KEY,
-        'shortUrl': url
-    })
+    try:
+        r = requests.get('https://www.googleapis.com/urlshortener/v1/url', params={
+            'key': GOOGLE_URL_SHORTENER_API_KEY,
+            'shortUrl': url
+        })
+    except requests.exceptions.ConnectionError:
+        click.echo('Yoda cannot sense the internet right now!')
+        sys.exit(1)
+        
     data = r.json()
     response = 'Here\'s your original URL:\n' + data['longUrl']
     click.echo(response)
