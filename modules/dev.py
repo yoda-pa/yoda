@@ -29,7 +29,7 @@ def speedtest():
     except Exception as ex:
         click.echo('Yoda cannot sense the internet right now!')
         sys.exit(1)
-        
+
     click.echo('Speed test results:')
     click.echo('Ping: ' + '{:.2f}'.format(ping) + ' ms')
 
@@ -44,11 +44,16 @@ def speedtest():
 
 
 def url_shorten(url):
-    r = requests.post('https://www.googleapis.com/urlshortener/v1/url?key=' + GOOGLE_URL_SHORTENER_API_KEY, data=json.dumps({
-        'longUrl': url
-    }), headers={
-        'Content-Type': 'application/json'
-    })
+    try:
+        r = requests.post('https://www.googleapis.com/urlshortener/v1/url?key=' + GOOGLE_URL_SHORTENER_API_KEY, data=json.dumps({
+            'longUrl': url
+        }), headers={
+            'Content-Type': 'application/json'
+        })
+    except requests.exceptions.ConnectionError:
+        click.echo('Yoda cannot sense the internet right now!')
+        sys.exit(1)
+
     data = r.json()
     response = 'Here\'s your shortened URL:\n' + data['id']
     click.echo(response)
