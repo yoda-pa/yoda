@@ -172,6 +172,21 @@ spent 30 dollars on shoes
 $ yoda money exps
 2017-05-04 16:06:00 SGD 30 shoes
 ```
+#### Idea list
+For creating list of ideas, type
+```
+# To add idea
+$ yoda ilist add --task <task_name> --inside <project_name>
+
+# To show list of ideas
+$ yoda ilist show
+
+# To remove a task from idea
+$ yoda ilist remove --task <task_name> --inside <project_name>
+
+# To remove an idea completely
+$ yoda ilist remove --project <project_name>
+```
 #### learn
 This command group contains commands that, helpful in learning new things, will be.  Yeesssssss.
 
