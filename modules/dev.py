@@ -4,6 +4,7 @@ import pyspeedtest
 import requests
 import json
 from util import *
+import sys
 
 GOOGLE_URL_SHORTENER_API_KEY = "AIzaSyCBAXe-kId9UwvOQ7M2cLYR7hyCpvfdr7w"
 
@@ -23,9 +24,13 @@ def speedtest():
     """
     speed_test = pyspeedtest.SpeedTest()
 
+    try:
+        ping = speed_test.ping()
+    except Exception as ex:
+        click.echo('Yoda cannot sense the internet right now!')
+        sys.exit(1)
+        
     click.echo('Speed test results:')
-
-    ping = speed_test.ping()
     click.echo('Ping: ' + '{:.2f}'.format(ping) + ' ms')
 
     download_speed = speed_test.download() / (1024 * 1024)
