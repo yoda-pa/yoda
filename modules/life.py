@@ -281,5 +281,5 @@ def ideas(subcommand, task, project, inside):
 		subcommands[subcommand]((project or inside), task)
 	except KeyError:
 		chalk.red('Command ' + subcommand + ' does not exist.')
-		click.echo('Try "yoda ilist --help" for more info')
+		click.echo('Try "yoda ideas --help" for more info')
 
