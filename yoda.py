@@ -204,4 +204,4 @@ Please create an issue in the Github repository:\nhttps://github.com/yoda-pa/yod
 cli.add_command(life.rlist)
 
 #life.idea_list module
-cli.add_command(life.ilist)
+cli.add_command(life.ideas)
