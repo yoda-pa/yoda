@@ -259,7 +259,7 @@ def remove(proj, task = None):
 			f.write(data)
 		f.close()
 	except:
-		chalk.red("Wrong task or project entered. Please check using 'yoda ilist show'")
+		chalk.red("Wrong task or project entered. Please check using 'yoda ideas show'")
 
 
 #idea list process
