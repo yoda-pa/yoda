@@ -268,7 +268,7 @@ def remove(proj, task = None):
 @click.option('--task', nargs = 1, required = False, default = None)
 @click.option('--project', nargs = 1, required = False, default = None)
 @click.option('--inside', nargs = 1, required = False, default = None)
-def ilist(subcommand, task, project, inside):
+def ideas(subcommand, task, project, inside):
 	if subcommand != 'show' and (project or inside) == None:
 		chalk.red('You have not selected any project, Operation aborted.')
 		return
