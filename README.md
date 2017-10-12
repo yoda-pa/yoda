@@ -176,16 +176,16 @@ $ yoda money exps
 For creating list of ideas, type
 ```
 # To add idea
-$ yoda ilist add --task <task_name> --inside <project_name>
+$ yoda ideas add --task <task_name> --inside <project_name>
 
 # To show list of ideas
-$ yoda ilist show
+$ yoda ideas show
 
 # To remove a task from idea
-$ yoda ilist remove --task <task_name> --inside <project_name>
+$ yoda ideas remove --task <task_name> --inside <project_name>
 
 # To remove an idea completely
-$ yoda ilist remove --project <project_name>
+$ yoda ideas remove --project <project_name>
 ```
 #### learn
 This command group contains commands that, helpful in learning new things, will be.  Yeesssssss.
