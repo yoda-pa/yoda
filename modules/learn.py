@@ -1,12 +1,15 @@
-import click
-import random
-from util import *
-from config import get_config_file_paths
-import time
 import datetime
-import requests
-from os import listdir
 import pkgutil
+import random
+import time
+from os import listdir
+
+import click
+import requests
+from config import get_config_file_paths
+from util import *
+
+
 # the main process
 
 
@@ -15,6 +18,7 @@ def learn():
     """
         The learn module
     """
+
 
 # ----------------------- / vocabulary code -----------------------#
 
@@ -35,6 +39,7 @@ for line in pkgutil.get_data('yoda', 'resources/vocab-words.txt').split('\n'):
 
 def get_words_list():
     return words
+
 
 # displays a random word
 
@@ -60,6 +65,7 @@ def random_word():
         timestamp = datetime.datetime.fromtimestamp(
             time.time()).strftime('%Y-%m-%d %H:%M:%S')
         fp.write('{} {} {}\n'.format(timestamp, word, correct))
+
 
 # calculates accuracy
 
@@ -96,6 +102,7 @@ def get_word_accuracy_of_previous_words():
         click.echo(word + '-- times used: ' +
                    str(ar[0]) + ' accuracy: ' + str(ar[1]))
 
+
 # command checker
 
 
@@ -122,6 +129,8 @@ def vocabulary(input):
     """
     input = tuple_to_string(input)
     check_sub_command_vocab(input)
+
+
 # ----------------------- / vocabulary code -----------------------#
 
 
@@ -131,13 +140,17 @@ FLASHCARDS_CONFIG_FILE_PATH = get_config_file_paths()["FLASHCARDS_CONFIG_FILE_PA
 FLASHCARDS_CONFIG_FOLDER_PATH = get_folder_path_from_file_path(
     FLASHCARDS_CONFIG_FILE_PATH)
 
+
 def get_selected_set():
     if os.path.isfile(FLASHCARDS_CONFIG_FOLDER_PATH + '/selected_study_set'):
         with open(FLASHCARDS_CONFIG_FOLDER_PATH + '/selected_study_set') as fp:
             lines = fp.read().split('\n')
             return lines[0].strip()
 
+
 SELECTED_STUDY_SET = get_selected_set()
+
+
 # ----- functions for sets -----
 
 
@@ -166,6 +179,7 @@ def get_set_descriptions():
                 sets[name.lower().strip()] = description
     return sets
 
+
 # gives you a list of all the study sets
 
 
@@ -188,6 +202,7 @@ def list_sets_fc(dummy):
         if not there_are_sets:
             chalk.red(
                 'Looks like all the sets are closed. Please create a new one or open an existing one')
+
 
 # creates new study set
 
@@ -235,7 +250,7 @@ def modify_set_fc_util(name, new_name):
     for set in sets:
         with open(FLASHCARDS_CONFIG_FOLDER_PATH + '/sets.txt', 'a') as fp:
             fp.write('{} {}\n'.format(set if set !=
-                                      name else new_name, sets[set]))
+                                             name else new_name, sets[set]))
 
 
 def modify_set_fc_description(name, new_name):
@@ -245,7 +260,8 @@ def modify_set_fc_description(name, new_name):
     for set in sets:
         with open(FLASHCARDS_CONFIG_FOLDER_PATH + '/sets.txt', 'a') as fp:
             fp.write('{}-{}-{}\n'.format(set if set !=
-                                         name else new_name, sets[set], ))
+                                                name else new_name, sets[set], ))
+
 
 # modify a set
 
@@ -268,6 +284,7 @@ def modify_set_fc(name):
                 print('The name was modified from \'' +
                       name + '\' to \'' + new_name + '\'')
 
+
 # select working study set
 
 
@@ -289,6 +306,8 @@ def select_set_fc(name):
                 chalk.blue('Selected study set: ' + SELECTED_STUDY_SET)
         except KeyError:
             chalk.red('Set does not exist')
+
+
 # command checker flashcards sets
 
 
@@ -304,6 +323,8 @@ def check_sub_command_sets_flashcards(c, name):
     except KeyError:
         chalk.red('Command does not exist!')
         click.echo('Try "yoda flashcards --help" for more info')
+
+
 # ----- / functions for sets -----
 
 # ----- functions for cards -----
@@ -341,6 +362,8 @@ def check_sub_command_cards_flashcards(c, name):
     except KeyError:
         chalk.red('Command does not exist!')
         click.echo('Try "yoda flashcards --help" for more info')
+
+
 # ----- / functions for cards -----
 
 
@@ -370,7 +393,7 @@ def study_fc(set, dummy):
         else:
             i = 0
             chalk.blue('Cards:')
-            chalk.blue('_'*width)
+            chalk.blue('_' * width)
             for card in cards_in_selected_set:
                 i += 1
 
@@ -386,11 +409,11 @@ def study_fc(set, dummy):
                             description += (line + '\n')
                 description = description.strip()
                 if i > 0:
-                    click.echo('-'*width)
+                    click.echo('-' * width)
                 click.echo(str(i) + ': ' + name)
-                click.echo('='*width)
+                click.echo('=' * width)
                 click.echo(description)
-                click.echo('='*width)
+                click.echo('=' * width)
                 if i < len_cards_in_selected_set:
                     raw_input('Press Enter to continue to next card')
 
@@ -429,6 +452,8 @@ def flashcards(domain, action, name):
     except KeyError:
         chalk.red('Command does not exist!')
         click.echo('Try "yoda flashcards --help" for more info')
+
+
 # ----------------------- / flashcards code -----------------------#
 
 
@@ -443,7 +468,7 @@ def define(word):
         'X-Mashape-Key': 'Yq72o8odIlmshPTjxnTMN1xixyy5p1lgtd0jsn2NsJfn7pflhR',
         "Accept": "application/json"
     })
-    data = r.json()    #output['output'] = TextTemplate('Definition of ' + word + ':\n' + data['definitions'][0]['definition']).get_message()
+    data = r.json()  # output['output'] = TextTemplate('Definition of ' + word + ':\n' + data['definitions'][0]['definition']).get_message()
 
     try:
         word = data['word']
@@ -465,7 +490,8 @@ def define(word):
             else:
                 with open('resources/vocab-words.txt', 'a') as fp:
                     fp.write('{} - {}\n'.format(word, data['definitions'][0]['definition']))
-                chalk.blue('This word does not exist in the vocabulary set, so it has been added to it so that you can practice it while using that')
+                chalk.blue(
+                    'This word does not exist in the vocabulary set, so it has been added to it so that you can practice it while using that')
         else:
             chalk.red('Sorry, no definitions were found for this word')
     except KeyError:
