@@ -3,6 +3,8 @@ from config import get_config_file_paths
 import os.path
 import time
 from util import *
+import json
+from Crypto.Cipher import AES
 
 
 # config file path
@@ -167,3 +169,117 @@ def rlist(subcommand, params, query):
     except KeyError:
         chalk.red("Command " + subcommand + " does not exist!")
         click.echo("Try 'yoda rlist --help' for more info'")
+
+#idea list operations
+
+#config file path
+
+IDEA_CONFIG_FILE_PATH = get_config_file_paths()['IDEA_CONFIG_FILE_PATH']
+CONFIG_FILE_PATH = get_config_file_paths()['USER_CONFIG_FILE_PATH']
+config_file = open(CONFIG_FILE_PATH, 'r')
+contents = yaml.load(config_file)
+cipher_key = contents['encryption']['cipher_key']
+cipher_IV456 = contents['encryption']['cipher_IV456']
+
+#encryption function
+def encryption(text):
+	return AES.new(cipher_key, AES.MODE_CBC, cipher_IV456).encrypt(text * 16)
+
+#decryption function
+def decryption(text):
+	s = AES.new(cipher_key, AES.MODE_CBC, cipher_IV456).decrypt(text)
+	return s[:len(s) / 16]
+
+def add_task(proj_name, task_name):
+	try:
+		with open(IDEA_CONFIG_FILE_PATH, 'r') as f:
+			data = f.read()
+			data = decryption(data)
+			data = json.loads(data)
+		f.close()
+	except:
+		data = None
+	if not isinstance(data, dict):
+		data = dict()
+	if proj_name in data:
+		task = data[proj_name]
+	else:
+		task = []
+	
+	chalk.blue('Brief desc of the current task : ')
+	desc = raw_input()
+	task.append((task_name, desc))
+	
+	data[proj_name] = task
+	with open(IDEA_CONFIG_FILE_PATH, 'w') as f:
+		#yaml.dump(data, f, default_flow_style = False)
+		data = json.dumps(data)
+		data = encryption(data)
+		f.write(data)
+	f.close()
+
+def show(proj_name, task_name):
+	try:
+		with open(IDEA_CONFIG_FILE_PATH, 'r') as f:
+			data = f.read()
+			data = decryption(data)
+			data = json.loads(data)
+		f.close()
+	except:
+		chalk.red("File not exist, operation aborted.")
+		return
+	for proj, task in data.items():
+		chalk.yellow(proj)
+		for task, desc in task:
+			chalk.cyan('\t' + task)
+			chalk.cyan('\t\t' + desc)
+
+def remove(proj, task = None):
+	try:
+		with open(IDEA_CONFIG_FILE_PATH, 'r') as f:
+			data = f.read()
+			data = decryption(data)
+			data = json.loads(data)
+		f.close()
+	except:
+		chalk.red("File not exist, operation aborted.")
+		return
+	f.close()
+	try:
+		if task == None:
+			del data[proj]
+			chalk.blue('Project deleted successfully.')
+		else:
+			data[proj] = filter(lambda x : x[0] != task, data[proj])
+			chalk.blue('Task deleted successfully.')
+		with open(IDEA_CONFIG_FILE_PATH, 'w') as f:
+			#yaml.dump(data, f, default_flow_style = False)
+			data = json.dumps(data)
+			data = encryption(data)
+			f.write(data)
+		f.close()
+	except:
+		chalk.red("Wrong task or project entered. Please check using 'yoda ideas show'")
+
+
+#idea list process
+@life.command()
+@click.argument('subcommand', nargs = 1)
+@click.option('--task', nargs = 1, required = False, default = None)
+@click.option('--project', nargs = 1, required = False, default = None)
+@click.option('--inside', nargs = 1, required = False, default = None)
+def ideas(subcommand, task, project, inside):
+	if subcommand != 'show' and (project or inside) == None:
+		chalk.red('You have not selected any project, Operation aborted.')
+		return
+	subcommands = {
+		'show' : show,
+		'add' : add_task,
+		'remove' : remove,
+	}
+	try:
+		subcommands[subcommand]((project or inside), task)
+	except KeyError:
+		chalk.red('Command ' + subcommand + ' does not exist.')
+		click.echo('Try "yoda ideas --help" for more info')
+
