@@ -268,7 +268,7 @@ def remove(proj, task = None):
 			f.write(data)
 		f.close()
 	except:
-		chalk.red("Wrong task or project entered. Please check using 'yoda ilist show'")
+		chalk.red("Wrong task or project entered. Please check using 'yoda ideas show'")
 
 
 #idea list process
@@ -304,5 +304,5 @@ def ideas(subcommand, task, project, inside):
 		subcommands[subcommand]((project or inside), task)
 	except KeyError:
 		chalk.red('Command ' + subcommand + ' does not exist.')
-		click.echo('Try "yoda ilist --help" for more info')
+		click.echo('Try "yoda ideas --help" for more info')
 
