@@ -1,7 +1,10 @@
 import click
+import chalk
 from config import get_config_file_paths
 import os.path
+from os import listdir
 import time
+import yaml
 from util import *
 
 
@@ -165,5 +168,5 @@ def rlist(subcommand, params, query):
     try:
         subcommands[subcommand](opts)
     except KeyError:
-        chalk.red("Command " + subcommand + " does not exist!")
+        chalk.red("Command " + subcommand  + " does not exist!")
         click.echo("Try 'yoda rlist --help' for more info'")
