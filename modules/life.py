@@ -163,7 +163,7 @@ def rlist(subcommand, params, query):
     params = str(params)
     query = str(query)
     opts = (params, query) if params and query else ()
-    print opts
+    #print opts
     subcommands = {
         'view': view_rlist,
         'add': add_to_rlist,
