@@ -4,6 +4,7 @@ import pyspeedtest
 import requests
 import json
 from util import *
+import sys
 
 GOOGLE_URL_SHORTENER_API_KEY = "AIzaSyCBAXe-kId9UwvOQ7M2cLYR7hyCpvfdr7w"
 
@@ -23,9 +24,13 @@ def speedtest():
     """
     speed_test = pyspeedtest.SpeedTest()
 
-    click.echo('Speed test results:')
+    try:
+        ping = speed_test.ping()
+    except Exception as ex:
+        click.echo('Yoda cannot sense the internet right now!')
+        sys.exit(1)
 
-    ping = speed_test.ping()
+    click.echo('Speed test results:')
     click.echo('Ping: ' + '{:.2f}'.format(ping) + ' ms')
 
     download_speed = speed_test.download() / (1024 * 1024)
@@ -39,11 +44,16 @@ def speedtest():
 
 
 def url_shorten(url):
-    r = requests.post('https://www.googleapis.com/urlshortener/v1/url?key=' + GOOGLE_URL_SHORTENER_API_KEY, data=json.dumps({
-        'longUrl': url
-    }), headers={
-        'Content-Type': 'application/json'
-    })
+    try:
+        r = requests.post('https://www.googleapis.com/urlshortener/v1/url?key=' + GOOGLE_URL_SHORTENER_API_KEY, data=json.dumps({
+            'longUrl': url
+        }), headers={
+            'Content-Type': 'application/json'
+        })
+    except requests.exceptions.ConnectionError:
+        click.echo('Yoda cannot sense the internet right now!')
+        sys.exit(1)
+
     data = r.json()
     response = 'Here\'s your shortened URL:\n' + data['id']
     click.echo(response)
@@ -52,10 +62,15 @@ def url_shorten(url):
 
 
 def url_expand(url):
-    r = requests.get('https://www.googleapis.com/urlshortener/v1/url', params={
-        'key': GOOGLE_URL_SHORTENER_API_KEY,
-        'shortUrl': url
-    })
+    try:
+        r = requests.get('https://www.googleapis.com/urlshortener/v1/url', params={
+            'key': GOOGLE_URL_SHORTENER_API_KEY,
+            'shortUrl': url
+        })
+    except requests.exceptions.ConnectionError:
+        click.echo('Yoda cannot sense the internet right now!')
+        sys.exit(1)
+        
     data = r.json()
     response = 'Here\'s your original URL:\n' + data['longUrl']
     click.echo(response)

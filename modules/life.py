@@ -185,7 +185,6 @@ contents = yaml.load(config_file)
 cipher_key = contents['encryption']['cipher_key']
 cipher_IV456 = contents['encryption']['cipher_IV456']
 
-
 # encryption function
 def encryption(text):
 	return AES.new(cipher_key, AES.MODE_CBC, cipher_IV456).encrypt(text * 16)
@@ -195,7 +194,6 @@ def encryption(text):
 def decryption(text):
 	s = AES.new(cipher_key, AES.MODE_CBC, cipher_IV456).decrypt(text)
 	return s[:len(s) / 16]
-
 
 # a new entry created
 def add_task(proj_name, task_name):
@@ -216,8 +214,7 @@ def add_task(proj_name, task_name):
 	
 	chalk.blue('Brief desc of the current task : ')
 	desc = raw_input()
-	task.append((task_name, desc))										# a new entry created
-	
+  task.append((task_name, desc))										# a new entry created
 	data[proj_name] = task
 	with open(IDEA_CONFIG_FILE_PATH, 'w') as f:
 		#yaml.dump(data, f, default_flow_style = False)
@@ -225,7 +222,6 @@ def add_task(proj_name, task_name):
 		data = encryption(data)
 		f.write(data)
 	f.close()
-
 
 # all the saved entries are displayed
 def show(proj_name, task_name):
@@ -243,7 +239,6 @@ def show(proj_name, task_name):
 		for task, desc in task:
 			chalk.cyan('\t' + task)
 			chalk.cyan('\t\t' + desc)
-
 
 # delete a whole entry or a subentry inside it
 def remove(proj, task = None):
