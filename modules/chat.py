@@ -4,6 +4,8 @@ import config
 import os
 import apiai
 import json
+import socket
+import sys
 
 CLIENT_ACCESS_TOKEN = os.environ.get('API_AI_TOKEN', config.API_AI_TOKEN)
 ai = apiai.ApiAI(CLIENT_ACCESS_TOKEN)
@@ -14,7 +16,13 @@ request.session_id = os.environ.get(
 
 def process(input_string):
     request.query = input_string
-    response = request.getresponse().read()
+    try:
+        response = request.getresponse().read()
+    except socket.gaierror:
+        # if the user is not connected to internet dont give a response 
+        click.echo('Yoda cannot sense the internet right now!')
+        sys.exit(1)
+
     output = json.loads(response)
     answer = output["result"]["fulfillment"]["speech"]
     chalk.blue('Yoda speaks:')
