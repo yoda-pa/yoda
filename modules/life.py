@@ -1,14 +1,12 @@
-import click
-import chalk
-from config import get_config_file_paths
-import os.path
-from os import listdir
-import time
-import yaml
-from util import *
 import json
+import os.path
+import time
+
+import click
 from Crypto.Cipher import AES
 
+from config import get_config_file_paths
+from util import *
 
 # config file path
 LIFE_CONFIG_FILE_PATH = get_config_file_paths()['LIFE_CONFIG_FILE_PATH']
@@ -16,25 +14,27 @@ LIFE_CONFIG_FOLDER_PATH = get_folder_path_from_file_path(
     LIFE_CONFIG_FILE_PATH)
 RLIST_PARAMS = ('title', 'author', 'kind', 'tags')
 
+
 # get file path for today's tasks entry file
 
 def is_in_params(params, query, article):
     query = query.lower()
-    filter = article[params]
+    article_filter = article[params]
 
-    if type(filter) is list:
-        filter = [ item.lower() for item in filter ]
+    if type(article_filter) is list:
+        article_filter = [item.lower() for item in article_filter]
     else:
-        filter = filter.lower()
+        article_filter = article_filter.lower()
 
-    return (query in filter)
+    return (query in article_filter)
+
 
 @click.group()
 def life():
-    '''
+    """
         Life command group:\n
         contains helpful commands to organize your life
-    '''
+    """
 
 
 def reading_list_entry_file_path():
@@ -42,6 +42,7 @@ def reading_list_entry_file_path():
 
 
 READING_LIST_ENTRY_FILE_PATH = reading_list_entry_file_path()
+
 
 # asks user to create a reading list if s/he has none
 
@@ -55,14 +56,15 @@ def empty_list_prompt():
     else:
         click.echo("Using 'yoda rlist add', you can create later.")
 
+
 # prints reading list
 
 
 def print_rlist(contents, only=RLIST_PARAMS):
     i = 0
     for entry in contents['entries']:
-        i+=1
-        click.echo("-" + ('['+str(i)+']').ljust(24, '-'))
+        i += 1
+        click.echo("-" + ('[' + str(i) + ']').ljust(24, '-'))
         title = entry['title']
         author = entry['author']
         kind = entry['kind']
@@ -74,6 +76,7 @@ def print_rlist(contents, only=RLIST_PARAMS):
         click.echo("Tags: " + ", ".join(tags)) if tags and 'tags' in only else None
 
     click.echo("---END-OF-READING-LIST---")
+
 
 # get the current reading list
 
@@ -90,15 +93,15 @@ def view_rlist(opts):
 
             if query != 'None':
                 search = "(filtered by " + params + ": " + query + ")"
-                filtered_contents = [ article for article in contents['entries'] if is_in_params(params, query, article) ]
+                filtered_contents = [article for article in contents['entries'] if is_in_params(params, query, article)]
                 contents = dict(entries=filtered_contents)
-
 
             chalk.blue("Your awesome reading list " + search)
             chalk.blue("Last updated: " + last_updated)
             print_rlist(contents)
     else:
         empty_list_prompt()
+
 
 # add anything to the reading list
 
@@ -136,6 +139,7 @@ def add_to_rlist(query=""):
 
     chalk.blue("Added " + _title + " to your reading list!")
 
+
 # the rlist process
 
 
@@ -143,7 +147,7 @@ def add_to_rlist(query=""):
 @click.argument('subcommand', nargs=1)
 @click.option('--params', nargs=1, required=False, default="tags")
 @click.argument('query', nargs=1, required=False)
-def rlist(subcommand, params, query):
+def rlist(sub_command, params, query):
     '''
         Reading list for your daily life
 
@@ -159,20 +163,21 @@ def rlist(subcommand, params, query):
 
             add: add something to your reading list
     '''
-    subcommand = str(subcommand)
+    sub_command = str(sub_command)
     params = str(params)
     query = str(query)
     opts = (params, query) if params and query else ()
-    #print opts
-    subcommands = {
+    # print opts
+    sub_commands = {
         'view': view_rlist,
         'add': add_to_rlist,
     }
     try:
-        subcommands[subcommand](opts)
+        sub_commands[sub_command](opts)
     except KeyError:
-        chalk.red("Command " + subcommand  + " does not exist!")
+        chalk.red("Command " + sub_command + " does not exist!")
         click.echo("Try 'yoda rlist --help' for more info'")
+
 
 # idea list operations
 
@@ -185,6 +190,7 @@ contents = yaml.load(config_file)
 cipher_key = contents['encryption']['cipher_key']
 cipher_IV456 = contents['encryption']['cipher_IV456']
 
+
 # encryption function
 def encryption(text):
     return AES.new(cipher_key, AES.MODE_CBC, cipher_IV456).encrypt(text * 16)
@@ -194,6 +200,7 @@ def encryption(text):
 def decryption(text):
     s = AES.new(cipher_key, AES.MODE_CBC, cipher_IV456).decrypt(text)
     return s[:len(s) / 16]
+
 
 # a new entry created
 def add_task(proj_name, task_name):
@@ -214,14 +221,15 @@ def add_task(proj_name, task_name):
 
     chalk.blue('Brief desc of the current task : ')
     desc = raw_input()
-    task.append((task_name, desc))	# a new entry created
+    task.append((task_name, desc))  # a new entry created
     data[proj_name] = task
     with open(IDEA_CONFIG_FILE_PATH, 'w') as f:
-        #yaml.dump(data, f, default_flow_style = False)
+        # yaml.dump(data, f, default_flow_style = False)
         data = json.dumps(data)
         data = encryption(data)
         f.write(data)
     f.close()
+
 
 # all the saved entries are displayed
 def show(proj_name, task_name):
@@ -240,8 +248,9 @@ def show(proj_name, task_name):
             chalk.cyan('\t' + task)
             chalk.cyan('\t\t' + desc)
 
+
 # delete a whole entry or a subentry inside it
-def remove(proj, task = None):
+def remove(proj, task=None):
     try:
         with open(IDEA_CONFIG_FILE_PATH, 'r') as f:
             data = f.read()
@@ -254,13 +263,13 @@ def remove(proj, task = None):
     f.close()
     try:
         if task == None:
-            del data[proj]												# a project deleted
+            del data[proj]  # a project deleted
             chalk.blue('Project deleted successfully.')
         else:
-            data[proj] = filter(lambda x : x[0] != task, data[proj])	# task inside a respective project deleted
+            data[proj] = filter(lambda x: x[0] != task, data[proj])  # task inside a respective project deleted
             chalk.blue('Task deleted successfully.')
         with open(IDEA_CONFIG_FILE_PATH, 'w') as f:
-            #yaml.dump(data, f, default_flow_style = False)
+            # yaml.dump(data, f, default_flow_style = False)
             data = json.dumps(data)
             data = encryption(data)
             f.write(data)
@@ -269,12 +278,12 @@ def remove(proj, task = None):
         chalk.red("Wrong task or project entered. Please check using 'yoda ideas show'")
 
 
-#idea list process
+# idea list process
 @life.command()
-@click.argument('subcommand', nargs = 1)
-@click.option('--task', nargs = 1, required = False, default = None)
-@click.option('--project', nargs = 1, required = False, default = None)
-@click.option('--inside', nargs = 1, required = False, default = None)
+@click.argument('subcommand', nargs=1)
+@click.option('--task', nargs=1, required=False, default=None)
+@click.option('--project', nargs=1, required=False, default=None)
+@click.option('--inside', nargs=1, required=False, default=None)
 def ideas(subcommand, task, project, inside):
     '''
         Keep track of ideas
@@ -294,13 +303,12 @@ def ideas(subcommand, task, project, inside):
         chalk.red('You have not selected any project, Operation aborted.')
         return
     subcommands = {
-        'show' : show,
-        'add' : add_task,
-        'remove' : remove,
+        'show': show,
+        'add': add_task,
+        'remove': remove,
     }
     try:
         subcommands[subcommand]((project or inside), task)
     except KeyError:
         chalk.red('Command ' + subcommand + ' does not exist.')
         click.echo('Try "yoda ideas --help" for more info')
-
