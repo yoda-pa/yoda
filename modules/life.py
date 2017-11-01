@@ -187,86 +187,86 @@ cipher_IV456 = contents['encryption']['cipher_IV456']
 
 # encryption function
 def encryption(text):
-	return AES.new(cipher_key, AES.MODE_CBC, cipher_IV456).encrypt(text * 16)
+    return AES.new(cipher_key, AES.MODE_CBC, cipher_IV456).encrypt(text * 16)
 
 
 # decryption function
 def decryption(text):
-	s = AES.new(cipher_key, AES.MODE_CBC, cipher_IV456).decrypt(text)
-	return s[:len(s) / 16]
+    s = AES.new(cipher_key, AES.MODE_CBC, cipher_IV456).decrypt(text)
+    return s[:len(s) / 16]
 
 # a new entry created
 def add_task(proj_name, task_name):
-	try:
-		with open(IDEA_CONFIG_FILE_PATH, 'r') as f:
-			data = f.read()
-			data = decryption(data)
-			data = json.loads(data)
-		f.close()
-	except:
-		data = None
-	if not isinstance(data, dict):
-		data = dict()
-	if proj_name in data:
-		task = data[proj_name]
-	else:
-		task = []
-	
-	chalk.blue('Brief desc of the current task : ')
-	desc = raw_input()
-  task.append((task_name, desc))										# a new entry created
-	data[proj_name] = task
-	with open(IDEA_CONFIG_FILE_PATH, 'w') as f:
-		#yaml.dump(data, f, default_flow_style = False)
-		data = json.dumps(data)
-		data = encryption(data)
-		f.write(data)
-	f.close()
+    try:
+        with open(IDEA_CONFIG_FILE_PATH, 'r') as f:
+            data = f.read()
+            data = decryption(data)
+            data = json.loads(data)
+        f.close()
+    except:
+        data = None
+    if not isinstance(data, dict):
+        data = dict()
+    if proj_name in data:
+        task = data[proj_name]
+    else:
+        task = []
+
+    chalk.blue('Brief desc of the current task : ')
+    desc = raw_input()
+    task.append((task_name, desc))	# a new entry created
+    data[proj_name] = task
+    with open(IDEA_CONFIG_FILE_PATH, 'w') as f:
+        #yaml.dump(data, f, default_flow_style = False)
+        data = json.dumps(data)
+        data = encryption(data)
+        f.write(data)
+    f.close()
 
 # all the saved entries are displayed
 def show(proj_name, task_name):
-	try:
-		with open(IDEA_CONFIG_FILE_PATH, 'r') as f:
-			data = f.read()
-			data = decryption(data)
-			data = json.loads(data)
-		f.close()
-	except:
-		chalk.red("File not exist, operation aborted.")
-		return
-	for proj, task in data.items():
-		chalk.yellow(proj)
-		for task, desc in task:
-			chalk.cyan('\t' + task)
-			chalk.cyan('\t\t' + desc)
+    try:
+        with open(IDEA_CONFIG_FILE_PATH, 'r') as f:
+            data = f.read()
+            data = decryption(data)
+            data = json.loads(data)
+        f.close()
+    except:
+        chalk.red("File not exist, operation aborted.")
+        return
+    for proj, task in data.items():
+        chalk.yellow(proj)
+        for task, desc in task:
+            chalk.cyan('\t' + task)
+            chalk.cyan('\t\t' + desc)
 
 # delete a whole entry or a subentry inside it
 def remove(proj, task = None):
-	try:
-		with open(IDEA_CONFIG_FILE_PATH, 'r') as f:
-			data = f.read()
-			data = decryption(data)
-			data = json.loads(data)
-		f.close()
-	except:
-		chalk.red("File not exist, operation aborted.")
-		return
-	f.close()
-	try:
-		if task == None:
-			del data[proj]												# a project deleted
-			chalk.blue('Project deleted successfully.')
-		else:
-			data[proj] = filter(lambda x : x[0] != task, data[proj])	# task inside a respective project deleted
-			chalk.blue('Task deleted successfully.')
-		with open(IDEA_CONFIG_FILE_PATH, 'w') as f:
-			#yaml.dump(data, f, default_flow_style = False)
-			data = json.dumps(data)
-			data = encryption(data)
-			f.write(data)
-		f.close()
-	except:
-		chalk.red("Wrong task or project entered. Please check using 'yoda ideas show'")
+    try:
+        with open(IDEA_CONFIG_FILE_PATH, 'r') as f:
+            data = f.read()
+            data = decryption(data)
+            data = json.loads(data)
+        f.close()
+    except:
+        chalk.red("File not exist, operation aborted.")
+        return
+    f.close()
+    try:
+        if task == None:
+            del data[proj]												# a project deleted
+            chalk.blue('Project deleted successfully.')
+        else:
+            data[proj] = filter(lambda x : x[0] != task, data[proj])	# task inside a respective project deleted
+            chalk.blue('Task deleted successfully.')
+        with open(IDEA_CONFIG_FILE_PATH, 'w') as f:
+            #yaml.dump(data, f, default_flow_style = False)
+            data = json.dumps(data)
+            data = encryption(data)
+            f.write(data)
+        f.close()
+    except:
+        chalk.red("Wrong task or project entered. Please check using 'yoda ideas show'")
 
 
 #idea list process
@@ -276,31 +276,31 @@ def remove(proj, task = None):
 @click.option('--project', nargs = 1, required = False, default = None)
 @click.option('--inside', nargs = 1, required = False, default = None)
 def ideas(subcommand, task, project, inside):
-	'''
-		Keep track of ideas
-	
-		yoda ideas SUBCOMMAND [OPTIONAL ARGUMENTS]
-	
-		ACTION:
-		
-			show   : list out all the exiting ideas
-		
-			add    : add a project or a task inside a project
-		
-			remove : delete a task or a complete project
-			
-	'''
-	if subcommand != 'show' and (project or inside) == None:
-		chalk.red('You have not selected any project, Operation aborted.')
-		return
-	subcommands = {
-		'show' : show,
-		'add' : add_task,
-		'remove' : remove,
-	}
-	try:
-		subcommands[subcommand]((project or inside), task)
-	except KeyError:
-		chalk.red('Command ' + subcommand + ' does not exist.')
-		click.echo('Try "yoda ideas --help" for more info')
+    '''
+        Keep track of ideas
+
+        yoda ideas SUBCOMMAND [OPTIONAL ARGUMENTS]
+
+        ACTION:
+
+            show   : list out all the exiting ideas
+
+            add    : add a project or a task inside a project
+
+            remove : delete a task or a complete project
+
+    '''
+    if subcommand != 'show' and (project or inside) == None:
+        chalk.red('You have not selected any project, Operation aborted.')
+        return
+    subcommands = {
+        'show' : show,
+        'add' : add_task,
+        'remove' : remove,
+    }
+    try:
+        subcommands[subcommand]((project or inside), task)
+    except KeyError:
+        chalk.red('Command ' + subcommand + ' does not exist.')
+        click.echo('Try "yoda ideas --help" for more info')
 
