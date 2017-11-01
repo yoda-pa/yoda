@@ -1,7 +1,10 @@
 import click
+import chalk
 from config import get_config_file_paths
 import os.path
+from os import listdir
 import time
+import yaml
 from util import *
 import json
 from Crypto.Cipher import AES
@@ -160,6 +163,7 @@ def rlist(subcommand, params, query):
     params = str(params)
     query = str(query)
     opts = (params, query) if params and query else ()
+    #print opts
     subcommands = {
         'view': view_rlist,
         'add': add_to_rlist,
@@ -167,12 +171,12 @@ def rlist(subcommand, params, query):
     try:
         subcommands[subcommand](opts)
     except KeyError:
-        chalk.red("Command " + subcommand + " does not exist!")
+        chalk.red("Command " + subcommand  + " does not exist!")
         click.echo("Try 'yoda rlist --help' for more info'")
 
-#idea list operations
+# idea list operations
 
-#config file path
+# config file path
 
 IDEA_CONFIG_FILE_PATH = get_config_file_paths()['IDEA_CONFIG_FILE_PATH']
 CONFIG_FILE_PATH = get_config_file_paths()['USER_CONFIG_FILE_PATH']
@@ -181,15 +185,17 @@ contents = yaml.load(config_file)
 cipher_key = contents['encryption']['cipher_key']
 cipher_IV456 = contents['encryption']['cipher_IV456']
 
-#encryption function
+# encryption function
 def encryption(text):
 	return AES.new(cipher_key, AES.MODE_CBC, cipher_IV456).encrypt(text * 16)
 
-#decryption function
+
+# decryption function
 def decryption(text):
 	s = AES.new(cipher_key, AES.MODE_CBC, cipher_IV456).decrypt(text)
 	return s[:len(s) / 16]
 
+# a new entry created
 def add_task(proj_name, task_name):
 	try:
 		with open(IDEA_CONFIG_FILE_PATH, 'r') as f:
@@ -208,8 +214,7 @@ def add_task(proj_name, task_name):
 	
 	chalk.blue('Brief desc of the current task : ')
 	desc = raw_input()
-	task.append((task_name, desc))
-	
+  task.append((task_name, desc))										# a new entry created
 	data[proj_name] = task
 	with open(IDEA_CONFIG_FILE_PATH, 'w') as f:
 		#yaml.dump(data, f, default_flow_style = False)
@@ -218,6 +223,7 @@ def add_task(proj_name, task_name):
 		f.write(data)
 	f.close()
 
+# all the saved entries are displayed
 def show(proj_name, task_name):
 	try:
 		with open(IDEA_CONFIG_FILE_PATH, 'r') as f:
@@ -234,6 +240,7 @@ def show(proj_name, task_name):
 			chalk.cyan('\t' + task)
 			chalk.cyan('\t\t' + desc)
 
+# delete a whole entry or a subentry inside it
 def remove(proj, task = None):
 	try:
 		with open(IDEA_CONFIG_FILE_PATH, 'r') as f:
@@ -247,10 +254,10 @@ def remove(proj, task = None):
 	f.close()
 	try:
 		if task == None:
-			del data[proj]
+			del data[proj]												# a project deleted
 			chalk.blue('Project deleted successfully.')
 		else:
-			data[proj] = filter(lambda x : x[0] != task, data[proj])
+			data[proj] = filter(lambda x : x[0] != task, data[proj])	# task inside a respective project deleted
 			chalk.blue('Task deleted successfully.')
 		with open(IDEA_CONFIG_FILE_PATH, 'w') as f:
 			#yaml.dump(data, f, default_flow_style = False)
@@ -269,6 +276,20 @@ def remove(proj, task = None):
 @click.option('--project', nargs = 1, required = False, default = None)
 @click.option('--inside', nargs = 1, required = False, default = None)
 def ideas(subcommand, task, project, inside):
+	'''
+		Keep track of ideas
+	
+		yoda ideas SUBCOMMAND [OPTIONAL ARGUMENTS]
+	
+		ACTION:
+		
+			show   : list out all the exiting ideas
+		
+			add    : add a project or a task inside a project
+		
+			remove : delete a task or a complete project
+			
+	'''
 	if subcommand != 'show' and (project or inside) == None:
 		chalk.red('You have not selected any project, Operation aborted.')
 		return
