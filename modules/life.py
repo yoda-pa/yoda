@@ -15,9 +15,15 @@ LIFE_CONFIG_FOLDER_PATH = get_folder_path_from_file_path(
 RLIST_PARAMS = ('title', 'author', 'kind', 'tags')
 
 
-# get file path for today's tasks entry file
-
 def is_in_params(params, query, article):
+    """
+    Get file path for today's tasks entry file
+
+    :param params:
+    :param query:
+    :param article:
+    :return:
+    """
     query = query.lower()
     article_filter = article[params]
 
@@ -26,7 +32,7 @@ def is_in_params(params, query, article):
     else:
         article_filter = article_filter.lower()
 
-    return (query in article_filter)
+    return query in article_filter
 
 
 @click.group()
@@ -38,31 +44,37 @@ def life():
 
 
 def reading_list_entry_file_path():
+    """
+    Get complete path of the file reading_list.yaml
+    :return: path
+    """
     return os.path.join(LIFE_CONFIG_FOLDER_PATH, "reading_list.yaml")
 
 
 READING_LIST_ENTRY_FILE_PATH = reading_list_entry_file_path()
 
 
-# asks user to create a reading list if s/he has none
-
-
 def empty_list_prompt():
-    click.echo("You reading list is empty. Add something to the list, you want to? (Y/n)")
+    """
+    Empty list prompt
+    """
+    click.echo("You reading list is empty. Add something to the list, do you want to? (Y/n)")
     decision = get_input().lower()
 
     if decision == "y" or not decision:
-        add_to_rlist()
+        add_to_reading_list()
     else:
         click.echo("Using 'yoda rlist add', you can create later.")
 
 
-# prints reading list
-
-
-def print_rlist(contents, only=RLIST_PARAMS):
+def print_reading_list(reading_list_contents, only=RLIST_PARAMS):
+    """
+    prints reading list
+    :param reading_list_contents:
+    :param only:
+    """
     i = 0
-    for entry in contents['entries']:
+    for entry in reading_list_contents['entries']:
         i += 1
         click.echo("-" + ('[' + str(i) + ']').ljust(24, '-'))
         title = entry['title']
@@ -78,14 +90,15 @@ def print_rlist(contents, only=RLIST_PARAMS):
     click.echo("---END-OF-READING-LIST---")
 
 
-# get the current reading list
-
-
-def view_rlist(opts):
+def view_reading_list(opts):
+    """
+    get the current reading list
+    :param opts:
+    """
     if os.path.isfile(READING_LIST_ENTRY_FILE_PATH):
-        with open(READING_LIST_ENTRY_FILE_PATH, 'r') as reading_list_entry:
-            contents = yaml.load(reading_list_entry)
-            contents = dict(contents)
+        with open(READING_LIST_ENTRY_FILE_PATH) as reading_list_entry:
+            file_contents = yaml.load(reading_list_entry)
+            file_contents = dict(file_contents)
             last_updated = time.ctime(os.path.getmtime(READING_LIST_ENTRY_FILE_PATH))
             query = opts[1]
             params = opts[0]
@@ -93,20 +106,22 @@ def view_rlist(opts):
 
             if query != 'None':
                 search = "(filtered by " + params + ": " + query + ")"
-                filtered_contents = [article for article in contents['entries'] if is_in_params(params, query, article)]
-                contents = dict(entries=filtered_contents)
+                filtered_contents = [article for article in file_contents['entries'] if
+                                     is_in_params(params, query, article)]
+                file_contents = dict(entries=filtered_contents)
 
             chalk.blue("Your awesome reading list " + search)
             chalk.blue("Last updated: " + last_updated)
-            print_rlist(contents)
+            print_reading_list(file_contents)
     else:
         empty_list_prompt()
 
 
-# add anything to the reading list
-
-
-def add_to_rlist(query=""):
+def add_to_reading_list(query=""):
+    """
+    add anything to the reading list
+    :param query:
+    """
     chalk.blue("Title of the article:")
     _title = get_input()
     while len(_title) == 0:
@@ -148,7 +163,7 @@ def add_to_rlist(query=""):
 @click.option('--params', nargs=1, required=False, default="tags")
 @click.argument('query', nargs=1, required=False)
 def rlist(sub_command, params, query):
-    '''
+    """
         Reading list for your daily life
 
         yoda rlist [OPTIONS] SUBCOMMAND [QUERY]
@@ -162,15 +177,15 @@ def rlist(sub_command, params, query):
                 query: keyword to be searched
 
             add: add something to your reading list
-    '''
+    """
     sub_command = str(sub_command)
     params = str(params)
     query = str(query)
     opts = (params, query) if params and query else ()
     # print opts
     sub_commands = {
-        'view': view_rlist,
-        'add': add_to_rlist,
+        'view': view_reading_list,
+        'add': add_to_reading_list,
     }
     try:
         sub_commands[sub_command](opts)
@@ -191,21 +206,33 @@ cipher_key = contents['encryption']['cipher_key']
 cipher_IV456 = contents['encryption']['cipher_IV456']
 
 
-# encryption function
 def encryption(text):
+    """
+    encryption function for saving ideas
+    :param text:
+    :return:
+    """
     return AES.new(cipher_key, AES.MODE_CBC, cipher_IV456).encrypt(text * 16)
 
 
-# decryption function
 def decryption(text):
+    """
+    decryption function for saving ideas
+    :param text:
+    :return:
+    """
     s = AES.new(cipher_key, AES.MODE_CBC, cipher_IV456).decrypt(text)
     return s[:len(s) / 16]
 
 
-# a new entry created
-def add_task(proj_name, task_name):
+def add_task(project_name, task_name):
+    """
+    a new entry created
+    :param project_name:
+    :param task_name:
+    """
     try:
-        with open(IDEA_CONFIG_FILE_PATH, 'r') as f:
+        with open(IDEA_CONFIG_FILE_PATH) as f:
             data = f.read()
             data = decryption(data)
             data = json.loads(data)
@@ -214,27 +241,31 @@ def add_task(proj_name, task_name):
         data = None
     if not isinstance(data, dict):
         data = dict()
-    if proj_name in data:
-        task = data[proj_name]
+    if project_name in data:
+        task = data[project_name]
     else:
         task = []
 
     chalk.blue('Brief desc of the current task : ')
     desc = raw_input()
     task.append((task_name, desc))  # a new entry created
-    data[proj_name] = task
+    data[project_name] = task
     with open(IDEA_CONFIG_FILE_PATH, 'w') as f:
-        # yaml.dump(data, f, default_flow_style = False)
         data = json.dumps(data)
         data = encryption(data)
         f.write(data)
     f.close()
 
 
-# all the saved entries are displayed
-def show(proj_name, task_name):
+def show(project_name, task_name):
+    """
+    all the saved entries are displayed
+    :param project_name:
+    :param task_name:
+    :return:
+    """
     try:
-        with open(IDEA_CONFIG_FILE_PATH, 'r') as f:
+        with open(IDEA_CONFIG_FILE_PATH) as f:
             data = f.read()
             data = decryption(data)
             data = json.loads(data)
@@ -244,13 +275,18 @@ def show(proj_name, task_name):
         return
     for proj, task in data.items():
         chalk.yellow(proj)
-        for task, desc in task:
-            chalk.cyan('\t' + task)
-            chalk.cyan('\t\t' + desc)
+        for _task_name, _task_description in task:
+            chalk.cyan('\t' + _task_name)
+            chalk.cyan('\t\t' + _task_description)
 
 
-# delete a whole entry or a subentry inside it
-def remove(proj, task=None):
+def remove(project, task=None):
+    """
+    delete a whole entry or a sub-entry inside it
+    :param project:
+    :param task:
+    :return:
+    """
     try:
         with open(IDEA_CONFIG_FILE_PATH, 'r') as f:
             data = f.read()
@@ -262,14 +298,13 @@ def remove(proj, task=None):
         return
     f.close()
     try:
-        if task == None:
-            del data[proj]  # a project deleted
+        if task is None:
+            del data[project]  # a project deleted
             chalk.blue('Project deleted successfully.')
         else:
-            data[proj] = filter(lambda x: x[0] != task, data[proj])  # task inside a respective project deleted
+            data[project] = filter(lambda x: x[0] != task, data[project])  # task inside a respective project deleted
             chalk.blue('Task deleted successfully.')
         with open(IDEA_CONFIG_FILE_PATH, 'w') as f:
-            # yaml.dump(data, f, default_flow_style = False)
             data = json.dumps(data)
             data = encryption(data)
             f.write(data)
@@ -285,7 +320,7 @@ def remove(proj, task=None):
 @click.option('--project', nargs=1, required=False, default=None)
 @click.option('--inside', nargs=1, required=False, default=None)
 def ideas(subcommand, task, project, inside):
-    '''
+    """
         Keep track of ideas
 
         yoda ideas SUBCOMMAND [OPTIONAL ARGUMENTS]
@@ -298,17 +333,17 @@ def ideas(subcommand, task, project, inside):
 
             remove : delete a task or a complete project
 
-    '''
-    if subcommand != 'show' and (project or inside) == None:
+    """
+    if subcommand != 'show' and (project or inside) is None:
         chalk.red('You have not selected any project, Operation aborted.')
         return
-    subcommands = {
+    sub_commands = {
         'show': show,
         'add': add_task,
         'remove': remove,
     }
     try:
-        subcommands[subcommand]((project or inside), task)
+        sub_commands[subcommand]((project or inside), task)
     except KeyError:
         chalk.red('Command ' + subcommand + ' does not exist.')
         click.echo('Try "yoda ideas --help" for more info')
