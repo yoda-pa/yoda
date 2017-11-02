@@ -15,6 +15,10 @@ request.session_id = os.environ.get(
 
 
 def process(input_string):
+    """
+    minimal chat bot
+    :param input_string:
+    """
     request.query = input_string
     try:
         response = request.getresponse().read()
