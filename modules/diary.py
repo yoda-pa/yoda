@@ -1,12 +1,14 @@
-import click
-import errno
-from config import get_config_file_paths
-import os.path
-from os import listdir
-import time
-from util import *
 import calendar
 import datetime
+import errno
+import os.path
+import time
+from os import listdir
+
+import click
+
+from config import get_config_file_paths
+from util import *
 
 # config file path
 DIARY_CONFIG_FILE_PATH = get_config_file_paths()['DIARY_CONFIG_FILE_PATH']

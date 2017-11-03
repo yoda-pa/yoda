@@ -1,11 +1,13 @@
-import click
-import chalk
-import config
-import os
-import apiai
 import json
+import os
 import socket
 import sys
+
+import apiai
+import chalk
+import click
+
+import config
 
 CLIENT_ACCESS_TOKEN = os.environ.get('API_AI_TOKEN', config.API_AI_TOKEN)
 ai = apiai.ApiAI(CLIENT_ACCESS_TOKEN)

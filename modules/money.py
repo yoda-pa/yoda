@@ -1,12 +1,13 @@
-import click
-import apiai
-import config
-import json
-from forex_python.converter import CurrencyRates, CurrencyCodes
-import time
 import datetime
+import json
 import shlex
+import time
 
+import apiai
+import click
+from forex_python.converter import CurrencyRates, CurrencyCodes
+
+import config
 from config import get_config_file_paths
 from util import *
 
@@ -25,22 +26,25 @@ MONEY_CONFIG_FOLDER_PATH = get_folder_path_from_file_path(
 currency_rates = CurrencyRates()
 currency_codes = CurrencyCodes()
 
-# check status of setup
-
 
 def status():
+    """
+    check status of setup
+    """
     if os.path.isfile(MONEY_CONFIG_FILE_PATH):
-        with open(MONEY_CONFIG_FILE_PATH, 'r') as config_file:
+        with open(MONEY_CONFIG_FILE_PATH) as config_file:
             contents = yaml.load(config_file)
             click.echo(contents)
     else:
         click.echo(
             'The configuration file for this module does not exist. Please type "yoda money setup" to create a new one')
 
-# create new setup config
-
 
 def setup():
+    """
+    create new setup config
+    :return:
+    """
     create_folder(MONEY_CONFIG_FOLDER_PATH)
 
     if ask_overwrite(MONEY_CONFIG_FILE_PATH):
@@ -52,7 +56,7 @@ def setup():
     click.echo(currency_codes.get_symbol(currency_code))
     click.echo(currency_codes.get_currency_name(currency_code))
 
-    chalk.blue('Enter inital amount:')
+    chalk.blue('Enter initial amount:')
     initial_money = int(raw_input().strip())
 
     setup_data = dict(
@@ -64,6 +68,9 @@ def setup():
 
 
 def expense():
+    """
+    add expense
+    """
     create_folder(MONEY_CONFIG_FOLDER_PATH)
     with open(MONEY_CONFIG_FOLDER_PATH + '/expenditures.txt', 'a') as fp:
         request.query = raw_input()
@@ -83,21 +90,27 @@ def expense():
 
 
 def expenses():
+    """
+    check expenses
+    """
     with open(MONEY_CONFIG_FOLDER_PATH + '/expenditures.txt') as fp:
         for line in fp.read().split('\n'):
             if len(line) == 0:
                 continue
-            (date, time, currency_name, number, item) = shlex.split(line)
+            (date, _time, currency_name, number, item) = shlex.split(line)
             y, m, d = map(int, date.split('-'))
 
             if datetime.datetime(y, m, d).month == datetime.datetime.now().month:
-                click.echo(date + ' ' + time + ' ' +
+                click.echo(date + ' ' + _time + ' ' +
                            currency_name + ' ' + number + ' ' + item)
-
-# command checker
 
 
 def check_sub_command(c):
+    """
+    command checker
+    :param c:
+    :return:
+    """
     sub_commands = {
         'status': status,
         'setup': setup,
@@ -110,9 +123,11 @@ def check_sub_command(c):
         chalk.red('Command does not exist!')
         click.echo('Try "yoda money --help" for more info')
 
-# the main process
-
 
 def process(input):
-    input = input.lower().strip()
-    check_sub_command(input)
+    """
+    the main process
+    :param input:
+    """
+    _input = input.lower().strip()
+    check_sub_command(_input)

@@ -1,47 +1,62 @@
-import click
-import chalk
+import errno
 import getpass
+import os.path
+import random
+import string
+
+import chalk
+import click
 import lepl.apps.rfc3696
 import yaml
-import errno
-import os.path
 from Crypto.Cipher import AES
-import string
-import random
+
 from config import get_config_file_paths
 from config import update_config_path
 
 CONFIG_FILE_PATH = get_config_file_paths()['USER_CONFIG_FILE_PATH']
 
-# used to generate key and IV456 for Crypto
-
 
 def cypher_pass_generator(size=16, chars=string.ascii_uppercase + string.digits):
+    """
+    used to generate key and IV456 for Crypto
+    :param size:
+    :param chars:
+    :return:
+    """
     return ''.join(random.choice(chars) for _ in range(size))
-
-# to encrypt the password
 
 
 def encrypt_password(cipher_key, cipher_IV456, password):
+    """
+    to encrypt the password
+    :param cipher_key:
+    :param cipher_IV456:
+    :param password:
+    :return:
+    """
     return AES.new(cipher_key, AES.MODE_CBC, cipher_IV456).encrypt(password * 16)
-
-# to decrypt the password from the cipher text. written to test the
-# functionality of pycrypto
 
 
 def decrypt_password():
+    """
+    to decrypt the password from the cipher text. written to test the
+    functionality of pycrypto
+    :return:
+    """
     config_file = open(CONFIG_FILE_PATH, 'r')
     contents = yaml.load(config_file)
     cipher_key = contents['encryption']['cipher_key']
     cipher_IV456 = contents['encryption']['cipher_IV456']
-    ciphertext = contents['github']['password']
-    s = AES.new(cipher_key, AES.MODE_CBC, cipher_IV456).decrypt(ciphertext)
+    cipher_text = contents['github']['password']
+    s = AES.new(cipher_key, AES.MODE_CBC, cipher_IV456).decrypt(cipher_text)
     return s[:len(s) / 16]
-
-# create new config file
 
 
 def new():
+    """
+    create new config file
+    :return:
+    """
     chalk.blue('Enter your name:')
     name = raw_input().strip()
     while len(name) == 0:
@@ -120,11 +135,12 @@ def new():
     with open(CONFIG_FILE_PATH, 'w') as config_file:
         yaml.dump(setup_data, config_file, default_flow_style=False)
 
-# check existing setup
-
 
 def check():
     # TODO: beautify output
+    """
+    check existing setup
+    """
     if os.path.isfile(CONFIG_FILE_PATH):
         with open(CONFIG_FILE_PATH, 'r') as config_file:
             contents = yaml.load(config_file)
@@ -137,10 +153,12 @@ def check():
         chalk.red(
             'The configuration file does not exist. Please type "yoda setup new" to create a new one')
 
-# delete config_file
-
 
 def delete():
+    """
+    delete config_file
+    :return:
+    """
     if os.path.isfile(CONFIG_FILE_PATH):
         chalk.red('Are you sure you want to delete previous configuration? (y/n)')
         delete_response = raw_input().lower().strip()
@@ -152,10 +170,13 @@ def delete():
     else:
         chalk.red('Configuration file does not exist!')
 
-# checks which command to execute
-
 
 def check_sub_command(c):
+    """
+    checks which command to execute
+    :param c:
+    :return:
+    """
     sub_commands = {
         'new': new,
         'check': check,
@@ -169,14 +190,20 @@ def check_sub_command(c):
 
 
 def get_gh_username():
+    """
+    get github username
+    :return:
+    """
     config_file = open(CONFIG_FILE_PATH, 'r')
     contents = yaml.load(config_file)
     return contents['github']['username']
 
-# the main process
-
 
 def process(input):
-    input = input.lower().strip()
+    """
+    the main process
+    :param input:
+    """
+    _input = input.lower().strip()
     # check which command to execute
-    check_sub_command(input)
+    check_sub_command(_input)

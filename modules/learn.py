@@ -1,12 +1,14 @@
-import click
-import random
-from util import *
-from config import get_config_file_paths
-import time
 import datetime
-import requests
-from os import listdir
 import pkgutil
+import random
+import time
+from os import listdir
+
+import click
+import requests
+
+from config import get_config_file_paths
+from util import *
 
 
 # the main process
@@ -282,7 +284,6 @@ def modify_set_fc_description(name, new_name):
             fp.write('{}-{}-{}\n'.format(_set if _set != name else new_name, sets[_set], ))
 
 
-
 def modify_set_fc(name):
     """
     modify a set
@@ -307,9 +308,6 @@ def modify_set_fc(name):
                       name + '\' to \'' + new_name + '\'')
 
 
-
-
-
 def select_set_fc(name):
     """
     select working study set
@@ -331,9 +329,6 @@ def select_set_fc(name):
                 chalk.blue('Selected study set: ' + SELECTED_STUDY_SET)
         except KeyError:
             chalk.red('Set does not exist')
-
-
-
 
 
 def check_sub_command_sets_flashcards(c, name):
@@ -385,7 +380,6 @@ def add_card_fc(name):
             fp.write(description)
     else:
         chalk.red('No set selected')
-
 
 
 def check_sub_command_cards_flashcards(c, name):

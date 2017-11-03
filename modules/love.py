@@ -1,4 +1,5 @@
 import click
+
 from config import get_config_file_paths
 from util import *
 
@@ -7,11 +8,14 @@ LOVE_CONFIG_FILE_PATH = get_config_file_paths()["LOVE_CONFIG_FILE_PATH"]
 LOVE_CONFIG_FOLDER_PATH = get_folder_path_from_file_path(LOVE_CONFIG_FILE_PATH)
 LOVE_NOTES_FILE_PATH = LOVE_CONFIG_FOLDER_PATH + '/notes.yaml'
 
-# append data into existing file
-
 
 def append_data_into_file(data, file_path):
-    with open(file_path, "r") as todays_tasks_entry:
+    """
+    append data into existing file
+    :param data:
+    :param file_path:
+    """
+    with open(file_path) as todays_tasks_entry:
         # read contents
         contents = yaml.load(todays_tasks_entry)
         contents['notes'].append(
@@ -22,20 +26,25 @@ def append_data_into_file(data, file_path):
         with open(file_path, "w") as todays_tasks_entry:
             yaml.dump(contents, todays_tasks_entry, default_flow_style=False)
 
-# check status of setup
-
 
 def status():
+    """
+    check status
+    """
     if os.path.isfile(LOVE_CONFIG_FILE_PATH):
-        with open(LOVE_CONFIG_FILE_PATH, 'r') as config_file:
+        with open(LOVE_CONFIG_FILE_PATH) as config_file:
             contents = yaml.load(config_file)
-            click.echo((contents))
+            click.echo(contents)
     else:
         chalk.red(
             'The configuration file for this module does not exist. Please type "yoda love setup" to create a new one')
 
 
 def setup():
+    """
+    create new setup
+    :return:
+    """
     create_folder(LOVE_CONFIG_FOLDER_PATH)
 
     if ask_overwrite(LOVE_CONFIG_FILE_PATH):
@@ -60,6 +69,9 @@ def setup():
 
 
 def note():
+    """
+    add a note for them
+    """
     if os.path.isfile(LOVE_NOTES_FILE_PATH):
         data = dict(
             note=raw_input()
@@ -77,7 +89,9 @@ def note():
 
 
 def notes():
-
+    """
+    view notes
+    """
     if os.path.isfile(LOVE_NOTES_FILE_PATH):
         with open(LOVE_NOTES_FILE_PATH, 'r') as notes_file:
             contents = yaml.load(notes_file)
@@ -90,10 +104,13 @@ def notes():
         chalk.red(
             'The configuration file for this module does not exist. Please type "yoda love setup" to create a new one')
 
-# command checker
-
 
 def check_sub_command(c):
+    """
+    command checker
+    :param c:
+    :return:
+    """
     sub_commands = {
         'setup': setup,
         'status': status,
@@ -108,5 +125,9 @@ def check_sub_command(c):
 
 
 def process(input):
-    input = input.lower().strip()
-    check_sub_command(input)
+    """
+    the main process
+    :param input:
+    """
+    _input = input.lower().strip()
+    check_sub_command(_input)
