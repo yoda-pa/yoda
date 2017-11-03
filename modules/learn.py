@@ -7,6 +7,8 @@ import datetime
 import requests
 from os import listdir
 import pkgutil
+
+
 # the main process
 
 
@@ -15,6 +17,7 @@ def learn():
     """
         The learn module
     """
+
 
 # ----------------------- / vocabulary code -----------------------#
 
@@ -34,12 +37,17 @@ for line in pkgutil.get_data('yoda', 'resources/vocab-words.txt').split('\n'):
 
 
 def get_words_list():
+    """
+    get word list
+    :return:
+    """
     return words
-
-# displays a random word
 
 
 def random_word():
+    """
+    displays a random word
+    """
     words = get_words_list()
     word, meaning = random.choice(words.items())
     # TODO: process result data and get word depending on the history of it too
@@ -50,56 +58,58 @@ def random_word():
     # check if the user knows about this word or not
     result = raw_input('Did you know / remember the meaning?\n')
     correct = 0
-    incorrect = 0
     if result == 'y' or result == 'yes':
         correct = 1
-    else:
-        incorrect = 1
     create_folder(VOCABULARY_CONFIG_FOLDER_PATH)
     with open(VOCABULARY_CONFIG_FOLDER_PATH + '/results.txt', 'a') as fp:
         timestamp = datetime.datetime.fromtimestamp(
             time.time()).strftime('%Y-%m-%d %H:%M:%S')
         fp.write('{} {} {}\n'.format(timestamp, word, correct))
 
-# calculates accuracy
-
 
 def get_word_accuracy_of_previous_words():
+    """
+    calculates accuracy
+    :return:
+    """
     accuracy = {}
-    for word in words:
-        accuracy[word] = []
+    for _word in words:
+        accuracy[_word] = []
     if not os.path.isfile(VOCABULARY_CONFIG_FOLDER_PATH + '/results.txt'):
         chalk.red(
             'No words learned in the past. Please use "yoda vocabulary word" for the same')
         return
     with open(VOCABULARY_CONFIG_FOLDER_PATH + '/results.txt') as fp:
-        for line in fp.read().split('\n'):
-            if len(line) == 0:
+        for _line in fp.read().split('\n'):
+            if len(_line) == 0:
                 continue
-            (date, time, word, correct) = line.split()
+            (date, _time, _word, correct) = _line.split()
             correct = int(correct)
-            if word in accuracy:
-                accuracy[word].append(correct)
+            if _word in accuracy:
+                accuracy[_word].append(correct)
 
     words_in_history = {}
 
-    for word, lst in accuracy.items():
+    for _word, lst in accuracy.items():
         if len(lst):
-            words_in_history[word] = []
-            words_in_history[word].append(len(lst))
-            words_in_history[word].append(
+            words_in_history[_word] = []
+            words_in_history[_word].append(len(lst))
+            words_in_history[_word].append(
                 round((sum(lst) * 100) / len(lst)) if len(lst) else 0)
 
     click.echo(click.style("Words asked in the past: ", bold=True))
     # print(words_in_history)
-    for word, ar in words_in_history.items():
-        click.echo(word + '-- times used: ' +
+    for _word, ar in words_in_history.items():
+        click.echo(_word + '-- times used: ' +
                    str(ar[0]) + ' accuracy: ' + str(ar[1]))
-
-# command checker
 
 
 def check_sub_command_vocab(c):
+    """
+    command checker
+    :param c:
+    :return:
+    """
     sub_commands = {
         'word': random_word,
         'accuracy': get_word_accuracy_of_previous_words
@@ -120,8 +130,10 @@ def vocabulary(input):
         word: get a random word\n
         accuracy: view your progress
     """
-    input = tuple_to_string(input)
-    check_sub_command_vocab(input)
+    _input = tuple_to_string(input)
+    check_sub_command_vocab(_input)
+
+
 # ----------------------- / vocabulary code -----------------------#
 
 
@@ -131,13 +143,21 @@ FLASHCARDS_CONFIG_FILE_PATH = get_config_file_paths()["FLASHCARDS_CONFIG_FILE_PA
 FLASHCARDS_CONFIG_FOLDER_PATH = get_folder_path_from_file_path(
     FLASHCARDS_CONFIG_FILE_PATH)
 
+
 def get_selected_set():
+    """
+    get selected set
+    :return:
+    """
     if os.path.isfile(FLASHCARDS_CONFIG_FOLDER_PATH + '/selected_study_set'):
         with open(FLASHCARDS_CONFIG_FOLDER_PATH + '/selected_study_set') as fp:
             lines = fp.read().split('\n')
             return lines[0].strip()
 
+
 SELECTED_STUDY_SET = get_selected_set()
+
+
 # ----- functions for sets -----
 
 
@@ -146,53 +166,60 @@ def get_set_statuses():
     if not os.path.isfile(FLASHCARDS_CONFIG_FOLDER_PATH + '/sets.txt'):
         return None
     with open(FLASHCARDS_CONFIG_FOLDER_PATH + '/sets.txt') as fp:
-        for line in fp.read().split('\n'):
-            line = line.strip()
-            if len(line) > 0:
-                (name, is_open, description) = line.split('-')
+        for _line in fp.read().split('\n'):
+            _line = _line.strip()
+            if len(_line) > 0:
+                (name, is_open, description) = _line.split('-')
                 sets[name.lower().strip()] = int(is_open)
     return sets
 
 
 def get_set_descriptions():
+    """
+    get description of sets
+    :return:
+    """
     sets = {}
     if not os.path.isfile(FLASHCARDS_CONFIG_FOLDER_PATH + '/sets.txt'):
         return None
     with open(FLASHCARDS_CONFIG_FOLDER_PATH + '/sets.txt') as fp:
-        for line in fp.read().split('\n'):
-            line = line.strip()
-            if len(line) > 0:
-                (name, is_open, description) = line.split('-')
+        for _line in fp.read().split('\n'):
+            _line = _line.strip()
+            if len(_line) > 0:
+                (name, is_open, description) = _line.split('-')
                 sets[name.lower().strip()] = description
     return sets
 
-# gives you a list of all the study sets
-
 
 def list_sets_fc(dummy):
+    """
+    gives you a list of all the study sets
+    :param dummy:
+    """
     sets = get_set_statuses()
-    descriptions = get_set_descriptions()
     if not sets:
         chalk.red(
             'There are no sets right now. Type "yoda flashcards sets new <name>" to create one')
     else:
         i = 0
         there_are_sets = False
-        for set in sets:
-            if sets[set] >= 1:
+        for _set in sets:
+            if sets[_set] >= 1:
                 if not there_are_sets:
                     click.echo('List of all the study sets:')
                     there_are_sets = True
                 i += 1
-                click.echo(str(i) + ') ' + set)
+                click.echo(str(i) + ') ' + _set)
         if not there_are_sets:
             chalk.red(
                 'Looks like all the sets are closed. Please create a new one or open an existing one')
 
-# creates new study set
-
 
 def new_set_fc(name):
+    """
+    creates new study set
+    :param name:
+    """
     if name:
         if len(name.split()) > 1:
             chalk.red('The length of name should not be more than one')
@@ -209,7 +236,7 @@ def new_set_fc(name):
             else:
                 # assuming that the set exists. if it doesn't, catch
                 try:
-                    if (sets[name] != 0 and sets[name] != 1):
+                    if sets[name] != 0 and sets[name] != 1:
                         chalk.red('Set already exists')
                 except KeyError:
                     create_folder(FLASHCARDS_CONFIG_FOLDER_PATH)
@@ -227,30 +254,40 @@ def new_set_fc(name):
         chalk.red('Please enter the name of new study set after the command')
 
 
-def modify_set_fc_util(name, new_name):
+def modify_set_fc_name(name, new_name):
+    """
+    util function
+    :param name:
+    :param new_name:
+    """
     sets = get_set_statuses()
-    descriptions = get_set_descriptions()
     # delete existing file
     os.remove(FLASHCARDS_CONFIG_FOLDER_PATH + '/sets.txt')
-    for set in sets:
+    for _set in sets:
         with open(FLASHCARDS_CONFIG_FOLDER_PATH + '/sets.txt', 'a') as fp:
-            fp.write('{} {}\n'.format(set if set !=
-                                      name else new_name, sets[set]))
+            fp.write('{} {}\n'.format(_set if _set != name else new_name, sets[_set]))
 
 
 def modify_set_fc_description(name, new_name):
-    descriptions = get_set_descriptions()
+    """
+    modify description of a set
+    :param name:
+    :param new_name:
+    """
+    sets = get_set_statuses()
     # delete existing file
     os.remove(FLASHCARDS_CONFIG_FOLDER_PATH + '/sets.txt')
-    for set in sets:
+    for _set in sets:
         with open(FLASHCARDS_CONFIG_FOLDER_PATH + '/sets.txt', 'a') as fp:
-            fp.write('{}-{}-{}\n'.format(set if set !=
-                                         name else new_name, sets[set], ))
+            fp.write('{}-{}-{}\n'.format(_set if _set != name else new_name, sets[_set], ))
 
-# modify a set
 
 
 def modify_set_fc(name):
+    """
+    modify a set
+    :param name:
+    """
     sets = get_set_statuses()
     if not sets:
         chalk.red(
@@ -260,20 +297,25 @@ def modify_set_fc(name):
             chalk.red('There is no set named ' + name + '.')
         else:
             chalk.blue(
-                'Edit a new name for this set: (If you wish to keep it the same, just type a single \'-\' without the quotes)')
+                'Edit a new name for this set: (If you wish to keep it the same, just type a single \'-\' without the '
+                'quotes)')
             new_name = raw_input().strip()
-            if not (new_name == None or new_name == '-' or new_name == ''):
+            if not (new_name is None or new_name == '-' or new_name == ''):
                 modify_set_fc_name(name, new_name)
                 modify_set_fc_description(name, new_name)
                 print('The name was modified from \'' +
                       name + '\' to \'' + new_name + '\'')
 
-# select working study set
+
+
 
 
 def select_set_fc(name):
+    """
+    select working study set
+    :param name:
+    """
     sets = get_set_statuses()
-    descriptions = get_set_descriptions()
     if not sets:
         chalk.red(
             'There are no sets right now. Type "yoda flashcards sets new <name>" to create one')
@@ -289,10 +331,18 @@ def select_set_fc(name):
                 chalk.blue('Selected study set: ' + SELECTED_STUDY_SET)
         except KeyError:
             chalk.red('Set does not exist')
-# command checker flashcards sets
+
+
+
 
 
 def check_sub_command_sets_flashcards(c, name):
+    """
+    command checker flashcards sets
+    :param c:
+    :param name:
+    :return:
+    """
     sub_commands = {
         'list': list_sets_fc,
         'new': new_set_fc,
@@ -304,12 +354,18 @@ def check_sub_command_sets_flashcards(c, name):
     except KeyError:
         chalk.red('Command does not exist!')
         click.echo('Try "yoda flashcards --help" for more info')
+
+
 # ----- / functions for sets -----
 
 # ----- functions for cards -----
 
 
 def add_card_fc(name):
+    """
+    add flash card
+    :param name:
+    """
     if SELECTED_STUDY_SET:
         print('add card "' + name + '"')
         print('Add description: (press Enter twice to stop)')
@@ -331,8 +387,14 @@ def add_card_fc(name):
         chalk.red('No set selected')
 
 
-# command checker flashcards cards
+
 def check_sub_command_cards_flashcards(c, name):
+    """
+    command checker flashcards cards
+    :param c:
+    :param name:
+    :return:
+    """
     sub_commands = {
         'add': add_card_fc
     }
@@ -341,10 +403,17 @@ def check_sub_command_cards_flashcards(c, name):
     except KeyError:
         chalk.red('Command does not exist!')
         click.echo('Try "yoda flashcards --help" for more info')
+
+
 # ----- / functions for cards -----
 
 
 def status_fc(set, dummy):
+    """
+    flashcard status
+    :param set:
+    :param dummy:
+    """
     if not SELECTED_STUDY_SET:
         chalk.red('No set selected')
     else:
@@ -356,6 +425,11 @@ def status_fc(set, dummy):
 
 
 def study_fc(set, dummy):
+    """
+    start studying a set
+    :param set:
+    :param dummy:
+    """
     if not SELECTED_STUDY_SET:
         chalk.red('No set selected')
     else:
@@ -370,7 +444,7 @@ def study_fc(set, dummy):
         else:
             i = 0
             chalk.blue('Cards:')
-            chalk.blue('_'*width)
+            chalk.blue('_' * width)
             for card in cards_in_selected_set:
                 i += 1
 
@@ -386,11 +460,11 @@ def study_fc(set, dummy):
                             description += (line + '\n')
                 description = description.strip()
                 if i > 0:
-                    click.echo('-'*width)
+                    click.echo('-' * width)
                 click.echo(str(i) + ': ' + name)
-                click.echo('='*width)
+                click.echo('=' * width)
                 click.echo(description)
-                click.echo('='*width)
+                click.echo('=' * width)
                 if i < len_cards_in_selected_set:
                     raw_input('Press Enter to continue to next card')
 
@@ -429,28 +503,31 @@ def flashcards(domain, action, name):
     except KeyError:
         chalk.red('Command does not exist!')
         click.echo('Try "yoda flashcards --help" for more info')
+
+
 # ----------------------- / flashcards code -----------------------#
 
 
+# ----------------------- define code -----------------------#
 @learn.command()
 @click.argument('word', nargs=1)
 def define(word):
     """
         Get the meaning of a word
     """
-    word = str(word)
-    r = requests.get('https://wordsapiv1.p.mashape.com/words/' + word + '/definitions', headers={
+    _word = str(word)
+    r = requests.get('https://wordsapiv1.p.mashape.com/words/' + _word + '/definitions', headers={
         'X-Mashape-Key': 'Yq72o8odIlmshPTjxnTMN1xixyy5p1lgtd0jsn2NsJfn7pflhR',
         "Accept": "application/json"
     })
-    data = r.json()    #output['output'] = TextTemplate('Definition of ' + word + ':\n' + data['definitions'][0]['definition']).get_message()
+    data = r.json()
 
     try:
-        word = data['word']
+        _word = data['word']
         posted = False
         if len(data['definitions']):
             if not posted:
-                chalk.blue('A few definitions of the word "' + word + '" with their parts of speech are given below:')
+                chalk.blue('A few definitions of the word "' + _word + '" with their parts of speech are given below:')
                 click.echo('---------------------------------')
                 posted = True
 
@@ -460,13 +537,17 @@ def define(word):
         # if this word is not in the vocabulary list, add to it!
         if posted:
             words = get_words_list()
-            if word in words:
+            if _word in words:
                 chalk.blue('This word already exists in the vocabulary set, so you can practice it while using that')
             else:
                 with open('resources/vocab-words.txt', 'a') as fp:
-                    fp.write('{} - {}\n'.format(word, data['definitions'][0]['definition']))
-                chalk.blue('This word does not exist in the vocabulary set, so it has been added to it so that you can practice it while using that')
+                    fp.write('{} - {}\n'.format(_word, data['definitions'][0]['definition']))
+                chalk.blue(
+                    'This word does not exist in the vocabulary set, so it has been added to it so that you can '
+                    'practice it while using that')
         else:
             chalk.red('Sorry, no definitions were found for this word')
     except KeyError:
         chalk.red('Sorry, no definitions were found for this word')
+
+# ----------------------- / define code -----------------------#
