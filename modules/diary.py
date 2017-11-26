@@ -163,7 +163,7 @@ def tasks():
         click.echo("-------|---------|-----")
         incomplete_tasks = 0
         total_tasks = 0
-        with open(TODAYS_TASKS_ENTRY_FILE_PATH, 'r') as todays_tasks_entry:
+        with open(TODAYS_TASKS_ENTRY_FILE_PATH) as todays_tasks_entry:
             contents = yaml.load(todays_tasks_entry)
             for entry in contents['entries']:
                 total_tasks += 1
@@ -196,7 +196,7 @@ def complete_task():
     """
     not_valid_task_number = 1
     if os.path.isfile(TODAYS_TASKS_ENTRY_FILE_PATH):
-        with open(TODAYS_TASKS_ENTRY_FILE_PATH, 'r') as todays_tasks_entry:
+        with open(TODAYS_TASKS_ENTRY_FILE_PATH) as todays_tasks_entry:
             contents = yaml.load(todays_tasks_entry)
             i = 0
             no_task_left = True

@@ -299,7 +299,7 @@ def show(project_name, task_name):
             data = json.loads(data)
         f.close()
     except:
-        chalk.red("File not exist, operation aborted.")
+        chalk.red('There are no saved ideas for now. Please run "yoda ideas add" to add a new idea')
         return
     for proj, task in data.items():
         chalk.yellow(proj)
@@ -316,7 +316,7 @@ def remove(project, task=None):
     :return:
     """
     try:
-        with open(IDEA_CONFIG_FILE_PATH, 'r') as f:
+        with open(IDEA_CONFIG_FILE_PATH) as f:
             data = f.read()
             data = decryption(data)
             data = json.loads(data)
@@ -349,7 +349,7 @@ def remove(project, task=None):
 @click.option('--inside', nargs=1, required=False, default=None)
 def ideas(subcommand, task, project, inside):
     """
-        Keep track of ideas
+        Keep track of your precious ideas.
 
         yoda ideas SUBCOMMAND [OPTIONAL ARGUMENTS]
 
@@ -357,13 +357,16 @@ def ideas(subcommand, task, project, inside):
 
             show   : list out all the exiting ideas
 
-            add    : add a project or a task inside a project
+            add    : add a project or a task inside a project. You need to use either --project or --inside flag to
+            add a new project/task
 
-            remove : delete a task or a complete project
+            remove : delete a task or a complete project. You need to use either --project or --inside flag to
+            remove a project/task
 
     """
     if subcommand != 'show' and (project or inside) is None:
-        chalk.red('You have not selected any project, Operation aborted.')
+        chalk.red('Operation aborted. You have not selected any project or task. Please use this command with either '
+                  '--project or --inside flag')
         return
     sub_commands = {
         'show': show,

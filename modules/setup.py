@@ -43,7 +43,7 @@ def decrypt_password():
     functionality of pycrypto
     :return:
     """
-    config_file = open(CONFIG_FILE_PATH, 'r')
+    config_file = open(CONFIG_FILE_PATH)
     contents = yaml.load(config_file)
     cipher_key = contents['encryption']['cipher_key']
     cipher_IV456 = contents['encryption']['cipher_IV456']
@@ -98,7 +98,7 @@ def new():
     while not os.path.isdir(config_path):
         if len(config_path) == 0:
             break
-        chalk.red('Path doesn\'t exist, yoda!')
+        chalk.red('Path doesn\'t exist!')
         chalk.blue('Where shall your config be stored? (Default: ~/.yoda/)')
         config_path = os.path.expanduser(raw_input().strip())
 
@@ -142,7 +142,7 @@ def check():
     check existing setup
     """
     if os.path.isfile(CONFIG_FILE_PATH):
-        with open(CONFIG_FILE_PATH, 'r') as config_file:
+        with open(CONFIG_FILE_PATH) as config_file:
             contents = yaml.load(config_file)
             click.echo('Name: ' + contents['name'])
             click.echo('Email: ' + contents['email'])
@@ -194,7 +194,7 @@ def get_gh_username():
     get github username
     :return:
     """
-    config_file = open(CONFIG_FILE_PATH, 'r')
+    config_file = open(CONFIG_FILE_PATH)
     contents = yaml.load(config_file)
     return contents['github']['username']
 

@@ -93,7 +93,7 @@ def notes():
     view notes
     """
     if os.path.isfile(LOVE_NOTES_FILE_PATH):
-        with open(LOVE_NOTES_FILE_PATH, 'r') as notes_file:
+        with open(LOVE_NOTES_FILE_PATH) as notes_file:
             contents = yaml.load(notes_file)
             i = 0
             click.echo('Notes:')
