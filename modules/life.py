@@ -6,6 +6,7 @@ import click
 from Crypto.Cipher import AES
 
 from config import get_config_file_paths
+from modules.setup import cypher_pass_generator
 from util import *
 
 # config file path
@@ -200,7 +201,34 @@ def rlist(sub_command, params, query):
 
 IDEA_CONFIG_FILE_PATH = get_config_file_paths()['IDEA_CONFIG_FILE_PATH']
 CONFIG_FILE_PATH = get_config_file_paths()['USER_CONFIG_FILE_PATH']
-config_file = open(CONFIG_FILE_PATH, 'r')
+cipher_key = cypher_pass_generator()
+cipher_IV456 = cypher_pass_generator()
+
+setup_data = dict(
+    name="",
+    email="",
+    github=dict(
+        username="",
+        password=""
+    ),
+    encryption=dict(
+        cipher_key=cipher_key,
+        cipher_IV456=cipher_IV456
+    )
+)
+
+if not os.path.exists(os.path.dirname(CONFIG_FILE_PATH)):
+    try:
+        os.makedirs(os.path.dirname(CONFIG_FILE_PATH))
+    except OSError as exc:  # Guard against race condition
+        if exc.errno != errno.EEXIST:
+            raise
+
+if not os.path.isfile(CONFIG_FILE_PATH):
+    with open(CONFIG_FILE_PATH, 'w') as config_file:
+        yaml.dump(setup_data, config_file, default_flow_style=False)
+
+config_file = open(CONFIG_FILE_PATH)
 contents = yaml.load(config_file)
 cipher_key = contents['encryption']['cipher_key']
 cipher_IV456 = contents['encryption']['cipher_IV456']
