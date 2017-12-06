@@ -14,7 +14,7 @@ class TestChat(TestCase):
     """
 
     def __init__(self, methodName='runTest'):
-        super(TestSpeedtest, self).__init__()
+        super(TestChat, self).__init__()
         self.runner = CliRunner()
 
     def runTest(self):
