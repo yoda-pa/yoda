@@ -105,7 +105,7 @@ def check_sub_command_url(action, url_to_be_expanded_or_shortened):
 @dev.command()
 @click.argument('input', nargs=1)
 @click.argument('url', nargs=1)
-def url(_input, _url):
+def url(input, url):
     """
         URL shortener and expander\n\n
 
@@ -113,6 +113,6 @@ def url(_input, _url):
         shorten: to shorten the given URL
         expand: to expand shortened URL
     """
-    _input = str(_input)
-    _url = str(_url)
+    _input = str(input)
+    _url = str(url)
     check_sub_command_url(_input, _url)
