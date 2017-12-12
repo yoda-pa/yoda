@@ -27,7 +27,7 @@ def speedtest():
 
     try:
         ping = speed_test.ping()
-    except Exception as ex:
+    except requests.exceptions.ConnectionError:
         click.echo('Yoda cannot sense the internet right now!')
         sys.exit(1)
 

@@ -20,3 +20,4 @@ class TestSpeedtest(TestCase):
     def runTest(self):
         result = self.runner.invoke(yoda.cli, ['speedtest'])
         self.assertEqual(result.exit_code, 0)
+        self.assertIsNone(result.exception)
