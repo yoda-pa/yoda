@@ -16,8 +16,10 @@
 
 ## Install, how to
 #### Requirements
-- [python](https://www.python.org/downloads/)
+- [python2](https://www.python.org/downloads/)
 - [virtualenv](https://virtualenv.pypa.io/en/stable/installation/) (only for testing and development)
+- `python-dev` package (if using Ubuntu)
+- Visual C++ 9.0 for Python (If using Windows)
 
 ### Run, how to
 ```
