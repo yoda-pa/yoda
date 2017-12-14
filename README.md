@@ -19,7 +19,8 @@
 - [python2](https://www.python.org/downloads/)
 - [virtualenv](https://virtualenv.pypa.io/en/stable/installation/) (only for testing and development)
 - `python-dev` package (if using Ubuntu)
-- Visual C++ 9.0 for Python (If using Windows)
+- `Visual C++ 9.0 for Python` (If using Windows)
+- `python-devel` package (If using MacOS/OSX: [link](https://stackoverflow.com/questions/32578106/how-to-install-python-devel-in-mac-os/32578175#32578175))
 
 ### Run, how to
 ```
