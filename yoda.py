@@ -95,6 +95,7 @@ def diary(input):
 
     Commands:\n
     nn: New note\n
+    rn: Remove note\n
     nt: new Task\n
     notes: view all notes\n
     tasks: view all completed and incomplete tasks\n
