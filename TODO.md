@@ -49,8 +49,8 @@
 
 - [ ] life
   - [ ] keep a record of things people have taken from you, and the things you have taken from them - to remind them / yourself to return
-  - [ ] reading list
-  - [ ] Idea list
+  - [x] reading list
+  - [x] Idea list
 
 - [ ] love
   - [x] ~~Place where they live~~
@@ -86,9 +86,9 @@
     - [x] show a word when prompted
     - [x] calculate accuracy 
     - [ ] Analyzing data before getting a new word
-    - [ ] save user's queries and ask them the meaning later
+    - [x] save user's queries and ask them the meaning later
   - [ ] reverse dictionary
-  - [ ] learn new skill
+  - [x] learn new skill
   - [x] ~~flashcards for learning anything~~
   - [ ] set long term goals and the system helps to learn the same by suggesting appropriate reading materials and tracking progress
 
