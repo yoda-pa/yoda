@@ -20,6 +20,9 @@ class TestDiary(TestCase):
         self.runner = CliRunner()
 
     def runTest(self):
+        result = self.runner.invoke(yoda.cli, ['diary'])
+        self.assertEqual(result.exit_code, 0)
+
         # tasks
         result = self.runner.invoke(yoda.cli, ['diary', 'tasks'])
         self.assertEqual(result.exit_code, 0)

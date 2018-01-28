@@ -17,27 +17,6 @@ def cli():
 
 @cli.command()
 @click.argument('input', nargs=-1)
-def git(input):
-    """
-    Helps with your git operations\n
-    ------------------------------\n
-    Some commands that can be used:\n
-    yoda git all status  - goes into all repos in current directory and shows the status of all\n
-    yoda git credentials - shows your credentials. If not set, it would prompt for input\n
-    yoda git agenda      - Show all the repos worked on in the past and suggest which ones should be worked on depending on commits etc\n
-    yoda git push all    - Pushes everything with automatically generated commits (you will have the option to manually enter the commit messages before committing)\n
-    """
-    if input:
-        test_string = ''
-        for i in input:
-            test_string += (i + ' ')
-        data = sys.modules['modules.git'].process(test_string)
-    else:
-        click.echo('No input specified. Run with --help for info')
-
-
-@cli.command()
-@click.argument('input', nargs=-1)
 def chat(input):
     """
     A simple chatbot\n
@@ -56,19 +35,6 @@ def chat(input):
 cli.add_command(dev.dev)
 cli.add_command(dev.speedtest)
 cli.add_command(dev.url)
-
-
-@cli.command()
-@click.argument('input', nargs=-1)
-def family(input):
-    """ family """
-    if input:
-        test_string = ''
-        for i in input:
-            test_string += (i + ' ')
-        data = sys.modules['modules.family'].process(test_string)
-    else:
-        click.echo('No input specified. Run with --help for info')
 
 
 @cli.command()
@@ -134,32 +100,6 @@ cli.add_command(learn.learn)
 cli.add_command(learn.vocabulary)
 cli.add_command(learn.flashcards)
 cli.add_command(learn.define)
-
-
-@cli.command()
-@click.argument('input', nargs=-1)
-def health(input):
-    """ health """
-    if input:
-        test_string = ''
-        for i in input:
-            test_string += (i + ' ')
-        data = sys.modules['modules.health'].process(test_string)
-    else:
-        click.echo('No input specified. Run with --help for info')
-
-
-@cli.command()
-@click.argument('input', nargs=-1)
-def fashion(input):
-    """ fashion """
-    if input:
-        test_string = ''
-        for i in input:
-            test_string += (i + ' ')
-        data = sys.modules['modules.fashion'].process(test_string)
-    else:
-        click.echo('No input specified. Run with --help for info')
 
 
 @cli.command()
