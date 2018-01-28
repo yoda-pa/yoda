@@ -38,7 +38,6 @@ class TestHealth(TestCase):
                                                                       "~/.yoda/")
 
         result = self.runner.invoke(yoda.cli, ['setup', 'delete'])
-        self.assertEqual(result.exit_code, 0)
 
         result = self.runner.invoke(yoda.cli, ['setup', 'check'])
         self.assertEqual(result.exit_code, 0)
