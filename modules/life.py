@@ -253,7 +253,7 @@ def decryption(text):
     return s[:len(s) / 16]
 
 
-def add_task(project_name, task_name):
+def add_idea(project_name, task_name):
     """
     a new entry created
     :param project_name:
@@ -370,7 +370,7 @@ def ideas(subcommand, task, project, inside):
         return
     sub_commands = {
         'show': show,
-        'add': add_task,
+        'add': add_idea,
         'remove': remove,
     }
     try:

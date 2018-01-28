@@ -27,8 +27,20 @@ class TestHealth(TestCase):
         result = self.runner.invoke(yoda.cli, ['love', 'setup'], input="A\nD\nF")
         self.assertEqual(result.exit_code, 0)
 
+        result = self.runner.invoke(yoda.cli, ['love', 'notes'])
+        self.assertEqual(result.exit_code, 0)
+
+        result = self.runner.invoke(yoda.cli, ['love', 'note'], input='la la la...\n')
+        self.assertEqual(result.exit_code, 0)
+
         result = self.runner.invoke(yoda.cli, ['love', 'note'], input='la la la...\n')
         self.assertEqual(result.exit_code, 0)
 
         result = self.runner.invoke(yoda.cli, ['love', 'notes'])
+        self.assertEqual(result.exit_code, 0)
+
+        result = self.runner.invoke(yoda.cli, ['love', 'status'])
+        self.assertEqual(result.exit_code, 0)
+
+        result = self.runner.invoke(yoda.cli, ['love', 'invalid_argument'])
         self.assertEqual(result.exit_code, 0)
