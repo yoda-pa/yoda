@@ -20,3 +20,6 @@ class TestChat(TestCase):
     def runTest(self):
         result = self.runner.invoke(yoda.cli, ['chat', 'hello'])
         self.assertEqual(result.exit_code, 0)
+
+        result = self.runner.invoke(yoda.cli, ['chat'])
+        self.assertEqual(result.exit_code, 0)

@@ -18,6 +18,9 @@ class TestHealth(TestCase):
         self.runner = CliRunner()
 
     def runTest(self):
+        result = self.runner.invoke(yoda.cli, ['love'])
+        self.assertEqual(result.exit_code, 0)
+
         result = self.runner.invoke(yoda.cli, ['love', 'status'])
         self.assertEqual(result.exit_code, 0)
 
