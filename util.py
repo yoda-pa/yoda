@@ -19,6 +19,17 @@ def create_folder(folder_path):
                 raise
 
 
+def delete_file(file_path):
+    """
+    Delete a file
+    :param file_path:
+    """
+    if os.path.exists(file_path):
+        os.remove(file_path)
+    else:
+        chalk.red('The file does not exist')
+
+
 def ask_overwrite(file_path):
     """
     asks if you want to overwrite the given file, if it exists

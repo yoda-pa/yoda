@@ -230,12 +230,39 @@ def complete_task():
                     if task_to_be_completed > len(contents['entries']):
                         chalk.red('Please Enter a valid task number!')
                     else:
-                        contents['entries'][task_to_be_completed - 1]['status'] = 1
+                        contents['entries'][task_to_be_completed -
+                                            1]['status'] = 1
                         input_data(contents, TODAYS_TASKS_ENTRY_FILE_PATH)
                         not_valid_task_number = 0
     else:
         chalk.red(
             'There are no tasks for today. Add a new task by entering "yoda diary nt"')
+
+
+def remove_note():
+    """
+    Delete note
+    """
+    notes()
+    if os.path.isfile(TODAYS_NOTES_ENTRY_FILE_PATH):
+        with open(TODAYS_NOTES_ENTRY_FILE_PATH) as todays_notes_entry:
+            contents = yaml.load(todays_notes_entry)
+
+            if len(contents['entries']) > 0:
+                click.echo('Enter the note ID you want removed')
+                note_id = int(raw_input())
+                if note_id > len(contents['entries']) or note_id < 1:
+                    chalk.red('Please Enter a valid note ID')
+                else:
+                    contents['entries'].remove(
+                        contents['entries'][note_id - 1])
+                    if len(contents['entries']) > 0:
+                        input_data(contents, TODAYS_NOTES_ENTRY_FILE_PATH)
+                    else:
+                        delete_file(TODAYS_NOTES_ENTRY_FILE_PATH)
+
+            else:
+                chalk.red('No notes for today!')
 
 
 def notes():
@@ -247,14 +274,16 @@ def notes():
             contents = yaml.load(todays_notes_entry)
 
             click.echo('Today\'s notes:')
-            click.echo('----------------')
-            click.echo("  Time  | Note")
-            click.echo("--------|-----")
+            click.echo('---------------------')
+            click.echo("S.No. | Time   | Note")
+            click.echo("------|--------|-----")
 
+            counter = 0
             for entry in contents['entries']:
+                counter += 1
                 time = entry['time']
                 text = entry['text']
-                click.echo(time + "| " + text)
+                click.echo("--" + str(counter) + "---|" + time + "| " + text)
 
     else:
         chalk.red(
@@ -270,6 +299,7 @@ def check_sub_command(c):
     sub_commands = {
         'tasks': tasks,
         'nn': new_note,
+        'rn': remove_note,
         'nt': new_task,
         'ct': complete_task,
         'notes': notes,
@@ -298,7 +328,11 @@ def list_of_tasks_files():
     """
     current_month = time.strftime("%m")
     current_year = time.strftime("%Y")
-    files = [f for f in listdir(DIARY_CONFIG_FOLDER_PATH) if os.path.isfile(os.path.join(DIARY_CONFIG_FOLDER_PATH, f))]
+    files = [
+        f for f in listdir(DIARY_CONFIG_FOLDER_PATH) if os.path.isfile(
+            os.path.join(
+                DIARY_CONFIG_FOLDER_PATH,
+                f))]
     list_of_files = []
     for i in files:
         x = i[3:16].split('-')
@@ -317,7 +351,8 @@ def current_month_task_analysis():
     total_incomplete_tasks = 0
     list_of_files = list_of_tasks_files()
     for some_file in range(0, len(list_of_files)):
-        list_of_files[some_file] = os.path.join(DIARY_CONFIG_FOLDER_PATH, list_of_files[some_file])
+        list_of_files[some_file] = os.path.join(
+            DIARY_CONFIG_FOLDER_PATH, list_of_files[some_file])
     for some_file in list_of_files:
         with open(some_file) as fp:
             contents = yaml.load(fp)
@@ -327,6 +362,9 @@ def current_month_task_analysis():
     percent_incomplete_task = total_incomplete_tasks * 100 / total_tasks
     percent_complete_task = 100 - percent_incomplete_task
     entry_frequency = total_tasks * 100 / no_of_days_current_month
-    chalk.red('Percentage of incomplete task : ' + str(percent_incomplete_task))
+    chalk.red(
+        'Percentage of incomplete task : ' +
+        str(percent_incomplete_task))
     chalk.green('Percentage of complete task : ' + str(percent_complete_task))
+
     chalk.blue("Frequency of adding task (Task/Day) : " + str(entry_frequency))
