@@ -5,7 +5,7 @@ from click.testing import CliRunner
 import yoda
 
 
-class TestDiaryTasks(TestCase):
+class TestDiary(TestCase):
     """
         Test for the following commands:
         
@@ -16,35 +16,34 @@ class TestDiaryTasks(TestCase):
     """
 
     def __init__(self, methodName='runTest'):
-        super(TestDiaryTasks, self).__init__()
+        super(TestDiary, self).__init__()
         self.runner = CliRunner()
 
     def runTest(self):
+        # tasks
         result = self.runner.invoke(yoda.cli, ['diary', 'tasks'])
+        self.assertEqual(result.exit_code, 0)
+        result = self.runner.invoke(yoda.cli, ['diary', 'ct'], input="2")
         self.assertEqual(result.exit_code, 0)
         result = self.runner.invoke(yoda.cli, ['diary', 'nt'], input="test task")
         self.assertEqual(result.exit_code, 0)
         result = self.runner.invoke(yoda.cli, ['diary', 'ct'], input="1")
         self.assertEqual(result.exit_code, 0)
+        result = self.runner.invoke(yoda.cli, ['diary', 'nt'], input="test task 2")
+        self.assertEqual(result.exit_code, 0)
+        result = self.runner.invoke(yoda.cli, ['diary', 'ct'], input="2")
+        self.assertEqual(result.exit_code, 0)
+        result = self.runner.invoke(yoda.cli, ['diary', 'ct'], input="3")
+        self.assertEqual(result.exit_code, 0)
+        result = self.runner.invoke(yoda.cli, ['diary', 'tasks'])
+        self.assertEqual(result.exit_code, 0)
         result = self.runner.invoke(yoda.cli, ['diary', 'analyze'])
         self.assertEqual(result.exit_code, 0)
 
-class TestDiaryNotes(TestCase):
-    """
-        Test for the following commands:
-        
-        Assumes empty diary.
-
-        | Module: diary
-        | command: diary notes, nn
-    """
-
-    def __init__(self, methodName='runTest'):
-        super(TestDiaryNotes, self).__init__()
-        self.runner = CliRunner()
-
-    def runTest(self):
+        # notes
         result = self.runner.invoke(yoda.cli, ['diary', 'notes'])
+        self.assertEqual(result.exit_code, 0)
+        result = self.runner.invoke(yoda.cli, ['diary', 'nn'], input="test note")
         self.assertEqual(result.exit_code, 0)
         result = self.runner.invoke(yoda.cli, ['diary', 'nn'], input="test note")
         self.assertEqual(result.exit_code, 0)
