@@ -9,7 +9,7 @@
   <a href="https://travis-ci.org/yoda-pa/yoda"><img src="https://travis-ci.org/yoda-pa/yoda.png" alt="Build status"></a> 
   <a href="https://codecov.io/gh/yoda-pa/yoda"><img src="https://codecov.io/gh/yoda-pa/yoda/branch/master/graph/badge.svg" alt="Codecov" /></a>
   <a href="https://manparvesh.mit-license.org/"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a> 
-  <a href="https://github.com/yoda-pa/yoda"><img src="https://img.shields.io/badge/version-0.1.0-orange.svg" alt="Project status"></a>
+  <a href="https://github.com/yoda-pa/yoda"><img src="https://img.shields.io/badge/version-0.2.0-yellow.svg" alt="Project status"></a>
   
 </div>
 
