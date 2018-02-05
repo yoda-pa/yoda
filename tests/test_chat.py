@@ -19,9 +19,7 @@ class TestChat(TestCase):
 
     def runTest(self):
         result = self.runner.invoke(yoda.cli, ['chat', 'hello'])
-        # if this returns 0, that means everything is working fine.
-        # but when pushing, remember to change this to -1 and remove your key
-        self.assertEqual(result.exit_code, -1)
+        self.assertEqual(result.exit_code, 0)
 
         result = self.runner.invoke(yoda.cli, ['chat'])
         self.assertEqual(result.exit_code, 0)
