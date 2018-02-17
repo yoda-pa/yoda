@@ -2,6 +2,8 @@ import json
 import os
 import socket
 import sys
+import urllib2
+import urllib
 
 import apiai
 import chalk
@@ -9,27 +11,47 @@ import click
 
 import config
 
+
+
 CLIENT_ACCESS_TOKEN = os.environ.get('API_AI_TOKEN', config.API_AI_TOKEN)
 ai = apiai.ApiAI(CLIENT_ACCESS_TOKEN)
 request = ai.text_request()
 request.session_id = os.environ.get(
     'API_AI_SESSION_ID', config.API_AI_SESSION_ID)
 
+quoteurl='https://api.forismatic.com/api/1.0/'
 
 def process(input_string):
     """
     minimal chat bot
     :param input_string:
     """
-    request.query = input_string
-    try:
-        response = request.getresponse().read()
-    except socket.gaierror:
-        # if the user is not connected to internet dont give a response 
-        click.echo('Yoda cannot sense the internet right now!')
-        sys.exit(1)
+    if 'inspire' in input_string:
+        send_data = {
+            'method': 'getQuote',
+            'format': 'json',
+            'lang': 'en',
+            'key': ""
+        }
+        hdr = {'User-Agent' : "Magic Browser"}
+        fulurl = quoteurl+'?'+urllib.urlencode(send_data)
+        response = urllib2.urlopen(urllib2.Request(fulurl, headers=hdr))
+        response = response.read()
+        output = json.loads(response)
+        quote = output["quoteText"]
+        author = output["quoteAuthor"]
+        click.echo(quote)
+        click.echo(author)
+    else:
+        request.query = input_string
+        try:
+            response = request.getresponse().read()
+        except socket.gaierror:
+            # if the user is not connected to internet dont give a response 
+            click.echo('Yoda cannot sense the internet right now!')
+            sys.exit(1)
 
-    output = json.loads(response)
-    answer = output["result"]["fulfillment"]["speech"]
-    chalk.blue('Yoda speaks:')
-    click.echo(answer)
+        output = json.loads(response)
+        answer = output["result"]["fulfillment"]["speech"]
+        chalk.blue('Yoda speaks:')
+        click.echo(answer)
