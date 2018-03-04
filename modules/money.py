@@ -100,8 +100,13 @@ def expense():
 
         timestamp = datetime.datetime.fromtimestamp(
             time.time()).strftime('%Y-%m-%d %H:%M:%S')
-        fp.write('{} {} {} {}\n'.format(
-            timestamp, currency_name, number, item))
+
+        valid_expense = __validate_currency_name_and_amount(currency_name, number)
+        if valid_expense == False:
+            click.echo("Invalid Expense!")
+        else:
+            fp.write('{} {} {} {}\n'.format(
+                timestamp, currency_name, number, item))
 
 
 def expenses():
