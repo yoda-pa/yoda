@@ -27,6 +27,21 @@ currency_rates = CurrencyRates()
 currency_codes = CurrencyCodes()
 
 
+def __validate_currency_name_and_amount(currency_name, amount):
+    """
+    Returns true if currency_name and amount contain values.
+    These values are already empty at the point this function
+    is called if they are invalid, so return false if they do
+    not contain values
+    :param currency_name:
+    :param amount:
+    :return:
+    """
+    if currency_name is None or len(currency_name) == 0 or amount is None or len(amount) == 0:
+        return False
+    else:
+        return True
+
 def status():
     """
     check status of setup
