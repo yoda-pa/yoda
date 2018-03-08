@@ -543,5 +543,6 @@ def define(word):
             chalk.red('Sorry, no definitions were found for this word')
     except KeyError:
         chalk.red('Sorry, no definitions were found for this word')
+        print('Sorry, no definitions were found for this word')
 
 # ----------------------- / define code -----------------------#
