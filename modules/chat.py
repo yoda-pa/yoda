@@ -31,5 +31,5 @@ def process(input_string):
 
     output = json.loads(response)
     answer = output["result"]["fulfillment"]["speech"]
-    chalk.blue('Yoda speaks:')
+    click.echo(chalk.blue('Yoda speaks:'))
     click.echo(answer)
