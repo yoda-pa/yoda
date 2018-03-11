@@ -98,7 +98,7 @@ def check_sub_command_url(action, url_to_be_expanded_or_shortened):
     try:
         return sub_commands[action](url_to_be_expanded_or_shortened)
     except KeyError:
-        chalk.red('Command does not exist!')
+        click.echo(chalk.red('Command does not exist!'))
         click.echo('Try "yoda url --help" for more info')
 
 

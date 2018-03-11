@@ -36,8 +36,8 @@ def status():
             contents = yaml.load(config_file)
             click.echo(contents)
     else:
-        chalk.red(
-            'The configuration file for this module does not exist. Please type "yoda love setup" to create a new one')
+        click.echo(chalk.red(
+            'The configuration file for this module does not exist. Please type "yoda love setup" to create a new one'))
 
 
 def setup():
@@ -50,13 +50,13 @@ def setup():
     if ask_overwrite(LOVE_CONFIG_FILE_PATH):
         return
 
-    chalk.blue('Enter their name:')
+    click.echo(chalk.blue('Enter their name:'))
     name = (raw_input().strip())
 
-    chalk.blue('Enter sex(M/F):')
+    click.echo(chalk.blue('Enter sex(M/F):'))
     sex = (raw_input().strip())
 
-    chalk.blue('Where do they live?')
+    click.echo(chalk.blue('Where do they live?'))
     place = (raw_input().strip())
 
     setup_data = dict(
@@ -101,8 +101,8 @@ def notes():
                 i += 1
                 click.echo(str(i) + ": " + n['note'])
     else:
-        chalk.red(
-            'The configuration file for this module does not exist. Please type "yoda love setup" to create a new one')
+        click.echo(chalk.red(
+            'The configuration file for this module does not exist. Please type "yoda love setup" to create a new one'))
 
 
 def check_sub_command(c):
@@ -120,7 +120,7 @@ def check_sub_command(c):
     try:
         return sub_commands[c]()
     except KeyError:
-        chalk.red('Command does not exist!')
+        click.echo(chalk.red('Command does not exist!'))
         click.echo('Try "yoda love --help" for more info')
 
 
