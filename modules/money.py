@@ -2,6 +2,7 @@ import datetime
 import json
 import shlex
 import time
+import chalk
 
 import apiai
 import click
@@ -65,13 +66,13 @@ def setup():
     if ask_overwrite(MONEY_CONFIG_FILE_PATH):
         return
 
-    chalk.blue('Enter default currency code:')
+    click.echo(chalk.blue('Enter default currency code:'))
     currency_code = (raw_input().strip())
     click.echo(currency_rates.get_rates(currency_code))
     click.echo(currency_codes.get_symbol(currency_code))
     click.echo(currency_codes.get_currency_name(currency_code))
 
-    chalk.blue('Enter initial amount:')
+    click.echo(chalk.blue('Enter initial amount:'))
     initial_money = int(raw_input().strip())
 
     setup_data = dict(
@@ -140,7 +141,7 @@ def check_sub_command(c):
     try:
         return sub_commands[c]()
     except KeyError:
-        chalk.red('Command does not exist!')
+        click.echo(chalk.red('Command does not exist!'))
         click.echo('Try "yoda money --help" for more info')
 
 

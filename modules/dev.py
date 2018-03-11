@@ -1,6 +1,6 @@
 import json
 import sys
-
+import chalk
 import click
 import pyspeedtest
 import requests
@@ -98,7 +98,7 @@ def check_sub_command_url(action, url_to_be_expanded_or_shortened):
     try:
         return sub_commands[action](url_to_be_expanded_or_shortened)
     except KeyError:
-        chalk.red('Command does not exist!')
+        click.echo(chalk.red('Command does not exist!'))
         click.echo('Try "yoda url --help" for more info')
 
 
@@ -116,3 +116,25 @@ def url(input, url):
     _input = str(input)
     _url = str(url)
     check_sub_command_url(_input, _url)
+
+@dev.command()
+def hackernews():
+    """
+    Hacker news top headlines
+    """
+    url = ('https://newsapi.org/v2/everything?sources=hacker-news&apiKey=534594afc0d64a11819bb83ac1df4245')
+    response = requests.get(url)
+    result=response.json()
+    if result['status'] =='ok':
+        for index in range(result['totalResults']):
+            click.echo('News-- '+ str(index+1) + '/' + str(result['totalResults'])+'\n')
+            click.echo('Title--  '+ result['articles'][index]['title'])
+            click.echo('Description-- ' + result['articles'][index]['description'])
+            click.echo('url-- ' + str(result['articles'][index]['url'])+'\n')
+            click.echo('Continue? [press-"y"] ')
+            c = click.getchar()
+            click.echo()
+            if c != 'y' :
+                break
+    else:
+        click.echo('Error in api')

@@ -26,8 +26,8 @@ def ask_overwrite(file_path):
     :return:
     """
     if os.path.isfile(file_path):
-        chalk.red(
-            'A configuration file already exists. Are you sure you want to overwrite it? (y/n)')
+        click.echo(chalk.red(
+            'A configuration file already exists. Are you sure you want to overwrite it? (y/n)'))
         overwrite_response = raw_input().lower()
         if not (overwrite_response == 'y' or overwrite_response == 'yes'):
             return True
