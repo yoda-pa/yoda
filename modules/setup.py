@@ -57,33 +57,33 @@ def new():
     create new config file
     :return:
     """
-    chalk.blue('Enter your name:')
+    click.echo(chalk.blue('Enter your name:'))
     name = raw_input().strip()
     while len(name) == 0:
-        chalk.red("You entered nothing!")
-        chalk.blue('Enter your name:')
+        click.echo(chalk.red("You entered nothing!"))
+        click.echo(chalk.blue('Enter your name:'))
         name = raw_input().strip()
 
-    chalk.blue('What\'s your email id?')
+    click.echo(chalk.blue('What\'s your email id?'))
     email = raw_input().strip()
     email_validator = lepl.apps.rfc3696.Email()
     while not email_validator(email):
-        chalk.red("Invalid email ID!")
-        chalk.blue('What\'s your email id?')
+        click.echo(chalk.red("Invalid email ID!"))
+        click.echo(chalk.blue('What\'s your email id?'))
         email = raw_input().strip()
 
-    chalk.blue('What\'s your github username?')
+    click.echo(chalk.blue('What\'s your github username?'))
     gh_username = raw_input().strip()
     while len(gh_username) == 0:
-        chalk.red("You entered nothing!")
-        chalk.blue('What\'s your github username?')
+        click.echo(chalk.red("You entered nothing!"))
+        click.echo(chalk.blue('What\'s your github username?'))
         gh_username = raw_input().strip()
 
-    chalk.blue('Enter your github password:')
+    click.echo(chalk.blue('Enter your github password:'))
     gh_password = getpass.getpass()
     while len(gh_password) == 0:
-        chalk.red("You entered nothing!")
-        chalk.blue('Enter your github password:')
+        click.echo(chalk.red("You entered nothing!"))
+        click.echo(chalk.blue('Enter your github password:'))
         gh_password = getpass.getpass()
     # let's encrypt our password
     cipher_key = cypher_pass_generator()
@@ -92,14 +92,14 @@ def new():
     encrypted_gh_password = encrypt_password(
         cipher_key, cipher_IV456, gh_password)
 
-    chalk.blue('Where shall your config be stored? (Default: ~/.yoda/)')
+    click.echo(chalk.blue('Where shall your config be stored? (Default: ~/.yoda/)'))
     # because os.path.isdir doesn't expand ~
     config_path = os.path.expanduser(raw_input().strip())
     while not os.path.isdir(config_path):
         if len(config_path) == 0:
             break
-        chalk.red('Path doesn\'t exist!')
-        chalk.blue('Where shall your config be stored? (Default: ~/.yoda/)')
+        click.echo(chalk.red('Path doesn\'t exist!'))
+        click.echo(chalk.blue('Where shall your config be stored? (Default: ~/.yoda/)'))
         config_path = os.path.expanduser(raw_input().strip())
 
     update_config_path(config_path)
@@ -126,8 +126,8 @@ def new():
                 raise
 
     if os.path.isfile(CONFIG_FILE_PATH):
-        chalk.red(
-            'A configuration file already exists. Are you sure you want to overwrite it? (y/n)')
+        click.echo(chalk.red(
+            'A configuration file already exists. Are you sure you want to overwrite it? (y/n)'))
         overwrite_response = raw_input().lower()
         if not (overwrite_response == 'y' or overwrite_response == 'yes'):
             return
@@ -150,8 +150,8 @@ def check():
 
             # click.echo(decrypt_password())
     else:
-        chalk.red(
-            'The configuration file does not exist. Please type "yoda setup new" to create a new one')
+        click.echo(chalk.red(
+            'The configuration file does not exist. Please type "yoda setup new" to create a new one'))
 
 
 def delete():
@@ -160,15 +160,15 @@ def delete():
     :return:
     """
     if os.path.isfile(CONFIG_FILE_PATH):
-        chalk.red('Are you sure you want to delete previous configuration? (y/n)')
+        click.echo(chalk.red('Are you sure you want to delete previous configuration? (y/n)'))
         delete_response = raw_input().lower().strip()
         if delete_response != 'y':
             click.echo('Operation cancelled')
             return
         os.remove(CONFIG_FILE_PATH)
-        chalk.red('Configuration file deleted')
+        click.echo(chalk.red('Configuration file deleted'))
     else:
-        chalk.red('Configuration file does not exist!')
+        click.echo(chalk.red('Configuration file does not exist!'))
 
 
 def check_sub_command(c):
@@ -185,7 +185,7 @@ def check_sub_command(c):
     try:
         return sub_commands[c]()
     except KeyError:
-        chalk.red('Command does not exist!')
+        click.echo(chalk.red('Command does not exist!'))
         click.echo('Try "yoda setup --help" for more info')
 
 
