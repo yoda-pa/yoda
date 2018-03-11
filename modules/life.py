@@ -1,7 +1,7 @@
 import json
 import os.path
 import time
-
+import chalk
 import click
 from Crypto.Cipher import AES
 

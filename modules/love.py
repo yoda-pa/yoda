@@ -1,4 +1,5 @@
 import click
+import chalk
 
 from config import get_config_file_paths
 from util import *

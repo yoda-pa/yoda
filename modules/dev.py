@@ -1,6 +1,6 @@
 import json
 import sys
-
+import chalk
 import click
 import pyspeedtest
 import requests

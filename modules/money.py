@@ -2,6 +2,7 @@ import datetime
 import json
 import shlex
 import time
+import chalk
 
 import apiai
 import click
