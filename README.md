@@ -94,7 +94,7 @@ $ yoda url expand https://goo.gl/EVVPzK
 Here's your original URL:
 http://manparvesh.com/
 ```
--hacker news
+- hackernews
 ```
 # For getting hacker news one by one
 $ yoda hackernews
