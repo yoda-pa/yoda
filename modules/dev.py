@@ -9,7 +9,6 @@ from util import *
 
 GOOGLE_URL_SHORTENER_API_KEY = "AIzaSyCBAXe-kId9UwvOQ7M2cLYR7hyCpvfdr7w"
 
-
 @click.group()
 def dev():
     """
