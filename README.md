@@ -94,7 +94,18 @@ $ yoda url expand https://goo.gl/EVVPzK
 Here's your original URL:
 http://manparvesh.com/
 ```
+- hackernews
+```
+# For getting hacker news one by one
+$ yoda hackernews
+News-- 1/500
 
+Title--  Ask HN: Any cool ARKit or ARCore apps out there right now gaining popularity?
+Description-- Its been quite a while since ARKit and/or ARCore came out, was wondering if there were any apps built on this technology that became popular.
+url-- https://news.ycombinator.com/item?id=16562317
+
+Continue? [press-"y"] 
+```
 #### diary
 This command can be used to maintain a personal diary, roughly based on the concept of [Bullet Journal](http://bulletjournal.com/).
 ```
