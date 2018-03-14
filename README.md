@@ -169,6 +169,18 @@ $ yoda love note
 
 # view notes
 $ yoda love notes
+
+# write things they like
+$ yoda love like
+
+# view things they like
+$ yoda love likes
+
+# add birthday
+$ yoda love addbirth
+
+# show birthday
+$ yoda love showbirth
 ```
 #### money
 For tracking money, this is.
