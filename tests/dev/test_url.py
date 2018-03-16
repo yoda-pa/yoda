@@ -43,4 +43,4 @@ class TestSpeedtest(TestCase):
         # incorrect command should show our custom response instead of stacktrace
         result = self.runner.invoke(yoda.cli, ['url', 'incorrect_subcommand', 'aaa'])
         self.assertEqual(result.exit_code, 0)
-        self.assertEqual(result.output_bytes, 'Try "yoda url --help" for more info\n')
+        self.assertEqual(result.output_bytes, 'Command does not exist!\nTry "yoda url --help" for more info\n')
