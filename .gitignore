@@ -92,3 +92,5 @@ ENV/
 *~
 
 .idea/
+.scannerwork/
+
