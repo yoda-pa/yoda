@@ -16,7 +16,9 @@
 
 
 ## Install, how to
+
 #### Requirements
+
 - [python2](https://www.python.org/downloads/)
 - [virtualenv](https://virtualenv.pypa.io/en/stable/installation/) (only for testing and development)
 - `python-dev` package (if using Ubuntu)
@@ -24,6 +26,7 @@
 - `python-devel` package (If using MacOS/OSX: [link](https://stackoverflow.com/questions/32578106/how-to-install-python-devel-in-mac-os/32578175#32578175))
 
 ### Run, how to
+
 ```
 # Clone this repo, you should.
 $ git clone https://github.com/yoda-pa/yoda
@@ -48,8 +51,11 @@ $ yoda
 ```
 
 ## Use this package, how to
+
 #### setup
+
 This command helps to create a setup configuration for you to save some information locally. Your password is saved in the config file after encrypting, so you need not worry about it.
+
 ```
 # To create a configuration
 $ yoda setup new
@@ -60,8 +66,11 @@ $ yoda setup delete
 # To check current configuration
 $ yoda setup check
 ```
+
 #### chat
+
 This package contains a simple chatbot as well! The `chat` command can be used to chat with it
+
 ```
 # Simply write messages with more than one word
 $ yoda chat who are you
@@ -72,11 +81,15 @@ $ yoda chat how are you
 Yoda speaks:
 Could be better not.  Yeesssssss.
 ```
+
 You can test the chat functionality on api.ai agent website [here](https://bot.api.ai/ff4ba99e-e444-4e19-8b4e-91fb0b93e414)
+
 #### dev
+
 This command group contains some sub-commands that may be helpful for developers and tech-geeks.
 
 - speedtest
+
 ```
 # run a speed test for your internet connection
 $ yoda speedtest
@@ -85,7 +98,9 @@ Ping: 3.04 ms
 Download: 144.90 MB/s
 Upload: 203.13 MB/s
 ```
+
 - url
+
 ```
 # URL shortener and expander
 $ yoda url shorten manparvesh.com
@@ -95,7 +110,9 @@ $ yoda url expand https://goo.gl/EVVPzK
 Here's your original URL:
 http://manparvesh.com/
 ```
+
 - hackernews
+
 ```
 # For getting hacker news one by one
 $ yoda hackernews
@@ -107,8 +124,11 @@ url-- https://news.ycombinator.com/item?id=16562317
 
 Continue? [press-"y"] 
 ```
+
 #### diary
+
 This command can be used to maintain a personal diary, roughly based on the concept of [Bullet Journal](http://bulletjournal.com/).
+
 ```
 # new note
 $ yoda diary nn
@@ -156,8 +176,11 @@ Enter the task number that you would like to set as completed
 # analyze current month tasks
 $ yoda diary analyze 
 ```
+
 #### love
-This command can be used to maintain a profile of someone.
+
+This command can be used to maintain a profile of someone you love.
+
 ```
 # create configuration
 $ yoda love setup
@@ -183,8 +206,11 @@ $ yoda love addbirth
 # show birthday
 $ yoda love showbirth
 ```
+
 #### money
+
 For tracking money, this is.
+
 ```
 # create configuration
 $ yoda money setup
@@ -200,8 +226,11 @@ spent 30 dollars on shoes
 $ yoda money exps
 2017-05-04 16:06:00 SGD 30 shoes
 ```
+
 #### Idea list
+
 For creating list of ideas, type
+
 ```
 # To add idea
 $ yoda ideas add --task <task_name> --inside <project_name>
@@ -215,7 +244,9 @@ $ yoda ideas remove --task <task_name> --inside <project_name>
 # To remove an idea completely
 $ yoda ideas remove --project <project_name>
 ```
+
 #### learn
+
 This command group contains commands that, helpful in learning new things, will be.  Yeesssssss.
 
 - vocabulary: For enhancing your vocabulary and tracking your progress.
@@ -276,7 +307,9 @@ This command group contains commands that, helpful in learning new things, will 
     ```
 
 #### feedback
+
 To create an issue in the github repository simple thing that shows a link.  Yeesssssss.
+
 ```
 $  yoda feedback
 For:
@@ -286,7 +319,9 @@ For:
 Please create an issue in the Github repository:
 https://github.com/yoda-pa/yoda/issues/new
 ```
+
 ## Packages and services used
+
 - [Click](http://click.pocoo.org/5/): for building command line application
 - [pychalk](https://github.com/anthonyalmarza/chalk): Colors in terminal
 - [apiai](https://github.com/api-ai/apiai-python-client): api-ai for natural language understanding

@@ -2,7 +2,7 @@
 
 - [x] ~~multiple word input so that the user wouldn't need to put the chat query in quotes~~
 
-- [x] ~~Setup when starting the dude for the first time~~
+- [x] ~~Setup when starting yoda for the first time~~
 
 - [ ] git
   - [ ] Save credentials to make it convenient for the user
@@ -22,7 +22,7 @@
   - [ ] calculator
   - [ ] time in diff areas
   - [ ] music search lyrics or play
-  - [ ] When bored, the dude suggests what to do, depending on the user's interests (something to read, places to take good photos, something to watch, etc)  
+  - [ ] When bored, yoda suggests what to do, depending on the user's interests (something to read, places to take good photos, something to watch, etc)  
 
 - [ ] food
   - [ ] restaurant suggestions
@@ -32,13 +32,34 @@
 - [ ] dev tools
   - [x] ~~url shortener~~
   - [x] ~~internet speed test~~
-  - [ ] ~~nerd humor (not implementing, since displaying photos in the command line can be weird)~~
-  - [ ] hacker news
+  - [ ] ~~nerd humor~~ (not implementing, since displaying photos in the command line can be weird)
+  - [x] ~~hacker news~~
   - [ ] option to compile any language without installing its compiler ([something like this](https://github.com/imshyam/ComIt))
   - [ ] dev env setup, status and details
   - [ ] command keeper (save commands so that you don't need to remember those again, and also provide the option to create aliases for them)
   - [ ] add new commands / modules
   - [ ] get github contributions from today (including issues, PRs, commits, additions & deletions, etc) and create a summary. Add option to create a graph. Create rewards when work done in the day is more than usual
+  - [ ] convert images to ascii art
+  - [ ] search (full-text, if possible) in a directory
+  - [ ] cyphers
+  - [ ] horoscope
+  - [ ] bandwidth monitor
+  - [ ] FTP program
+  - [ ] port scanner to find open ports
+  - [ ] set a reminder
+  - [ ] coin flip
+  - [ ] country from IP lookup
+  - [ ] whois search
+  - [ ] is site up checker
+  - [ ] download using a link
+  - [ ] bulk thumbnail creator
+  - [ ] pdf generator
+  - [ ] code snippet manager
+  - [ ] watermark applier to multiple files
+  - [ ] simple game inside terminal
+  - [ ] GIF creator (from images or video)
+  - [ ] mp3 cutter
+  - [ ] readme TOC creator
 
 - [ ] people
   - [ ] their profiles
@@ -55,8 +76,8 @@
 - [ ] love
   - [x] ~~Place where they live~~
   - [ ] related news
-  - [ ] birthday
-  - [ ] things they like
+  - [x] ~~birthday~~
+  - [x] ~~things they like~~
   - [ ] gift recommendations
   - [ ] time in their place, to know when they will be available to talk
   - [x] ~~personalized notes for them~~
@@ -72,7 +93,7 @@
 - [ ] money
   - [x] ~~personalized setup~~
   - [ ] set long term goals to save a required amount of money for different plans
-  - [ ] the dude suggests appropriate amount of money to be saved per month, keeping in mind the currency exchange rates
+  - [ ] yoda suggests appropriate amount of money to be saved per month, keeping in mind the currency exchange rates
   - [ ] money manager for managing different accounts
   - [ ] recurring charges (set expenses that repeat regularly, eg. rent)
 
@@ -93,7 +114,7 @@
   - [ ] set long term goals and the system helps to learn the same by suggesting appropriate reading materials and tracking progress
 
 - [ ] storage
-  - [ ] dude, try github integration! Create a private repo in the user's profile automatically and create commands to save, upload and sync configurations
+  - [ ] try github integration! Create a private repo in the user's profile automatically and create commands to save, upload and sync configurations
 
 - [ ] pretty display
   - [x] ~~colors~~
