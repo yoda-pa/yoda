@@ -1,2 +1,5 @@
+apiai
+requests
+pyspeedtest
 Click
 codecov

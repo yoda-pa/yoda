@@ -4,9 +4,8 @@ import random
 import time
 from os import listdir
 
-import click
 import requests
-import chalk
+
 from config import get_config_file_paths
 from util import *
 
@@ -521,7 +520,8 @@ def define(word):
         posted = False
         if len(data['definitions']):
             if not posted:
-                click.echo(chalk.blue('A few definitions of the word "' + _word + '" with their parts of speech are given below:'))
+                click.echo(chalk.blue(
+                    'A few definitions of the word "' + _word + '" with their parts of speech are given below:'))
                 click.echo('---------------------------------')
                 posted = True
 
@@ -532,7 +532,8 @@ def define(word):
         if posted:
             words = get_words_list()
             if _word in words:
-                click.echo(chalk.blue('This word already exists in the vocabulary set, so you can practice it while using that'))
+                click.echo(chalk.blue(
+                    'This word already exists in the vocabulary set, so you can practice it while using that'))
             else:
                 with open('resources/vocab-words.txt', 'a') as fp:
                     fp.write('{} - {}\n'.format(_word, data['definitions'][0]['definition']))

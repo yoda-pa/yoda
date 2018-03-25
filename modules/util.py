@@ -1,8 +1,9 @@
 import errno
 import os.path
 import subprocess
-import click
+
 import chalk
+import click
 import yaml
 
 

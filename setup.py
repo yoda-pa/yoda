@@ -1,6 +1,5 @@
 from setuptools import setup, find_packages
 
-
 setup(
     name='yoda',
     version='0.2.0',

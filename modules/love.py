@@ -1,6 +1,3 @@
-import click
-import chalk
-
 from config import get_config_file_paths
 from util import *
 
@@ -146,9 +143,10 @@ def like():
         )
         input_data(like_data, LOVE_LIKES_FILE_PATH)
     click.echo(chalk.blue('Want to add more things they like? [y/n]'))
-    repeat=raw_input()
-    if repeat =='y' or repeat=='yes':
+    repeat = raw_input()
+    if repeat == 'y' or repeat == 'yes':
         like()
+
 
 def likes():
     """
@@ -166,18 +164,20 @@ def likes():
         click.echo(chalk.red(
             'The Likes file path for this module does not exist. Please type "yoda love like" to create a new one'))
 
+
 def addbirth():
     """
     Add birthday 
     """
     if ask_overwrite(LOVE_BIRTH_FILE_PATH):
-        return 
+        return
     click.echo(chalk.blue('Enter birthday'))
-    birthday=raw_input()
-    birth_data=dict(
+    birthday = raw_input()
+    birth_data = dict(
         birthday=birthday
-        )
-    input_data(birth_data,LOVE_BIRTH_FILE_PATH)
+    )
+    input_data(birth_data, LOVE_BIRTH_FILE_PATH)
+
 
 def showbirth():
     """
@@ -186,7 +186,7 @@ def showbirth():
     if os.path.isfile(LOVE_BIRTH_FILE_PATH):
         with open(LOVE_BIRTH_FILE_PATH) as birth_file:
             contents = yaml.load(birth_file)
-            click.echo('Birthday is '+contents['birthday'])
+            click.echo('Birthday is ' + contents['birthday'])
     else:
         click.echo(chalk.red(
             'The birth file for this module does not exist. Please type "yoda love addbirth" to create a new one'))
@@ -203,10 +203,10 @@ def check_sub_command(c):
         'status': status,
         'note': note,
         'notes': notes,
-        'likes':likes,
-        'like':like,
-        'addbirth':addbirth,
-        'showbirth':showbirth 
+        'likes': likes,
+        'like': like,
+        'addbirth': addbirth,
+        'showbirth': showbirth
     }
     try:
         return sub_commands[c]()

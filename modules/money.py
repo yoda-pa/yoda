@@ -2,10 +2,8 @@ import datetime
 import json
 import shlex
 import time
-import chalk
 
 import apiai
-import click
 from forex_python.converter import CurrencyRates, CurrencyCodes
 
 import config
@@ -42,6 +40,7 @@ def __validate_currency_name_and_amount(currency_name, amount):
         return False
     else:
         return True
+
 
 def status():
     """

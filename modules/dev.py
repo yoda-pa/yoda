@@ -1,13 +1,13 @@
 import json
 import sys
-import chalk
-import click
+
 import pyspeedtest
 import requests
 
 from util import *
 
 GOOGLE_URL_SHORTENER_API_KEY = "AIzaSyCBAXe-kId9UwvOQ7M2cLYR7hyCpvfdr7w"
+
 
 @click.group()
 def dev():
@@ -116,24 +116,35 @@ def url(input, url):
     _url = str(url)
     check_sub_command_url(_input, _url)
 
+
 @dev.command()
 def hackernews():
     """
     Hacker news top headlines
     """
-    url = ('https://newsapi.org/v2/everything?sources=hacker-news&apiKey=534594afc0d64a11819bb83ac1df4245')
-    response = requests.get(url)
-    result=response.json()
-    if result['status'] =='ok':
+    _url = 'https://newsapi.org/v2/everything?sources=hacker-news&apiKey=534594afc0d64a11819bb83ac1df4245'
+    response = requests.get(_url)
+    result = response.json()
+    if result['status'] == 'ok':
         for index in range(result['totalResults']):
-            click.echo('News-- '+ str(index+1) + '/' + str(result['totalResults'])+'\n')
-            click.echo('Title--  '+ result['articles'][index]['title'])
+            click.echo('News-- ' + str(index + 1) + '/' + str(result['totalResults']) + '\n')
+            click.echo('Title--  ' + result['articles'][index]['title'])
             click.echo('Description-- ' + result['articles'][index]['description'])
-            click.echo('url-- ' + str(result['articles'][index]['url'])+'\n')
+            click.echo('url-- ' + str(result['articles'][index]['url']) + '\n')
             click.echo('Continue? [press-"y"] ')
             c = click.getchar()
             click.echo()
-            if c != 'y' :
+            if c != 'y':
                 break
     else:
         click.echo('Error in api')
+
+
+@dev.command()
+def coinflip():
+    """
+    Flips a coin and displays an outcome
+    """
+    import random
+    side = random.randint(1, 100) % 2
+    click.echo('Heads' if side == 1 else 'Tails')

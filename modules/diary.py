@@ -1,11 +1,8 @@
 import calendar
 import datetime
-import errno
 import os.path
 import time
 from os import listdir
-
-import click
 
 from config import get_config_file_paths
 from util import *
@@ -183,7 +180,7 @@ def tasks():
         else:
             click.echo(chalk.red("Incomplete tasks: " + str(incomplete_tasks)))
             click.echo(chalk.green("Completed tasks: " +
-                        str(total_tasks - incomplete_tasks)))
+                                   str(total_tasks - incomplete_tasks)))
 
     else:
         click.echo(

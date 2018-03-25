@@ -1,8 +1,7 @@
 import json
 import os.path
 import time
-import chalk
-import click
+
 from Crypto.Cipher import AES
 
 from config import get_config_file_paths
@@ -365,8 +364,9 @@ def ideas(subcommand, task, project, inside):
 
     """
     if subcommand != 'show' and (project or inside) is None:
-        click.echo(chalk.red('Operation aborted. You have not selected any project or task. Please use this command with either '
-                  '--project or --inside flag'))
+        click.echo(chalk.red(
+            'Operation aborted. You have not selected any project or task. Please use this command with either '
+            '--project or --inside flag'))
         return
     sub_commands = {
         'show': show,

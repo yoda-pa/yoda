@@ -47,7 +47,7 @@
   - [ ] FTP program
   - [ ] port scanner to find open ports
   - [ ] set a reminder
-  - [ ] coin flip
+  - [x] ~~coin flip~~
   - [ ] country from IP lookup
   - [ ] whois search
   - [ ] is site up checker
