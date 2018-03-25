@@ -5,7 +5,7 @@
 <div align="center">
 
   <h1>yoda</h1>
-  <p>Personal assistant, based on the command line. Herh herh</p><br>
+  <p>Wise and powerful personal assistant, inside your terminal</p><br>
   <a href="https://travis-ci.org/yoda-pa/yoda"><img src="https://travis-ci.org/yoda-pa/yoda.png" alt="Build status"></a> 
   <a href="https://sonarcloud.io/dashboard?id=yoda"><img src="https://sonarcloud.io/api/project_badges/measure?project=yoda&metric=alert_status" alt="SonarCloud Quality Status"></a> 
   <a href="https://manparvesh.mit-license.org/"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a> 
