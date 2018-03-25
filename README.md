@@ -8,7 +8,6 @@
   <p>Personal assistant, based on the command line. Herh herh</p><br>
   <a href="https://travis-ci.org/yoda-pa/yoda"><img src="https://travis-ci.org/yoda-pa/yoda.png" alt="Build status"></a> 
   <a href="https://sonarcloud.io/dashboard?id=yoda"><img src="https://sonarcloud.io/api/project_badges/measure?project=yoda&metric=alert_status" alt="SonarCloud Quality Status"></a> 
-  <a href="https://codecov.io/gh/yoda-pa/yoda"><img src="https://codecov.io/gh/yoda-pa/yoda/branch/master/graph/badge.svg" alt="Codecov" /></a>
   <a href="https://manparvesh.mit-license.org/"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a> 
   <a href="https://github.com/yoda-pa/yoda"><img src="https://img.shields.io/badge/version-0.2.0-yellow.svg" alt="Project status"></a>
   
@@ -21,66 +20,26 @@
 
 - [python2](https://www.python.org/downloads/)
 - [virtualenv](https://virtualenv.pypa.io/en/stable/installation/) (only for testing and development)
-- `python-dev` package (if using Ubuntu)
-- `Visual C++ 9.0 for Python` (If using Windows)
-- `python-devel` package (If using MacOS/OSX: [link](https://stackoverflow.com/questions/32578106/how-to-install-python-devel-in-mac-os/32578175#32578175))
+- Python development package:
+  - `python-dev` package (if using Ubuntu)
+  - `Visual C++ 9.0 for Python` (If using Windows)
+  - `python-devel` package (If using MacOS/OSX: [link](https://stackoverflow.com/questions/32578106/how-to-install-python-devel-in-mac-os/32578175#32578175))
 
 ### Run, how to
 
-```
-# Clone this repo, you should.
-$ git clone https://github.com/yoda-pa/yoda
+Clone this repository and create a virtual environment using Python 2 in the cloned directory (`virtualenv -p /usr/bin/python2 venv`). Steps after that:
 
-# Change directory into the cloned repository
-$ cd yoda
+![](screencasts/firstsetup.gif)
 
-# create a virtualenv with python2
-# The path and the name of the executable may be different depending on your OS
-$ virtualenv -p /usr/bin/python2 venv
-
-# activate the virtualenv
-$ . venv/bin/activate
-
-# Install the package, you must! In case you want to edit the source code
-# use 'pip install --editable .'
-$ pip install .
-
-# the time has come
-$ yoda
-# to exit the virtualenv, just type 'deactivate' without quotes
-```
+Instead of `pip install --editable .` you can use `pip install .` if you don't intend to make any changes in the code.
 
 ## Use this package, how to
 
-#### setup
-
-This command helps to create a setup configuration for you to save some information locally. Your password is saved in the config file after encrypting, so you need not worry about it.
-
-```
-# To create a configuration
-$ yoda setup new
-
-# To delete a configuration
-$ yoda setup delete
-
-# To check current configuration
-$ yoda setup check
-```
-
 #### chat
 
-This package contains a simple chatbot as well! The `chat` command can be used to chat with it
+This package contains a chatbot too! The `chat` command can be used to chat with it
 
-```
-# Simply write messages with more than one word
-$ yoda chat who are you
-Yoda speaks:
-Here to make your life easier than ever, I am.
-
-$ yoda chat how are you
-Yoda speaks:
-Could be better not.  Yeesssssss.
-```
+![](screencasts/chat.gif)
 
 You can test the chat functionality on api.ai agent website [here](https://bot.api.ai/ff4ba99e-e444-4e19-8b4e-91fb0b93e414)
 
@@ -90,142 +49,33 @@ This command group contains some sub-commands that may be helpful for developers
 
 - speedtest
 
-```
-# run a speed test for your internet connection
-$ yoda speedtest
-Speed test results:
-Ping: 3.04 ms
-Download: 144.90 MB/s
-Upload: 203.13 MB/s
-```
+![](screencasts/speedtest.gif)
 
 - url
 
-```
-# URL shortener and expander
-$ yoda url shorten manparvesh.com
-Here's your shortened URL:
-https://goo.gl/EVVPzK
-$ yoda url expand https://goo.gl/EVVPzK
-Here's your original URL:
-http://manparvesh.com/
-```
+![](screencasts/url.gif)
 
 - hackernews
 
-```
-# For getting hacker news one by one
-$ yoda hackernews
-News-- 1/500
-
-Title--  Ask HN: Any cool ARKit or ARCore apps out there right now gaining popularity?
-Description-- Its been quite a while since ARKit and/or ARCore came out, was wondering if there were any apps built on this technology that became popular.
-url-- https://news.ycombinator.com/item?id=16562317
-
-Continue? [press-"y"] 
-```
+![](screencasts/hackernews.gif)
 
 #### diary
 
 This command can be used to maintain a personal diary, roughly based on the concept of [Bullet Journal](http://bulletjournal.com/).
 
-```
-# new note
-$ yoda diary nn
-Input your entry for note:
-hey there
-
-# view notes
-$ yoda diary notes
-Today's notes:
-----------------
-  Time  | Note
---------|-----
-12:54:22| hey there
-12:54:45| hi, this is the yoda
-
-# new task
-$ yoda diary nt
-Input your entry for task:
-go office
-
-# view tasks
-$ yoda diary tasks
-Today's agenda:
-----------------
-Status |  Time   | Text
--------|---------|-----
-   O   | 15:50:48: go office
-----------------
-
-Summary:
-----------------
-Incomplete tasks: 1
-Completed tasks: 0
-
-# view tasks
-$ yoda diary ct
-Today's agenda:
-----------------
-Number |  Time   | Task
--------|---------|-----
-   1   | 15:50:48: go office
-Enter the task number that you would like to set as completed
-1
-
-# analyze current month tasks
-$ yoda diary analyze 
-```
+![](screencasts/diary.gif)
 
 #### love
 
 This command can be used to maintain a profile of someone you love.
 
-```
-# create configuration
-$ yoda love setup
-
-# view config
-$ yoda love status
-
-# write a note for them
-$ yoda love note
-
-# view notes
-$ yoda love notes
-
-# write things they like
-$ yoda love like
-
-# view things they like
-$ yoda love likes
-
-# add birthday
-$ yoda love addbirth
-
-# show birthday
-$ yoda love showbirth
-```
+![](screencasts/love.gif)
 
 #### money
 
 For tracking money, this is.
 
-```
-# create configuration
-$ yoda money setup
-
-# view config
-$ yoda money status
-
-# add an expense using natural language
-$ yoda money exp
-spent 30 dollars on shoes
-
-# view expenses
-$ yoda money exps
-2017-05-04 16:06:00 SGD 30 shoes
-```
+![](screencasts/money.gif)
 
 #### Idea list
 
@@ -251,21 +101,8 @@ This command group contains commands that, helpful in learning new things, will 
 
 - vocabulary: For enhancing your vocabulary and tracking your progress.
 
-    ```
-    # get a random word
-    $  yoda vocabulary word
-    sinecure:
-    <Enter> to show meaning
-    a job that pays a salary but requires little work
-    Did you know / remember the meaning?
-    no
+    ![](screencasts/vocab.gif)
 
-    # view your progress
-    $  yoda vocabulary accuracy
-    Words asked in the past:
-    sinecure-- times used: 8 accuracy: 50.0
-    squalid-- times used: 6 accuracy: 66.0
-    ```
 
 - flashcards: for learning anything! ([inspiration](https://github.com/zergov/flashcards))
 
@@ -295,30 +132,13 @@ This command group contains commands that, helpful in learning new things, will 
 
 - define: to get different meanings of a word. This definition search will be automatically saved, so that while you are working on your vocabulary, you can come through the new word as well.
 
-    ```
-    $ yoda define car
-    A few definitions of the word "car" with their parts of speech are given below:
-    #---------------------------------
-    noun: a motor vehicle with four wheels; usually propelled by an internal combustion engine
-    noun: the compartment that is suspended from an airship and that carries personnel and the cargo and the power plant
-    noun: where passengers ride up and down
-    noun: a wheeled vehicle adapted to the rails of railroad
-    noun: a conveyance for passengers or freight on a cable railway
-    ```
+    ![](screencasts/define.gif)
 
 #### feedback
 
 To create an issue in the github repository simple thing that shows a link.  Yeesssssss.
 
-```
-$  yoda feedback
-For:
-    1. reporting a bug
-    2. For suggesting a feature
-    3. Any general suggestion or question
-Please create an issue in the Github repository:
-https://github.com/yoda-pa/yoda/issues/new
-```
+![](screencasts/feedback.gif)
 
 ## Packages and services used
 
