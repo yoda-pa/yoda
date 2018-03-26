@@ -1,10 +1,15 @@
+from __future__ import division
+from __future__ import absolute_import
+from builtins import str
+from builtins import range
+from past.utils import old_div
 import json
 import sys
 
 import pyspeedtest
 import requests
 
-from util import *
+from .util import *
 
 GOOGLE_URL_SHORTENER_API_KEY = "AIzaSyCBAXe-kId9UwvOQ7M2cLYR7hyCpvfdr7w"
 
@@ -33,10 +38,10 @@ def speedtest():
     click.echo('Speed test results:')
     click.echo('Ping: ' + '{:.2f}'.format(ping) + ' ms')
 
-    download_speed = speed_test.download() / (1024 * 1024)
+    download_speed = old_div(speed_test.download(), (1024 * 1024))
     click.echo('Download: ' + '{:.2f}'.format(download_speed) + ' Mb/s')
 
-    upload_speed = speed_test.upload() / (1024 * 1024)
+    upload_speed = old_div(speed_test.upload(), (1024 * 1024))
     click.echo('Upload: ' + '{:.2f}'.format(upload_speed) + ' Mb/s')
 
 

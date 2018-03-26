@@ -1,4 +1,5 @@
 # coding=utf-8
+from builtins import str
 from unittest import TestCase
 from click.testing import CliRunner
 

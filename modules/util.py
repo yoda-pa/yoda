@@ -1,3 +1,5 @@
+from __future__ import print_function
+from builtins import input
 import errno
 import os.path
 import subprocess
@@ -29,7 +31,7 @@ def ask_overwrite(file_path):
     if os.path.isfile(file_path):
         click.echo(chalk.red(
             'A configuration file already exists. Are you sure you want to overwrite it? (y/n)'))
-        overwrite_response = raw_input().lower()
+        overwrite_response = input().lower()
         if not (overwrite_response == 'y' or overwrite_response == 'yes'):
             return True
         return False
@@ -111,7 +113,7 @@ def get_input():
     gets input from the user
     :return:
     """
-    return raw_input().strip()
+    return input().strip()
 
 
 def append_data_into_file(data, file_path):
