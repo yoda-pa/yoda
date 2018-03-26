@@ -18,11 +18,7 @@ setup(
         'forex-python',
         'dulwich',
         'PyGithub',
-        'unirest',
         'future'
-    ],
-    dependency_links=[
-        "git+ssh://git@github.com/tirkarthi/unirest-python.git@f341d8e93304f42cff0b10813e2cc8d2ae121b13#egg=unirest-0.2.1"
     ],
     package_data={'': ['*.txt', '*.lst']},
     entry_points='''
