@@ -1,3 +1,6 @@
+from __future__ import absolute_import
+from builtins import input
+from builtins import map
 import datetime
 import json
 import shlex
@@ -6,9 +9,9 @@ import time
 import apiai
 from forex_python.converter import CurrencyRates, CurrencyCodes
 
-import config
-from config import get_config_file_paths
-from util import *
+from . import config
+from .config import get_config_file_paths
+from .util import *
 
 CLIENT_ACCESS_TOKEN = os.environ.get('API_AI_TOKEN', config.API_AI_TOKEN)
 ai = apiai.ApiAI(CLIENT_ACCESS_TOKEN)
@@ -66,13 +69,13 @@ def setup():
         return
 
     click.echo(chalk.blue('Enter default currency code:'))
-    currency_code = (raw_input().strip())
+    currency_code = (input().strip())
     click.echo(currency_rates.get_rates(currency_code))
     click.echo(currency_codes.get_symbol(currency_code))
     click.echo(currency_codes.get_currency_name(currency_code))
 
     click.echo(chalk.blue('Enter initial amount:'))
-    initial_money = int(raw_input().strip())
+    initial_money = int(input().strip())
 
     setup_data = dict(
         currency_code=currency_code,
@@ -88,7 +91,7 @@ def expense():
     """
     create_folder(MONEY_CONFIG_FOLDER_PATH)
     with open(MONEY_CONFIG_FOLDER_PATH + '/expenditures.txt', 'a') as fp:
-        request.query = raw_input()
+        request.query = input()
         click.echo('output: ')
         response = request.getresponse().read()
         output = json.loads(response)
@@ -118,7 +121,7 @@ def expenses():
             if len(line) == 0:
                 continue
             (date, _time, currency_name, number, item) = shlex.split(line)
-            y, m, d = map(int, date.split('-'))
+            y, m, d = list(map(int, date.split('-')))
 
             if datetime.datetime(y, m, d).month == datetime.datetime.now().month:
                 click.echo(date + ' ' + _time + ' ' +

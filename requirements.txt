@@ -9,3 +9,4 @@ numpy==1.14.2
 pyspeedtest==1.2.7
 requests==2.18.4
 urllib3==1.22
+future==0.16.0

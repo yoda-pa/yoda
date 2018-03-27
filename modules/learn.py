@@ -1,13 +1,20 @@
+from __future__ import division
+from __future__ import print_function
+from __future__ import absolute_import
+from builtins import input
+from builtins import str
+from past.utils import old_div
 import datetime
 import pkgutil
 import random
+import sys
 import time
 from os import listdir
 
 import requests
 
-from config import get_config_file_paths
-from util import *
+from .config import get_config_file_paths
+from .util import *
 
 
 # the main process
@@ -30,7 +37,15 @@ VOCABULARY_CONFIG_FOLDER_PATH = get_folder_path_from_file_path(
 
 # getting words
 words = {}
-for line in pkgutil.get_data('yoda', 'resources/vocab-words.txt').split('\n'):
+package = 'yoda'
+resource = 'resources/vocab-words.txt'
+path = os.path.dirname(sys.modules[package].__file__)
+data = ''
+
+with open(os.path.join(path, resource), 'r') as f:
+    data = f.read()
+
+for line in data.split('\n'):
     line = line.strip()
     if len(line) > 0:
         (word, definition) = line.split(' - ')
@@ -50,14 +65,14 @@ def random_word():
     displays a random word
     """
     words = get_words_list()
-    word, meaning = random.choice(words.items())
+    word, meaning = random.choice(list(words.items()))
     # TODO: process result data and get word depending on the history of it too
     click.echo(click.style(word + ": ", bold=True))
-    raw_input('<Enter> to show meaning')
+    input('<Enter> to show meaning')
     click.echo(meaning)
 
     # check if the user knows about this word or not
-    result = raw_input('Did you know / remember the meaning?\n')
+    result = input('Did you know / remember the meaning?\n')
     correct = 0
     if result == 'y' or result == 'yes':
         correct = 1
@@ -91,16 +106,16 @@ def get_word_accuracy_of_previous_words():
 
     words_in_history = {}
 
-    for _word, lst in accuracy.items():
+    for _word, lst in list(accuracy.items()):
         if len(lst):
             words_in_history[_word] = []
             words_in_history[_word].append(len(lst))
             words_in_history[_word].append(
-                round((sum(lst) * 100) / len(lst)) if len(lst) else 0)
+                round(old_div((sum(lst) * 100), len(lst))) if len(lst) else 0)
 
     click.echo(click.style("Words asked in the past: ", bold=True))
     # print(words_in_history)
-    for _word, ar in words_in_history.items():
+    for _word, ar in list(words_in_history.items()):
         click.echo(_word + '-- times used: ' +
                    str(ar[0]) + ' accuracy: ' + str(ar[1]))
 
@@ -230,7 +245,7 @@ def new_set_fc(name):
                 # there is no file, so create one
                 create_folder(FLASHCARDS_CONFIG_FOLDER_PATH)
 
-                description = raw_input('Enter a description:\n')
+                description = input('Enter a description:\n')
 
                 with open(FLASHCARDS_CONFIG_FOLDER_PATH + '/sets.txt', 'a') as fp:
                     fp.write('{}-{}-{}\n'.format(name, 1, description))
@@ -242,7 +257,7 @@ def new_set_fc(name):
                 except KeyError:
                     create_folder(FLASHCARDS_CONFIG_FOLDER_PATH)
 
-                    description = raw_input('Enter a description:\n')
+                    description = input('Enter a description:\n')
 
                     with open(FLASHCARDS_CONFIG_FOLDER_PATH + '/sets.txt', 'a') as fp:
                         fp.write('{}-{}-{}\n'.format(name, 1, description))
@@ -299,7 +314,7 @@ def modify_set_fc(name):
             click.echo(chalk.blue(
                 'Edit a new name for this set: (If you wish to keep it the same, just type a single \'-\' without the '
                 'quotes)'))
-            new_name = raw_input().strip()
+            new_name = input().strip()
             if not (new_name is None or new_name == '-' or new_name == ''):
                 modify_set_fc_name(name, new_name)
                 modify_set_fc_description(name, new_name)
@@ -363,10 +378,10 @@ def add_card_fc(name):
     if SELECTED_STUDY_SET:
         print('add card "' + name + '"')
         print('Add description: (press Enter twice to stop)')
-        x = raw_input().strip()
+        x = input().strip()
         description = x
         while len(x):
-            x = raw_input().strip()
+            x = input().strip()
             description += ('\n' + x)
 
         description = description.strip()
@@ -459,7 +474,7 @@ def study_fc(set, dummy):
                 click.echo(description)
                 click.echo('=' * width)
                 if i < len_cards_in_selected_set:
-                    raw_input('Press Enter to continue to next card')
+                    input('Press Enter to continue to next card')
 
 
 @learn.command()

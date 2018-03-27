@@ -1,5 +1,8 @@
-from config import get_config_file_paths
-from util import *
+from __future__ import absolute_import
+from builtins import str
+from builtins import input
+from .config import get_config_file_paths
+from .util import *
 
 # config file path
 LOVE_CONFIG_FILE_PATH = get_config_file_paths()["LOVE_CONFIG_FILE_PATH"]
@@ -51,13 +54,13 @@ def setup():
         return
 
     click.echo(chalk.blue('Enter their name:'))
-    name = (raw_input().strip())
+    name = (input().strip())
 
     click.echo(chalk.blue('Enter sex(M/F):'))
-    sex = (raw_input().strip())
+    sex = (input().strip())
 
     click.echo(chalk.blue('Where do they live?'))
-    place = (raw_input().strip())
+    place = (input().strip())
 
     setup_data = dict(
         name=name,
@@ -74,14 +77,14 @@ def note():
     """
     if os.path.isfile(LOVE_NOTES_FILE_PATH):
         data = dict(
-            note=raw_input()
+            note=input()
         )
         append_data_into_file(data, LOVE_NOTES_FILE_PATH)
     else:
         data = dict(
             notes=[
                 dict(
-                    note=raw_input()
+                    note=input()
                 )
             ]
         )
@@ -130,20 +133,20 @@ def like():
     click.echo(chalk.blue('Add things they like'))
     if os.path.isfile(LOVE_LIKES_FILE_PATH):
         like_data = dict(
-            like=raw_input()
+            like=input()
         )
         append_like_data_into_file(like_data, LOVE_LIKES_FILE_PATH)
     else:
         like_data = dict(
             likes=[
                 dict(
-                    like=raw_input()
+                    like=input()
                 )
             ]
         )
         input_data(like_data, LOVE_LIKES_FILE_PATH)
     click.echo(chalk.blue('Want to add more things they like? [y/n]'))
-    repeat = raw_input()
+    repeat = input()
     if repeat == 'y' or repeat == 'yes':
         like()
 
@@ -172,7 +175,7 @@ def addbirth():
     if ask_overwrite(LOVE_BIRTH_FILE_PATH):
         return
     click.echo(chalk.blue('Enter birthday'))
-    birthday = raw_input()
+    birthday = input()
     birth_data = dict(
         birthday=birthday
     )

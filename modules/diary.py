@@ -1,11 +1,15 @@
+from __future__ import absolute_import
+from builtins import input
+from builtins import str
+from builtins import range
 import calendar
 import datetime
 import os.path
 import time
 from os import listdir
 
-from config import get_config_file_paths
-from util import *
+from .config import get_config_file_paths
+from .util import *
 
 # config file path
 DIARY_CONFIG_FILE_PATH = get_config_file_paths()['DIARY_CONFIG_FILE_PATH']
@@ -90,7 +94,7 @@ def new_task():
     today_entry_check()
 
     click.echo(chalk.blue('Input your entry for task:'))
-    note = raw_input().strip()
+    note = input().strip()
 
     if os.path.isfile(TODAYS_TASKS_ENTRY_FILE_PATH):
         setup_data = dict(
@@ -119,7 +123,7 @@ def new_note():
     today_entry_check()
 
     click.echo(chalk.blue('Input your entry for note:'))
-    note = raw_input().strip()
+    note = input().strip()
 
     if os.path.isfile(TODAYS_NOTES_ENTRY_FILE_PATH):
         with open(TODAYS_NOTES_ENTRY_FILE_PATH) as todays_notes_entry:
@@ -223,7 +227,7 @@ def complete_task():
                 while not_valid_task_number:
                     click.echo(chalk.blue(
                         'Enter the task number that you would like to set as completed'))
-                    task_to_be_completed = int(raw_input())
+                    task_to_be_completed = int(input())
                     if task_to_be_completed > len(contents['entries']):
                         click.echo(chalk.red('Please Enter a valid task number!'))
                     else:

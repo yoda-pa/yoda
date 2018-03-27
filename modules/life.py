@@ -1,12 +1,17 @@
+from __future__ import division
+from __future__ import absolute_import
+from builtins import input
+from builtins import str
+from past.utils import old_div
 import json
 import os.path
 import time
 
 from Crypto.Cipher import AES
 
-from config import get_config_file_paths
+from .config import get_config_file_paths
 from modules.setup import cypher_pass_generator
-from util import *
+from .util import *
 
 # config file path
 LIFE_CONFIG_FILE_PATH = get_config_file_paths()['LIFE_CONFIG_FILE_PATH']
@@ -249,7 +254,7 @@ def decryption(text):
     :return:
     """
     s = AES.new(cipher_key, AES.MODE_CBC, cipher_IV456).decrypt(text)
-    return s[:len(s) / 16]
+    return s[:old_div(len(s), 16)]
 
 
 def add_idea(project_name, task_name):
@@ -274,7 +279,7 @@ def add_idea(project_name, task_name):
         task = []
 
     click.echo(chalk.blue('Brief desc of the current task : '))
-    desc = raw_input()
+    desc = input()
     task.append((task_name, desc))  # a new entry created
     data[project_name] = task
     with open(IDEA_CONFIG_FILE_PATH, 'w') as f:
@@ -300,7 +305,7 @@ def show(project_name, task_name):
     except:
         click.echo(chalk.red('There are no saved ideas for now. Please run "yoda ideas add" to add a new idea'))
         return
-    for proj, task in data.items():
+    for proj, task in list(data.items()):
         click.echo(chalk.yellow(proj))
         for _task_name, _task_description in task:
             click.echo(chalk.cyan('\t' + _task_name))
@@ -329,7 +334,7 @@ def remove(project, task=None):
             del data[project]  # a project deleted
             click.echo(chalk.blue('Project deleted successfully.'))
         else:
-            data[project] = filter(lambda x: x[0] != task, data[project])  # task inside a respective project deleted
+            data[project] = [x for x in data[project] if x[0] != task]  # task inside a respective project deleted
             click.echo(chalk.blue('Task deleted successfully.'))
         with open(IDEA_CONFIG_FILE_PATH, 'w') as f:
             data = json.dumps(data)

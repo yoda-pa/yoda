@@ -1,3 +1,8 @@
+from __future__ import division
+from __future__ import absolute_import
+from builtins import input
+from builtins import range
+from past.utils import old_div
 import errno
 import getpass
 import os.path
@@ -10,8 +15,8 @@ import lepl.apps.rfc3696
 import yaml
 from Crypto.Cipher import AES
 
-from config import get_config_file_paths
-from config import update_config_path
+from .config import get_config_file_paths
+from .config import update_config_path
 
 CONFIG_FILE_PATH = get_config_file_paths()['USER_CONFIG_FILE_PATH']
 
@@ -49,7 +54,7 @@ def decrypt_password():
     cipher_IV456 = contents['encryption']['cipher_IV456']
     cipher_text = contents['github']['password']
     s = AES.new(cipher_key, AES.MODE_CBC, cipher_IV456).decrypt(cipher_text)
-    return s[:len(s) / 16]
+    return s[:old_div(len(s), 16)]
 
 
 def new():
@@ -58,26 +63,26 @@ def new():
     :return:
     """
     click.echo(chalk.blue('Enter your name:'))
-    name = raw_input().strip()
+    name = input().strip()
     while len(name) == 0:
         click.echo(chalk.red("You entered nothing!"))
         click.echo(chalk.blue('Enter your name:'))
-        name = raw_input().strip()
+        name = input().strip()
 
     click.echo(chalk.blue('What\'s your email id?'))
-    email = raw_input().strip()
+    email = input().strip()
     email_validator = lepl.apps.rfc3696.Email()
     while not email_validator(email):
         click.echo(chalk.red("Invalid email ID!"))
         click.echo(chalk.blue('What\'s your email id?'))
-        email = raw_input().strip()
+        email = input().strip()
 
     click.echo(chalk.blue('What\'s your github username?'))
-    gh_username = raw_input().strip()
+    gh_username = input().strip()
     while len(gh_username) == 0:
         click.echo(chalk.red("You entered nothing!"))
         click.echo(chalk.blue('What\'s your github username?'))
-        gh_username = raw_input().strip()
+        gh_username = input().strip()
 
     click.echo(chalk.blue('Enter your github password:'))
     gh_password = getpass.getpass()
@@ -94,13 +99,13 @@ def new():
 
     click.echo(chalk.blue('Where shall your config be stored? (Default: ~/.yoda/)'))
     # because os.path.isdir doesn't expand ~
-    config_path = os.path.expanduser(raw_input().strip())
+    config_path = os.path.expanduser(input().strip())
     while not os.path.isdir(config_path):
         if len(config_path) == 0:
             break
         click.echo(chalk.red('Path doesn\'t exist!'))
         click.echo(chalk.blue('Where shall your config be stored? (Default: ~/.yoda/)'))
-        config_path = os.path.expanduser(raw_input().strip())
+        config_path = os.path.expanduser(input().strip())
 
     update_config_path(config_path)
     CONFIG_FILE_PATH = get_config_file_paths()['USER_CONFIG_FILE_PATH']
@@ -128,7 +133,7 @@ def new():
     if os.path.isfile(CONFIG_FILE_PATH):
         click.echo(chalk.red(
             'A configuration file already exists. Are you sure you want to overwrite it? (y/n)'))
-        overwrite_response = raw_input().lower()
+        overwrite_response = input().lower()
         if not (overwrite_response == 'y' or overwrite_response == 'yes'):
             return
 
@@ -161,7 +166,7 @@ def delete():
     """
     if os.path.isfile(CONFIG_FILE_PATH):
         click.echo(chalk.red('Are you sure you want to delete previous configuration? (y/n)'))
-        delete_response = raw_input().lower().strip()
+        delete_response = input().lower().strip()
         if delete_response != 'y':
             click.echo('Operation cancelled')
             return

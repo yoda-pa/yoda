@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 import json
 import os
 import socket
@@ -7,7 +8,7 @@ import apiai
 import chalk
 import click
 
-import config
+from . import config
 
 CLIENT_ACCESS_TOKEN = os.environ.get('API_AI_TOKEN', config.API_AI_TOKEN)
 ai = apiai.ApiAI(CLIENT_ACCESS_TOKEN)
