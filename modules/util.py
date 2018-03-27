@@ -8,6 +8,11 @@ import chalk
 import click
 import yaml
 
+try:
+    raw_input          # Python 2
+except NameError:
+    raw_input = input  # Python 3
+
 
 def create_folder(folder_path):
     """

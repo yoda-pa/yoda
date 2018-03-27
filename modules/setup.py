@@ -20,6 +20,11 @@ from .config import update_config_path
 
 CONFIG_FILE_PATH = get_config_file_paths()['USER_CONFIG_FILE_PATH']
 
+try:
+    raw_input          # Python 2
+except NameError:
+    raw_input = input  # Python 3
+
 
 def cypher_pass_generator(size=16, chars=string.ascii_uppercase + string.digits):
     """
