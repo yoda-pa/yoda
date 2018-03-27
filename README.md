@@ -18,7 +18,7 @@
 
 #### Requirements
 
-- [python2](https://www.python.org/downloads/)
+- [python (both 2 and 3 are supported)](https://www.python.org/downloads/)
 - [virtualenv](https://virtualenv.pypa.io/en/stable/installation/) (only for testing and development)
 - Python development package:
   - `python-dev` package (if using Ubuntu)
