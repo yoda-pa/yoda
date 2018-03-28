@@ -322,10 +322,11 @@ def modify_set_fc(name):
                       name + '\' to \'' + new_name + '\'')
 
 
-def select_set_fc(name):
+def select_set_fc(name, dummy=None):
     """
     select working study set
     :param name:
+    :param dummy:
     """
     sets = get_set_statuses()
     if not sets:
@@ -504,7 +505,8 @@ def flashcards(domain, action, name):
         'cards': check_sub_command_cards_flashcards,
         'sets': check_sub_command_sets_flashcards,
         'status': status_fc,
-        'study': study_fc
+        'study': study_fc,
+        'select': select_set_fc
     }
     try:
         domains[domain](action, name)
