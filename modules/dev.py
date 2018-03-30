@@ -1,13 +1,14 @@
-from __future__ import division
 from __future__ import absolute_import
-from builtins import str
-from builtins import range
-from past.utils import old_div
+from __future__ import division
+
 import json
 import sys
+from builtins import range
+from builtins import str
 
 import pyspeedtest
 import requests
+from past.utils import old_div
 
 from .util import *
 
@@ -75,7 +76,9 @@ def url_expand(url_to_be_expanded):
     :param url_to_be_expanded: 
     """
     try:
-        r = requests.get('https://www.googleapis.com/urlshortener/v1/url?key='+GOOGLE_URL_SHORTENER_API_KEY+'&shortUrl='+url_to_be_expanded)
+        r = requests.get(
+            'https://www.googleapis.com/urlshortener/v1/url?key=' + GOOGLE_URL_SHORTENER_API_KEY +
+            '&shortUrl=' + url_to_be_expanded)
     except requests.exceptions.ConnectionError:
         click.echo('Yoda cannot sense the internet right now!')
         sys.exit(1)
