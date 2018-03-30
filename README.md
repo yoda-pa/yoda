@@ -16,6 +16,7 @@
 
 ## Install, how to
 
+
 #### Requirements
 
 - [python (both 2 and 3 are supported)](https://www.python.org/downloads/)
@@ -25,6 +26,16 @@
   - `Visual C++ 9.0 for Python` (If using Windows)
   - `python-devel` package (If using MacOS/OSX: [link](https://stackoverflow.com/questions/32578106/how-to-install-python-devel-in-mac-os/32578175#32578175))
 
+### Download and Install, how to
+
+```
+$ git clone https://github.com/yoda-pa/yoda
+$ cd yoda
+$ sudo python3 -m pip install -r requirements.txt
+$ sudo python3 setup.py build
+$ sudo python3 setup.py install
+```
+
 ### Run, how to
 
 Clone this repository and create a virtual environment using Python 2 in the cloned directory (`virtualenv -p /usr/bin/python2 venv`). Steps after that:
@@ -32,6 +43,7 @@ Clone this repository and create a virtual environment using Python 2 in the clo
 ![](screencasts/firstsetup.gif)
 
 Instead of `pip install --editable .` you can use `pip install .` if you don't intend to make any changes in the code.
+
 
 ## Use this package, how to
 
