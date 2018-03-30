@@ -1,13 +1,17 @@
+from __future__ import division
+from __future__ import absolute_import
+from builtins import input
+from builtins import str
+from past.utils import old_div
 import json
 import os.path
 import time
 
-import click
 from Crypto.Cipher import AES
 
-from config import get_config_file_paths
+from .config import get_config_file_paths
 from modules.setup import cypher_pass_generator
-from util import *
+from .util import *
 
 # config file path
 LIFE_CONFIG_FILE_PATH = get_config_file_paths()['LIFE_CONFIG_FILE_PATH']
@@ -111,8 +115,8 @@ def view_reading_list(opts):
                                      is_in_params(params, query, article)]
                 file_contents = dict(entries=filtered_contents)
 
-            chalk.blue("Your awesome reading list " + search)
-            chalk.blue("Last updated: " + last_updated)
+            click.echo(chalk.blue("Your awesome reading list " + search))
+            click.echo(chalk.blue("Last updated: " + last_updated))
             print_reading_list(file_contents)
     else:
         empty_list_prompt()
@@ -123,20 +127,20 @@ def add_to_reading_list(query=""):
     add anything to the reading list
     :param query:
     """
-    chalk.blue("Title of the article:")
+    click.echo(chalk.blue("Title of the article:"))
     _title = get_input()
     while len(_title) == 0:
-        chalk.red("No title, cannot be.")
-        chalk.blue("Title of the article:")
+        click.echo(chalk.red("No title, cannot be."))
+        click.echo(chalk.blue("Title of the article:"))
         _title = get_input()
 
-    chalk.blue("Author of the article:")
+    click.echo(chalk.blue("Author of the article:"))
     _author = get_input()
 
-    chalk.blue("Article type/kind/genre (e.g. book, article, blog, sci-fi):")
+    click.echo(chalk.blue("Article type/kind/genre (e.g. book, article, blog, sci-fi):"))
     _kind = get_input()
 
-    chalk.blue("Tags for easier filtering/searching (seperated by spaces):")
+    click.echo(chalk.blue("Tags for easier filtering/searching (seperated by spaces):"))
     _tags = get_input().split()
 
     setup_data = dict(
@@ -153,7 +157,7 @@ def add_to_reading_list(query=""):
         create_folder(os.path.join(LIFE_CONFIG_FOLDER_PATH, 'rlist'))
         input_data(setup_data, READING_LIST_ENTRY_FILE_PATH)
 
-    chalk.blue("Added " + _title + " to your reading list!")
+    click.echo(chalk.blue("Added " + _title + " to your reading list!"))
 
 
 # the rlist process
@@ -191,7 +195,7 @@ def rlist(sub_command, params, query):
     try:
         sub_commands[sub_command](opts)
     except KeyError:
-        chalk.red("Command " + sub_command + " does not exist!")
+        click.echo(chalk.red("Command " + sub_command + " does not exist!"))
         click.echo("Try 'yoda rlist --help' for more info'")
 
 
@@ -250,7 +254,7 @@ def decryption(text):
     :return:
     """
     s = AES.new(cipher_key, AES.MODE_CBC, cipher_IV456).decrypt(text)
-    return s[:len(s) / 16]
+    return s[:old_div(len(s), 16)]
 
 
 def add_idea(project_name, task_name):
@@ -274,8 +278,8 @@ def add_idea(project_name, task_name):
     else:
         task = []
 
-    chalk.blue('Brief desc of the current task : ')
-    desc = raw_input()
+    click.echo(chalk.blue('Brief desc of the current task : '))
+    desc = input()
     task.append((task_name, desc))  # a new entry created
     data[project_name] = task
     with open(IDEA_CONFIG_FILE_PATH, 'w') as f:
@@ -299,13 +303,13 @@ def show(project_name, task_name):
             data = json.loads(data)
         f.close()
     except:
-        chalk.red('There are no saved ideas for now. Please run "yoda ideas add" to add a new idea')
+        click.echo(chalk.red('There are no saved ideas for now. Please run "yoda ideas add" to add a new idea'))
         return
-    for proj, task in data.items():
-        chalk.yellow(proj)
+    for proj, task in list(data.items()):
+        click.echo(chalk.yellow(proj))
         for _task_name, _task_description in task:
-            chalk.cyan('\t' + _task_name)
-            chalk.cyan('\t\t' + _task_description)
+            click.echo(chalk.cyan('\t' + _task_name))
+            click.echo(chalk.cyan('\t\t' + _task_description))
 
 
 def remove(project, task=None):
@@ -322,23 +326,23 @@ def remove(project, task=None):
             data = json.loads(data)
         f.close()
     except:
-        chalk.red("File not exist, operation aborted.")
+        click.echo(chalk.red("File not exist, operation aborted."))
         return
     f.close()
     try:
         if task is None:
             del data[project]  # a project deleted
-            chalk.blue('Project deleted successfully.')
+            click.echo(chalk.blue('Project deleted successfully.'))
         else:
-            data[project] = filter(lambda x: x[0] != task, data[project])  # task inside a respective project deleted
-            chalk.blue('Task deleted successfully.')
+            data[project] = [x for x in data[project] if x[0] != task]  # task inside a respective project deleted
+            click.echo(chalk.blue('Task deleted successfully.'))
         with open(IDEA_CONFIG_FILE_PATH, 'w') as f:
             data = json.dumps(data)
             data = encryption(data)
             f.write(data)
         f.close()
     except:
-        chalk.red("Wrong task or project entered. Please check using 'yoda ideas show'")
+        click.echo(chalk.red("Wrong task or project entered. Please check using 'yoda ideas show'"))
 
 
 # idea list process
@@ -365,8 +369,9 @@ def ideas(subcommand, task, project, inside):
 
     """
     if subcommand != 'show' and (project or inside) is None:
-        chalk.red('Operation aborted. You have not selected any project or task. Please use this command with either '
-                  '--project or --inside flag')
+        click.echo(chalk.red(
+            'Operation aborted. You have not selected any project or task. Please use this command with either '
+            '--project or --inside flag'))
         return
     sub_commands = {
         'show': show,
@@ -376,5 +381,5 @@ def ideas(subcommand, task, project, inside):
     try:
         sub_commands[subcommand]((project or inside), task)
     except KeyError:
-        chalk.red('Command ' + subcommand + ' does not exist.')
+        click.echo(chalk.red('Command ' + subcommand + ' does not exist.'))
         click.echo('Try "yoda ideas --help" for more info')

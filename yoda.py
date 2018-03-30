@@ -35,13 +35,25 @@ def chat(input):
 cli.add_command(dev.dev)
 cli.add_command(dev.speedtest)
 cli.add_command(dev.url)
+cli.add_command(dev.hackernews)
+cli.add_command(dev.coinflip)
 
 
 @cli.command()
 @click.argument('input', nargs=-1)
 def love(input):
     """
-    maintain a profile of someone you love
+    maintain a profile of someone you love\n
+
+    commands:\n
+    setup: Setup love\n
+    status: check love status\n
+    note: Add a note\n
+    notes: View notes\n
+    like: Add things they like\n
+    likes: View things they like\n
+    addbirth: Add birthday\n
+    showbirth: Show birthday\n
     """
     if input:
         test_string = ''

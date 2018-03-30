@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 import json
 import os
 import socket
@@ -9,7 +10,7 @@ import apiai
 import chalk
 import click
 
-import config
+from . import config
 
 
 

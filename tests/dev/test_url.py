@@ -1,4 +1,5 @@
 # coding=utf-8
+from builtins import str
 from unittest import TestCase
 from click.testing import CliRunner
 
@@ -22,7 +23,7 @@ class TestSpeedtest(TestCase):
         url_to_test = 'http://manparvesh.com/'.strip()
         result = self.runner.invoke(yoda.cli, ['url', 'shorten', url_to_test])
         self.assertEqual(result.exit_code, 0)
-        output_string = str(result.output.encode('ascii', 'ignore'))
+        output_string = str(result.output.encode('ascii', 'ignore').decode('utf-8'))
 
         self.assertEqual(type(output_string), str)
         self.assertTrue(output_string.startswith('Here\'s your shortened URL:'))
@@ -31,7 +32,7 @@ class TestSpeedtest(TestCase):
         # expand url
         result_decode = self.runner.invoke(yoda.cli, ['url', 'expand', shortened_url])
         self.assertEqual(result_decode.exit_code, 0)
-        second_output_string = str(result_decode.output.encode('ascii', 'ignore'))
+        second_output_string = str(result_decode.output.encode('ascii', 'ignore').decode('utf-8'))
 
         self.assertEqual(type(second_output_string), str)
         self.assertTrue(second_output_string.startswith('Here\'s your original URL:'))
@@ -43,4 +44,5 @@ class TestSpeedtest(TestCase):
         # incorrect command should show our custom response instead of stacktrace
         result = self.runner.invoke(yoda.cli, ['url', 'incorrect_subcommand', 'aaa'])
         self.assertEqual(result.exit_code, 0)
-        self.assertEqual(result.output_bytes, 'Try "yoda url --help" for more info\n')
+        final_output_string = str(result.output.encode('ascii', 'ignore').decode('utf-8')).strip()
+        self.assertTrue(final_output_string.endswith('Try "yoda url --help" for more info'))

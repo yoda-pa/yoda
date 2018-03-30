@@ -80,6 +80,7 @@ celerybeat-schedule
 
 # virtualenv
 venv/
+venv3.6/
 ENV/
 
 # Spyder project settings
@@ -92,3 +93,5 @@ ENV/
 *~
 
 .idea/
+.scannerwork/
+

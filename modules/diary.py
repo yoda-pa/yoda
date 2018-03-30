@@ -1,14 +1,15 @@
+from __future__ import absolute_import
+from builtins import input
+from builtins import str
+from builtins import range
 import calendar
 import datetime
-import errno
 import os.path
 import time
 from os import listdir
 
-import click
-
-from config import get_config_file_paths
-from util import *
+from .config import get_config_file_paths
+from .util import *
 
 # config file path
 DIARY_CONFIG_FILE_PATH = get_config_file_paths()['DIARY_CONFIG_FILE_PATH']
@@ -92,8 +93,8 @@ def new_task():
     """
     today_entry_check()
 
-    chalk.blue('Input your entry for task:')
-    note = raw_input().strip()
+    click.echo(chalk.blue('Input your entry for task:'))
+    note = input().strip()
 
     if os.path.isfile(TODAYS_TASKS_ENTRY_FILE_PATH):
         setup_data = dict(
@@ -121,8 +122,8 @@ def new_note():
     """
     today_entry_check()
 
-    chalk.blue('Input your entry for note:')
-    note = raw_input().strip()
+    click.echo(chalk.blue('Input your entry for note:'))
+    note = input().strip()
 
     if os.path.isfile(TODAYS_NOTES_ENTRY_FILE_PATH):
         with open(TODAYS_NOTES_ENTRY_FILE_PATH) as todays_notes_entry:
@@ -178,12 +179,12 @@ def tasks():
         click.echo('Summary:')
         click.echo('----------------')
         if incomplete_tasks == 0:
-            chalk.green(
-                'All tasks have been competed! Add a new task by entering "yoda  diary nt"')
+            click.echo(chalk.green(
+                'All tasks have been competed! Add a new task by entering "yoda  diary nt"'))
         else:
-            chalk.red("Incomplete tasks: " + str(incomplete_tasks))
-            chalk.green("Completed tasks: " +
-                        str(total_tasks - incomplete_tasks))
+            click.echo(chalk.red("Incomplete tasks: " + str(incomplete_tasks)))
+            click.echo(chalk.green("Completed tasks: " +
+                                   str(total_tasks - incomplete_tasks)))
 
     else:
         click.echo(
@@ -206,8 +207,8 @@ def complete_task():
                     no_task_left = False
 
             if no_task_left:
-                chalk.green(
-                    'All tasks have been competed! Add a new task by entering "yoda  diary nt"')
+                click.echo(chalk.green(
+                    'All tasks have been competed! Add a new task by entering "yoda  diary nt"'))
             else:
                 click.echo('Today\'s agenda:')
                 click.echo('----------------')
@@ -224,18 +225,18 @@ def complete_task():
                         click.echo("   " + str(i) + "   | " +
                                    time + ": " + text)
                 while not_valid_task_number:
-                    chalk.blue(
-                        'Enter the task number that you would like to set as completed')
-                    task_to_be_completed = int(raw_input())
+                    click.echo(chalk.blue(
+                        'Enter the task number that you would like to set as completed'))
+                    task_to_be_completed = int(input())
                     if task_to_be_completed > len(contents['entries']):
-                        chalk.red('Please Enter a valid task number!')
+                        click.echo(chalk.red('Please Enter a valid task number!'))
                     else:
                         contents['entries'][task_to_be_completed - 1]['status'] = 1
                         input_data(contents, TODAYS_TASKS_ENTRY_FILE_PATH)
                         not_valid_task_number = 0
     else:
-        chalk.red(
-            'There are no tasks for today. Add a new task by entering "yoda diary nt"')
+        click.echo(chalk.red(
+            'There are no tasks for today. Add a new task by entering "yoda diary nt"'))
 
 
 def notes():
@@ -257,8 +258,8 @@ def notes():
                 click.echo(time + "| " + text)
 
     else:
-        chalk.red(
-            'There are no notes for today. Add a new note by entering "yoda diary nn"')
+        click.echo(chalk.red(
+            'There are no notes for today. Add a new note by entering "yoda diary nn"'))
 
 
 def check_sub_command(c):
@@ -278,7 +279,7 @@ def check_sub_command(c):
     try:
         return sub_commands[c]()
     except KeyError:
-        chalk.red('Command does not exist!')
+        click.echo(chalk.red('Command does not exist!'))
         click.echo('Try "yoda diary --help" for more info')
 
 
@@ -327,6 +328,6 @@ def current_month_task_analysis():
     percent_incomplete_task = total_incomplete_tasks * 100 / total_tasks
     percent_complete_task = 100 - percent_incomplete_task
     entry_frequency = total_tasks * 100 / no_of_days_current_month
-    chalk.red('Percentage of incomplete task : ' + str(percent_incomplete_task))
-    chalk.green('Percentage of complete task : ' + str(percent_complete_task))
-    chalk.blue("Frequency of adding task (Task/Day) : " + str(entry_frequency))
+    click.echo(chalk.red('Percentage of incomplete task : ' + str(percent_incomplete_task)))
+    click.echo(chalk.green('Percentage of complete task : ' + str(percent_complete_task)))
+    click.echo(chalk.blue("Frequency of adding task (Task/Day) : " + str(entry_frequency)))

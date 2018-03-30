@@ -1,6 +1,5 @@
 from setuptools import setup, find_packages
 
-
 setup(
     name='yoda',
     version='0.2.0',
@@ -19,7 +18,7 @@ setup(
         'forex-python',
         'dulwich',
         'PyGithub',
-        'unirest'
+        'future'
     ],
     package_data={'': ['*.txt', '*.lst']},
     entry_points='''

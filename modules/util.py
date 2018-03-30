@@ -1,9 +1,17 @@
+from __future__ import print_function
+from builtins import input
 import errno
 import os.path
 import subprocess
 
 import chalk
+import click
 import yaml
+
+try:
+    raw_input          # Python 2
+except NameError:
+    raw_input = input  # Python 3
 
 
 def create_folder(folder_path):
@@ -26,9 +34,9 @@ def ask_overwrite(file_path):
     :return:
     """
     if os.path.isfile(file_path):
-        chalk.red(
-            'A configuration file already exists. Are you sure you want to overwrite it? (y/n)')
-        overwrite_response = raw_input().lower()
+        click.echo(chalk.red(
+            'A configuration file already exists. Are you sure you want to overwrite it? (y/n)'))
+        overwrite_response = input().lower()
         if not (overwrite_response == 'y' or overwrite_response == 'yes'):
             return True
         return False
@@ -110,7 +118,7 @@ def get_input():
     gets input from the user
     :return:
     """
-    return raw_input().strip()
+    return input().strip()
 
 
 def append_data_into_file(data, file_path):
