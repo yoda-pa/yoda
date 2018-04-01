@@ -158,3 +158,7 @@ To create an issue in the github repository simple thing that shows a link.  Yee
 
 ## Contribute, you must
 Please refer to the [contributing guidelines](https://github.com/yoda-pa/yoda/blob/master/.github/CONTRIBUTING.md) for contributing to this project.
+
+## In the news
+- [ostechnix](https://www.ostechnix.com/yoda-the-command-line-personal-assistant-for-your-linux-system/)
+- [sdtimes](https://sdtimes.com/os/sd-times-github-project-week-yoda-2/)
