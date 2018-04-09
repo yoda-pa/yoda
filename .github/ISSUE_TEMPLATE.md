@@ -1,9 +1,11 @@
+<!--
 **Note:** Thanks for reporting an issue! Please make sure you click the link above to view the guidelines, then fill out the blanks below.  
 There are two templates. You can choose which one to use and delete the other one. Also, please remove the text in the brackets before you submit an issue
+-->
 
----
-
+<!------------------------------------------
 # For bug reporting
+------------------------------------------->
 ## What are the steps to reproduce this issue?
 1. …
 2. …
@@ -18,7 +20,10 @@ There are two templates. You can choose which one to use and delete the other on
 ## What versions of software are you using?
 **Operating System:** …
 
-# For feature suggestion
+<!------------------------------------------
+# For feature suggestion, un-comment the next part and remove / comment the previous
+------------------------------------------->
+<!--
 ## Feature description:
 …
 
@@ -31,3 +36,4 @@ There are two templates. You can choose which one to use and delete the other on
 
 ## Any feedback on the project?
 …
+-->
