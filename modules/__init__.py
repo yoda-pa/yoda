@@ -1,4 +1,5 @@
 __all__ = [
+	'alias',
     'chat',
     'dev',
     'love',

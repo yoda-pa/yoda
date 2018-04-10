@@ -14,6 +14,23 @@ except NameError:
     raw_input = input  # Python 3
 
 
+def get_arguments(ctx, n):
+    if len(ctx.obj) >= n:
+        args = ctx.obj[:n]
+        del ctx.obj[:n]
+        if n == 1:
+            return args[0]
+        return args
+    else:
+        args = ctx.obj[:]
+        for i in range(n - len(ctx.obj)):
+            args.append(None)
+        del ctx.obj[:]
+        if n == 1:
+            return args[0]
+        return args
+
+
 def create_folder(folder_path):
     """
     if folder does not exist, create it
