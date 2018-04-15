@@ -20,7 +20,7 @@ cli.add_command(alias.alias)
 
 @cli.command()
 @click.pass_context
-@click.argument('input', nargs=-1, required=False, callback=util.alias_checker)
+@click.argument('input', nargs=-1, required=False, callback=alias.alias_checker)
 def chat(ctx, input):
     """
     A simple chatbot\n
@@ -46,7 +46,7 @@ cli.add_command(dev.coinflip)
 
 @cli.command()
 @click.pass_context
-@click.argument('input', nargs=-1, required=False, callback=util.alias_checker)
+@click.argument('input', nargs=-1, required=False, callback=alias.alias_checker)
 def love(ctx, input):
     """
     maintain a profile of someone you love\n
@@ -73,7 +73,7 @@ def love(ctx, input):
 
 @cli.command()
 @click.pass_context
-@click.argument('input', nargs=-1, required=False, callback=util.alias_checker)
+@click.argument('input', nargs=-1, required=False, callback=alias.alias_checker)
 def diary(ctx, input):
     """
     Maintain a personal diary\n
@@ -98,7 +98,7 @@ def diary(ctx, input):
 
 @cli.command()
 @click.pass_context
-@click.argument('input', nargs=-1, required=False, callback=util.alias_checker)
+@click.argument('input', nargs=-1, required=False, callback=alias.alias_checker)
 def money(ctx, input):
     """
     For tracking money \n\n
@@ -127,7 +127,7 @@ cli.add_command(learn.define)
 
 @cli.command()
 @click.pass_context
-@click.argument('input', nargs=-1, required=False, callback=util.alias_checker)
+@click.argument('input', nargs=-1, required=False, callback=alias.alias_checker)
 def setup(ctx, input):
     """
     create a setup configuration for you to save some information locally

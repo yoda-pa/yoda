@@ -11,6 +11,7 @@ import requests
 from past.utils import old_div
 
 from .util import *
+from .alias import alias_checker
 
 GOOGLE_URL_SHORTENER_API_KEY = "AIzaSyCBAXe-kId9UwvOQ7M2cLYR7hyCpvfdr7w"
 

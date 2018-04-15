@@ -42,6 +42,21 @@ class Alias(click.Group):
 
         return None
 
+def alias_checker(ctx, param, value):
+    if value is None or len(value) == 0:
+        pass
+    elif value in Alias._aliases.keys():
+        ctx.obj.extend(Alias._aliases[value])
+    elif type(value) == tuple:
+        for val in value:
+            if val in Alias._aliases.keys():
+                ctx.obj.extend(Alias._aliases[val])
+            else:
+                ctx.obj.append(val)
+    else:
+        ctx.obj.append(value)
+    return None
+
 @click.group()
 def alias():
     """

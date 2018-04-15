@@ -4,6 +4,7 @@ from __future__ import absolute_import
 from builtins import input
 from builtins import str
 from past.utils import old_div
+from .alias import alias_checker
 import datetime
 import pkgutil
 import random
