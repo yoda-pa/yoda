@@ -108,11 +108,11 @@ def check_sub_command_url(action, url_to_be_expanded_or_shortened):
 
 @dev.command()
 @click.pass_context
-@click.argument('args', nargs=-1)
-def url(ctx, args):
+@click.argument('input', nargs=1, required=False, callback=alias_checker)
+@click.argument('url', nargs=1, required=False, callback=alias_checker)
+def url(ctx, input, url):
     """
         URL shortener and expander\n\n
-
         Commands:
         shorten: to shorten the given URL
         expand: to expand shortened URL

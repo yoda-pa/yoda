@@ -7,5 +7,6 @@ __all__ = [
     'money',
     'learn',
     'setup',
-    'life'
+    'life',
+    'util'
 ]

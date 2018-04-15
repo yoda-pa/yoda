@@ -13,7 +13,8 @@ def cli(ctx):
     """
     Yoda PA: A personal assistant based on the command line
     """
-    args = ctx.obj
+    print("inside cli")
+    print(ctx.obj)
     
 
 # The alias module
@@ -22,13 +23,13 @@ cli.add_command(alias.alias)
 
 @cli.command()
 @click.pass_context
-@click.argument('input', nargs=-1)
+@click.argument('input', nargs=-1, required=False, callback=util.alias_checker)
 def chat(ctx, input):
     """
     A simple chatbot\n
     To use, type: yoda chat <message>
     """
-    input = ctx.obj
+    input = util.get_arguments(ctx, -1)
     if input:
         test_string = ''
         for i in input:
@@ -48,7 +49,7 @@ cli.add_command(dev.coinflip)
 
 @cli.command()
 @click.pass_context
-@click.argument('input', nargs=-1)
+@click.argument('input', nargs=-1, required=False, callback=util.alias_checker)
 def love(ctx, input):
     """
     maintain a profile of someone you love\n
@@ -63,7 +64,7 @@ def love(ctx, input):
     addbirth: Add birthday\n
     showbirth: Show birthday\n
     """
-    input = ctx.obj
+    input = util.get_arguments(ctx, -1)
     if input:
         test_string = ''
         for i in input:
@@ -75,7 +76,7 @@ def love(ctx, input):
 
 @cli.command()
 @click.pass_context
-@click.argument('input', nargs=-1)
+@click.argument('input', nargs=-1, required=False, callback=util.alias_checker)
 def diary(ctx, input):
     """
     Maintain a personal diary\n
@@ -88,7 +89,7 @@ def diary(ctx, input):
     tasks: view all completed and incomplete tasks\n
     ct: complete task
     """
-    input = ctx.obj
+    input = util.get_arguments(ctx, -1)
     if input:
         test_string = ''
         for i in input:
@@ -100,7 +101,7 @@ def diary(ctx, input):
 
 @cli.command()
 @click.pass_context
-@click.argument('input', nargs=-1)
+@click.argument('input', nargs=-1, required=False, callback=util.alias_checker)
 def money(ctx, input):
     """
     For tracking money \n\n
@@ -110,7 +111,7 @@ def money(ctx, input):
     exp: add an expense\n
     exps: view all expenses\n
     """
-    input = ctx.obj
+    input = util.get_arguments(ctx, -1)
     if input:
         test_string = ''
         for i in input:
@@ -129,12 +130,12 @@ cli.add_command(learn.define)
 
 @cli.command()
 @click.pass_context
-@click.argument('input', nargs=-1)
+@click.argument('input', nargs=-1, required=False, callback=util.alias_checker)
 def setup(ctx, input):
     """
     create a setup configuration for you to save some information locally
     """
-    input = ctx.obj
+    input = util.get_arguments(ctx, -1)
     if input:
         test_string = ''
         for i in input:

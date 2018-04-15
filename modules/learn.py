@@ -139,15 +139,15 @@ def check_sub_command_vocab(c):
 
 @learn.command()
 @click.pass_context
-@click.argument('args', nargs=-1)
-def vocabulary(ctx, args):
+@click.argument('input', nargs=-1, callback=alias_checker)
+def vocabulary(ctx, input):
     """
         For enhancing your vocabulary and tracking your progress\n\n
         Commands:\n
         word: get a random word\n
         accuracy: view your progress
     """
-    input = get_arguments(ctx, 1)
+    input = get_arguments(ctx, -1)
     _input = tuple_to_string(input)
     check_sub_command_vocab(_input)
 
@@ -479,11 +479,12 @@ def study_fc(set, dummy):
                 if i < len_cards_in_selected_set:
                     input('Press Enter to continue to next card')
 
-
 @learn.command()
 @click.pass_context
-@click.argument('args', nargs=-1)
-def flashcards(ctx, args):
+@click.argument('domain', nargs=1, required=False, callback=alias_checker)
+@click.argument('action', nargs=1, required=False, callback=alias_checker)
+@click.argument('name', nargs=-1, required=False, callback=alias_checker)
+def flashcards(ctx, domain, action, name):
     domain, action, name = get_arguments(ctx, 3)
     """
         Flashcards for learning anything and tracking your progress\n\n
@@ -519,12 +520,11 @@ def flashcards(ctx, args):
 
 # ----------------------- / flashcards code -----------------------#
 
-
 # ----------------------- define code -----------------------#
 @learn.command()
 @click.pass_context
-@click.argument('args', nargs=-1)
-def define(ctx, args):
+@click.argument('word', nargs=1, callback=alias_checker)
+def define(ctx, word):
     """
         Get the meaning of a word
     """
