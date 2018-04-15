@@ -73,6 +73,7 @@ def new(orig_cmd, alias_cmd):
         with open(ALIAS_CONFIG_FOLDER_PATH + '/alias.txt', 'a') as f:
             f.write(orig_cmd + '\n' + alias_cmd + '\n')
         Alias._aliases[alias_cmd] = orig_cmd
+        click.echo("Aliased %s as %s" % (orig_cmd, alias_cmd))
 
 @alias.command()
 @click.argument('alias', nargs=1)

@@ -139,7 +139,7 @@ def check_sub_command_vocab(c):
 
 @learn.command()
 @click.pass_context
-@click.argument('input', nargs=-1, callback=alias_checker)
+@click.argument('input', nargs=-1, required=False, callback=alias_checker)
 def vocabulary(ctx, input):
     """
         For enhancing your vocabulary and tracking your progress\n\n
@@ -523,7 +523,7 @@ def flashcards(ctx, domain, action, name):
 # ----------------------- define code -----------------------#
 @learn.command()
 @click.pass_context
-@click.argument('word', nargs=1, callback=alias_checker)
+@click.argument('word', nargs=1, required=False, callback=alias_checker)
 def define(ctx, word):
     """
         Get the meaning of a word

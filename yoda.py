@@ -13,9 +13,6 @@ def cli(ctx):
     """
     Yoda PA: A personal assistant based on the command line
     """
-    print("inside cli")
-    print(ctx.obj)
-    
 
 # The alias module
 cli.add_command(alias.alias)

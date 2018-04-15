@@ -15,7 +15,6 @@ except NameError:
     raw_input = input  # Python 3
 
 def alias_checker(ctx, param, value):
-    print("===alias_checker===")
     if value is None or len(value) == 0:
         pass
     elif value in alias.Alias._aliases.keys():
@@ -28,11 +27,9 @@ def alias_checker(ctx, param, value):
                 ctx.obj.append(val)
     else:
         ctx.obj.append(value)
-    print(ctx.obj)
     return None
 
 def get_arguments(ctx, n):
-    print("===get_arguments===")
     if n == -1:
         args = ctx.obj[:]
         del ctx.obj[:]
@@ -107,7 +104,6 @@ def tuple_to_string(input):
     :param input:
     :return:
     """
-    print(input)
     if input:
         test_string = ''
         for i in input:
