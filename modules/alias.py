@@ -11,10 +11,13 @@ class Alias(click.Group):
 
     def __init__(self, *args, **kwargs):
         create_folder(ALIAS_CONFIG_FOLDER_PATH)
-        with open(ALIAS_CONFIG_FOLDER_PATH + '/alias.txt', 'r') as f:
-            lines = f.readlines()
-            for i in range(1, len(lines), 2):
-                Alias._aliases[lines[i].strip('\n')] = lines[i - 1].strip('\n').split()
+        try:
+            with open(ALIAS_CONFIG_FOLDER_PATH + '/alias.txt', 'r') as f:
+                lines = f.readlines()
+                for i in range(1, len(lines), 2):
+                    Alias._aliases[lines[i].strip('\n')] = lines[i - 1].strip('\n').split()
+        except:
+            open(ALIAS_CONFIG_FOLDER_PATH + '/alias.txt', 'w')
         super(Alias, self).__init__(*args, **kwargs)
 
     # this implementation does not work with current version of click
