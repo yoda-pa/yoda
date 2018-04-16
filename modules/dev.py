@@ -131,14 +131,21 @@ def hackernews():
     response = requests.get(_url)
     result = response.json()
     if result['status'] == 'ok':
-        for index in range(result['totalResults']):
-            click.echo('News-- ' + str(index + 1) + '/' + str(result['totalResults']) + '\n')
-            click.echo('Title--  ' + result['articles'][index]['title'])
-            click.echo('Description-- ' + result['articles'][index]['description'])
-            click.echo('url-- ' + str(result['articles'][index]['url']) + '\n')
+        for index, item in enumerate(result['articles']):
+            counter = '{}/{} \n'.format((index + 1), len(result['articles']))
+
+            title = item['title'] or 'No title'
+            description = item['description'] or 'No description'
+            url = item['url'] or 'No url'
+
+            click.echo('News-- ' + counter)
+            click.echo('Title--  ' + title)
+            click.echo('Description-- ' + description)
+            click.echo('url-- ' + url)
+            click.echo()
             click.echo('Continue? [press-"y"] ')
             c = click.getchar()
-            click.echo()
+            click.echo()  # newline after news item
             if c != 'y':
                 break
     else:
