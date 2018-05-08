@@ -19,5 +19,7 @@ class TestSpeedtest(TestCase):
 
     def runTest(self):
         result = self.runner.invoke(yoda.cli, ['speedtest'])
+        print("------============------============------============------============------============------============------============")
+        print(str(result.output.encode('ascii', 'ignore')))
         self.assertEqual(result.exit_code, 0)
         self.assertIsNone(result.exception)

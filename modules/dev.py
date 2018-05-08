@@ -33,8 +33,11 @@ def speedtest():
     try:
         ping = speed_test.ping()
     except requests.exceptions.ConnectionError:
-        click.echo('Yoda cannot sense the internet right now!')
+        click.echo(chalk.red('Yoda cannot sense the internet right now!'))
         sys.exit(1)
+    except Exception:
+        click.echo(chalk.red('Speedtest servers not available'))
+        sys.exit(0)
 
     click.echo('Speed test results:')
     click.echo('Ping: ' + '{:.2f}'.format(ping) + ' ms')
