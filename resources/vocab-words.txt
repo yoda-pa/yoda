@@ -683,4 +683,3 @@ help - a person who contributes to the fulfillment of a need or furtherance of a
 hello - an expression of greeting
 who - a United Nations agency to coordinate international health activities and to help governments improve health services
 woman - a human female employed to do housework
-amazing - inspiring awe or admiration or wonder

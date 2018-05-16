@@ -182,7 +182,7 @@ def portscan():
         try:
             socket.connect((targetForScan, port))
             with lock_output:
-                print(port, 'is open')
+                click.echo(port, 'is open')
 
         except Exception as e:
             pass
@@ -211,4 +211,4 @@ def portscan():
 
         port_queue.join()
     else:
-        print('Find ' + targetForScan + ' I cannot, ' + 'sure spelled correctly, are you?')
+        click.echo('Find ' + targetForScan + ' I cannot, ' + 'sure spelled correctly, are you?')
