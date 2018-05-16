@@ -165,8 +165,6 @@ def coinflip():
     click.echo('Heads' if side == 1 else 'Tails')
 
 
-
-
 @dev.command()
 def portscan():
     """
@@ -184,7 +182,7 @@ def portscan():
         try:
             socket.connect((targetForScan, port))
             with lock_output:
-                click.echo(port, 'is open')
+                click.echo('port:' + str(port) + ' is open')
 
         except Exception as e:
             pass
