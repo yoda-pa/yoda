@@ -20,13 +20,11 @@ def suggest_drinks():
         parsed_response = json.loads(req.content)
         drinkInfoJSON = parsed_response['drinks']
         drink = drinkInfoJSON[0]['strDrink']
-        click.echo(drink)
-        cont = input('Would you like to try a ' + drink + '?')
-        if cont in ['y', 'yes', 'sure', 'ok', 'please', 'yes please']:
-            getIngredients(drink)
-            getDrinkInstructions(drink)
-        else:
-            click.echo('Maybe some other time')
+
+        click.echo('Like you need a drink you look.  Hmmmmmm.')
+        click.echo('---------------------' + drink + '---------------------')
+        getIngredients(drink)
+        getDrinkInstructions(drink)
 
     def getDrinkInstructions(drink):
         req = requests.get(drinkURL + drink)
@@ -42,8 +40,9 @@ def suggest_drinks():
         click.echo('Ingredients: ')
         for ingNumber in range(1, 16):
             ingredient = drinkInfoJSON[0]['strIngredient' + str(ingNumber)]
+            qty = drinkInfoJSON[0]['strMeasure' + str(ingNumber)]
             if ingredient != "":
-                click.echo(ingredient)
+                click.echo(ingredient + ' x ' + qty)
                 drinkIngredients.append(ingredient)
 
     getDrinkSuggestion()
