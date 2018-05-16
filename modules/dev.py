@@ -3,10 +3,12 @@ from __future__ import division
 
 import json
 import sys
-import pyspeedtest
-import requests
 from builtins import range
 from builtins import str
+
+import pyspeedtest
+import requests
+
 from past.utils import old_div
 
 from .util import *
