@@ -17,4 +17,4 @@ class TestSuggestDrink(unittest.TestCase):
     def runTest(self):
         #Test Drink Suggestion
         result = self.runner.invoke(yoda.cli, ['food', 'suggest_drinks'])
-        self.assertEqual(result.exit_code, 0)
+        self.assertIsNone(result.exception)
