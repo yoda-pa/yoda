@@ -179,6 +179,7 @@ def portscan():
         import socket
 
         socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        socket.settimeout(1.0)
         try:
             socket.connect((targetForScan, port))
             with lock_output:

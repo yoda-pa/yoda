@@ -1,8 +1,6 @@
 import unittest
-import mock
 from click.testing import CliRunner
 import yoda
-from modules import dev
 
 class PortScanTest(unittest.TestCase):
     """
