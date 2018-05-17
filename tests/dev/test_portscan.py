@@ -18,5 +18,5 @@ class PortScanTest(unittest.TestCase):
 
 
     def runTest(self):
-        result = self.runner.invoke(yoda.cli, ['dev','portscan'],input='github.com')
+        result = self.runner.invoke(yoda.cli, ['dev','portscan'],input='manparvesh.com')
         self.assertEqual(result.exit_code, 0)
