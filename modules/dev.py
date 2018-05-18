@@ -3,6 +3,7 @@ from __future__ import division
 
 import json
 import sys
+
 from builtins import range
 from builtins import str
 
@@ -173,7 +174,11 @@ def portscan():
     """
     import threading
     import re
-    from Queue import Queue
+    is_py2 = sys.version[0] == '2'
+    if is_py2:
+        import Queue as queue
+    else:
+        import queue as queue
 
     def scanPortsTask(port):
         import socket
@@ -196,7 +201,7 @@ def portscan():
             port_queue.task_done()
 
     lock_output = threading.Lock()
-    port_queue = Queue()
+    port_queue = queue.Queue()
     targetForScan = input('Where scan ports, should I: ')
     pattern = '([\da-z\.-]+)\.([a-z\.]{2,6})$'
 
