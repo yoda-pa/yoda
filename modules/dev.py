@@ -13,6 +13,7 @@ import requests
 from past.utils import old_div
 
 from .util import *
+from .alias import alias_checker
 
 GOOGLE_URL_SHORTENER_API_KEY = "AIzaSyCBAXe-kId9UwvOQ7M2cLYR7hyCpvfdr7w"
 
@@ -111,16 +112,17 @@ def check_sub_command_url(action, url_to_be_expanded_or_shortened):
 
 
 @dev.command()
-@click.argument('input', nargs=1)
-@click.argument('url', nargs=1)
-def url(input, url):
+@click.pass_context
+@click.argument('input', nargs=1, required=False, callback=alias_checker)
+@click.argument('url', nargs=1, required=False, callback=alias_checker)
+def url(ctx, input, url):
     """
         URL shortener and expander\n\n
-
         Commands:
         shorten: to shorten the given URL
         expand: to expand shortened URL
     """
+    input, url = get_arguments(ctx, 2)
     _input = str(input)
     _url = str(url)
     check_sub_command_url(_input, _url)

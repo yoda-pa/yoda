@@ -4,6 +4,7 @@ from __future__ import absolute_import
 from builtins import input
 from builtins import str
 from past.utils import old_div
+from .alias import alias_checker
 import datetime
 import pkgutil
 import random
@@ -138,14 +139,16 @@ def check_sub_command_vocab(c):
 
 
 @learn.command()
-@click.argument('input', nargs=-1)
-def vocabulary(input):
+@click.pass_context
+@click.argument('input', nargs=-1, required=False, callback=alias_checker)
+def vocabulary(ctx, input):
     """
         For enhancing your vocabulary and tracking your progress\n\n
         Commands:\n
         word: get a random word\n
         accuracy: view your progress
     """
+    input = get_arguments(ctx, -1)
     _input = tuple_to_string(input)
     check_sub_command_vocab(_input)
 
@@ -477,12 +480,13 @@ def study_fc(set, dummy):
                 if i < len_cards_in_selected_set:
                     input('Press Enter to continue to next card')
 
-
 @learn.command()
-@click.argument('domain', nargs=1)
-@click.argument('action', nargs=1, required=False)
-@click.argument('name', nargs=-1, required=False)
-def flashcards(domain, action, name):
+@click.pass_context
+@click.argument('domain', nargs=1, required=False, callback=alias_checker)
+@click.argument('action', nargs=1, required=False, callback=alias_checker)
+@click.argument('name', nargs=-1, required=False, callback=alias_checker)
+def flashcards(ctx, domain, action, name):
+    domain, action, name = get_arguments(ctx, 3)
     """
         Flashcards for learning anything and tracking your progress\n\n
         Domains:\n
@@ -517,14 +521,15 @@ def flashcards(domain, action, name):
 
 # ----------------------- / flashcards code -----------------------#
 
-
 # ----------------------- define code -----------------------#
 @learn.command()
-@click.argument('word', nargs=1)
-def define(word):
+@click.pass_context
+@click.argument('word', nargs=1, required=False, callback=alias_checker)
+def define(ctx, word):
     """
         Get the meaning of a word
     """
+    word = get_arguments(ctx, 1)
     _word = str(word)
     r = requests.get('https://wordsapiv1.p.mashape.com/words/' + _word + '/definitions', headers={
         'X-Mashape-Key': 'Yq72o8odIlmshPTjxnTMN1xixyy5p1lgtd0jsn2NsJfn7pflhR',

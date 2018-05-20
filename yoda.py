@@ -7,25 +7,30 @@ from modules import *
 
 sys.path.insert(1, os.getcwd())
 
-
-@click.group()
-def cli():
+@click.group(cls=alias.Alias)
+@click.pass_context
+def cli(ctx):
     """
     Yoda PA: A personal assistant based on the command line
     """
 
+# The alias module
+cli.add_command(alias.alias)
+
 
 @cli.command()
-@click.argument('input', nargs=-1)
-def chat(input):
+@click.pass_context
+@click.argument('input', nargs=-1, required=False, callback=alias.alias_checker)
+def chat(ctx, input):
     """
     A simple chatbot\n
     To use, type: yoda chat <message>
     """
+    input = util.get_arguments(ctx, -1)
     if input:
         test_string = ''
         for i in input:
-            test_string += (i + ' ')
+            test_string += i + ' '
         data = sys.modules['modules.chat'].process(test_string)
     else:
         click.echo('No input specified. Run with --help for info')
@@ -40,8 +45,9 @@ cli.add_command(dev.coinflip)
 
 
 @cli.command()
-@click.argument('input', nargs=-1)
-def love(input):
+@click.pass_context
+@click.argument('input', nargs=-1, required=False, callback=alias.alias_checker)
+def love(ctx, input):
     """
     maintain a profile of someone you love\n
 
@@ -55,6 +61,7 @@ def love(input):
     addbirth: Add birthday\n
     showbirth: Show birthday\n
     """
+    input = util.get_arguments(ctx, -1)
     if input:
         test_string = ''
         for i in input:
@@ -65,8 +72,9 @@ def love(input):
 
 
 @cli.command()
-@click.argument('input', nargs=-1)
-def diary(input):
+@click.pass_context
+@click.argument('input', nargs=-1, required=False, callback=alias.alias_checker)
+def diary(ctx, input):
     """
     Maintain a personal diary\n
     roughly based on the concept of Bullet Journal (http://bulletjournal.com/) \n\n
@@ -78,6 +86,7 @@ def diary(input):
     tasks: view all completed and incomplete tasks\n
     ct: complete task
     """
+    input = util.get_arguments(ctx, -1)
     if input:
         test_string = ''
         for i in input:
@@ -88,8 +97,9 @@ def diary(input):
 
 
 @cli.command()
-@click.argument('input', nargs=-1)
-def money(input):
+@click.pass_context
+@click.argument('input', nargs=-1, required=False, callback=alias.alias_checker)
+def money(ctx, input):
     """
     For tracking money \n\n
     Commands:\n
@@ -98,6 +108,7 @@ def money(input):
     exp: add an expense\n
     exps: view all expenses\n
     """
+    input = util.get_arguments(ctx, -1)
     if input:
         test_string = ''
         for i in input:
@@ -116,11 +127,13 @@ cli.add_command(learn.define)
 
 
 @cli.command()
-@click.argument('input', nargs=-1)
-def setup(input):
+@click.pass_context
+@click.argument('input', nargs=-1, required=False, callback=alias.alias_checker)
+def setup(ctx, input):
     """
     create a setup configuration for you to save some information locally
     """
+    input = util.get_arguments(ctx, -1)
     if input:
         test_string = ''
         for i in input:

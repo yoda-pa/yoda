@@ -131,8 +131,34 @@ This command group contains commands that, helpful in learning new things, will 
     ```
 
 - define: to get different meanings of a word. This definition search will be automatically saved, so that while you are working on your vocabulary, you can come through the new word as well.
+![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/define.gif)
 
-    ![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/define.gif)
+#### Aliasing
+
+This command group contains commands to alias cumbersome commands.
+
+  ```
+  # before: shortening a url
+  $ yoda url shorten google.com
+  
+  # alias shorten to be s
+  $ yoda alias new "shorten" "s"
+  
+  # can now use s in place of shorten
+  $ yoda url s google.com
+  
+  # or alias the whole command as us
+  $ yoda alias new "url shorten" "us"
+  $ yoda us google.com
+  
+  # show your current aliases
+  $ yoda alias show
+  
+  # delete aliases
+  $ yoda alias delete "us"
+  $ yoda alias delete "s"
+  
+  ```
 
 #### feedback
 
