@@ -106,7 +106,8 @@ def money(input):
     else:
         click.echo('No input specified. Run with --help for info')
 
-
+# The food module
+cli.add_command(food.food)
 # The learn module
 cli.add_command(learn.learn)
 cli.add_command(learn.vocabulary)
