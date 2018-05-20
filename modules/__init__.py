@@ -8,5 +8,6 @@ __all__ = [
     'learn',
     'setup',
     'life',
-    'util'
+    'util',
+    'food'
 ]

@@ -3,18 +3,19 @@ from __future__ import division
 
 import json
 import sys
+
 from builtins import range
 from builtins import str
 
 import pyspeedtest
 import requests
+
 from past.utils import old_div
 
 from .util import *
 from .alias import alias_checker
 
 GOOGLE_URL_SHORTENER_API_KEY = "AIzaSyCBAXe-kId9UwvOQ7M2cLYR7hyCpvfdr7w"
-
 
 @click.group()
 def dev():
@@ -34,8 +35,11 @@ def speedtest():
     try:
         ping = speed_test.ping()
     except requests.exceptions.ConnectionError:
-        click.echo('Yoda cannot sense the internet right now!')
+        click.echo(chalk.red('Yoda cannot sense the internet right now!'))
         sys.exit(1)
+    except Exception:
+        click.echo(chalk.red('Speedtest servers not available'))
+        sys.exit(0)
 
     click.echo('Speed test results:')
     click.echo('Ping: ' + '{:.2f}'.format(ping) + ' ms')
@@ -133,14 +137,21 @@ def hackernews():
     response = requests.get(_url)
     result = response.json()
     if result['status'] == 'ok':
-        for index in range(result['totalResults']):
-            click.echo('News-- ' + str(index + 1) + '/' + str(result['totalResults']) + '\n')
-            click.echo('Title--  ' + result['articles'][index]['title'])
-            click.echo('Description-- ' + result['articles'][index]['description'])
-            click.echo('url-- ' + str(result['articles'][index]['url']) + '\n')
+        for index, item in enumerate(result['articles']):
+            counter = '{}/{} \n'.format((index + 1), len(result['articles']))
+
+            title = item['title'] or 'No title'
+            description = item['description'] or 'No description'
+            url = item['url'] or 'No url'
+
+            click.echo('News-- ' + counter)
+            click.echo('Title--  ' + title)
+            click.echo('Description-- ' + description)
+            click.echo('url-- ' + url)
+            click.echo()
             click.echo('Continue? [press-"y"] ')
             c = click.getchar()
-            click.echo()
+            click.echo()  # newline after news item
             if c != 'y':
                 break
     else:
@@ -155,3 +166,57 @@ def coinflip():
     import random
     side = random.randint(1, 100) % 2
     click.echo('Heads' if side == 1 else 'Tails')
+
+
+@dev.command()
+def portscan():
+    """
+    Scan open ports of a website,
+    utilizing multi-threading to speed the task along
+    """
+    import threading
+    import re
+    is_py2 = sys.version[0] == '2'
+    if is_py2:
+        import Queue as queue
+    else:
+        import queue as queue
+
+    def scanPortsTask(port):
+        import socket
+
+        socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        socket.settimeout(1.0)
+        try:
+            socket.connect((targetForScan, port))
+            with lock_output:
+                click.echo('port:' + str(port) + ' is open')
+
+        except Exception as e:
+            pass
+
+    def taskMaster():
+
+        while True:
+            port = port_queue.get()
+            scanPortsTask(port)
+            port_queue.task_done()
+
+    lock_output = threading.Lock()
+    port_queue = queue.Queue()
+    targetForScan = input('Where scan ports, should I: ')
+    pattern = '([\da-z\.-]+)\.([a-z\.]{2,6})$'
+
+    if re.match(pattern, targetForScan):
+        for x in range(200):
+            t = threading.Thread(target=taskMaster)
+
+            t.daemon = True
+            t.start()
+
+        for worker in range(1, 1000):
+            port_queue.put(worker)
+
+        port_queue.join()
+    else:
+        click.echo('Find ' + targetForScan + ' I cannot, ' + 'sure spelled correctly, are you?')

@@ -29,7 +29,7 @@
 
 Clone this repository and create a virtual environment using Python 2 in the cloned directory (`virtualenv -p /usr/bin/python2 venv`). Steps after that:
 
-![](screencasts/firstsetup.gif)
+![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/firstsetup.gif)
 
 Instead of `pip install --editable .` you can use `pip install .` if you don't intend to make any changes in the code.
 
@@ -39,7 +39,7 @@ Instead of `pip install --editable .` you can use `pip install .` if you don't i
 
 This package contains a chatbot too! The `chat` command can be used to chat with it
 
-![](screencasts/chat.gif)
+![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/chat.gif)
 
 You can test the chat functionality on api.ai agent website [here](https://bot.api.ai/ff4ba99e-e444-4e19-8b4e-91fb0b93e414)
 
@@ -49,33 +49,33 @@ This command group contains some sub-commands that may be helpful for developers
 
 - speedtest
 
-![](screencasts/speedtest.gif)
+![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/speedtest.gif)
 
 - url
 
-![](screencasts/url.gif)
+![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/url.gif)
 
 - hackernews
 
-![](screencasts/hackernews.gif)
+![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/hackernews.gif)
 
 #### diary
 
 This command can be used to maintain a personal diary, roughly based on the concept of [Bullet Journal](http://bulletjournal.com/).
 
-![](screencasts/diary.gif)
+![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/diary.gif)
 
 #### love
 
 This command can be used to maintain a profile of someone you love.
 
-![](screencasts/love.gif)
+![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/love.gif)
 
 #### money
 
 For tracking money, this is.
 
-![](screencasts/money.gif)
+![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/money.gif)
 
 #### Idea list
 
@@ -101,7 +101,7 @@ This command group contains commands that, helpful in learning new things, will 
 
 - vocabulary: For enhancing your vocabulary and tracking your progress.
 
-    ![](screencasts/vocab.gif)
+    ![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/vocab.gif)
 
 
 - flashcards: for learning anything! ([inspiration](https://github.com/zergov/flashcards))
@@ -131,9 +131,7 @@ This command group contains commands that, helpful in learning new things, will 
     ```
 
 - define: to get different meanings of a word. This definition search will be automatically saved, so that while you are working on your vocabulary, you can come through the new word as well.
-
-    ![](screencasts/define.gif)
-    
+![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/define.gif)
 
 #### Aliasing
 
@@ -166,7 +164,7 @@ This command group contains commands to alias cumbersome commands.
 
 To create an issue in the github repository simple thing that shows a link.  Yeesssssss.
 
-![](screencasts/feedback.gif)
+![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/feedback.gif)
 
 ## Packages and services used
 
