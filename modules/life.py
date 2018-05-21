@@ -12,6 +12,7 @@ from Crypto.Cipher import AES
 from .config import get_config_file_paths
 from modules.setup import cypher_pass_generator
 from .util import *
+from .alias import alias_checker
 
 # config file path
 LIFE_CONFIG_FILE_PATH = get_config_file_paths()['LIFE_CONFIG_FILE_PATH']

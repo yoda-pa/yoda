@@ -27,7 +27,7 @@
 - [ ] food
   - [ ] restaurant suggestions
   - [ ] recipe suggestions
-  - [ ] drinks suggestions
+  - [X] drinks suggestions
 
 - [ ] dev tools
   - [x] ~~url shortener~~

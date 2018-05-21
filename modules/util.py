@@ -1,5 +1,6 @@
 from __future__ import print_function
 from builtins import input
+import alias
 import errno
 import os.path
 import subprocess
@@ -12,6 +13,41 @@ try:
     raw_input          # Python 2
 except NameError:
     raw_input = input  # Python 3
+
+def alias_checker(ctx, param, value):
+    if value is None or len(value) == 0:
+        pass
+    elif value in alias.Alias._aliases.keys():
+        ctx.obj.extend(alias.Alias._aliases[value])
+    elif type(value) == tuple:
+        for val in value:
+            if val in alias.Alias._aliases.keys():
+                ctx.obj.extend(alias.Alias._aliases[val])
+            else:
+                ctx.obj.append(val)
+    else:
+        ctx.obj.append(value)
+    return None
+
+def get_arguments(ctx, n):
+    if n == -1:
+        args = ctx.obj[:]
+        del ctx.obj[:]
+        return args
+    elif len(ctx.obj) >= n:
+        args = ctx.obj[:n]
+        del ctx.obj[:n]
+        if n == 1:
+            return args[0]
+        return args
+    else:
+        args = ctx.obj[:]
+        for i in range(n - len(ctx.obj)):
+            args.append(None)
+        del ctx.obj[:]
+        if n == 1:
+            return args[0]
+        return args
 
 
 def create_folder(folder_path):
