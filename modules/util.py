@@ -1,6 +1,5 @@
 from __future__ import print_function
 from builtins import input
-import alias
 import errno
 import os.path
 import subprocess
@@ -15,6 +14,8 @@ except NameError:
     raw_input = input  # Python 3
 
 def alias_checker(ctx, param, value):
+    import alias
+
     if value is None or len(value) == 0:
         pass
     elif value in alias.Alias._aliases.keys():

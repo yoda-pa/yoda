@@ -1,5 +1,7 @@
+import click
+
 from .config import get_config_file_paths
-from .util import *
+from .util import get_folder_path_from_file_path, create_folder
 
 
 ALIAS_CONFIG_FILE_PATH = get_config_file_paths()["ALIAS_CONFIG_FILE_PATH"]
@@ -119,8 +121,3 @@ def show():
     click.echo("alias_command : original_command")
     for key in Alias._aliases.keys():
         click.echo(key + " : " + ' '.join(Alias._aliases[key]))
-
-
-
-
-
