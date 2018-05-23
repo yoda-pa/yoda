@@ -14,16 +14,16 @@ except NameError:
     raw_input = input  # Python 3
 
 def alias_checker(ctx, param, value):
-    import alias
+    from .alias import Alias
 
     if value is None or len(value) == 0:
         pass
-    elif value in alias.Alias._aliases.keys():
-        ctx.obj.extend(alias.Alias._aliases[value])
+    elif value in Alias._aliases.keys():
+        ctx.obj.extend(Alias._aliases[value])
     elif type(value) == tuple:
         for val in value:
-            if val in alias.Alias._aliases.keys():
-                ctx.obj.extend(alias.Alias._aliases[val])
+            if val in Alias._aliases.keys():
+                ctx.obj.extend(Alias._aliases[val])
             else:
                 ctx.obj.append(val)
     else:
