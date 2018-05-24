@@ -180,6 +180,16 @@ To create an issue in the github repository simple thing that shows a link.  Yee
 - [dulwich](https://github.com/jelmer/dulwich): for git
 - [PyGithub](https://github.com/PyGithub/PyGithub): for using Github API v3
 - [Gravit](https://gravit.io/): for creating the logo
+- [chardet](https://github.com/chardet/chardet): universal character encoding detector
+- [Codecov](https://codecov.io/): code coverage dashboard
+- [coverage](https://pypi.org/project/coverage/): For code coverage testing
+- [NumPy](http://www.numpy.org/): For scientific computation 
+- [requests](http://docs.python-requests.org/en/latest/): For HTTP requests
+- [nose](https://github.com/nose-devs/nose): For unit testing 
+- [urllib3](https://github.com/urllib3/urllib3): HTTP client 
+- [Certifi](https://github.com/certifi/python-certifi): Python SSL Certificates
+- [idna](https://github.com/kjd/idna): For the domain name 
+- [future](https://pypi.org/project/future/): the layer of compatability for Python 2/3
 - Yoda's illustration SVG was taken from [here](https://www.shareicon.net/yoda-854796)
 
 ## Contribute, you must
