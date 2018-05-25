@@ -190,6 +190,11 @@ To create an issue in the github repository simple thing that shows a link.  Yee
 - [Certifi](https://github.com/certifi/python-certifi): Python SSL Certificates
 - [idna](https://github.com/kjd/idna): For the domain name 
 - [future](https://pypi.org/project/future/): the layer of compatability for Python 2/3
+- [Google URL Shortener](https://developers.google.com/url-shortener/): URL shortener
+- [News API](https://newsapi.org/): Used to get the top headlines from Hacker News
+- [Forismatic API](https://forismatic.com/en/api/): Get random quotes that are used in the chat module
+- [Cocktail DB](https://www.thecocktaildb.com/api.php): Used to search for a drink and to get a random drink
+- [Words API](https://www.wordsapi.com/): Used to get the definition of a word
 - Yoda's illustration SVG was taken from [here](https://www.shareicon.net/yoda-854796)
 
 ## Contribute, you must
