@@ -49,8 +49,19 @@ class TestFlashCard(TestCase):
             print(output_string)
             self.assertEqual(type(output_string), str)
 
+        #Test selected set status
+        def testSetStatus():
+            result = self.runner.invoke(yoda.cli, ['flashcards', 'status',])
+            self.assertEqual(result.exit_code, 0)
+            output_string = str(result.output.encode('ascii', 'ignore'))
+            print(output_string)
+            self.assertEqual(type(output_string), str)
+
+
 
         testCreateSet()
         testSetSelect()
         testShowAvaialableSets()
+        testSetStatus()
         testCardCreation()
+        testSetStatus()
