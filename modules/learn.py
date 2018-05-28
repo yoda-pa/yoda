@@ -379,6 +379,7 @@ def add_card_fc(name):
     add flash card
     :param name:
     """
+    SELECTED_STUDY_SET = get_selected_set()
     if SELECTED_STUDY_SET:
         print('add card "' + name + '"')
         print('Add description: (press Enter twice to stop)')
