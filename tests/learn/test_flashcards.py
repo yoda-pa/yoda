@@ -22,7 +22,6 @@ class TestFlashCard(TestCase):
 
         def testCreateSet():
             result = self.runner.invoke(yoda.cli, ['flashcards', 'sets', 'new', '1', ], input='test set')
-            print(result.output)
             self.assertEqual(result.exit_code, 0)
 
         # Test set select
@@ -30,7 +29,6 @@ class TestFlashCard(TestCase):
             result = self.runner.invoke(yoda.cli, ['flashcards', 'select', '1'], )
             self.assertEqual(result.exit_code, 0)
             output_string = str(result.output.encode('ascii', 'ignore'))
-            print(output_string)
             self.assertEqual(type(output_string), str)
 
         #Test list available sets
@@ -38,7 +36,6 @@ class TestFlashCard(TestCase):
             result = self.runner.invoke(yoda.cli, ['flashcards', 'sets', 'list'])
             self.assertEqual(result.exit_code, 0)
             output_string = str(result.output.encode('ascii', 'ignore'))
-            print(output_string)
             self.assertEqual(type(output_string), str)
 
         # Test creation of cards
@@ -46,7 +43,6 @@ class TestFlashCard(TestCase):
             result = self.runner.invoke(yoda.cli, ['flashcards', 'cards', 'add', 'test'], input='test card\n\n')
             self.assertEqual(result.exit_code, 0)
             output_string = str(result.output.encode('ascii', 'ignore'))
-            print(output_string)
             self.assertEqual(type(output_string), str)
 
         #Test selected set status
@@ -54,7 +50,6 @@ class TestFlashCard(TestCase):
             result = self.runner.invoke(yoda.cli, ['flashcards', 'status',])
             self.assertEqual(result.exit_code, 0)
             output_string = str(result.output.encode('ascii', 'ignore'))
-            print(output_string)
             self.assertEqual(type(output_string), str)
 
 
