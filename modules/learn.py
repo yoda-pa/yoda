@@ -379,6 +379,7 @@ def add_card_fc(name):
     add flash card
     :param name:
     """
+    SELECTED_STUDY_SET = get_selected_set()
     if SELECTED_STUDY_SET:
         print('add card "' + name + '"')
         print('Add description: (press Enter twice to stop)')
@@ -426,14 +427,19 @@ def status_fc(set, dummy):
     :param set:
     :param dummy:
     """
+    SELECTED_STUDY_SET = get_selected_set()
+
     if not SELECTED_STUDY_SET:
         click.echo(chalk.red('No set selected'))
     else:
         description = get_set_descriptions()[SELECTED_STUDY_SET]
         click.echo('Selected set: ' + SELECTED_STUDY_SET)
         click.echo('Description: ' + description)
-        cards_in_selected_set = str(len(listdir(FLASHCARDS_CONFIG_FOLDER_PATH + '/' + SELECTED_STUDY_SET)))
-        click.echo('No. of cards in selected set: ' + cards_in_selected_set)
+        if os.path.isdir(FLASHCARDS_CONFIG_FOLDER_PATH + '/' + SELECTED_STUDY_SET):
+            cards_in_selected_set = str(len(listdir(FLASHCARDS_CONFIG_FOLDER_PATH + '/' + SELECTED_STUDY_SET)))
+            click.echo('No. of cards in selected set: ' + cards_in_selected_set)
+        else:
+            click.echo('There are no cards in selected set ')
 
 
 def study_fc(set, dummy):
@@ -442,6 +448,7 @@ def study_fc(set, dummy):
     :param set:
     :param dummy:
     """
+
     if not SELECTED_STUDY_SET:
         click.echo(chalk.red('No set selected'))
     else:
