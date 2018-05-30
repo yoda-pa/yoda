@@ -19,7 +19,8 @@ class Alias(click.Group):
                 for i in range(1, len(lines), 2):
                     Alias._aliases[lines[i].strip('\n')] = lines[i - 1].strip('\n').split()
         except:
-            open(ALIAS_CONFIG_FOLDER_PATH + '/alias.txt', 'w')
+            fo = open(ALIAS_CONFIG_FOLDER_PATH + '/alias.txt', 'w')
+            fo.close()
         super(Alias, self).__init__(*args, **kwargs)
 
     # this implementation does not work with current version of click
