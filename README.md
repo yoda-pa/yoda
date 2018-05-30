@@ -9,7 +9,7 @@
   <a href="https://travis-ci.org/yoda-pa/yoda"><img src="https://travis-ci.org/yoda-pa/yoda.png" alt="Build status"></a> 
   <a href="https://sonarcloud.io/dashboard?id=yoda"><img src="https://sonarcloud.io/api/project_badges/measure?project=yoda&metric=alert_status" alt="SonarCloud Quality Status"></a> 
   <a href="https://manparvesh.mit-license.org/"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a> 
-  <a href="https://github.com/yoda-pa/yoda"><img src="https://img.shields.io/badge/version-0.2.0-yellow.svg" alt="Project status"></a>
+  <a href="https://github.com/yoda-pa/yoda"><img src="https://img.shields.io/badge/version-0.3.0-blue.svg" alt="Project status"></a>
   
 </div>
 
@@ -203,3 +203,25 @@ Please refer to the [contributing guidelines](https://github.com/yoda-pa/yoda/bl
 ## In the news
 - [ostechnix](https://www.ostechnix.com/yoda-the-command-line-personal-assistant-for-your-linux-system/)
 - [sdtimes](https://sdtimes.com/os/sd-times-github-project-week-yoda-2/)
+
+## Changelog
+### v0.3.0
+- Support for both Python 2 and Python 3
+- Command aliasing
+- Port scanning
+- More features in love module
+- Hackernews
+- yoda inspire
+- Increased test coverage
+- Bug fixes
+
+### v0.2.0
+- Idea list
+- Reading list
+- Automated tests
+- Test coverage
+- Custom config directory location
+- Minor bug fixes
+
+### v0.1.0
+Initial release.
