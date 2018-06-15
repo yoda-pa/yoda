@@ -33,5 +33,13 @@ class TestSpeedtest(TestCase):
 
             self.assertEqual(type(output_string), str)
 
+        def test_weights():
+            result = self.runner.invoke(yoda.cli, ['vocabulary', 'weights'])
+            self.assertEqual(0, result.exit_code)
+            output_string = str(result.output.encode('ascii', 'ignore'))
+
+            self.assertEqual(type(output_string), str)
+
         test_word()
         test_accuracy()
+        test_weights()

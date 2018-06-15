@@ -1,18 +1,17 @@
+from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
-from __future__ import absolute_import
-from builtins import input
-from builtins import str
-from past.utils import old_div
-from .alias import alias_checker
+
 import datetime
-import pkgutil
 import random
 import sys
 import time
-from os import listdir
+from builtins import str
 
 import requests
+from collections import defaultdict
+from os import listdir
+from past.utils import old_div
 
 from .config import get_config_file_paths
 from .util import *
@@ -36,38 +35,90 @@ VOCABULARY_CONFIG_FILE_PATH = get_config_file_paths()["VOCABULARY_CONFIG_FILE_PA
 VOCABULARY_CONFIG_FOLDER_PATH = get_folder_path_from_file_path(
     VOCABULARY_CONFIG_FILE_PATH)
 
-# getting words
-words = {}
-package = 'yoda'
-resource = 'resources/vocab-words.txt'
-path = os.path.dirname(sys.modules[package].__file__)
-data = ''
 
-with open(os.path.join(path, resource), 'r') as f:
-    data = f.read()
-
-for line in data.split('\n'):
-    line = line.strip()
-    if len(line) > 0:
-        (word, definition) = line.split(' - ')
-        words[word.lower().strip()] = definition.strip()
-
-
-def get_words_list():
+def get_words(package='yoda', resource='resources/vocab-words.txt'):
     """
-    get word list
-    :return:
+    Get words to learn. Each key in dict represent word to learn, values represent definition.
+
+    :return: words
+    :rtype: dict
     """
+    words = {}
+    path = os.path.dirname(sys.modules[package].__file__)
+
+    with open(os.path.join(path, resource), 'r') as f:
+        data = f.read()
+
+    for line in data.split('\n'):
+        line = line.strip()
+        if len(line) > 0:
+            (word, definition) = line.split(' - ')
+            words[word.lower().strip()] = definition.strip()
     return words
 
 
-def random_word():
+def calculate_weight(correct, total):
+    return correct + total * 0.5
+
+
+def get_weights():
     """
-    displays a random word
+    Calculate weights for a set of words based on past results.
+    :return: dict (word -> weight)
     """
-    words = get_words_list()
-    word, meaning = random.choice(list(words.items()))
-    # TODO: process result data and get word depending on the history of it too
+    accuracy = defaultdict(lambda: {'correct': 0, 'total': 0})
+    words = get_words()
+    with open(VOCABULARY_CONFIG_FOLDER_PATH + '/results.txt') as fp:
+        for _line in fp.read().split('\n'):
+            if len(_line) == 0:
+                continue
+            (date, _time, _word, correct) = _line.split()
+            correct = int(correct)
+            accuracy[_word]['correct'] += correct
+            accuracy[_word]['total'] += 1
+
+    for word in words.keys():
+        words[word] = calculate_weight(**accuracy[word])
+    return words
+
+
+def get_accuracy_percentage():
+    accuracy = defaultdict(list)
+    with open(VOCABULARY_CONFIG_FOLDER_PATH + '/results.txt') as fp:
+        for _line in fp.read().split('\n'):
+            if len(_line) == 0:
+                continue
+            (date, _time, _word, correct) = _line.split()
+            correct = int(correct)
+            accuracy[_word].append(correct)
+
+    words_in_history = {}
+
+    for _word, lst in list(accuracy.items()):
+        if len(lst):
+            words_in_history[_word] = []
+            words_in_history[_word].append(len(lst))
+            words_in_history[_word].append(
+                round(old_div((sum(lst) * 100), len(lst))) if len(lst) else 0)
+    return words_in_history
+
+
+def get_word_to_learn():
+    # in case no results is yet available pick random word
+    if not os.path.isfile(VOCABULARY_CONFIG_FOLDER_PATH + '/results.txt'):
+        return random.choice(list(get_words().keys()))
+    words = get_weights()
+    return sorted(words, key=words.get, reverse=True).pop()
+
+
+def pick_word():
+    """
+    Picks and tests user for definition of word.
+    """
+    meanings = get_words()
+    word = get_word_to_learn()
+    meaning = meanings[word]
+
     click.echo(click.style(word + ": ", bold=True))
     input('<Enter> to show meaning')
     click.echo(meaning)
@@ -84,41 +135,37 @@ def random_word():
         fp.write('{} {} {}\n'.format(timestamp, word, correct))
 
 
-def get_word_accuracy_of_previous_words():
+def display_word_accuracy():
     """
-    calculates accuracy
-    :return:
+    Calculates and displays users accuracy.
     """
-    accuracy = {}
-    for _word in words:
-        accuracy[_word] = []
     if not os.path.isfile(VOCABULARY_CONFIG_FOLDER_PATH + '/results.txt'):
         click.echo(chalk.red(
             'No words learned in the past. Please use "yoda vocabulary word" for the same'))
         return
-    with open(VOCABULARY_CONFIG_FOLDER_PATH + '/results.txt') as fp:
-        for _line in fp.read().split('\n'):
-            if len(_line) == 0:
-                continue
-            (date, _time, _word, correct) = _line.split()
-            correct = int(correct)
-            if _word in accuracy:
-                accuracy[_word].append(correct)
 
-    words_in_history = {}
-
-    for _word, lst in list(accuracy.items()):
-        if len(lst):
-            words_in_history[_word] = []
-            words_in_history[_word].append(len(lst))
-            words_in_history[_word].append(
-                round(old_div((sum(lst) * 100), len(lst))) if len(lst) else 0)
+    words = get_accuracy_percentage()
 
     click.echo(click.style("Words asked in the past: ", bold=True))
-    # print(words_in_history)
-    for _word, ar in list(words_in_history.items()):
+    for _word, ar in list(words.items()):
         click.echo(_word + '-- times used: ' +
                    str(ar[0]) + ' accuracy: ' + str(ar[1]))
+
+
+def display_word_weights():
+    """
+    Displays word weights.
+    """
+    if not os.path.isfile(VOCABULARY_CONFIG_FOLDER_PATH + '/results.txt'):
+        click.echo(chalk.red(
+            'No words learned in the past. Please use "yoda vocabulary word" for the same'))
+        return
+
+    words = get_weights()
+
+    click.echo(click.style("Words asked in the past: ", bold=True))
+    for _word, ar in list(words.items()):
+        click.echo('{0} -- weight: {1}'.format(_word, str(ar)))
 
 
 def check_sub_command_vocab(c):
@@ -128,8 +175,9 @@ def check_sub_command_vocab(c):
     :return:
     """
     sub_commands = {
-        'word': random_word,
-        'accuracy': get_word_accuracy_of_previous_words
+        'word': pick_word,
+        'accuracy': display_word_accuracy,
+        'weights': display_word_weights,
     }
     try:
         return sub_commands[c]()
@@ -148,8 +196,8 @@ def vocabulary(ctx, input):
         word: get a random word\n
         accuracy: view your progress
     """
-    input = get_arguments(ctx, -1)
-    _input = tuple_to_string(input)
+    arguments = get_arguments(ctx, -1)
+    _input = tuple_to_string(arguments)
     check_sub_command_vocab(_input)
 
 
