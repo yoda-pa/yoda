@@ -9,5 +9,6 @@ __all__ = [
     'setup',
     'life',
     'util',
-    'food'
+    'food',
+    'goals'
 ]

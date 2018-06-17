@@ -8,6 +8,8 @@ import os.path
 import time
 from os import listdir
 
+from .goals import add_task_to_goal
+
 from .config import get_config_file_paths
 from .util import *
 
@@ -48,6 +50,11 @@ def todays_notes_entry_file_path():
     """
     return DIARY_CONFIG_FOLDER_PATH + '/' + now_date() + "-notes.yaml"
 
+def tasks_entry_file_path(date):
+    """
+    get file path for the specified date's notes entry file
+    """
+    return DIARY_CONFIG_FOLDER_PATH + '/' + date + "-tasks.yaml"
 
 TODAYS_TASKS_ENTRY_FILE_PATH = todays_tasks_entry_file_path()
 TODAYS_NOTES_ENTRY_FILE_PATH = todays_notes_entry_file_path()
@@ -96,20 +103,44 @@ def new_task():
     click.echo(chalk.blue('Input your entry for task:'))
     note = input().strip()
 
+    timestamp = now_time()
+    date = now_date()
+
+    hashtags = []
+    continue_adding_hashtags = True
+
+    while continue_adding_hashtags:
+        click.echo(chalk.blue(
+            'Enter the name of the goal that you would like to associate task with or -'))
+        hashtag = input().strip()
+
+        if hashtag == '-':
+            continue_adding_hashtags = False
+        else:
+            if add_task_to_goal(hashtag, date, timestamp):
+                click.echo(chalk.green(
+                    'Task added to the goal'))
+                hashtags.append("#" + hashtag)
+            else:
+                click.echo(chalk.red(
+                    'Invalid goal name'))
+
     if os.path.isfile(TODAYS_TASKS_ENTRY_FILE_PATH):
         setup_data = dict(
-            time=now_time(),
+            time=timestamp,
             text=note,
-            status=0
+            status=0,
+            hashtags=" ".join(hashtags)
         )
         append_data_into_file(setup_data, TODAYS_TASKS_ENTRY_FILE_PATH)
     else:
         setup_data = dict(
             entries=[
                 dict(
-                    time=now_time(),
+                    time=timestamp,
                     text=note,
-                    status=0
+                    status=0,
+                    hashtags=" ".join(hashtags)
                 )
             ]
         )
@@ -170,8 +201,8 @@ def tasks():
                 total_tasks += 1
                 incomplete_tasks += (1 if entry['status'] == 0 else 0)
                 time = entry['time']
-                text = entry['text'] if entry['status'] == 0 else strike(
-                    entry['text'])
+                text = entry['text'] + " " + entry.get('hashtags', '')
+                text = text if entry['status'] == 0 else strike(text)
                 status = "O" if entry['status'] == 0 else "X"
                 click.echo("   " + status + "   | " + time + ": " + text)
         click.echo('----------------')
@@ -219,8 +250,8 @@ def complete_task():
                 for entry in contents['entries']:
                     i += 1
                     time = entry['time']
-                    text = entry['text'] if entry['status'] == 0 else strike(
-                        entry['text'])
+                    text = entry['text'] + " " + entry.get('hashtags', '')
+                    text = text if entry['status'] == 0 else strike(text)
                     if entry['status'] == 0:
                         click.echo("   " + str(i) + "   | " +
                                    time + ": " + text)
@@ -331,3 +362,13 @@ def current_month_task_analysis():
     click.echo(chalk.red('Percentage of incomplete task : ' + str(percent_incomplete_task)))
     click.echo(chalk.green('Percentage of complete task : ' + str(percent_complete_task)))
     click.echo(chalk.blue("Frequency of adding task (Task/Day) : " + str(entry_frequency)))
+
+def get_task_info(timestamp, date):
+    filename = tasks_entry_file_path(date)
+    if os.path.isfile(filename):
+        with open(filename) as file:
+            contents = yaml.load(file)
+            for entry in contents['entries']:
+                if entry['time'] == timestamp:
+                    return entry['status'], entry['text']
+    return None
