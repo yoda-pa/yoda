@@ -12,7 +12,7 @@ from modules import config
 class TestDiary(TestCase):
     """
         Test for the following commands:
-        
+
         Assumes empty diary.
 
         | Module: diary
