@@ -14,12 +14,15 @@ from modules.setup import cypher_pass_generator
 from .util import *
 from .alias import alias_checker
 
-# config file path
-LIFE_CONFIG_FILE_PATH = get_config_file_paths()['LIFE_CONFIG_FILE_PATH']
-LIFE_CONFIG_FOLDER_PATH = get_folder_path_from_file_path(
-    LIFE_CONFIG_FILE_PATH)
 RLIST_PARAMS = ('title', 'author', 'kind', 'tags')
 
+# config file path
+def get_LIFE_CONFIG_FILE_PATH():
+    return get_config_file_paths()['LIFE_CONFIG_FILE_PATH']
+
+def get_LIFE_CONFIG_FOLDER_PATH():
+    return get_folder_path_from_file_path(
+    get_LIFE_CONFIG_FILE_PATH())
 
 def is_in_params(params, query, article):
     """
@@ -54,7 +57,7 @@ def reading_list_entry_file_path():
     Get complete path of the file reading_list.yaml
     :return: path
     """
-    return os.path.join(LIFE_CONFIG_FOLDER_PATH, "reading_list.yaml")
+    return os.path.join(get_LIFE_CONFIG_FOLDER_PATH(), "reading_list.yaml")
 
 
 READING_LIST_ENTRY_FILE_PATH = reading_list_entry_file_path()
@@ -155,7 +158,7 @@ def add_to_reading_list(query=""):
         append_data_into_file(setup_data, READING_LIST_ENTRY_FILE_PATH)
     else:
         setup_data = dict(entries=[setup_data])
-        create_folder(os.path.join(LIFE_CONFIG_FOLDER_PATH, 'rlist'))
+        create_folder(os.path.join(get_LIFE_CONFIG_FOLDER_PATH(), 'rlist'))
         input_data(setup_data, READING_LIST_ENTRY_FILE_PATH)
 
     click.echo(chalk.blue("Added " + _title + " to your reading list!"))

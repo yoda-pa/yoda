@@ -14,10 +14,35 @@ from .config import get_config_file_paths
 from .util import *
 
 # config file path
-DIARY_CONFIG_FILE_PATH = get_config_file_paths()['DIARY_CONFIG_FILE_PATH']
-DIARY_CONFIG_FOLDER_PATH = get_folder_path_from_file_path(
-    DIARY_CONFIG_FILE_PATH)
+def get_diary_config_file_path():
+    return get_config_file_paths()['DIARY_CONFIG_FILE_PATH']
 
+def get_diary_config_folder_path():
+    return get_folder_path_from_file_path(
+    get_diary_config_file_path())
+
+def get_todays_tasks_entry_file_path():
+    """
+    get file path for today's tasks entry file
+    :return:
+    """
+    return get_diary_config_folder_path() + '/' + now_date() + "-tasks.yaml"
+
+
+def get_todays_notes_entry_file_path():
+    """
+    get file path for today's notes entry file
+    :return:
+    """
+    return get_diary_config_folder_path() + '/' + now_date() + "-notes.yaml"
+
+def get_tasks_entry_file_path(date):
+    """
+    get file path for the specified date's notes entry file
+    """
+    return get_diary_config_folder_path() + '/' + date + "-tasks.yaml"
+
+#------------------------------------------------------------------------------
 
 def now_time():
     """
@@ -34,39 +59,13 @@ def now_date():
     """
     return str(time.strftime("%d-%m-%Y"))
 
-
-def todays_tasks_entry_file_path():
-    """
-    get file path for today's tasks entry file
-    :return:
-    """
-    return DIARY_CONFIG_FOLDER_PATH + '/' + now_date() + "-tasks.yaml"
-
-
-def todays_notes_entry_file_path():
-    """
-    get file path for today's notes entry file
-    :return:
-    """
-    return DIARY_CONFIG_FOLDER_PATH + '/' + now_date() + "-notes.yaml"
-
-def tasks_entry_file_path(date):
-    """
-    get file path for the specified date's notes entry file
-    """
-    return DIARY_CONFIG_FOLDER_PATH + '/' + date + "-tasks.yaml"
-
-TODAYS_TASKS_ENTRY_FILE_PATH = todays_tasks_entry_file_path()
-TODAYS_NOTES_ENTRY_FILE_PATH = todays_notes_entry_file_path()
-
-
 def today_entry_check():
     """
     check if today's diary entry file exists. If not, create
     """
-    if not os.path.exists(DIARY_CONFIG_FOLDER_PATH):
+    if not os.path.exists(get_diary_config_folder_path()):
         try:
-            os.makedirs(DIARY_CONFIG_FOLDER_PATH)
+            os.makedirs(get_diary_config_folder_path())
         except OSError as exc:  # Guard against race condition
             if exc.errno != errno.EEXIST:
                 raise
@@ -125,14 +124,14 @@ def new_task():
                 click.echo(chalk.red(
                     'Invalid goal name'))
 
-    if os.path.isfile(TODAYS_TASKS_ENTRY_FILE_PATH):
+    if os.path.isfile(get_todays_tasks_entry_file_path()):
         setup_data = dict(
             time=timestamp,
             text=note,
             status=0,
             hashtags=" ".join(hashtags)
         )
-        append_data_into_file(setup_data, TODAYS_TASKS_ENTRY_FILE_PATH)
+        append_data_into_file(setup_data, get_todays_tasks_entry_file_path())
     else:
         setup_data = dict(
             entries=[
@@ -144,7 +143,7 @@ def new_task():
                 )
             ]
         )
-        input_data(setup_data, TODAYS_TASKS_ENTRY_FILE_PATH)
+        input_data(setup_data, get_todays_tasks_entry_file_path())
 
 
 def new_note():
@@ -156,13 +155,13 @@ def new_note():
     click.echo(chalk.blue('Input your entry for note:'))
     note = input().strip()
 
-    if os.path.isfile(TODAYS_NOTES_ENTRY_FILE_PATH):
-        with open(TODAYS_NOTES_ENTRY_FILE_PATH) as todays_notes_entry:
+    if os.path.isfile(get_todays_notes_entry_file_path()):
+        with open(get_todays_notes_entry_file_path()) as todays_notes_entry:
             setup_data = dict(
                 time=now_time(),
                 text=note
             )
-            append_data_into_file(setup_data, TODAYS_NOTES_ENTRY_FILE_PATH)
+            append_data_into_file(setup_data, get_todays_notes_entry_file_path())
     else:
         setup_data = dict(
             entries=[
@@ -172,7 +171,7 @@ def new_note():
                 )
             ]
         )
-        input_data(setup_data, TODAYS_NOTES_ENTRY_FILE_PATH)
+        input_data(setup_data, get_todays_notes_entry_file_path())
 
 
 def strike(text):
@@ -188,14 +187,14 @@ def tasks():
     """
     get tasks
     """
-    if os.path.isfile(TODAYS_TASKS_ENTRY_FILE_PATH):
+    if os.path.isfile(get_todays_tasks_entry_file_path()):
         click.echo('Today\'s agenda:')
         click.echo('----------------')
         click.echo("Status |  Time   | Text")
         click.echo("-------|---------|-----")
         incomplete_tasks = 0
         total_tasks = 0
-        with open(TODAYS_TASKS_ENTRY_FILE_PATH) as todays_tasks_entry:
+        with open(get_todays_tasks_entry_file_path()) as todays_tasks_entry:
             contents = yaml.load(todays_tasks_entry)
             for entry in contents['entries']:
                 total_tasks += 1
@@ -227,8 +226,8 @@ def complete_task():
     complete a task
     """
     not_valid_task_number = 1
-    if os.path.isfile(TODAYS_TASKS_ENTRY_FILE_PATH):
-        with open(TODAYS_TASKS_ENTRY_FILE_PATH) as todays_tasks_entry:
+    if os.path.isfile(get_todays_tasks_entry_file_path()):
+        with open(get_todays_tasks_entry_file_path()) as todays_tasks_entry:
             contents = yaml.load(todays_tasks_entry)
             i = 0
             no_task_left = True
@@ -263,7 +262,7 @@ def complete_task():
                         click.echo(chalk.red('Please Enter a valid task number!'))
                     else:
                         contents['entries'][task_to_be_completed - 1]['status'] = 1
-                        input_data(contents, TODAYS_TASKS_ENTRY_FILE_PATH)
+                        input_data(contents, get_todays_tasks_entry_file_path())
                         not_valid_task_number = 0
     else:
         click.echo(chalk.red(
@@ -274,8 +273,8 @@ def notes():
     """
     see notes for today
     """
-    if os.path.isfile(TODAYS_NOTES_ENTRY_FILE_PATH):
-        with open(TODAYS_NOTES_ENTRY_FILE_PATH) as todays_notes_entry:
+    if os.path.isfile(get_todays_notes_entry_file_path()):
+        with open(get_todays_notes_entry_file_path()) as todays_notes_entry:
             contents = yaml.load(todays_notes_entry)
 
             click.echo('Today\'s notes:')
@@ -330,7 +329,7 @@ def list_of_tasks_files():
     """
     current_month = time.strftime("%m")
     current_year = time.strftime("%Y")
-    files = [f for f in listdir(DIARY_CONFIG_FOLDER_PATH) if os.path.isfile(os.path.join(DIARY_CONFIG_FOLDER_PATH, f))]
+    files = [f for f in listdir(get_diary_config_folder_path()) if os.path.isfile(os.path.join(get_diary_config_folder_path(), f))]
     list_of_files = []
     for i in files:
         x = i[3:16].split('-')
@@ -349,7 +348,7 @@ def current_month_task_analysis():
     total_incomplete_tasks = 0
     list_of_files = list_of_tasks_files()
     for some_file in range(0, len(list_of_files)):
-        list_of_files[some_file] = os.path.join(DIARY_CONFIG_FOLDER_PATH, list_of_files[some_file])
+        list_of_files[some_file] = os.path.join(get_diary_config_folder_path(), list_of_files[some_file])
     for some_file in list_of_files:
         with open(some_file) as fp:
             contents = yaml.load(fp)
@@ -370,7 +369,7 @@ def current_month_task_analysis():
 
 
 def get_task_info(timestamp, date):
-    filename = tasks_entry_file_path(date)
+    filename = get_tasks_entry_file_path(date)
     if os.path.isfile(filename):
         with open(filename) as file:
             contents = yaml.load(file)

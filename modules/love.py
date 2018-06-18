@@ -5,12 +5,20 @@ from .config import get_config_file_paths
 from .util import *
 
 # config file path
-LOVE_CONFIG_FILE_PATH = get_config_file_paths()["LOVE_CONFIG_FILE_PATH"]
-LOVE_CONFIG_FOLDER_PATH = get_folder_path_from_file_path(LOVE_CONFIG_FILE_PATH)
-LOVE_NOTES_FILE_PATH = LOVE_CONFIG_FOLDER_PATH + '/notes.yaml'
-LOVE_LIKES_FILE_PATH = LOVE_CONFIG_FOLDER_PATH + '/likes.yaml'
-LOVE_BIRTH_FILE_PATH = LOVE_CONFIG_FOLDER_PATH + '/birth.yaml'
+def get_LOVE_CONFIG_FILE_PATH():
+    return get_config_file_paths()["LOVE_CONFIG_FILE_PATH"]
 
+def get_LOVE_CONFIG_FOLDER_PATH():
+    return get_folder_path_from_file_path(get_LOVE_CONFIG_FILE_PATH())
+
+def get_LOVE_NOTES_FILE_PATH():
+    return get_LOVE_CONFIG_FOLDER_PATH() + '/notes.yaml'
+
+def get_LOVE_LIKES_FILE_PATH():
+    return get_LOVE_CONFIG_FOLDER_PATH() + '/likes.yaml'
+
+def get_LOVE_BIRTH_FILE_PATH():
+    return get_LOVE_CONFIG_FOLDER_PATH() + '/birth.yaml'
 
 def append_data_into_file(data, file_path):
     """
@@ -34,8 +42,8 @@ def status():
     """
     check status
     """
-    if os.path.isfile(LOVE_CONFIG_FILE_PATH):
-        with open(LOVE_CONFIG_FILE_PATH) as config_file:
+    if os.path.isfile(get_LOVE_CONFIG_FILE_PATH()):
+        with open(get_LOVE_CONFIG_FILE_PATH()) as config_file:
             contents = yaml.load(config_file)
             click.echo(contents)
     else:
@@ -48,9 +56,9 @@ def setup():
     create new setup
     :return:
     """
-    create_folder(LOVE_CONFIG_FOLDER_PATH)
+    create_folder(get_LOVE_CONFIG_FOLDER_PATH())
 
-    if ask_overwrite(LOVE_CONFIG_FILE_PATH):
+    if ask_overwrite(get_LOVE_CONFIG_FILE_PATH()):
         return
 
     click.echo(chalk.blue('Enter their name:'))
@@ -68,18 +76,18 @@ def setup():
         sex=sex
     )
 
-    input_data(setup_data, LOVE_CONFIG_FILE_PATH)
+    input_data(setup_data, get_LOVE_CONFIG_FILE_PATH())
 
 
 def note():
     """
     add a note for them
     """
-    if os.path.isfile(LOVE_NOTES_FILE_PATH):
+    if os.path.isfile(get_LOVE_NOTES_FILE_PATH()):
         data = dict(
             note=input()
         )
-        append_data_into_file(data, LOVE_NOTES_FILE_PATH)
+        append_data_into_file(data, get_LOVE_NOTES_FILE_PATH())
     else:
         data = dict(
             notes=[
@@ -88,15 +96,15 @@ def note():
                 )
             ]
         )
-        input_data(data, LOVE_NOTES_FILE_PATH)
+        input_data(data, get_LOVE_NOTES_FILE_PATH())
 
 
 def notes():
     """
     view notes
     """
-    if os.path.isfile(LOVE_NOTES_FILE_PATH):
-        with open(LOVE_NOTES_FILE_PATH) as notes_file:
+    if os.path.isfile(get_LOVE_NOTES_FILE_PATH()):
+        with open(get_LOVE_NOTES_FILE_PATH()) as notes_file:
             contents = yaml.load(notes_file)
             i = 0
             click.echo('Notes:')
@@ -131,11 +139,11 @@ def like():
     add things they like
     """
     click.echo(chalk.blue('Add things they like'))
-    if os.path.isfile(LOVE_LIKES_FILE_PATH):
+    if os.path.isfile(get_LOVE_LIKES_FILE_PATH()):
         like_data = dict(
             like=input()
         )
-        append_like_data_into_file(like_data, LOVE_LIKES_FILE_PATH)
+        append_like_data_into_file(like_data, get_LOVE_LIKES_FILE_PATH())
     else:
         like_data = dict(
             likes=[
@@ -144,7 +152,7 @@ def like():
                 )
             ]
         )
-        input_data(like_data, LOVE_LIKES_FILE_PATH)
+        input_data(like_data, get_LOVE_LIKES_FILE_PATH())
     click.echo(chalk.blue('Want to add more things they like? [y/n]'))
     repeat = input()
     if repeat == 'y' or repeat == 'yes':
@@ -155,8 +163,8 @@ def likes():
     """
     view the things they like
     """
-    if os.path.isfile(LOVE_LIKES_FILE_PATH):
-        with open(LOVE_LIKES_FILE_PATH) as likes_file:
+    if os.path.isfile(get_LOVE_LIKES_FILE_PATH()):
+        with open(get_LOVE_LIKES_FILE_PATH()) as likes_file:
             contents = yaml.load(likes_file)
             i = 0
             click.echo('Likes:')
@@ -172,22 +180,22 @@ def addbirth():
     """
     Add birthday 
     """
-    if ask_overwrite(LOVE_BIRTH_FILE_PATH):
+    if ask_overwrite(get_LOVE_BIRTH_FILE_PATH()):
         return
     click.echo(chalk.blue('Enter birthday'))
     birthday = input()
     birth_data = dict(
         birthday=birthday
     )
-    input_data(birth_data, LOVE_BIRTH_FILE_PATH)
+    input_data(birth_data, get_LOVE_BIRTH_FILE_PATH())
 
 
 def showbirth():
     """
     show birthday
     """
-    if os.path.isfile(LOVE_BIRTH_FILE_PATH):
-        with open(LOVE_BIRTH_FILE_PATH) as birth_file:
+    if os.path.isfile(get_LOVE_BIRTH_FILE_PATH()):
+        with open(get_LOVE_BIRTH_FILE_PATH()) as birth_file:
             contents = yaml.load(birth_file)
             click.echo('Birthday is ' + contents['birthday'])
     else:
