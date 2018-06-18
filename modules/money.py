@@ -20,9 +20,12 @@ request.session_id = os.environ.get(
     'API_AI_SESSION_ID', config.API_AI_SESSION_ID)
 
 # config file path
-MONEY_CONFIG_FILE_PATH = get_config_file_paths()['MONEY_CONFIG_FILE_PATH']
-MONEY_CONFIG_FOLDER_PATH = get_folder_path_from_file_path(
-    MONEY_CONFIG_FILE_PATH)
+def get_MONEY_CONFIG_FILE_PATH():
+    return get_config_file_paths()['MONEY_CONFIG_FILE_PATH']
+
+def get_MONEY_CONFIG_FOLDER_PATH():
+    return get_folder_path_from_file_path(
+        get_MONEY_CONFIG_FILE_PATH())
 
 # currency converter
 currency_rates = CurrencyRates()
@@ -49,8 +52,8 @@ def status():
     """
     check status of setup
     """
-    if os.path.isfile(MONEY_CONFIG_FILE_PATH):
-        with open(MONEY_CONFIG_FILE_PATH) as config_file:
+    if os.path.isfile(get_MONEY_CONFIG_FILE_PATH()):
+        with open(get_MONEY_CONFIG_FILE_PATH()) as config_file:
             contents = yaml.load(config_file)
             click.echo(contents)
     else:
@@ -63,9 +66,9 @@ def setup():
     create new setup config
     :return:
     """
-    create_folder(MONEY_CONFIG_FOLDER_PATH)
+    create_folder(get_MONEY_CONFIG_FOLDER_PATH())
 
-    if ask_overwrite(MONEY_CONFIG_FILE_PATH):
+    if ask_overwrite(get_MONEY_CONFIG_FILE_PATH()):
         return
 
     click.echo(chalk.blue('Enter default currency code:'))
@@ -82,15 +85,15 @@ def setup():
         initial_money=initial_money
     )
 
-    input_data(setup_data, MONEY_CONFIG_FILE_PATH)
+    input_data(setup_data, get_MONEY_CONFIG_FILE_PATH())
 
 
 def expense():
     """
     add expense
     """
-    create_folder(MONEY_CONFIG_FOLDER_PATH)
-    with open(MONEY_CONFIG_FOLDER_PATH + '/expenditures.txt', 'a') as fp:
+    create_folder(get_MONEY_CONFIG_FOLDER_PATH())
+    with open(get_MONEY_CONFIG_FOLDER_PATH() + '/expenditures.txt', 'a') as fp:
         request.query = input()
         click.echo('output: ')
         response = request.getresponse().read()
@@ -116,7 +119,7 @@ def expenses():
     """
     check expenses
     """
-    with open(MONEY_CONFIG_FOLDER_PATH + '/expenditures.txt') as fp:
+    with open(get_MONEY_CONFIG_FOLDER_PATH() + '/expenditures.txt') as fp:
         for line in fp.read().split('\n'):
             if len(line) == 0:
                 continue

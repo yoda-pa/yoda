@@ -6,10 +6,12 @@ from .config import get_config_file_paths
 from .util import *
 
 # config file path
-GOALS_CONFIG_FILE_PATH = get_config_file_paths()['GOALS_CONFIG_FILE_PATH']
-GOALS_CONFIG_FOLDER_PATH = get_folder_path_from_file_path(
-    GOALS_CONFIG_FILE_PATH)
+def get_goals_config_file_path():
+    return get_config_file_paths()['GOALS_CONFIG_FILE_PATH']
 
+def get_goals_config_folder_path():
+    return get_folder_path_from_file_path(
+        get_goals_config_file_path())
 
 def strike(text):
     """
@@ -20,7 +22,7 @@ def strike(text):
     return u'\u0336'.join(text) + u'\u0336'
 
 def get_goal_file_path(goal_name):
-    return GOALS_CONFIG_FOLDER_PATH + '/' + goal_name + '.yaml'
+    return get_goals_config_folder_path() + '/' + goal_name + '.yaml'
 
 def process(input):
     """
@@ -53,9 +55,9 @@ def goals_dir_check():
     """
     check if goals directory exists. If not, create
     """
-    if not os.path.exists(GOALS_CONFIG_FOLDER_PATH):
+    if not os.path.exists(get_goals_config_folder_path()):
         try:
-            os.makedirs(GOALS_CONFIG_FOLDER_PATH)
+            os.makedirs(get_goals_config_folder_path())
         except OSError as exc:  # Guard against race condition
             if exc.errno != errno.EEXIST:
                 raise
@@ -83,8 +85,8 @@ def complete_goal():
     complete a goal
     """
     not_valid_goal_number = 1
-    if os.path.isfile(GOALS_CONFIG_FILE_PATH):
-        with open(GOALS_CONFIG_FILE_PATH) as todays_tasks_entry:
+    if os.path.isfile(get_goals_config_file_path()):
+        with open(get_goals_config_file_path()) as todays_tasks_entry:
             contents = yaml.load(todays_tasks_entry)
             i = 0
             no_goal_left = True
@@ -119,7 +121,7 @@ def complete_goal():
                         click.echo(chalk.red('Please Enter a valid goal number!'))
                     else:
                         contents['entries'][goal_to_be_completed - 1]['status'] = 1
-                        input_data(contents, GOALS_CONFIG_FILE_PATH)
+                        input_data(contents, get_goals_config_file_path())
                         not_valid_goal_number = 0
     else:
         click.echo(chalk.red(
@@ -165,14 +167,14 @@ def new_goal():
             except ValueError:
                 click.echo(chalk.red("Incorrect data format, should be YYYY-MM-DD. Please repeat:"))
 
-        if os.path.isfile(GOALS_CONFIG_FILE_PATH):
+        if os.path.isfile(get_goals_config_file_path()):
             setup_data = dict(
                 name=goal_name,
                 text=text,
                 deadline=deadline,
                 status=0
             )
-            append_data_into_file(setup_data, GOALS_CONFIG_FILE_PATH)
+            append_data_into_file(setup_data, get_goals_config_file_path())
         else:
             setup_data = dict(
                 entries=[
@@ -184,7 +186,7 @@ def new_goal():
                     )
                 ]
             )
-            input_data(setup_data, GOALS_CONFIG_FILE_PATH)
+            input_data(setup_data, get_goals_config_file_path())
 
         input_data(dict(entries=[]), get_goal_file_path(goal_name))
 
@@ -201,8 +203,8 @@ def goals_analysis():
     total_goals_next_week = 0
     total_goals_next_month = 0
 
-    if os.path.isfile(GOALS_CONFIG_FILE_PATH):
-        with open(GOALS_CONFIG_FILE_PATH) as goals_file:
+    if os.path.isfile(get_goals_config_file_path()):
+        with open(get_goals_config_file_path()) as goals_file:
             contents = yaml.load(goals_file)
             for entry in contents['entries']:
                 total_goals += 1
@@ -241,9 +243,9 @@ def list_goals():
     """
     get goals listed chronologically by deadlines
     """
-    if os.path.isfile(GOALS_CONFIG_FILE_PATH):
+    if os.path.isfile(get_goals_config_file_path()):
 
-        with open(GOALS_CONFIG_FILE_PATH) as goals_file:
+        with open(get_goals_config_file_path()) as goals_file:
             contents = yaml.load(goals_file)
 
             if len(contents):
@@ -305,7 +307,7 @@ def view_related_tasks():
 
     not_valid_name = True
 
-    if os.path.isfile(GOALS_CONFIG_FILE_PATH):
+    if os.path.isfile(get_goals_config_file_path()):
         while not_valid_name:
             click.echo(chalk.blue(
                 'Enter the goal name that you would like to examine'))

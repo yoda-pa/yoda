@@ -131,7 +131,11 @@ cli.add_command(learn.define)
 @click.argument('input', nargs=-1, required=False, callback=alias.alias_checker)
 def setup(ctx, input):
     """
-    create a setup configuration for you to save some information locally
+    Create a setup configuration for you to save some information locally
+    Commands:\n
+    new: create a new config file\n
+    check: print existing setup\n
+    delete: delete config file\n
     """
     input = util.get_arguments(ctx, -1)
     if input:

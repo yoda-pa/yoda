@@ -31,9 +31,12 @@ def learn():
 
 
 # config file path
-VOCABULARY_CONFIG_FILE_PATH = get_config_file_paths()["VOCABULARY_CONFIG_FILE_PATH"]
-VOCABULARY_CONFIG_FOLDER_PATH = get_folder_path_from_file_path(
-    VOCABULARY_CONFIG_FILE_PATH)
+def get_vocabulary_config_file_path():
+    return get_config_file_paths()["VOCABULARY_CONFIG_FILE_PATH"]
+
+def get_vocabulary_config_folder_path():
+    return get_folder_path_from_file_path(
+    get_vocabulary_config_file_path())
 
 
 def get_words(package='yoda', resource='resources/vocab-words.txt'):
@@ -68,7 +71,7 @@ def get_weights():
     """
     accuracy = defaultdict(lambda: {'correct': 0, 'total': 0})
     words = get_words()
-    with open(VOCABULARY_CONFIG_FOLDER_PATH + '/results.txt') as fp:
+    with open(get_vocabulary_config_folder_path() + '/results.txt') as fp:
         for _line in fp.read().split('\n'):
             if len(_line) == 0:
                 continue
@@ -84,7 +87,7 @@ def get_weights():
 
 def get_accuracy_percentage():
     accuracy = defaultdict(list)
-    with open(VOCABULARY_CONFIG_FOLDER_PATH + '/results.txt') as fp:
+    with open(get_vocabulary_config_folder_path() + '/results.txt') as fp:
         for _line in fp.read().split('\n'):
             if len(_line) == 0:
                 continue
@@ -105,7 +108,7 @@ def get_accuracy_percentage():
 
 def get_word_to_learn():
     # in case no results is yet available pick random word
-    if not os.path.isfile(VOCABULARY_CONFIG_FOLDER_PATH + '/results.txt'):
+    if not os.path.isfile(get_vocabulary_config_folder_path() + '/results.txt'):
         return random.choice(list(get_words().keys()))
     words = get_weights()
     return sorted(words, key=words.get, reverse=True).pop()
@@ -128,8 +131,8 @@ def pick_word():
     correct = 0
     if result == 'y' or result == 'yes':
         correct = 1
-    create_folder(VOCABULARY_CONFIG_FOLDER_PATH)
-    with open(VOCABULARY_CONFIG_FOLDER_PATH + '/results.txt', 'a') as fp:
+    create_folder(get_vocabulary_config_folder_path())
+    with open(get_vocabulary_config_folder_path() + '/results.txt', 'a') as fp:
         timestamp = datetime.datetime.fromtimestamp(
             time.time()).strftime('%Y-%m-%d %H:%M:%S')
         fp.write('{} {} {}\n'.format(timestamp, word, correct))
@@ -139,7 +142,7 @@ def display_word_accuracy():
     """
     Calculates and displays users accuracy.
     """
-    if not os.path.isfile(VOCABULARY_CONFIG_FOLDER_PATH + '/results.txt'):
+    if not os.path.isfile(get_vocabulary_config_folder_path() + '/results.txt'):
         click.echo(chalk.red(
             'No words learned in the past. Please use "yoda vocabulary word" for the same'))
         return
@@ -156,7 +159,7 @@ def display_word_weights():
     """
     Displays word weights.
     """
-    if not os.path.isfile(VOCABULARY_CONFIG_FOLDER_PATH + '/results.txt'):
+    if not os.path.isfile(get_vocabulary_config_folder_path() + '/results.txt'):
         click.echo(chalk.red(
             'No words learned in the past. Please use "yoda vocabulary word" for the same'))
         return
@@ -206,9 +209,12 @@ def vocabulary(ctx, input):
 
 # ----------------------- flashcards code -----------------------#
 # config file path
-FLASHCARDS_CONFIG_FILE_PATH = get_config_file_paths()["FLASHCARDS_CONFIG_FILE_PATH"]
-FLASHCARDS_CONFIG_FOLDER_PATH = get_folder_path_from_file_path(
-    FLASHCARDS_CONFIG_FILE_PATH)
+def get_flashcards_config_file_path():
+    return get_config_file_paths()["FLASHCARDS_CONFIG_FILE_PATH"]
+
+def get_flashcards_config_folder_path():
+    return get_folder_path_from_file_path(
+        get_flashcards_config_file_path())
 
 
 def get_selected_set():
@@ -216,8 +222,8 @@ def get_selected_set():
     get selected set
     :return:
     """
-    if os.path.isfile(FLASHCARDS_CONFIG_FOLDER_PATH + '/selected_study_set'):
-        with open(FLASHCARDS_CONFIG_FOLDER_PATH + '/selected_study_set') as fp:
+    if os.path.isfile(get_flashcards_config_folder_path() + '/selected_study_set'):
+        with open(get_flashcards_config_folder_path() + '/selected_study_set') as fp:
             lines = fp.read().split('\n')
             return lines[0].strip()
 
@@ -230,9 +236,9 @@ SELECTED_STUDY_SET = get_selected_set()
 
 def get_set_statuses():
     sets = {}
-    if not os.path.isfile(FLASHCARDS_CONFIG_FOLDER_PATH + '/sets.txt'):
+    if not os.path.isfile(get_flashcards_config_folder_path() + '/sets.txt'):
         return None
-    with open(FLASHCARDS_CONFIG_FOLDER_PATH + '/sets.txt') as fp:
+    with open(get_flashcards_config_folder_path() + '/sets.txt') as fp:
         for _line in fp.read().split('\n'):
             _line = _line.strip()
             if len(_line) > 0:
@@ -247,9 +253,9 @@ def get_set_descriptions():
     :return:
     """
     sets = {}
-    if not os.path.isfile(FLASHCARDS_CONFIG_FOLDER_PATH + '/sets.txt'):
+    if not os.path.isfile(get_flashcards_config_folder_path() + '/sets.txt'):
         return None
-    with open(FLASHCARDS_CONFIG_FOLDER_PATH + '/sets.txt') as fp:
+    with open(get_flashcards_config_folder_path() + '/sets.txt') as fp:
         for _line in fp.read().split('\n'):
             _line = _line.strip()
             if len(_line) > 0:
@@ -294,11 +300,11 @@ def new_set_fc(name):
             sets = get_set_statuses()
             if not sets:
                 # there is no file, so create one
-                create_folder(FLASHCARDS_CONFIG_FOLDER_PATH)
+                create_folder(get_flashcards_config_folder_path())
 
                 description = input('Enter a description:\n')
 
-                with open(FLASHCARDS_CONFIG_FOLDER_PATH + '/sets.txt', 'a') as fp:
+                with open(get_flashcards_config_folder_path() + '/sets.txt', 'a') as fp:
                     fp.write('{}-{}-{}\n'.format(name, 1, description))
             else:
                 # assuming that the set exists. if it doesn't, catch
@@ -306,15 +312,15 @@ def new_set_fc(name):
                     if sets[name] != 0 and sets[name] != 1:
                         click.echo(chalk.red('Set already exists'))
                 except KeyError:
-                    create_folder(FLASHCARDS_CONFIG_FOLDER_PATH)
+                    create_folder(get_flashcards_config_folder_path())
 
                     description = input('Enter a description:\n')
 
-                    with open(FLASHCARDS_CONFIG_FOLDER_PATH + '/sets.txt', 'a') as fp:
+                    with open(get_flashcards_config_folder_path() + '/sets.txt', 'a') as fp:
                         fp.write('{}-{}-{}\n'.format(name, 1, description))
 
                     # create folder for the set to add cards to it
-                    create_folder(FLASHCARDS_CONFIG_FOLDER_PATH + '/' + name)
+                    create_folder(get_flashcards_config_folder_path() + '/' + name)
 
                     click.echo(chalk.red('Set added'))
     else:
@@ -329,9 +335,9 @@ def modify_set_fc_name(name, new_name):
     """
     sets = get_set_statuses()
     # delete existing file
-    os.remove(FLASHCARDS_CONFIG_FOLDER_PATH + '/sets.txt')
+    os.remove(get_flashcards_config_folder_path() + '/sets.txt')
     for _set in sets:
-        with open(FLASHCARDS_CONFIG_FOLDER_PATH + '/sets.txt', 'a') as fp:
+        with open(get_flashcards_config_folder_path() + '/sets.txt', 'a') as fp:
             fp.write('{} {}\n'.format(_set if _set != name else new_name, sets[_set]))
 
 
@@ -343,9 +349,9 @@ def modify_set_fc_description(name, new_name):
     """
     sets = get_set_statuses()
     # delete existing file
-    os.remove(FLASHCARDS_CONFIG_FOLDER_PATH + '/sets.txt')
+    os.remove(get_flashcards_config_folder_path() + '/sets.txt')
     for _set in sets:
-        with open(FLASHCARDS_CONFIG_FOLDER_PATH + '/sets.txt', 'a') as fp:
+        with open(get_flashcards_config_folder_path() + '/sets.txt', 'a') as fp:
             fp.write('{}-{}-{}\n'.format(_set if _set != name else new_name, sets[_set], ))
 
 
@@ -390,7 +396,7 @@ def select_set_fc(name, dummy=None):
                     'Looks like the study set you want to select is closed. Please modify it first'))
             elif sets[name] == 1:
                 SELECTED_STUDY_SET = name
-                with open(FLASHCARDS_CONFIG_FOLDER_PATH + '/selected_study_set', 'w') as fp:
+                with open(get_flashcards_config_folder_path() + '/selected_study_set', 'w') as fp:
                     fp.write(SELECTED_STUDY_SET)
                 click.echo(chalk.blue('Selected study set: ' + SELECTED_STUDY_SET))
         except KeyError:
@@ -438,11 +444,11 @@ def add_card_fc(name):
             description += ('\n' + x)
 
         description = description.strip()
-        create_folder(FLASHCARDS_CONFIG_FOLDER_PATH + '/' + SELECTED_STUDY_SET)
+        create_folder(get_flashcards_config_folder_path() + '/' + SELECTED_STUDY_SET)
 
         filename = spaces_to_colons(''.join(e for e in name if (e.isalnum() or e == ' ')))
 
-        with open(FLASHCARDS_CONFIG_FOLDER_PATH + '/' + SELECTED_STUDY_SET + '/' + filename + '.txt', 'a') as fp:
+        with open(get_flashcards_config_folder_path() + '/' + SELECTED_STUDY_SET + '/' + filename + '.txt', 'a') as fp:
             fp.write(colons_to_spaces(filename) + '\n')
             fp.write(description)
     else:
@@ -483,8 +489,8 @@ def status_fc(set, dummy):
         description = get_set_descriptions()[SELECTED_STUDY_SET]
         click.echo('Selected set: ' + SELECTED_STUDY_SET)
         click.echo('Description: ' + description)
-        if os.path.isdir(FLASHCARDS_CONFIG_FOLDER_PATH + '/' + SELECTED_STUDY_SET):
-            cards_in_selected_set = str(len(listdir(FLASHCARDS_CONFIG_FOLDER_PATH + '/' + SELECTED_STUDY_SET)))
+        if os.path.isdir(get_flashcards_config_folder_path() + '/' + SELECTED_STUDY_SET):
+            cards_in_selected_set = str(len(listdir(get_flashcards_config_folder_path() + '/' + SELECTED_STUDY_SET)))
             click.echo('No. of cards in selected set: ' + cards_in_selected_set)
         else:
             click.echo('There are no cards in selected set ')
@@ -503,7 +509,7 @@ def study_fc(set, dummy):
         description = get_set_descriptions()[SELECTED_STUDY_SET]
         click.echo('Selected set: ' + SELECTED_STUDY_SET)
         click.echo('Description: ' + description)
-        cards_in_selected_set = listdir(FLASHCARDS_CONFIG_FOLDER_PATH + '/' + SELECTED_STUDY_SET)
+        cards_in_selected_set = listdir(get_flashcards_config_folder_path() + '/' + SELECTED_STUDY_SET)
         len_cards_in_selected_set = len(cards_in_selected_set)
         width = get_terminal_width()
         if len_cards_in_selected_set == 0:
@@ -515,7 +521,7 @@ def study_fc(set, dummy):
             for card in cards_in_selected_set:
                 i += 1
 
-                card_path = FLASHCARDS_CONFIG_FOLDER_PATH + '/' + SELECTED_STUDY_SET + '/' + card
+                card_path = get_flashcards_config_folder_path() + '/' + SELECTED_STUDY_SET + '/' + card
                 with open(card_path) as fp:
                     name = None
                     description = ''

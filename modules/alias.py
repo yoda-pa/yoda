@@ -3,23 +3,26 @@ import click
 from .config import get_config_file_paths
 from .util import get_folder_path_from_file_path, create_folder
 
+# config paths
+def get_alias_config_file_path():
+    return get_config_file_paths()["ALIAS_CONFIG_FILE_PATH"]
 
-ALIAS_CONFIG_FILE_PATH = get_config_file_paths()["ALIAS_CONFIG_FILE_PATH"]
-ALIAS_CONFIG_FOLDER_PATH = get_folder_path_from_file_path(ALIAS_CONFIG_FILE_PATH)
+def get_alias_config_folder_path():
+    return get_folder_path_from_file_path(get_alias_config_file_path())
 
 class Alias(click.Group):
 
     _aliases = {}
 
     def __init__(self, *args, **kwargs):
-        create_folder(ALIAS_CONFIG_FOLDER_PATH)
+        create_folder(get_alias_config_folder_path())
         try:
-            with open(ALIAS_CONFIG_FOLDER_PATH + '/alias.txt', 'r') as f:
+            with open(get_alias_config_folder_path() + '/alias.txt', 'r') as f:
                 lines = f.readlines()
                 for i in range(1, len(lines), 2):
                     Alias._aliases[lines[i].strip('\n')] = lines[i - 1].strip('\n').split()
         except:
-            fo = open(ALIAS_CONFIG_FOLDER_PATH + '/alias.txt', 'w')
+            fo = open(get_alias_config_folder_path() + '/alias.txt', 'w')
             fo.close()
         super(Alias, self).__init__(*args, **kwargs)
 
@@ -90,8 +93,8 @@ def new(orig_cmd, alias_cmd):
         click.echo("Aliasing failed - Alias name already exists. Use alias delete to remove it")
         return
     if orig_cmd and alias_cmd:
-        create_folder(ALIAS_CONFIG_FOLDER_PATH)
-        with open(ALIAS_CONFIG_FOLDER_PATH + '/alias.txt', 'a') as f:
+        create_folder(get_alias_config_folder_path())
+        with open(get_alias_config_folder_path() + '/alias.txt', 'a') as f:
             f.write(orig_cmd + '\n' + alias_cmd + '\n')
         Alias._aliases[alias_cmd] = orig_cmd
         click.echo("Aliased %s as %s" % (orig_cmd, alias_cmd))
@@ -107,8 +110,8 @@ def delete(alias):
         click.echo("Alias delete failed - Could not find alias")
         return
     del Alias._aliases[alias]
-    create_folder(ALIAS_CONFIG_FOLDER_PATH)
-    with open(ALIAS_CONFIG_FOLDER_PATH + '/alias.txt', 'w') as f:
+    create_folder(get_alias_config_folder_path())
+    with open(get_alias_config_folder_path() + '/alias.txt', 'w') as f:
         for key in Alias._aliases.keys():
             f.write(' '.join(Alias._aliases[key]) + '\n' + key + '\n')
 

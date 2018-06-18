@@ -18,7 +18,11 @@ from Crypto.Cipher import AES
 from .config import get_config_file_paths
 from .config import update_config_path
 
-CONFIG_FILE_PATH = get_config_file_paths()['USER_CONFIG_FILE_PATH']
+
+# config file path
+def get_CONFIG_FILE_PATH():
+    return get_config_file_paths()['USER_CONFIG_FILE_PATH']
+
 
 try:
     raw_input          # Python 2
@@ -53,7 +57,7 @@ def decrypt_password():
     functionality of pycrypto
     :return:
     """
-    config_file = open(CONFIG_FILE_PATH)
+    config_file = open(get_CONFIG_FILE_PATH())
     contents = yaml.load(config_file)
     cipher_key = contents['encryption']['cipher_key']
     cipher_IV456 = contents['encryption']['cipher_IV456']
@@ -147,15 +151,14 @@ def new():
 
 
 def check():
-    # TODO: beautify output
     """
     check existing setup
     """
-    if os.path.isfile(CONFIG_FILE_PATH):
-        with open(CONFIG_FILE_PATH) as config_file:
+    if os.path.isfile(get_CONFIG_FILE_PATH()):
+        with open(get_CONFIG_FILE_PATH()) as config_file:
             contents = yaml.load(config_file)
-            click.echo('Name: ' + contents['name'])
-            click.echo('Email: ' + contents['email'])
+            click.echo('Name:            ' + contents['name'])
+            click.echo('Email:           ' + contents['email'])
             click.echo('Github username: ' + contents['github']['username'])
 
             # click.echo(decrypt_password())
@@ -169,13 +172,13 @@ def delete():
     delete config_file
     :return:
     """
-    if os.path.isfile(CONFIG_FILE_PATH):
+    if os.path.isfile(get_CONFIG_FILE_PATH()):
         click.echo(chalk.red('Are you sure you want to delete previous configuration? (y/n)'))
         delete_response = input().lower().strip()
         if delete_response != 'y':
             click.echo('Operation cancelled')
             return
-        os.remove(CONFIG_FILE_PATH)
+        os.remove(get_CONFIG_FILE_PATH())
         click.echo(chalk.red('Configuration file deleted'))
     else:
         click.echo(chalk.red('Configuration file does not exist!'))
@@ -204,7 +207,7 @@ def get_gh_username():
     get github username
     :return:
     """
-    config_file = open(CONFIG_FILE_PATH)
+    config_file = open(get_CONFIG_FILE_PATH())
     contents = yaml.load(config_file)
     return contents['github']['username']
 
