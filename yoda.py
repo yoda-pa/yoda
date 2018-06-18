@@ -162,3 +162,26 @@ Please create an issue in the Github repository:\nhttps://github.com/yoda-pa/yod
 # the life module
 cli.add_command(life.rlist)
 cli.add_command(life.ideas)
+
+@cli.command()
+@click.pass_context
+@click.argument('input', nargs=-1, required=False, callback=alias.alias_checker)
+def goals(ctx, input):
+    """
+    Set your goals \n\n
+
+    Commands:\n
+    new: New goal\n
+    view: View all completed and incomplete goals\n
+    tasks: View tasks related to the goal\n
+    complete: Complete a goal\n
+    analyze: Analyze goals\n
+    """
+    input = util.get_arguments(ctx, -1)
+    if input:
+        test_string = ''
+        for i in input:
+            test_string += (i + ' ')
+        data = sys.modules['modules.goals'].process(test_string)
+    else:
+        click.echo('No input specified. Run with --help for info')
