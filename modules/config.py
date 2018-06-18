@@ -11,9 +11,12 @@ def get_config_folder():
     """
     Gets the absolute path of the yoda config folder
     """
-    with open(YODA_CONFIG_FILE_PATH, 'r') as config_file:
-        config_folder = config_file.read()
-    return config_folder
+    if os.path.isfile(YODA_CONFIG_FILE_PATH):
+        with open(YODA_CONFIG_FILE_PATH, 'r') as config_file:
+            config_folder = config_file.read()
+        return config_folder
+    else:
+        return DEFAULT_CONFIG_PATH
 
 def update_config_path(new_path):
     """
