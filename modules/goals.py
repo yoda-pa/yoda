@@ -136,8 +136,15 @@ def new_goal():
 
     goals_dir_check()
 
+    goal_name_not_ok = True
+
     click.echo(chalk.blue('Input a single-word name of the goal:'))
-    goal_name = input().strip()
+    while goal_name_not_ok:
+        goal_name = input().strip()
+        if goal_name.isalnum():
+            goal_name_not_ok = False
+        else:
+            click.echo(chalk.red('Only alphanumeric characters can be used! Please input the goal name:'))
 
     if goal_name_exists(goal_name):
         click.echo(chalk.red(
@@ -147,7 +154,16 @@ def new_goal():
         text = input().strip()
 
         click.echo(chalk.blue('Input due date for the goal (YYYY-MM-DD):'))
-        deadline = input().strip()
+        incorrect_date_format = True
+        while incorrect_date_format:
+            deadline = input().strip()
+            try:
+                date_str = datetime.datetime.strptime(deadline, '%Y-%m-%d').strftime('%Y-%m-%d')
+                if date_str != deadline:
+                    raise ValueError
+                incorrect_date_format = False
+            except ValueError:
+                click.echo(chalk.red("Incorrect data format, should be YYYY-MM-DD. Please repeat:"))
 
         if os.path.isfile(GOALS_CONFIG_FILE_PATH):
             setup_data = dict(
