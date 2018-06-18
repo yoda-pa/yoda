@@ -1,0 +1,66 @@
+# coding=utf-8
+from builtins import str
+from unittest import TestCase
+from click.testing import CliRunner
+
+import tempfile
+import os
+
+import yoda
+from modules import config
+
+
+class TestSpeedtest(TestCase):
+    """
+        Test for the following commands:
+
+        | Module: dev
+        | command: url
+    """
+
+    def __init__(self, methodName='runTest'):
+        super(TestSpeedtest, self).__init__()
+        self.runner = CliRunner()
+
+    def setUp(self):
+        self.tempdir = tempfile.mkdtemp(prefix='yoda_')
+        self.original_config_path = config.get_config_folder()
+        config.update_config_path(self.tempdir)
+
+    def tearDown(self):
+        # Change yoda configuration directory back
+        config.update_config_path(self.original_config_path)
+
+        # Delete the temporary directory
+        for root, dirs, files in os.walk(self.tempdir, topdown=False):
+            for name in files:
+                os.remove(os.path.join(root, name))
+            for name in dirs:
+                os.rmdir(os.path.join(root, name))
+        os.rmdir(self.tempdir)
+
+    def runTest(self):
+        def test_word():
+            result = self.runner.invoke(yoda.cli, ['vocabulary', 'word'], input='\nn')
+            self.assertEqual(0, result.exit_code)
+            output_string = str(result.output.encode('ascii', 'ignore'))
+
+            self.assertEqual(type(output_string), str)
+
+        def test_accuracy():
+            result = self.runner.invoke(yoda.cli, ['vocabulary', 'accuracy'])
+            self.assertEqual(0, result.exit_code)
+            output_string = str(result.output.encode('ascii', 'ignore'))
+
+            self.assertEqual(type(output_string), str)
+
+        def test_weights():
+            result = self.runner.invoke(yoda.cli, ['vocabulary', 'weights'])
+            self.assertEqual(0, result.exit_code)
+            output_string = str(result.output.encode('ascii', 'ignore'))
+
+            self.assertEqual(type(output_string), str)
+
+        test_word()
+        test_accuracy()
+        test_weights()
