@@ -147,15 +147,14 @@ def new():
 
 
 def check():
-    # TODO: beautify output
     """
     check existing setup
     """
     if os.path.isfile(CONFIG_FILE_PATH):
         with open(CONFIG_FILE_PATH) as config_file:
             contents = yaml.load(config_file)
-            click.echo('Name: ' + contents['name'])
-            click.echo('Email: ' + contents['email'])
+            click.echo('Name:            ' + contents['name'])
+            click.echo('Email:           ' + contents['email'])
             click.echo('Github username: ' + contents['github']['username'])
 
             # click.echo(decrypt_password())
