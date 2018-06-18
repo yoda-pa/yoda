@@ -61,6 +61,34 @@ This command group contains some sub-commands that may be helpful for developers
 
 ![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/hackernews.gif)
 
+#### goals
+
+For settings and maintaining your goals, type
+
+```
+# To set a goal (name, description, deadline)
+$ yoda goals new
+
+# To show list of ideas
+$ yoda goals view
+
+# To set a goal as completed
+$ yoda goals complete
+
+# To see number of completed/incomplete goals, missed deadlines etc.
+$ yoda goals analyze
+
+# To view tasks assigned to the goal
+$ yoda goals tasks
+
+```
+Use this module with ```diary``` module and assign new tasks to the goals by typing
+
+```
+$ yoda diary nt
+```
+and adding the goal names to the task when prompted to do so.
+
 #### diary
 
 This command can be used to maintain a personal diary, roughly based on the concept of [Bullet Journal](http://bulletjournal.com/).
