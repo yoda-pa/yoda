@@ -356,12 +356,18 @@ def current_month_task_analysis():
             for entry in contents['entries']:
                 total_tasks += 1
                 total_incomplete_tasks += (1 if entry['status'] == 0 else 0)
-    percent_incomplete_task = total_incomplete_tasks * 100 / total_tasks
-    percent_complete_task = 100 - percent_incomplete_task
-    entry_frequency = total_tasks * 100 / no_of_days_current_month
-    click.echo(chalk.red('Percentage of incomplete task : ' + str(percent_incomplete_task)))
-    click.echo(chalk.green('Percentage of complete task : ' + str(percent_complete_task)))
-    click.echo(chalk.blue("Frequency of adding task (Task/Day) : " + str(entry_frequency)))
+
+    if total_tasks:
+        percent_incomplete_task = total_incomplete_tasks * 100 / total_tasks
+        percent_complete_task = 100 - percent_incomplete_task
+        entry_frequency = total_tasks * 100 / no_of_days_current_month
+        click.echo(chalk.red('Percentage of incomplete task : ' + str(percent_incomplete_task)))
+        click.echo(chalk.green('Percentage of complete task : ' + str(percent_complete_task)))
+        click.echo(chalk.blue("Frequency of adding task (Task/Day) : " + str(entry_frequency)))
+    else:
+        click.echo(
+            'There are no tasks for this month. Add a new task by entering "yoda diary nt"')
+
 
 def get_task_info(timestamp, date):
     filename = tasks_entry_file_path(date)
