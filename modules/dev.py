@@ -8,6 +8,7 @@ from builtins import range
 from builtins import str
 
 import pyspeedtest
+import os
 import requests
 
 from past.utils import old_div
@@ -30,25 +31,8 @@ def speedtest():
     """
     Run a speed test for your internet connection
     """
-    speed_test = pyspeedtest.SpeedTest()
+    os.system("speedtest-cli")
 
-    try:
-        ping = speed_test.ping()
-    except requests.exceptions.ConnectionError:
-        click.echo(chalk.red('Yoda cannot sense the internet right now!'))
-        sys.exit(1)
-    except Exception:
-        click.echo(chalk.red('Speedtest servers not available'))
-        sys.exit(0)
-
-    click.echo('Speed test results:')
-    click.echo('Ping: ' + '{:.2f}'.format(ping) + ' ms')
-
-    download_speed = old_div(speed_test.download(), (1024 * 1024))
-    click.echo('Download: ' + '{:.2f}'.format(download_speed) + ' Mb/s')
-
-    upload_speed = old_div(speed_test.upload(), (1024 * 1024))
-    click.echo('Upload: ' + '{:.2f}'.format(upload_speed) + ' Mb/s')
 
 
 # code for URL command
@@ -57,7 +41,7 @@ def speedtest():
 def url_shorten(url_to_be_shortened):
     """
     shorten url
-    :param url_to_be_shortened: 
+    :param url_to_be_shortened:
     """
     try:
         r = requests.post('https://www.googleapis.com/urlshortener/v1/url?key=' + GOOGLE_URL_SHORTENER_API_KEY,
@@ -78,7 +62,7 @@ def url_shorten(url_to_be_shortened):
 def url_expand(url_to_be_expanded):
     """
     expander
-    :param url_to_be_expanded: 
+    :param url_to_be_expanded:
     """
     try:
         r = requests.get(
@@ -96,9 +80,9 @@ def url_expand(url_to_be_expanded):
 def check_sub_command_url(action, url_to_be_expanded_or_shortened):
     """
     command checker for url shortener and expander
-    :param action: 
-    :param url_to_be_expanded_or_shortened: 
-    :return: 
+    :param action:
+    :param url_to_be_expanded_or_shortened:
+    :return:
     """
     sub_commands = {
         'shorten': url_shorten,

@@ -18,7 +18,8 @@ setup(
         'forex-python',
         'dulwich',
         'PyGithub',
-        'future'
+        'future',
+        'speedtest-cli'
     ],
     package_data={'': ['*.txt', '*.lst']},
     entry_points='''
