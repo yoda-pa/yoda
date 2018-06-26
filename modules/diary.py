@@ -296,7 +296,7 @@ def notes():
 
     else:
         click.echo(chalk.red(
-            'There are no notes for today. Add a new note by entering "yoda diary h"'))
+            'There are no notes for today. Add a new note by entering "yoda diary nn"'))
 
 
 def check_sub_command(c):
