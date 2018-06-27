@@ -12,7 +12,7 @@ class TestDiary(TestCase):
         Assumes empty diary.
 
         | Module: diary
-        | command: diary tasks, nt, ct
+        | command: diary tasks, nt, ct , nn , notes
     """
 
     def __init__(self, methodName='runTest'):
@@ -46,9 +46,9 @@ class TestDiary(TestCase):
         # notes
         result = self.runner.invoke(yoda.cli, ['diary', 'notes'])
         self.assertEqual(result.exit_code, 0)
-        result = self.runner.invoke(yoda.cli, ['diary', 'nn'], input="test note")
+        result = self.runner.invoke(yoda.cli, ['diary', 'nn'], input="test title\ntitle text")
         self.assertEqual(result.exit_code, 0)
-        result = self.runner.invoke(yoda.cli, ['diary', 'nn'], input="test note")
+        result = self.runner.invoke(yoda.cli, ['diary', 'nn'], input="test title2\ntitle text2")
         self.assertEqual(result.exit_code, 0)
         result = self.runner.invoke(yoda.cli, ['diary', 'notes'])
         self.assertEqual(result.exit_code, 0)
