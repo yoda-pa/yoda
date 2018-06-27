@@ -153,14 +153,18 @@ def new_note():
     """
     today_entry_check()
 
-    click.echo(chalk.blue('Input your entry for note:'))
-    note = input().strip()
+    click.echo(chalk.blue('Input your title for note:'))
+    note_title = input().strip()
+
+    click.echo(chalk.blue('Input your text for note:'))
+    note_text = input().strip()
 
     if os.path.isfile(TODAYS_NOTES_ENTRY_FILE_PATH):
         with open(TODAYS_NOTES_ENTRY_FILE_PATH) as todays_notes_entry:
             setup_data = dict(
                 time=now_time(),
-                text=note
+                title=note_title,
+                text=note_text
             )
             append_data_into_file(setup_data, TODAYS_NOTES_ENTRY_FILE_PATH)
     else:
@@ -168,7 +172,8 @@ def new_note():
             entries=[
                 dict(
                     time=now_time(),
-                    text=note
+                    title=note_title,
+                    text=note_text
                 )
             ]
         )
@@ -280,13 +285,14 @@ def notes():
 
             click.echo('Today\'s notes:')
             click.echo('----------------')
-            click.echo("  Time  | Note")
-            click.echo("--------|-----")
+            click.echo("  Time  |  Title  |	Note ")
+            click.echo("--------|---------|------")
 
             for entry in contents['entries']:
                 time = entry['time']
+                note_title=entry['title']
                 text = entry['text']
-                click.echo(time + "| " + text)
+                click.echo(time + "|  " + note_title +"  | "+text)
 
     else:
         click.echo(chalk.red(

@@ -95,6 +95,28 @@ This command can be used to maintain a personal diary, roughly based on the conc
 
 ![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/diary.gif)
 
+For creating and writing new note type
+
+```
+#For writing new note
+$yoda diary nn
+#First give the title of the note.
+#Sencond give the text of the note
+
+#Viewing all notes.
+$yoda diary notes
+```
+For writing and viewing tasks.
+
+```
+#Writing new task
+$yoda diary nt
+#Viewing all tasks
+$yoda diary tasks
+#Change the status of task to completed
+$yoda diary ct
+```
+
 #### love
 
 This command can be used to maintain a profile of someone you love.
