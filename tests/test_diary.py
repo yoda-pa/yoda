@@ -12,7 +12,7 @@ class TestDiary(TestCase):
         Assumes empty diary.
 
         | Module: diary
-        | command: diary tasks, nt, ct , nn , notes
+        | command: diary tasks, nt, ct
     """
 
     def __init__(self, methodName='runTest'):
@@ -38,6 +38,12 @@ class TestDiary(TestCase):
         self.assertEqual(result.exit_code, 0)
         result = self.runner.invoke(yoda.cli, ['diary', 'ct'], input="3")
         self.assertEqual(result.exit_code, 0)
+        result=self.runner.invoke(yoda.cli, ['diary', 'ut'], input="1\n1\nUpdated Tasks")
+        self.assertEqual(result.exit_code, 0)
+        result=self.runner.invoke(yoda.cli, ['diary', 'dct'], input="c")
+        self.assertEqual(result.exit_code, 0)
+        result=self.runner.invoke(yoda.cli, ['diary', 'dt'], input="1\n1")
+        self.assertEqual(result.exit_code, 0)
         result = self.runner.invoke(yoda.cli, ['diary', 'tasks'])
         self.assertEqual(result.exit_code, 0)
         result = self.runner.invoke(yoda.cli, ['diary', 'analyze'])
@@ -46,9 +52,13 @@ class TestDiary(TestCase):
         # notes
         result = self.runner.invoke(yoda.cli, ['diary', 'notes'])
         self.assertEqual(result.exit_code, 0)
-        result = self.runner.invoke(yoda.cli, ['diary', 'nn'], input="test title\ntitle text")
+        result = self.runner.invoke(yoda.cli, ['diary', 'nn'], input="test note\ntest note1")
         self.assertEqual(result.exit_code, 0)
-        result = self.runner.invoke(yoda.cli, ['diary', 'nn'], input="test title2\ntitle text2")
+        result = self.runner.invoke(yoda.cli, ['diary', 'nn'], input="test note\ntest note2")
+        self.assertEqual(result.exit_code, 0)
+        result=self.runner.invoke(yoda.cli, ['diary', 'dn'], input="1\n1")
+        self.assertEqual(result.exit_code, 0)
+        result=self.runner.invoke(yoda.cli, ['diary', 'un'], input="1\n1\nupdated task")
         self.assertEqual(result.exit_code, 0)
         result = self.runner.invoke(yoda.cli, ['diary', 'notes'])
         self.assertEqual(result.exit_code, 0)
