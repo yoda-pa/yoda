@@ -603,8 +603,8 @@ update a particular task
 				click.echo(chalk.blue('Enter the new task'))
 				not_valid_task_number = 0
 				new_text=str(input())
-                contents['entries'][task_to_be_updated - 1]['text']=new_text
-                input_data(contents, TODAYS_TASKS_ENTRY_FILE_PATH)
+				contents['entries'][task_to_be_updated - 1]['text']=new_text
+				input_data(contents, TODAYS_TASKS_ENTRY_FILE_PATH)
 	else:
 		click.echo(chalk.red(
             'There are no tasks. Add a new task by entering "yoda diary nt"'))
@@ -656,8 +656,8 @@ def update_note():
 				not_valid_note_number=0
 				click.echo(chalk.blue('Enter the new text'))
 				new_note=input()
-                contents['entries'][note_to_be_updated - 1]['text']=new_note
-                input_data(contents, TODAYS_NOTES_ENTRY_FILE_PATH)
+				contents['entries'][note_to_be_updated - 1]['text']=new_note
+				input_data(contents, TODAYS_NOTES_ENTRY_FILE_PATH)
                 
 	else:
 		click.echo(chalk.red(
