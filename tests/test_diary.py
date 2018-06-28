@@ -56,9 +56,9 @@ class TestDiary(TestCase):
         # notes
         result = self.runner.invoke(yoda.cli, ['diary', 'notes'])
         self.assertEqual(result.exit_code, 0)
-        result = self.runner.invoke(yoda.cli, ['diary', 'nn'], input="test note")
+        result = self.runner.invoke(yoda.cli, ['diary', 'nn'], input="test\nnew note 1")
         self.assertEqual(result.exit_code, 0)
-        result = self.runner.invoke(yoda.cli, ['diary', 'nn'], input="test note")
+        result = self.runner.invoke(yoda.cli, ['diary', 'nn'], input="test2\nnew note 2")
         self.assertEqual(result.exit_code, 0)
         result=self.runner.invoke(yoda.cli, ['diary', 'dn'], input="1\n1")
         self.assertEqual(result.exit_code, 0)
