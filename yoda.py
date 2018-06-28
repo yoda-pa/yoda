@@ -82,7 +82,12 @@ def diary(ctx, input):
     Commands:\n
     nn: New note\n
     nt: new Task\n
+    dt: delete task\n
     notes: view all notes\n
+    ut: update task\n
+    un: update note\n
+    dct: delete all completed tasks\n
+    dn:delete particular note\n
     tasks: view all completed and incomplete tasks\n
     ct: complete task
     """

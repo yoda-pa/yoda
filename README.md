@@ -105,6 +105,12 @@ $yoda diary nn
 
 #Viewing all notes.
 $yoda diary notes
+#Updating note
+#Choose the date and then the note to update
+$yoda diary un
+#Deleting Note
+#Choose the date and then the note to delete
+$yoda diary dn
 ```
 For writing and viewing tasks.
 
@@ -115,6 +121,15 @@ $yoda diary nt
 $yoda diary tasks
 #Change the status of task to completed
 $yoda diary ct
+#Update task
+#Choose the date and then the task to update
+yoda diary ut
+#Delete Task
+#Choose the date and then the task to delete
+yoda diary dt
+#Delete all completed tasks for today
+yoda diary dct
+# type c to confirm the deletion
 ```
 
 #### love

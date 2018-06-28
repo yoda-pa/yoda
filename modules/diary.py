@@ -274,6 +274,109 @@ def complete_task():
         click.echo(chalk.red(
             'There are no tasks for today. Add a new task by entering "yoda diary nt"'))
 
+def delete_task():
+	'''
+	delete a particular task
+	'''
+	list_of_files = list_of_tasks_files()	
+	if list_of_files:
+		not_valid_task_number = 1
+		not_valid_date_number = 1
+		click.echo('Select the date:- \n')
+		click.echo('--------------------')
+		click.echo('Number |    Date    ')
+		click.echo('--------------------')
+		i=0
+		for some_file in range(0, len(list_of_files)):
+			i+=1
+			click.echo(str(i)+'      |'+list_of_files[some_file][0:10])
+		while not_valid_date_number:
+			click.echo(chalk.blue('Enter the number to select the date'))
+			selected_date=int(input())
+			if selected_date > len(list_of_files):
+				click.echo(chalk.red('Please Enter a valid task number!'))
+			else:
+				SELECTED_DATE_PATH=os.path.join(DIARY_CONFIG_FOLDER_PATH+'/'+list_of_files[selected_date-1])
+				with open(SELECTED_DATE_PATH) as selected_task:
+					contents = yaml.load(selected_task)
+					click.echo('\nTasks for '+list_of_files[some_file][0:10])
+					click.echo('----------------')
+					click.echo("Number |  Time   | Task")
+					click.echo("-------|---------|-----")
+					i = 0
+					for entry in contents['entries']:
+						i += 1
+						time = entry['time']
+						text = entry['text'] + " " + entry.get('hashtags', '')
+						text = text if entry['status'] == 0 else strike(text)
+						click.echo("   " + str(i) + "   | " +
+                                  time + ": " + text)
+				not_valid_date_number=0
+		while not_valid_task_number:
+			click.echo(chalk.blue('Enter the task number that you would like to delete'))
+			task_to_be_deleted = int(input())
+			if task_to_be_deleted > len(contents['entries']):
+				click.echo(chalk.red('Please Enter a valid task number!'))
+			else:
+				del contents['entries'][task_to_be_deleted - 1]
+				input_data(contents, SELECTED_DATE_PATH)
+				not_valid_task_number = 0
+	else:
+		click.echo(chalk.red(
+            'There are no tasks. Add a new task by entering "yoda diary nt"'))
+
+def delete_note():
+
+	'''
+delete a particular note
+	'''
+	list_of_files = list_of_notes_files()
+	if list_of_files:
+		not_valid_note_number = 1
+		not_valid_date_number = 1
+		click.echo('Select the date:- \n')
+		click.echo('--------------------')
+		click.echo('Number |    Date    ')
+		click.echo('--------------------')
+		i=0
+		for some_file in range(0, len(list_of_files)):
+			i+=1
+			click.echo(str(i)+'      |'+list_of_files[some_file][0:10])
+		while not_valid_date_number:
+			click.echo(chalk.blue('Enter the number to select the date'))
+			selected_date=int(input())
+			if selected_date > len(list_of_files):
+				click.echo(chalk.red('Please Enter a valid Date number!'))
+			else:
+				SELECTED_DATE_PATH=os.path.join(DIARY_CONFIG_FOLDER_PATH+'/'+list_of_files[selected_date-1])
+				with open(SELECTED_DATE_PATH) as selected_note:
+					contents = yaml.load(selected_note)
+					click.echo('\nNotes for '+list_of_files[some_file][0:10])
+					click.echo('----------------')
+					click.echo("Number |  Time   |   Title    | Text")
+					click.echo("-------|---------|------------|-----")
+					i = 0
+					for entry in contents['entries']:
+						i += 1
+						time = entry['time']
+						note_title=entry['title']
+						text = entry['text']
+						click.echo(str(i)+'      |'+time + " |  " + note_title +"  | "+text)
+				not_valid_date_number=0
+		while not_valid_note_number:
+			click.echo(chalk.blue('Enter the note number that you would like to delete'))
+			note_to_be_deleted = int(input())
+			if note_to_be_deleted > len(contents['entries']):
+				click.echo(chalk.red('Please Enter a valid note number!'))
+			else:
+				del contents['entries'][note_to_be_deleted - 1]
+				input_data(contents, SELECTED_DATE_PATH)
+				not_valid_note_number = 0
+				if len(contents['entries'])==0:
+					os.remove(SELECTED_DATE_PATH)
+	else:
+		click.echo(chalk.red(
+            'There are no tasks. Add a new task by entering "yoda diary nt"'))
 
 def notes():
     """
@@ -310,8 +413,13 @@ def check_sub_command(c):
         'nn': new_note,
         'nt': new_task,
         'ct': complete_task,
+        'dt': delete_task,
+        'dn': delete_note,
+        'un': update_note,
+		'ut': update_task,
+		'dct': delete_completed_task,
         'notes': notes,
-        'analyze': current_month_task_analysis,
+        'analyze': current_month_task_analysis
     }
     try:
         return sub_commands[c]()
@@ -328,11 +436,73 @@ def process(input):
     _input = input.lower().strip()
     check_sub_command(_input)
 
+def list_of_notes_files():
+    """
+    list of all notes files
+    :return:
+    """
+    current_month = time.strftime("%m")
+    current_year = time.strftime("%Y")
+    files = [f for f in listdir(DIARY_CONFIG_FOLDER_PATH) if os.path.isfile(os.path.join(DIARY_CONFIG_FOLDER_PATH, f))]
+    list_of_files = []
+    for i in files:
+        x = i[3:16].split('-')
+        if x[0] == current_month and x[1] == current_year and x[2] == 'notes':
+            list_of_files.append(i)
+    return list_of_files
 
 def list_of_tasks_files():
     """
     list of all tasks files
-    :return:
+    :return:def update_note():
+	list_of_files = list_of_notes_files()
+	if list_of_files:
+		not_valid_note_number = 1
+		not_valid_date_number = 1
+		click.echo('Select the date:- \n')
+		click.echo('--------------------')
+		click.echo('Number |    Date    ')
+		click.echo('--------------------')
+		i=0
+		for some_file in range(0, len(list_of_files)):
+			i+=1
+			click.echo(str(i)+'      |'+list_of_files[some_file][0:10])
+		while not_valid_date_number:
+			click.echo(chalk.blue('Enter the number to select the date'))
+			selected_date=int(input())
+			if selected_date > len(list_of_files):
+				click.echo(chalk.red('Please Enter a valid Date number!'))
+			else:
+				SELECTED_DATE_PATH=os.path.join(DIARY_CONFIG_FOLDER_PATH+'/'+list_of_files[selected_date-1])
+				with open(SELECTED_DATE_PATH) as selected_note:
+					contents = yaml.load(selected_note)
+					click.echo('\nNotes for '+list_of_files[some_file][0:10])
+					click.echo('------------------------------------')
+					click.echo("Number |  Time   |   Title    | Text")
+					click.echo("-------|---------|------------|-----")
+					i = 0
+					for entry in contents['entries']:
+						i += 1
+						time = entry['time']
+						note_title=entry['title']
+						text = entry['text']
+						click.echo(str(i)+'      |'+time + " |  " + note_title +"  | "+text)
+				not_valid_date_number=0
+		while not_valid_note_number:
+			click.echo(chalk.blue('Enter the note number that you would like to update'))
+			note_to_be_deleted = int(input())
+			if note_to_be_deleted > len(contents['entries']):
+				click.echo(chalk.red('Please Enter a valid note number!'))
+			else:
+				not_valid_note_number=0
+				click.echo(chalk.blue('Enter the new text'))
+				new_note=input()
+                contents['entries'][note_to_be_deleted - 1]['text']=new_note
+                input_data(contents, TODAYS_NOTES_ENTRY_FILE_PATH)
+                
+	else:
+		click.echo(chalk.red(
+            'There are no tasks. Add a new task by entering "yoda diary nt"'))
     """
     current_month = time.strftime("%m")
     current_year = time.strftime("%Y")
@@ -384,3 +554,158 @@ def get_task_info(timestamp, date):
                 if entry['time'] == timestamp:
                     return entry['status'], entry['text']
     return None
+
+def update_task():
+	'''
+update a particular task
+	'''	
+
+	list_of_files = list_of_tasks_files()	
+	if list_of_files:
+		not_valid_task_number = 1
+		not_valid_date_number = 1
+		click.echo('Select the date:- \n')
+		click.echo('--------------------')
+		click.echo('Number |    Date    ')
+		click.echo('--------------------')
+		i=0
+		for some_file in range(0, len(list_of_files)):
+			i+=1
+			click.echo(str(i)+'      |'+list_of_files[some_file][0:10])
+		while not_valid_date_number:
+			click.echo(chalk.blue('Enter the number to select the date'))
+			selected_date=int(input())
+			if selected_date > len(list_of_files):
+				click.echo(chalk.red('Please Enter a valid date number!'))
+			else:
+				SELECTED_DATE_PATH=os.path.join(DIARY_CONFIG_FOLDER_PATH+'/'+list_of_files[selected_date-1])
+				with open(SELECTED_DATE_PATH) as selected_task:
+					contents = yaml.load(selected_task)
+					click.echo('\nTasks for '+list_of_files[some_file][0:10])
+					click.echo('-----------------------')
+					click.echo("Number |  Time   | Task")
+					click.echo("-------|---------|-----")
+					i = 0
+					for entry in contents['entries']:
+						i += 1
+						time = entry['time']
+						text = entry['text'] + " " + entry.get('hashtags', '')
+						text = text if entry['status'] == 0 else strike(text)
+						click.echo("   " + str(i) + "   | " +
+                                  time + ": " + text)
+				not_valid_date_number=0
+		while not_valid_task_number:
+			click.echo(chalk.blue('Enter the task number that you would like to update'))
+			task_to_be_updated = int(input())
+			if task_to_be_updated > len(contents['entries']):
+				click.echo(chalk.red('Please Enter a valid task number!'))
+			else:
+				click.echo(chalk.blue('Enter the new task'))
+				not_valid_task_number = 0
+				new_text=str(input())
+                contents['entries'][task_to_be_updated - 1]['text']=new_text
+                input_data(contents, TODAYS_TASKS_ENTRY_FILE_PATH)
+	else:
+		click.echo(chalk.red(
+            'There are no tasks. Add a new task by entering "yoda diary nt"'))
+
+def update_note():
+
+	'''
+	update a particular note
+	'''
+	list_of_files = list_of_notes_files()
+	if list_of_files:
+		not_valid_note_number = 1
+		not_valid_date_number = 1
+		click.echo('Select the date:- \n')
+		click.echo('--------------------')
+		click.echo('Number |    Date    ')
+		click.echo('--------------------')
+		i=0
+		for some_file in range(0, len(list_of_files)):
+			i+=1
+			click.echo(str(i)+'      |'+list_of_files[some_file][0:10])
+		while not_valid_date_number:
+			click.echo(chalk.blue('Enter the number to select the date'))
+			selected_date=int(input())
+			if selected_date > len(list_of_files):
+				click.echo(chalk.red('Please Enter a valid Date number!'))
+			else:
+				SELECTED_DATE_PATH=os.path.join(DIARY_CONFIG_FOLDER_PATH+'/'+list_of_files[selected_date-1])
+				with open(SELECTED_DATE_PATH) as selected_note:
+					contents = yaml.load(selected_note)
+					click.echo('\nNotes for '+list_of_files[some_file][0:10])
+					click.echo('------------------------------------')
+					click.echo("Number |  Time   |   Title    | Text")
+					click.echo("-------|---------|------------|-----")
+					i = 0
+					for entry in contents['entries']:
+						i += 1
+						time = entry['time']
+						note_title=entry['title']
+						text = entry['text']
+						click.echo(str(i)+'      |'+time + " |  " + note_title +"  | "+text)
+				not_valid_date_number=0
+		while not_valid_note_number:
+			click.echo(chalk.blue('Enter the note number that you would like to update'))
+			note_to_be_updated = int(input())
+			if note_to_be_updated > len(contents['entries']):
+				click.echo(chalk.red('Please Enter a valid note number!'))
+			else:
+				not_valid_note_number=0
+				click.echo(chalk.blue('Enter the new text'))
+				new_note=input()
+                contents['entries'][note_to_be_updated - 1]['text']=new_note
+                input_data(contents, TODAYS_NOTES_ENTRY_FILE_PATH)
+                
+	else:
+		click.echo(chalk.red(
+            'There are no tasks. Add a new task by entering "yoda diary nt"'))
+
+def delete_completed_task():
+	'''
+	delete completed task
+	'''
+	not_valid_task_number = 1
+	if os.path.isfile(TODAYS_TASKS_ENTRY_FILE_PATH):
+		with open(TODAYS_TASKS_ENTRY_FILE_PATH) as todays_tasks_entry:
+			contents = yaml.load(todays_tasks_entry)
+			no_task_complete = None
+			i=0
+			for entry in contents['entries']:
+				if entry['status'] == 1:
+					i+=1
+		
+			if i==0:
+				click.echo(chalk.green('All tasks are incomplete! Complete a task by entering "yoda diary ct"'))
+			else:
+				click.echo('Today\'s agenda:')
+				click.echo('----------------')
+				click.echo("Number |  Time   | Task")
+				click.echo("-------|---------|-----")
+				i = 0
+				for entry in contents['entries']:
+					i += 1
+					time = entry['time']
+					text = entry['text'] + " " + entry.get('hashtags', '')
+					text = text if entry['status'] == 0 else strike(text)
+					click.echo("   " + str(i) + "   | " +
+								time + ": " + text)
+				click.echo(chalk.blue(
+					'Type c to confirm or Ctrl-c to exit.'))
+				user_response = input()
+				if user_response == 'c':
+					i=0
+					for entry in contents['entries']:
+						i+=1
+						if entry['status'] != 0:
+							del contents['entries'][i-1]
+							input_data(contents, TODAYS_TASKS_ENTRY_FILE_PATH)
+											
+				else:
+					click.echo('Click c to confirm or Ctrl-C to exit')
+							
+	else:
+			click.echo(chalk.red(
+				'There are no tasks for today. Add a new task by entering "yoda diary nt"'))
