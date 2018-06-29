@@ -35,6 +35,14 @@ def now_date():
     return str(time.strftime("%d-%m-%Y"))
 
 
+def yesterdays_date():
+    """
+    get yesterday's date
+    """
+    yesterday = datetime.date.today() - datetime.timedelta(1)
+    return str(yesterday.strftime("%d-%m-%Y"))
+
+
 def todays_tasks_entry_file_path():
     """
     get file path for today's tasks entry file
@@ -50,6 +58,22 @@ def todays_notes_entry_file_path():
     """
     return DIARY_CONFIG_FOLDER_PATH + '/' + now_date() + "-notes.yaml"
 
+
+def yesterdays_notes_entry_file_path():
+    """
+    get file path for yesterday's notes entry file
+    """
+    return DIARY_CONFIG_FOLDER_PATH + '/' + yesterdays_date() + "-notes.yaml"
+
+
+def yesterdays_tasks_entry_file_path():
+    """
+    get file path for yesterday's tasks entry file
+    """
+
+    return DIARY_CONFIG_FOLDER_PATH + '/' + yesterdays_date() + "-tasks.yaml"
+
+
 def tasks_entry_file_path(date):
     """
     get file path for the specified date's notes entry file
@@ -58,6 +82,9 @@ def tasks_entry_file_path(date):
 
 TODAYS_TASKS_ENTRY_FILE_PATH = todays_tasks_entry_file_path()
 TODAYS_NOTES_ENTRY_FILE_PATH = todays_notes_entry_file_path()
+
+YESTERDAYS_TASKS_ENTRY_FILE_PATH = yesterdays_tasks_entry_file_path()
+YESTERDAYS_NOTES_ENTRY_FILE_PATH = yesterdays_notes_entry_file_path()
 
 
 def today_entry_check():
@@ -189,18 +216,26 @@ def strike(text):
     return u'\u0336'.join(text) + u'\u0336'
 
 
-def tasks():
+def tasks(today = True):
     """
     get tasks
     """
-    if os.path.isfile(TODAYS_TASKS_ENTRY_FILE_PATH):
-        click.echo('Today\'s agenda:')
+    
+    if today == True:
+        file_path = TODAYS_TASKS_ENTRY_FILE_PATH
+        day_string = 'Today'
+    else:
+        file_path = YESTERDAYS_TASKS_ENTRY_FILE_PATH
+        day_string = 'Yesterday'
+
+    if os.path.isfile(file_path):
+        click.echo(day_string + '\'s' + ' agenda:')
         click.echo('----------------')
         click.echo("Status |  Time   | Text")
         click.echo("-------|---------|-----")
         incomplete_tasks = 0
         total_tasks = 0
-        with open(TODAYS_TASKS_ENTRY_FILE_PATH) as todays_tasks_entry:
+        with open(file_path) as todays_tasks_entry:
             contents = yaml.load(todays_tasks_entry)
             for entry in contents['entries']:
                 total_tasks += 1
@@ -223,8 +258,9 @@ def tasks():
                                    str(total_tasks - incomplete_tasks)))
 
     else:
-        click.echo(
-            'There are no tasks for today. Add a new task by entering "yoda diary nt"')
+        click.echo('There are no tasks for ' + day_string.lower() + '.')
+        if today == True:
+            click.echo('Add a new task by entering "yoda diary nt"')
 
 
 def complete_task():
@@ -378,15 +414,24 @@ delete a particular note
 		click.echo(chalk.red(
             'There are no tasks. Add a new task by entering "yoda diary nt"'))
 
-def notes():
+def notes(today = True):
     """
     see notes for today
     """
-    if os.path.isfile(TODAYS_NOTES_ENTRY_FILE_PATH):
-        with open(TODAYS_NOTES_ENTRY_FILE_PATH) as todays_notes_entry:
+
+    if today == True:
+        file_path = TODAYS_NOTES_ENTRY_FILE_PATH
+        day_string = 'Today'
+    else:
+        file_path = YESTERDAYS_NOTES_ENTRY_FILE_PATH
+        day_string = 'Yesterday'
+
+
+    if os.path.isfile(file_path):
+        with open(file_path) as todays_notes_entry:
             contents = yaml.load(todays_notes_entry)
 
-            click.echo('Today\'s notes:')
+            click.echo(day_string + '\'s notes:')
             click.echo('----------------')
             click.echo("  Time  |  Title  |	Note ")
             click.echo("--------|---------|------")
@@ -398,8 +443,9 @@ def notes():
                 click.echo(time + "|  " + note_title +"  | "+text)
 
     else:
-        click.echo(chalk.red(
-            'There are no notes for today. Add a new note by entering "yoda diary nn"'))
+        click.echo(chalk.red('There are no notes for ' + day_string.lower() + '.'))
+        if today == True:
+            click.echo('Add a new note by entering "yoda diary nn"')
 
 
 def check_sub_command(c):
@@ -421,8 +467,14 @@ def check_sub_command(c):
         'notes': notes,
         'analyze': current_month_task_analysis
     }
+
+    c = c.split(' ')
+
     try:
-        return sub_commands[c]()
+        if len(c) == 1:
+            return sub_commands[c[0]]()
+        elif len(c) == 2 and (c[0] == 'tasks' or c[0] == 'notes'):
+            return sub_commands[c[0]](False)
     except KeyError:
         click.echo(chalk.red('Command does not exist!'))
         click.echo('Try "yoda diary --help" for more info')
