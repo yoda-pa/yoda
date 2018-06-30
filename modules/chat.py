@@ -58,7 +58,7 @@ def process(input_string):
             click.echo(chalk.red('Yoda cannot sense the internet right now!'))
             sys.exit(1)
 
-        output = json.loads(response)
+        output = json.loads(response.decode('utf-8'))
         answer = output["result"]["fulfillment"]["speech"]
         click.echo(chalk.blue('Yoda speaks:'))
         click.echo(answer)
