@@ -17,7 +17,7 @@ def suggest_drinks():
 
     def getDrinkSuggestion():
         req = requests.get(randomDrinkURL)
-        parsed_response = json.loads(req.content)
+        parsed_response = req.json()
         drinkInfoJSON = parsed_response['drinks']
         drink = drinkInfoJSON[0]['strDrink']
 
@@ -28,14 +28,14 @@ def suggest_drinks():
 
     def getDrinkInstructions(drink):
         req = requests.get(drinkURL + drink)
-        parsed_response = json.loads(req.content)
+        parsed_response = req.json()
         drinkInfoJSON = parsed_response['drinks']
         drinkInstructions = drinkInfoJSON[0]['strInstructions']
         click.echo('Instructions: ' + drinkInstructions)
 
     def getIngredients(drink):
         req = requests.get(drinkURL + drink)
-        parsed_response = json.loads(req.content)
+        parsed_response = req.json()
         drinkInfoJSON = parsed_response['drinks']
         click.echo('Ingredients: ')
         for ingNumber in range(1, 16):
