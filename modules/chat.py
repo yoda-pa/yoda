@@ -41,7 +41,7 @@ def process(input_string):
             'key': ""
         }
         hdr = {'User-Agent': "Magic Browser"}
-        full_url = QUOTE_API_URL + '?' + urllib.urlencode(send_data)
+        full_url = QUOTE_API_URL + '?' + urllib.parse.urlencode(send_data)
         response = urlopen(Request(full_url, headers=hdr))
         response = response.read()
         output = json.loads(response)
