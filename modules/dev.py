@@ -16,7 +16,9 @@ from past.utils import old_div
 from .util import *
 from .alias import alias_checker
 
+FIREBASE_DYNAMIC_LINK_API_KEY = "AIzaSyAuVJ0zfUmacDG5Vie4Jl7_ercv6gSwebc"
 GOOGLE_URL_SHORTENER_API_KEY = "AIzaSyCBAXe-kId9UwvOQ7M2cLYR7hyCpvfdr7w"
+domain = "yodacli.page.link"
 
 @click.group()
 def dev():
@@ -44,10 +46,8 @@ def url_shorten(url_to_be_shortened):
     :param url_to_be_shortened:
     """
     try:
-        r = requests.post('https://www.googleapis.com/urlshortener/v1/url?key=' + GOOGLE_URL_SHORTENER_API_KEY,
-                          data=json.dumps({
-                              'longUrl': url_to_be_shortened
-                          }), headers={
+        r = requests.post('https://firebasedynamiclinks.googleapis.com/v1/shortLinks?key=' + FIREBASE_DYNAMIC_LINK_API_KEY,
+                          data=json.dumps({"dynamicLinkInfo": {"dynamicLinkDomain": domain,"link": url_to_be_shortened }}), headers={
                 'Content-Type': 'application/json'
             })
     except requests.exceptions.ConnectionError:
@@ -55,7 +55,7 @@ def url_shorten(url_to_be_shortened):
         sys.exit(1)
 
     data = r.json()
-    response = 'Here\'s your shortened URL:\n' + data['id']
+    response = 'Here\'s your shortened URL:\n' + data['shortLink']
     click.echo(response)
 
 
@@ -73,7 +73,11 @@ def url_expand(url_to_be_expanded):
         sys.exit(1)
 
     data = r.json()
-    response = 'Here\'s your original URL:\n' + data['longUrl']
+    res = data['longUrl']
+    if domain in data['longUrl']:
+        res = data['longUrl'].split('=')[1]
+        #res = res[:-3]    
+    response = 'Here\'s your original URL:\n' + res
     click.echo(response)
 
 
