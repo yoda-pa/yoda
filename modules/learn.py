@@ -23,7 +23,7 @@ from .util import *
 @click.group()
 def learn():
     """
-        The learn module2
+        The learn module
     """
 
 
