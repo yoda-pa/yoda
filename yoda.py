@@ -198,7 +198,7 @@ def goals(ctx, input):
 def ascii_transform(ctx, input):
     """
     Transform an image into ascii \n\n
-    Pass the path for the image as the argument\n
+    Pass the absolute path to  the image as the argument\n
     """
     input = util.get_arguments(ctx,-1)
     if input:
