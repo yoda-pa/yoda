@@ -76,7 +76,7 @@ def url_expand(url_to_be_expanded):
     res = data['longUrl']
     if domain in data['longUrl']:
         res = data['longUrl'].split('=')[1]
-        #res = res[:-3]    
+        #res = res[:-3]
     response = 'Here\'s your original URL:\n' + res
     click.echo(response)
 
@@ -208,3 +208,20 @@ def portscan():
         port_queue.join()
     else:
         click.echo('Find ' + targetForScan + ' I cannot, ' + 'sure spelled correctly, are you?')
+
+
+@dev.command()
+@click.pass_context
+@click.argument('ip_address', nargs=1, required=False, callback=alias_checker)
+def iplookup(ctx, ip_address):
+    ip_address = get_arguments(ctx, 1)
+    _ip_address = str(ip_address)
+
+    import geoip2.database
+
+    path = os.path.dirname(sys.modules['yoda'].__file__)
+    path = os.path.join(path, 'resources/databases/GeoLite2-City.mmdb')
+
+    reader = geoip2.database.Reader(path)
+    response = reader.city(_ip_address)
+    return click.echo('{0}, {1}'.format(response.subdivisions.most_specific.name, response.country.name))
