@@ -225,3 +225,7 @@ def iplookup(ctx, ip_address):
     reader = geoip2.database.Reader(path)
     response = reader.city(_ip_address)
     return click.echo('{0}, {1}'.format(response.subdivisions.most_specific.name, response.country.name))
+
+def check_site_up(url):
+    r = requests.head(url)
+    return r.status_code == 200
