@@ -225,3 +225,26 @@ def iplookup(ctx, ip_address):
     reader = geoip2.database.Reader(path)
     response = reader.city(_ip_address)
     return click.echo('{0}, {1}'.format(response.subdivisions.most_specific.name, response.country.name))
+
+
+@dev.command()
+@click.pass_context
+@click.argument('link', nargs=1, required=True)
+def checksite(ctx, link):
+    """
+    Check if website is up and running.
+    """
+    click.echo('Connecting...')
+
+    # request
+    try:
+        r = requests.get(link)
+    except Exception as e:
+        click.echo('Looks like {0} is not a valid URL, check the URL and try again.'.format(link))
+        return
+
+    # check the status code
+    if r.status_code != 200:
+        click.echo("Uh-oh! Site is down. :'(")
+    else:
+        click.echo('Yay! The site is up and running! :)')
