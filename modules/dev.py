@@ -227,5 +227,8 @@ def iplookup(ctx, ip_address):
     return click.echo('{0}, {1}'.format(response.subdivisions.most_specific.name, response.country.name))
 
 def check_site_up(url):
-    r = requests.head(url)
-    return r.status_code == 200
+    try:
+        up = requests.head(url).status_code
+        return up
+    except:
+        return False
