@@ -43,7 +43,7 @@ def handle_image_conversion(image_filepath):
     image = None
     try:
         image = Image.open(image_filepath)
-    except Exception, e:
+    except(Exception), e:
         print "Unable to open image file {image_filepath}.".format(image_filepath=image_filepath)
         print e
         return
