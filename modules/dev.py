@@ -225,3 +225,21 @@ def iplookup(ctx, ip_address):
     reader = geoip2.database.Reader(path)
     response = reader.city(_ip_address)
     return click.echo('{0}, {1}'.format(response.subdivisions.most_specific.name, response.country.name))
+
+
+@dev.command()
+@click.pass_context
+@click.argument('astrological_sign', nargs=1, required=False, callback=alias_checker)
+def horoscope(ctx, astrological_sign):
+    """
+    Find the today's horoscope for the given astrological sign.
+    """
+    astrological_sign = get_arguments(ctx, 1)
+    _astrological_sign = str(astrological_sign)
+
+    try:
+        r = requests.get('http://horoscope-api.herokuapp.com/horoscope/today/{0}'.format(astrological_sign))
+        return click.echo(r.json()['horoscope'])
+    except requests.exceptions.ConnectionError:
+        click.echo('Yoda cannot sense the internet right now!')
+        sys.exit(1)
