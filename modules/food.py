@@ -46,3 +46,12 @@ def suggest_drinks():
                 drinkIngredients.append(ingredient)
 
     getDrinkSuggestion()
+
+
+@food.command()
+def suggest_recipe():
+    """
+    Get a random recipe and its relevant ingredients!
+    """
+    # TODO: Add this.
+    raise NotImplementedError()
