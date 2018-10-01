@@ -541,7 +541,6 @@ def study_fc(set, dummy):
 @click.argument('action', nargs=1, required=False, callback=alias_checker)
 @click.argument('name', nargs=-1, required=False, callback=alias_checker)
 def flashcards(ctx, domain, action, name):
-    domain, action, name = get_arguments(ctx, 3)
     """
         Flashcards for learning anything and tracking your progress\n\n
         Domains:\n
@@ -557,6 +556,7 @@ def flashcards(ctx, domain, action, name):
         \t status: Current status of study study set
         \t study: start studying the selected study set
     """
+    domain, action, name = get_arguments(ctx, 3)
     domain = str(domain)
     action = str(action)
     name = tuple_to_string(name)

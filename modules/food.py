@@ -11,6 +11,9 @@ def food():
 
 @food.command()
 def suggest_drinks():
+    """
+    Get suggested a random drink recipe from the Cocktail DB API.
+    """
     drinkURL = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s='
     randomDrinkURL = 'https://www.thecocktaildb.com/api/json/v1/1/random.php'
     drinkIngredients = []
