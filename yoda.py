@@ -191,3 +191,21 @@ def goals(ctx, input):
         data = sys.modules['modules.goals'].process(test_string)
     else:
         click.echo('No input specified. Run with --help for info')
+
+@cli.command()
+@click.pass_context
+@click.argument('input', nargs=1,required=True, callback=alias.alias_checker)
+def ascii_transform(ctx, input):
+    """
+    Transform an image into ascii \n\n
+    Pass the path for the image as the argument\n
+    """
+    input = util.get_arguments(ctx,-1)
+    if input:
+        test_string = ''
+        for i in input:
+            test_string += (i+'')
+        data = sys.modules['modules.asciiator'].process(str(test_string))
+    else:
+        click.echo('No input specified. Run with --help for info')
+    print(data)
