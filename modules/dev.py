@@ -2,6 +2,7 @@ from __future__ import absolute_import
 from __future__ import division
 
 import json
+import re
 import sys
 
 from builtins import range
@@ -20,6 +21,7 @@ FIREBASE_DYNAMIC_LINK_API_KEY = "AIzaSyAuVJ0zfUmacDG5Vie4Jl7_ercv6gSwebc"
 GOOGLE_URL_SHORTENER_API_KEY = "AIzaSyCBAXe-kId9UwvOQ7M2cLYR7hyCpvfdr7w"
 domain = "yodacli.page.link"
 
+
 @click.group()
 def dev():
     """
@@ -34,7 +36,6 @@ def speedtest():
     Run a speed test for your internet connection
     """
     os.system("speedtest-cli")
-
 
 
 # code for URL command
@@ -248,3 +249,46 @@ def checksite(ctx, link):
         click.echo("Uh-oh! Site is down. :'(")
     else:
         click.echo('Yay! The site is up and running! :)')
+
+ 
+# idea list process
+@dev.command()
+@click.argument('pattern', nargs=1)
+@click.argument('path', nargs=1)
+@click.option('-r', nargs=1, required=False, default=False)
+@click.option('-i', nargs=1, required=False, default=False)
+def grep(pattern, path, r, i):
+    """
+        Grep for a pattern in a file or recursively through a folder.
+
+        yoda dev grep PATTERN PATH [OPTIONAL ARGUMENTS]
+    """
+    recursive, ignorecase = r, i
+    if ignorecase:
+        pattern = re.compile(pattern, flags=re.IGNORECASE)
+    else:
+        pattern = re.compile(pattern)
+    if os.path.isfile(path):
+        if recursive:
+            click.echo(chalk.red(
+                'Cannot use recursive flag with a file name.'))
+            return
+        with open(path, 'r') as infile:
+            for match in search_file(pattern, infile):
+                click.echo(match, nl=False)
+    else:
+        for dirpath, dirnames, filenames in os.walk(path, topdown=True):
+            for filename in filenames:
+                with open(os.path.join(dirpath, filename), 'r') as infile:
+                    for match in search_file(pattern, infile):
+                        click.echo(match, nl=False)
+            if not recursive:
+                break
+
+
+def search_file(pattern, infile):
+    for line in infile:
+        match = pattern.search(line)
+        if match:
+            yield line
+
