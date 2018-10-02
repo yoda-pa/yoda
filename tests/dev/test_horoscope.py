@@ -19,4 +19,4 @@ class TestHoroscope(TestCase):
 
     def runTest(self):
         result = self.runner.invoke(yoda.cli, ['horoscope', 'aries'])
-        self.assertTrue(type(result.output.encode('ascii', 'ignore').decode('utf-8')) == unicode)
+        self.assertTrue(type(result.output.encode('ascii', 'ignore')) == str)
