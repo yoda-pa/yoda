@@ -6,9 +6,9 @@
 
   <h1>yoda</h1>
 
-<a href="https://travis-ci.org/yoda-pa/yoda"><img src="https://img.shields.io/travis-ci/yoda-pa/yoda.svg?style=flat-square" alt="Build status"></a> 
-  <a href="https://sonarcloud.io/dashboard?id=yoda"><img src="https://sonarcloud.io/api/project_badges/measure?project=yoda&metric=alert_status&template=FLAT" alt="SonarCloud Quality Status"></a> 
-  <a href="https://manparvesh.mit-license.org/"><img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square" alt="License"></a> 
+<a href="https://travis-ci.org/yoda-pa/yoda"><img src="https://img.shields.io/travis-ci/yoda-pa/yoda.svg?style=flat-square" alt="Build status"></a>
+  <a href="https://sonarcloud.io/dashboard?id=yoda"><img src="https://sonarcloud.io/api/project_badges/measure?project=yoda&metric=alert_status&template=FLAT" alt="SonarCloud Quality Status"></a>
+  <a href="https://manparvesh.mit-license.org/"><img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square" alt="License"></a>
   <a href="https://github.com/yoda-pa/yoda"><img src="https://img.shields.io/badge/version-0.3.0-blue.svg?style=flat-square" alt="Project status"></a>
 
   <p>Wise and powerful personal assistant, available in your nearest terminal</p><br>
@@ -60,6 +60,13 @@ This command group contains some sub-commands that may be helpful for developers
 - hackernews
 
 ![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/hackernews.gif)
+
+- horoscope
+
+~~~
+$ yoda dev horoscope aries
+You may stomp your feet all you like, but you're not going to get your way today. The days of 'me-myself' are over. Also, today you may invite unwanted trouble. It may do you some good, suggests Ganesha, if you change the hub of your activities.
+~~~
 
 #### goals
 
@@ -207,24 +214,24 @@ This command group contains commands to alias cumbersome commands.
   ```
   # before: shortening a url
   $ yoda url shorten google.com
-  
+
   # alias shorten to be s
   $ yoda alias new "shorten" "s"
-  
+
   # can now use s in place of shorten
   $ yoda url s google.com
-  
+
   # or alias the whole command as us
   $ yoda alias new "url shorten" "us"
   $ yoda us google.com
-  
+
   # show your current aliases
   $ yoda alias show
-  
+
   # delete aliases
   $ yoda alias delete "us"
   $ yoda alias delete "s"
-  
+
   ```
 
 #### feedback
@@ -250,12 +257,12 @@ To create an issue in the github repository simple thing that shows a link.  Yee
 - [chardet](https://github.com/chardet/chardet): universal character encoding detector
 - [Codecov](https://codecov.io/): code coverage dashboard
 - [coverage](https://pypi.org/project/coverage/): For code coverage testing
-- [NumPy](http://www.numpy.org/): For scientific computation 
+- [NumPy](http://www.numpy.org/): For scientific computation
 - [requests](http://docs.python-requests.org/en/latest/): For HTTP requests
-- [nose](https://github.com/nose-devs/nose): For unit testing 
-- [urllib3](https://github.com/urllib3/urllib3): HTTP client 
+- [nose](https://github.com/nose-devs/nose): For unit testing
+- [urllib3](https://github.com/urllib3/urllib3): HTTP client
 - [Certifi](https://github.com/certifi/python-certifi): Python SSL Certificates
-- [idna](https://github.com/kjd/idna): For the domain name 
+- [idna](https://github.com/kjd/idna): For the domain name
 - [future](https://pypi.org/project/future/): the layer of compatability for Python 2/3
 - [Google URL Shortener](https://developers.google.com/url-shortener/): URL shortener
 - [News API](https://newsapi.org/): Used to get the top headlines from Hacker News
