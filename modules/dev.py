@@ -2,7 +2,6 @@ from __future__ import absolute_import
 from __future__ import division
 
 import json
-import re
 import sys
 
 from builtins import range
@@ -21,7 +20,6 @@ FIREBASE_DYNAMIC_LINK_API_KEY = "AIzaSyAuVJ0zfUmacDG5Vie4Jl7_ercv6gSwebc"
 GOOGLE_URL_SHORTENER_API_KEY = "AIzaSyCBAXe-kId9UwvOQ7M2cLYR7hyCpvfdr7w"
 domain = "yodacli.page.link"
 
-
 @click.group()
 def dev():
     """
@@ -36,6 +34,7 @@ def speedtest():
     Run a speed test for your internet connection
     """
     os.system("speedtest-cli")
+
 
 
 # code for URL command
@@ -230,59 +229,28 @@ def iplookup(ctx, ip_address):
 
 @dev.command()
 @click.pass_context
-@click.argument('astrological_sign', nargs=1, required=False, callback=alias_checker)
-def horoscope(ctx, astrological_sign):
+@click.argument('mode', nargs=1, required=False, callback=alias_checker)
+def ciphers(ctx, mode):
     """
-    Find the today's horoscope for the given astrological sign.
+    Encrypts and decrypts texts in classical ciphers
     """
-    astrological_sign = get_arguments(ctx, 1)
-    _astrological_sign = str(astrological_sign)
 
-    try:
-        r = requests.get('http://horoscope-api.herokuapp.com/horoscope/today/{0}'.format(astrological_sign))
-        return click.echo(r.json()['horoscope'])
-    except requests.exceptions.ConnectionError:
-        click.echo('Yoda cannot sense the internet right now!')
-        sys.exit(1)
+    mode = get_arguments(ctx, 1)
+    _mode = str(mode).lower()
 
+    cipher_dict = {}
 
-# idea list process
-@dev.command()
-@click.argument('pattern', nargs=1)
-@click.argument('path', nargs=1)
-@click.option('-r', nargs=1, required=False, default=False)
-@click.option('-i', nargs=1, required=False, default=False)
-def grep(pattern, path, r, i):
-    """
-        Grep for a pattern in a file or recursively through a folder.
+    for index, cipher in enumerate(cipher_dict):
+        print("{0}: {1}".format(index, cipher))
 
-        yoda dev grep PATTERN PATH [OPTIONAL ARGUMENTS]
-    """
-    recursive, ignorecase = r, i
-    if ignorecase:
-        pattern = re.compile(pattern, flags=re.IGNORECASE)
+    cipher_choice = int(click.prompt("Choose a cipher"))
+    if cipher_choice > len(cipher_dict) - 1 or cipher_choice < 0:
+        click.echo("Invalid cipher number was chosen.")
+        return
+
+    if _mode == "encrypt":
+        pass
+    elif _mode == "decrypt":
+        pass
     else:
-        pattern = re.compile(pattern)
-    if os.path.isfile(path):
-        if recursive:
-            click.echo(chalk.red(
-                'Cannot use recursive flag with a file name.'))
-            return
-        with open(path, 'r') as infile:
-            for match in search_file(pattern, infile):
-                click.echo(match, nl=False)
-    else:
-        for dirpath, dirnames, filenames in os.walk(path, topdown=True):
-            for filename in filenames:
-                with open(os.path.join(dirpath, filename), 'r') as infile:
-                    for match in search_file(pattern, infile):
-                        click.echo(match, nl=False)
-            if not recursive:
-                break
-
-
-def search_file(pattern, infile):
-    for line in infile:
-        match = pattern.search(line)
-        if match:
-            yield line
+        click.echo("Invalid mode passed.")
