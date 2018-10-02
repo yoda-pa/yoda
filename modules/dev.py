@@ -2,6 +2,7 @@ from __future__ import absolute_import
 from __future__ import division
 
 import json
+import string
 import sys
 
 from builtins import range
@@ -226,6 +227,34 @@ def iplookup(ctx, ip_address):
     response = reader.city(_ip_address)
     return click.echo('{0}, {1}'.format(response.subdivisions.most_specific.name, response.country.name))
 
+class AtbashCipher:
+    def __init__(self):
+        self.alphabet = string.ascii_uppercase
+        reverse_alphabet = self.alphabet[::-1]
+        self.key = {" ": " "}
+
+        for index, char in enumerate(self.alphabet):
+            self.key[char] = reverse_alphabet[index]
+
+
+    def encrypt(self, message):
+        encrypted_message = ""
+        message = message.upper()
+
+        for char in message:
+            if char not in self.alphabet and char != " ":
+                click.echo("Atbash only supports ASCII characters")
+                return
+
+            encrypted_message += self.key[char]
+        return encrypted_message
+    
+    def decrypt(self, message):
+        """
+        As the encrypt and the decrypt "key" are the 
+        same encrypt is its own inverse function.
+        """
+        return self.encrypt(message)
 
 @dev.command()
 @click.pass_context
@@ -238,7 +267,7 @@ def ciphers(ctx, mode):
     mode = get_arguments(ctx, 1)
     _mode = str(mode).lower()
 
-    cipher_dict = {}
+    cipher_dict = {"Atbash": AtbashCipher}
 
     for index, cipher in enumerate(cipher_dict):
         print("{0}: {1}".format(index, cipher))
@@ -248,9 +277,13 @@ def ciphers(ctx, mode):
         click.echo("Invalid cipher number was chosen.")
         return
 
+    cipher = cipher_dict[list(cipher_dict.keys())[cipher_choice]]()
+
     if _mode == "encrypt":
-        pass
+        clear_text = click.prompt("The text you want to encrypt")
+        return click.echo(cipher.encrypt(clear_text))
     elif _mode == "decrypt":
-        pass
+        cipher_text = click.prompt("The text you want to decrypt")
+        return click.echo(cipher.decrypt(cipher_text))
     else:
-        click.echo("Invalid mode passed.")
+        return click.echo("Invalid mode passed.")
