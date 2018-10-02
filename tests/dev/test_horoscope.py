@@ -1,4 +1,5 @@
 # coding=utf-8
+import sys
 from unittest import TestCase
 from click.testing import CliRunner
 
@@ -19,4 +20,10 @@ class TestHoroscope(TestCase):
 
     def runTest(self):
         result = self.runner.invoke(yoda.cli, ['horoscope', 'aries'])
-        self.assertTrue(type(result.output.encode('ascii', 'ignore')) == str)
+
+        if sys.version_info[0] == 3:
+            string_types = str
+        else:
+            string_types = basestring
+
+        self.assertIsInstance(result.output, string_types)
