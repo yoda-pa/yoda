@@ -61,6 +61,32 @@ This command group contains some sub-commands that may be helpful for developers
 
 ![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/hackernews.gif)
 
+- horoscope
+
+~~~
+$ yoda dev horoscope aries
+You may stomp your feet all you like, but you're not going to get your way today. The days of 'me-myself' are over. Also, today you may invite unwanted trouble. It may do you some good, suggests Ganesha, if you change the hub of your activities.
+~~~
+
+- grep
+
+~~~
+$ yoda dev grep PATTERN FILE|FOLDER -r [True] -i [True]
+-r is the flag for recursive search. -i enables case insensitive search.
+Both are optional parameter and the flags are off if they are not provided.
+
+$ yoda dev grep \d+ modules/ -r True
+Will recursively search all files in modules directory for any line containing 1 or more digits.
+
+$ yoda dev grep yOdA modules/ -i True
+Will recursively search all files in modules directory for any line containing the word yoda.
+This search is case insensitive.
+
+$ yoda dev grep yOdA yoda.py -i True
+Will recursively search the file yoda.py for any line containing the word yoda.
+This search is case insensitive.
+~~~
+
 #### goals
 
 For settings and maintaining your goals, type
