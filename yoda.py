@@ -44,6 +44,7 @@ cli.add_command(dev.hackernews)
 cli.add_command(dev.coinflip)
 cli.add_command(dev.iplookup)
 cli.add_command(dev.checksite)
+cli.add_command(dev.horoscope)
 
 
 @cli.command()
