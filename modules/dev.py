@@ -1,7 +1,9 @@
 from __future__ import absolute_import
 from __future__ import division
 
+import collections
 import json
+import itertools
 import string
 import sys
 
@@ -227,8 +229,16 @@ def iplookup(ctx, ip_address):
     response = reader.city(_ip_address)
     return click.echo('{0}, {1}'.format(response.subdivisions.most_specific.name, response.country.name))
 
+
 class AtbashCipher:
+    """
+    A class which implements the Atbash Cipher
+    """
+
     def __init__(self):
+        """
+        Calculates the key dictionary.
+        """
         self.alphabet = string.ascii_uppercase
         reverse_alphabet = self.alphabet[::-1]
         self.key = {" ": " "}
@@ -236,14 +246,16 @@ class AtbashCipher:
         for index, char in enumerate(self.alphabet):
             self.key[char] = reverse_alphabet[index]
 
-
     def encrypt(self, message):
+        """
+        Atbash Cipher encryption.
+        """
         encrypted_message = ""
         message = message.upper()
 
         for char in message:
             if char not in self.alphabet and char != " ":
-                click.echo("Atbash only supports ASCII characters")
+                click.echo("Atbash only supports ASCII characters.")
                 return
 
             encrypted_message += self.key[char]
@@ -256,6 +268,123 @@ class AtbashCipher:
         """
         return self.encrypt(message)
 
+
+class ROT13Cipher:
+    """
+    A class which implements the ROT13 Cipher.
+    """
+    def __init__(self):
+        """
+        Calculates the encryption and decryption alphabet
+        """
+        clear_text_alphabet = list(string.ascii_uppercase)
+        encryption_alphabet = collections.deque(clear_text_alphabet)
+        encryption_alphabet.rotate(13)
+        encryption_alphabet = list(encryption_alphabet)
+
+
+        self.encryption_dictionary = dict(itertools.izip(encryption_alphabet, clear_text_alphabet))
+        self.decryption_dictionary = dict(itertools.izip(clear_text_alphabet, encryption_alphabet))
+
+    def encrypt(self, message):
+        """
+        ROT13 encryption using the previously generate alphabet.
+        """
+        message = message.upper()
+        encrypted_text = ""
+
+        for char in message:
+            if char not in string.ascii_uppercase and char != " ":
+                click.echo("The ROT13 Cipher only supports ASCII characters")
+                return
+
+            if char == " ":
+                encrypted_text += " "
+            else:
+                encrypted_text += self.encryption_dictionary[char]
+        return encrypted_text
+
+    def decrypt(self, message):
+        """
+        ROT13 encryption using the previously generate alphabet.
+        """
+        message = message.upper()
+        decrypted_text = ""
+
+        for char in message:
+            if char not in string.ascii_uppercase and char != " ":
+                click.echo("The ROT13 Cipher only supports ASCII characters")
+                return
+
+            if char == " ":
+                decrypted_text += " "
+            else:
+                decrypted_text += self.decryption_dictionary[char]
+        return decrypted_text
+
+
+class CaesarCipher:
+    """
+    A class which implements the Caesar Cipher.
+    """
+    def encrypt(self, message):
+        """
+        Asks the user for the alphabet shift and then encrypts the text.
+        """
+        message = message.upper()
+        shift = int(click.prompt("The shift value"))
+        encryption_dictionary, _ = self.generate_alphabets(shift)
+        encrypted_text = ""
+
+        for char in message:
+            if char not in string.ascii_uppercase and char != " ":
+                click.echo("The Caesar Cipher only supports ASCII characters")
+                return
+
+            if char == " ":
+                encrypted_text += " "
+            else:
+                encrypted_text += encryption_dictionary[char]
+        return encrypted_text
+    
+    def decrypt(self, message):
+        """
+        Asks the user for the alphabet shift and then decrypts the text.
+        """
+        message = message.upper()
+
+        shift = int(click.prompt("The shift value"))
+        _, decryption_dictionary = self.generate_alphabets(shift)
+        decrypted_text = ""
+
+        for char in message:
+            if char not in string.ascii_uppercase and char != " ":
+                click.echo("The Caesar Cipher only supports ASCII characters")
+                return
+
+            if char == " ":
+                decrypted_text += " "
+            else:
+                decrypted_text += decryption_dictionary[char]
+        return decrypted_text
+    
+    def generate_alphabets(self, shift):
+        """
+        Generates an en and decryption alphabet for a shift.
+        """
+        clear_text_alphabet = list(string.ascii_uppercase)
+        encryption_alphabet = collections.deque(clear_text_alphabet)
+        encryption_alphabet.rotate(shift)
+        encryption_alphabet = list(encryption_alphabet)
+
+
+        encryption_dictionary = dict(itertools.izip(encryption_alphabet, clear_text_alphabet))
+        decryption_dictionary = dict(itertools.izip(clear_text_alphabet, encryption_alphabet))
+        return encryption_dictionary, decryption_dictionary
+
+    
+
+
 @dev.command()
 @click.pass_context
 @click.argument('mode', nargs=1, required=False, callback=alias_checker)
@@ -267,7 +396,11 @@ def ciphers(ctx, mode):
     mode = get_arguments(ctx, 1)
     _mode = str(mode).lower()
 
-    cipher_dict = {"Atbash": AtbashCipher}
+    cipher_dict = {
+                    "Atbash": AtbashCipher,
+                    "Caesar": CaesarCipher,
+                    "ROT13": ROT13Cipher
+                }
 
     for index, cipher in enumerate(cipher_dict):
         print("{0}: {1}".format(index, cipher))
