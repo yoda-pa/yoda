@@ -1,5 +1,6 @@
 import os
 import sys
+import json
 
 import click
 
@@ -45,6 +46,27 @@ cli.add_command(dev.coinflip)
 cli.add_command(dev.iplookup)
 cli.add_command(dev.checksite)
 cli.add_command(dev.horoscope)
+cli.add_command(dev.cc)
+
+
+def _rename(newname):
+    def decorator(f):
+        f.__name__ = newname
+        f.__doc__ = 'Custom command: "{0}"'.format(newname)
+        return f
+    return decorator
+
+if os.path.isdir('resources/custom_commands'):
+    with open('resources/custom_commands/custom_commands.json') as f:
+        data = json.load(f)
+
+        for command in data:
+            @cli.command()
+            @_rename(str(command))
+            def f():
+                os.system(command)
+
+            cli.add_command(f)
 
 
 @cli.command()
