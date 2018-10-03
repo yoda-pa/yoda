@@ -215,7 +215,14 @@ def portscan():
 @click.pass_context
 @click.argument('ip_address', nargs=1, required=False, callback=alias_checker)
 def iplookup(ctx, ip_address):
+    """
+    Find the geographical location of a given IP address.
+    """
+    # import pdb; pdb.set_trace()
     ip_address = get_arguments(ctx, 1)
+    if not ip_address:
+        return click.echo('Please supply an IP address as follows: $ yoda iplookup <ip_address>')
+
     _ip_address = str(ip_address)
 
     import geoip2.database
