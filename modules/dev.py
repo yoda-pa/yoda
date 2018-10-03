@@ -237,6 +237,29 @@ def iplookup(ctx, ip_address):
 
 @dev.command()
 @click.pass_context
+@click.argument('link', nargs=1, required=True)
+def checksite(ctx, link):
+    """
+    Check if website is up and running.
+    """
+    click.echo('Connecting...')
+
+    # request
+    try:
+        r = requests.get(link)
+    except Exception as e:
+        click.echo('Looks like {0} is not a valid URL, check the URL and try again.'.format(link))
+        return
+
+    # check the status code
+    if r.status_code != 200:
+        click.echo("Uh-oh! Site is down. :'(")
+    else:
+        click.echo('Yay! The site is up and running! :)')
+
+ 
+@dev.command()
+@click.pass_context
 @click.argument('astrological_sign', nargs=1, required=False, callback=alias_checker)
 def horoscope(ctx, astrological_sign):
     """
@@ -251,7 +274,6 @@ def horoscope(ctx, astrological_sign):
     except requests.exceptions.ConnectionError:
         click.echo('Yoda cannot sense the internet right now!')
         sys.exit(1)
-
 
 # idea list process
 @dev.command()
@@ -293,3 +315,4 @@ def search_file(pattern, infile):
         match = pattern.search(line)
         if match:
             yield line
+
