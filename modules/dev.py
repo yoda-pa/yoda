@@ -3,6 +3,7 @@ from __future__ import division
 
 import collections
 import json
+import re
 import itertools
 import string
 import sys
@@ -217,7 +218,14 @@ def portscan():
 @click.pass_context
 @click.argument('ip_address', nargs=1, required=False, callback=alias_checker)
 def iplookup(ctx, ip_address):
+    """
+    Find the geographical location of a given IP address.
+    """
+    # import pdb; pdb.set_trace()
     ip_address = get_arguments(ctx, 1)
+    if not ip_address:
+        return click.echo('Please supply an IP address as follows: $ yoda iplookup <ip_address>')
+
     _ip_address = str(ip_address)
 
     import geoip2.database
@@ -229,6 +237,85 @@ def iplookup(ctx, ip_address):
     response = reader.city(_ip_address)
     return click.echo('{0}, {1}'.format(response.subdivisions.most_specific.name, response.country.name))
 
+
+@dev.command()
+@click.pass_context
+@click.argument('link', nargs=1, required=True)
+def checksite(ctx, link):
+    """
+    Check if website is up and running.
+    """
+    click.echo('Connecting...')
+
+    # request
+    try:
+        r = requests.get(link)
+    except Exception as e:
+        click.echo('Looks like {0} is not a valid URL, check the URL and try again.'.format(link))
+        return
+
+    # check the status code
+    if r.status_code != 200:
+        click.echo("Uh-oh! Site is down. :'(")
+    else:
+        click.echo('Yay! The site is up and running! :)')
+ 
+@dev.command()
+@click.pass_context
+@click.argument('astrological_sign', nargs=1, required=False, callback=alias_checker)
+def horoscope(ctx, astrological_sign):
+    """
+    Find the today's horoscope for the given astrological sign.
+    """
+    astrological_sign = get_arguments(ctx, 1)
+    _astrological_sign = str(astrological_sign)
+
+    try:
+        r = requests.get('http://horoscope-api.herokuapp.com/horoscope/today/{0}'.format(astrological_sign))
+        return click.echo(r.json()['horoscope'])
+    except requests.exceptions.ConnectionError:
+        click.echo('Yoda cannot sense the internet right now!')
+        sys.exit(1)
+
+# idea list process
+@dev.command()
+@click.argument('pattern', nargs=1)
+@click.argument('path', nargs=1)
+@click.option('-r', nargs=1, required=False, default=False)
+@click.option('-i', nargs=1, required=False, default=False)
+def grep(pattern, path, r, i):
+    """
+        Grep for a pattern in a file or recursively through a folder.
+        yoda dev grep PATTERN PATH [OPTIONAL ARGUMENTS]
+    """
+    recursive, ignorecase = r, i
+    if ignorecase:
+        pattern = re.compile(pattern, flags=re.IGNORECASE)
+    else:
+        pattern = re.compile(pattern)
+    if os.path.isfile(path):
+        if recursive:
+            click.echo(chalk.red(
+                'Cannot use recursive flag with a file name.'))
+            return
+        with open(path, 'r') as infile:
+            for match in search_file(pattern, infile):
+                click.echo(match, nl=False)
+    else:
+        for dirpath, dirnames, filenames in os.walk(path, topdown=True):
+            for filename in filenames:
+                with open(os.path.join(dirpath, filename), 'r') as infile:
+                    for match in search_file(pattern, infile):
+                        click.echo(match, nl=False)
+            if not recursive:
+                break
+
+
+def search_file(pattern, infile):
+    for line in infile:
+        match = pattern.search(line)
+        if match:
+            yield line
 
 class AtbashCipher:
     """
@@ -395,7 +482,7 @@ def ciphers(ctx, mode):
 
     mode = get_arguments(ctx, 1)
     _mode = str(mode).lower()
-
+    
     cipher_dict = {
                     "Atbash": AtbashCipher,
                     "Caesar": CaesarCipher,
@@ -420,3 +507,5 @@ def ciphers(ctx, mode):
         return click.echo(cipher.decrypt(cipher_text))
     else:
         return click.echo("Invalid mode passed.")
+
+

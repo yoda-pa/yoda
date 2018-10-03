@@ -29,6 +29,12 @@
 
 ### Run, how to
 
+#### Method 1
+You can install yoda directly from the github repository using the following commands in shell.  
+`virtualenv yodaenv`  
+`./yodaenv/bin/pip install git+https://github.com/yoda-pa/yoda`
+
+#### Method 2
 Clone this repository and create a virtual environment using Python 2 in the cloned directory (`virtualenv -p /usr/bin/python2 venv`). Steps after that:
 
 ![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/firstsetup.gif)
@@ -188,6 +194,15 @@ $ yoda ideas remove --task <task_name> --inside <project_name>
 $ yoda ideas remove --project <project_name>
 ```
 
+#### IP lookup
+
+Get the geographical location of an IP address.
+
+```
+$ yoda iplookup 23.20.227.213
+$ Virginia, United States
+```
+
 #### learn
 
 This command group contains commands that, helpful in learning new things, will be.  Yeesssssss.
@@ -282,6 +297,7 @@ To create an issue in the github repository simple thing that shows a link.  Yee
 - [urllib3](https://github.com/urllib3/urllib3): HTTP client
 - [Certifi](https://github.com/certifi/python-certifi): Python SSL Certificates
 - [idna](https://github.com/kjd/idna): For the domain name
+- [GeoIP2-database](https://www.maxmind.com/en/geoip2-city): For geographical IP lookups
 - [future](https://pypi.org/project/future/): the layer of compatability for Python 2/3
 - [Google URL Shortener](https://developers.google.com/url-shortener/): URL shortener
 - [News API](https://newsapi.org/): Used to get the top headlines from Hacker News

@@ -119,6 +119,16 @@
 - [ ] pretty display
   - [x] ~~colors~~
   - [ ] formatting
+ 
+- [ ] Cipher
+  - [ ] create cipher.py
+  - [ ] Ciphers to be implemented (For Text only but later for images too)
+    - [ ] Caesar Cipher 
+    - [ ] RSA
+    - [ ] DES
+    - [ ] Hill Cipher
+    - [ ] PlayFair Cipher
+    - [ ] AES
 
 - [ ] allow user to input in natural language. Detect what the user wants and use the most suitable package for them
 

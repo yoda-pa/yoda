@@ -11,6 +11,9 @@ def food():
 
 @food.command()
 def suggest_drinks():
+    """
+    Get suggested a random drink recipe from the Cocktail DB API.
+    """
     drinkURL = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s='
     randomDrinkURL = 'https://www.thecocktaildb.com/api/json/v1/1/random.php'
     drinkIngredients = []
@@ -41,8 +44,13 @@ def suggest_drinks():
         for ingNumber in range(1, 16):
             ingredient = drinkInfoJSON[0]['strIngredient' + str(ingNumber)]
             qty = drinkInfoJSON[0]['strMeasure' + str(ingNumber)]
-            if ingredient != "":
-                click.echo(ingredient + ' x ' + qty)
+            if ingredient:
+                if not qty:
+                    output_str = "{} (as needed)".format(ingredient)
+                else:
+                    output_str = "{} x {}".format(ingredient, qty)
+
+                click.echo(output_str)
                 drinkIngredients.append(ingredient)
 
     getDrinkSuggestion()
