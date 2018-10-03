@@ -29,6 +29,12 @@
 
 ### Run, how to
 
+#### Method 1
+You can install yoda directly from the github repository using the following commands in shell.  
+`virtualenv yodaenv`  
+`./yodaenv/bin/pip install git+https://github.com/yoda-pa/yoda`
+
+#### Method 2
 Clone this repository and create a virtual environment using Python 2 in the cloned directory (`virtualenv -p /usr/bin/python2 venv`). Steps after that:
 
 ![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/firstsetup.gif)
