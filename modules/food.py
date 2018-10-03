@@ -41,8 +41,13 @@ def suggest_drinks():
         for ingNumber in range(1, 16):
             ingredient = drinkInfoJSON[0]['strIngredient' + str(ingNumber)]
             qty = drinkInfoJSON[0]['strMeasure' + str(ingNumber)]
-            if ingredient != "":
-                click.echo(ingredient + ' x ' + qty)
+            if ingredient:
+                if not qty:
+                    output_str = "{} (as needed)".format(ingredient)
+                else:
+                    output_str = "{} x {}".format(ingredient, qty)
+
+                click.echo(output_str)
                 drinkIngredients.append(ingredient)
 
     getDrinkSuggestion()
