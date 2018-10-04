@@ -10,5 +10,5 @@ class TestAsciiator(TestCase):
         self.runner = CliRunner()
 
     def runTest(self):
-        result = self.runner.invoke(yoda.cli, ['ascii_transform', 'logo.png'])
+        result = self.runner.invoke(yoda.cli, ['ascii_transform', 'tests/logo.png'])
         self.assertEqual(result.exit_code, 0)
