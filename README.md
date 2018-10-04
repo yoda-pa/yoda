@@ -30,8 +30,8 @@
 ### Run, how to
 
 #### Method 1
-You can install yoda directly from the github repository using the following commands in shell.  
-`virtualenv yodaenv`  
+You can install yoda directly from the github repository using the following commands in shell.
+`virtualenv yodaenv`
 `./yodaenv/bin/pip install git+https://github.com/yoda-pa/yoda`
 
 #### Method 2
@@ -200,7 +200,17 @@ Get the geographical location of an IP address.
 
 ```
 $ yoda iplookup 23.20.227.213
-$ Virginia, United States
+Virginia, United States
+```
+
+#### Custom cummands
+
+Set a custom command.
+
+```
+$ yoda cc pwd
+$ yoda pwd
+/home/alex/git-clones/yoda
 ```
 
 #### learn

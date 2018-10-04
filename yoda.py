@@ -56,17 +56,22 @@ def _rename(newname):
         return f
     return decorator
 
+
+def _create_custom_command(command):
+    @cli.command()
+    @_rename(str(command))
+    def f():
+        os.system(command)
+
+    return f;
+
+
 if os.path.isdir('resources/custom_commands'):
     with open('resources/custom_commands/custom_commands.json') as f:
         data = json.load(f)
 
         for command in data:
-            @cli.command()
-            @_rename(str(command))
-            def f():
-                os.system(command)
-
-            cli.add_command(f)
+            cli.add_command(_create_custom_command(command))
 
 
 @cli.command()
