@@ -37,20 +37,20 @@
   - [ ] option to compile any language without installing its compiler ([something like this](https://github.com/imshyam/ComIt))
   - [ ] dev env setup, status and details
   - [ ] command keeper (save commands so that you don't need to remember those again, and also provide the option to create aliases for them)
-  - [ ] add new commands / modules
+  - [x] add new commands / modules
   - [ ] get github contributions from today (including issues, PRs, commits, additions & deletions, etc) and create a summary. Add option to create a graph. Create rewards when work done in the day is more than usual
   - [ ] convert images to ascii art
-  - [ ] search (full-text, if possible) in a directory
+  - [x] search (full-text, if possible) in a directory
   - [ ] cyphers
-  - [ ] horoscope
+  - [x] horoscope
   - [ ] bandwidth monitor
   - [ ] FTP program
-  - [ ] port scanner to find open ports
+  - [x] port scanner to find open ports
   - [ ] set a reminder
   - [x] ~~coin flip~~
   - [ ] country from IP lookup
   - [ ] whois search
-  - [ ] is site up checker
+  - [x] is site up checker
   - [ ] download using a link
   - [ ] bulk thumbnail creator
   - [ ] pdf generator
@@ -60,6 +60,7 @@
   - [ ] GIF creator (from images or video)
   - [ ] mp3 cutter
   - [ ] readme TOC creator
+  - [ ] IP location finder
 
 - [ ] people
   - [ ] their profiles
@@ -82,13 +83,13 @@
   - [ ] time in their place, to know when they will be available to talk
   - [x] ~~personalized notes for them~~
 
-- [ ] Diary
+- [x] Diary
   - [x] ~~bullet journal~~
   - [x] ~~one can add entry to the files by just a command and at the end of the day they can go through it~~
   - [x] ~~one command for summary of whatever is done, planned, etc~~
   - [x] ~~diary entries to be appended to local files named according to the current date~~
-  - [ ] Analysis of the current month's tasks. (what percentage of them were completed, how frequently the entries were made, etc)
-  - [ ] Set targets and do analysis
+  - [x] Analysis of the current month's tasks. (what percentage of them were completed, how frequently the entries were made, etc)
+  - [x] Set targets and do analysis
 
 - [ ] money
   - [x] ~~personalized setup~~
@@ -103,10 +104,10 @@
   - [ ] BMI and other stuff that matters
 
 - [ ] learn
-  - [ ] vocabulary
+  - [x] vocabulary
     - [x] show a word when prompted
     - [x] calculate accuracy 
-    - [ ] Analyzing data before getting a new word
+    - [x] Analyzing data before getting a new word
     - [x] save user's queries and ask them the meaning later
   - [ ] reverse dictionary
   - [x] learn new skill
@@ -132,4 +133,4 @@
 
 - [ ] allow user to input in natural language. Detect what the user wants and use the most suitable package for them
 
-- [ ] command aliases, since some commands seem to be pretty long to call due to grouping
+- [x] command aliases, since some commands seem to be pretty long to call due to grouping
