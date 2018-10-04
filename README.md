@@ -74,6 +74,22 @@ $ yoda dev horoscope aries
 You may stomp your feet all you like, but you're not going to get your way today. The days of 'me-myself' are over. Also, today you may invite unwanted trouble. It may do you some good, suggests Ganesha, if you change the hub of your activities.
 ~~~
 
+- sitechecker
+
+~~~
+$ yoda checksite https://manparvesh.com
+Connecting...
+Yay! The site is up and running! :)
+
+$ yoda checksite https://manparveshs.com
+Connecting...
+Looks like https://manparveshs.com is not a valid URL, check the URL and try again.
+
+$yoda checksite https://manparvesh
+Connecting...
+Looks like https://manparvesh is not a valid URL, check the URL and try again.
+~~~
+
 - grep
 
 ~~~
