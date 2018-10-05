@@ -181,7 +181,7 @@ def likes():
     click.echo(chalk.blue('For whom you want to view likes for'))
     friend_name = input().strip().lower()
     FRIENDS_FILE_PATH = get_friends_file_path(friend_name)
-    print(FRIENDS_FILE_PATH)
+
     if os.path.isfile(FRIENDS_FILE_PATH):
         with open(FRIENDS_FILE_PATH) as fin:
             contents = yaml.load(fin)
@@ -207,7 +207,7 @@ def notes():
     click.echo(chalk.blue('For whom you want to view notes for'))
     friend_name = input().strip().lower()
     FRIENDS_FILE_PATH = get_friends_file_path(friend_name)
-    print(FRIENDS_FILE_PATH)
+    
     if os.path.isfile(FRIENDS_FILE_PATH):
         with open(FRIENDS_FILE_PATH) as fin:
             contents = yaml.load(fin)

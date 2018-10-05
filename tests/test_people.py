@@ -33,10 +33,16 @@ class TestPeople(TestCase):
         result = self.runner.invoke(yoda.cli, ['people', 'like'], input='test people\ntest like\n-')
         self.assertEqual(result.exit_code, 0)
 
-        result = self.runner.invoke(yoda.cli, ['people', 'notes'], input='test note1\ntest note2')
+        result = self.runner.invoke(yoda.cli, ['people', 'likes'], input='test people')
         self.assertEqual(result.exit_code, 0)
 
-        result = self.runner.invoke(yoda.cli, ['people', 'notes'], input='test like1\ntest like2')
+        result = self.runner.invoke(yoda.cli, ['people', 'notes'], input='test people')
+        self.assertEqual(result.exit_code, 0)
+        
+        result = self.runner.invoke(yoda.cli, ['people', 'likes'], input='test people1')
+        self.assertEqual(result.exit_code, 0)
+
+        result = self.runner.invoke(yoda.cli, ['people', 'notes'], input='test people1')
         self.assertEqual(result.exit_code, 0)
 
         result = self.runner.invoke(yoda.cli, ['people', 'invalid_argument'])
