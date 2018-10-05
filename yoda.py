@@ -193,3 +193,5 @@ def goals(ctx, input):
         data = sys.modules['modules.goals'].process(test_string)
     else:
         click.echo('No input specified. Run with --help for info')
+
+cli.add_command(gif.gif)

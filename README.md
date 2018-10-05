@@ -109,6 +109,23 @@ Will recursively search the file yoda.py for any line containing the word yoda.
 This search is case insensitive.
 ~~~
 
+- gif
+
+~~~
+$ yoda gif from_images --source SOURCE_DIR --output OUTPUT_FILE
+Will scan the source directory and generate a gif. File will be located at OUTPUT_FILE.
+e.g.
+yoda gif from-images --source tests/resources/gif_frames/ --output test.gif
+
+$ yoda gif from_images --source SOURCE_DIR --output OUTPUT_FILE --<param> <value>
+Will scan the source directory and generate a gif. File will be located at OUTPUT_FILE.
+<param> and <value> can be any keyword argument that imageio's mimsave function takes.
+e.g.
+yoda gif from-images --source tests/resources/gif_frames/ --output test.gif --fps 9
+will create a gif with 9 fps.
+~~~
+
+
 #### goals
 
 For settings and maintaining your goals, type
