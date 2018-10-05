@@ -70,7 +70,7 @@ This command group contains some sub-commands that may be helpful for developers
 - horoscope
 
 ~~~
-$ yoda dev horoscope aries
+$ yoda horoscope aries
 You may stomp your feet all you like, but you're not going to get your way today. The days of 'me-myself' are over. Also, today you may invite unwanted trouble. It may do you some good, suggests Ganesha, if you change the hub of your activities.
 ~~~
 
