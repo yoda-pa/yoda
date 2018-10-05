@@ -24,22 +24,19 @@ class TestPeople(TestCase):
         result = self.runner.invoke(yoda.cli, ['people', 'status'])
         self.assertEqual(result.exit_code, 0)
 
-        result = self.runner.invoke(yoda.cli, ['people', 'setup'], input="A\nD\nF")
-        self.assertEqual(result.exit_code, 0)
-
-        result = self.runner.invoke(yoda.cli, ['people', 'notes'])
-        self.assertEqual(result.exit_code, 0)
+        # result = self.runner.invoke(yoda.cli, ['people', 'setup'], input="A\nD\nF")
+        # self.assertEqual(result.exit_code, 0)
 
         result = self.runner.invoke(yoda.cli, ['people', 'note'], input='la la la...\n')
         self.assertEqual(result.exit_code, 0)
 
-        result = self.runner.invoke(yoda.cli, ['people', 'note'], input='la la la...\n')
+        result = self.runner.invoke(yoda.cli, ['people', 'like'], input='la la la...\n')
         self.assertEqual(result.exit_code, 0)
 
-        result = self.runner.invoke(yoda.cli, ['people', 'notes'])
+        result = self.runner.invoke(yoda.cli, ['people', 'notes'], input='test note1\ntest note2')
         self.assertEqual(result.exit_code, 0)
 
-        result = self.runner.invoke(yoda.cli, ['people', 'status'])
+        result = self.runner.invoke(yoda.cli, ['people', 'notes'], input='test like1\ntest like2')
         self.assertEqual(result.exit_code, 0)
 
         result = self.runner.invoke(yoda.cli, ['people', 'invalid_argument'])
