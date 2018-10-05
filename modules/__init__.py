@@ -11,6 +11,6 @@ __all__ = [
     'util',
     'food',
     'goals',
-    'gif'
+    'gif',
     'people'
 ]
