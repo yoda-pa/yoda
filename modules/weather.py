@@ -17,7 +17,7 @@ def get_weather(location):
     #'+' replaces the white space as this is tested to work better with wttr
     location = location.replace(' ', '+')
 
-    weather_url = "http://wttr.in/"
+    weather_service = "http://wttr.in/"
 
-    response = requests.get(weather_url + location)
+    response = requests.get(weather_service + location)
     click.echo(response.text)
