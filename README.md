@@ -307,7 +307,8 @@ This command obtains the weather information of a specified location using
 [wttr](http://wttr.in) as the weather service.
 
    ```
-  # before: shortening a url
+  # getting weather for location [CITY COUNTRY] 
+  # country and be omitted if there are no clashes of same named cities
   $ yoda weather tokyo japan 
   Weather report: Tokyo, Japan
 
