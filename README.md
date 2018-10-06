@@ -304,7 +304,7 @@ This command group contains commands to alias cumbersome commands.
 #### Weather 
 
 This command obtains the weather information of a specified location using
-[wttr](http://wrrt.in) as the weather service.
+[wttr](http://wttr.in) as the weather service.
 
    ```
   # before: shortening a url
