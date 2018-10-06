@@ -309,6 +309,58 @@ This command group contains commands to alias cumbersome commands.
 
   ```
 
+#### Weather 
+
+This command obtains the weather information of a specified location using
+[wttr](http://wttr.in) as the weather service.
+
+   ```
+  # getting weather for location [CITY COUNTRY] 
+  # country and be omitted if there are no clashes of same named cities
+  $ yoda weather tokyo japan 
+  Weather report: Tokyo, Japan
+
+            \  /       Partly cloudy
+          _ /"".-.     80-84 °F       
+            \_(   ).   ↑ 24 mph       
+            /(___(__)  10 mi          
+                       0.0 in         
+                                                               ┌─────────────┐                                                       
+        ┌──────────────────────────────┬───────────────────────┤  Sun 07 Oct ├───────────────────────┬──────────────────────────────┐
+        │            Morning           │             Noon      └──────┬──────┘     Evening           │             Night            │
+        ├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
+        │    \  /       Partly cloudy  │    \  /       Partly cloudy  │    \  /       Partly cloudy  │    \  /       Partly cloudy  │
+        │  _ /"".-.     82-87 °F       │  _ /"".-.     87-91 °F       │  _ /"".-.     86 °F          │  _ /"".-.     80-82 °F       │
+        │    \_(   ).   ↗ 14-17 mph    │    \_(   ).   ↘ 3-4 mph      │    \_(   ).   ↓ 7-10 mph     │    \_(   ).   ↙ 11-15 mph    │
+        │    /(___(__)  11 mi          │    /(___(__)  12 mi          │    /(___(__)  11 mi          │    /(___(__)  11 mi          │
+        │               0.0 in | 0%    │               0.0 in | 0%    │               0.0 in | 0%    │               0.0 in | 0%    │
+        └──────────────────────────────┴──────────────────────────────┴──────────────────────────────┴──────────────────────────────┘
+                                                               ┌─────────────┐                                                       
+        ┌──────────────────────────────┬───────────────────────┤  Mon 08 Oct ├───────────────────────┬──────────────────────────────┐
+        │            Morning           │             Noon      └──────┬──────┘     Evening           │             Night            │
+        ├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
+        │      .-.      Light rain     │      .-.      Light drizzle  │    \  /       Partly cloudy  │  _`/"".-.     Patchy rain po…│
+        │     (   ).    73-77 °F       │     (   ).    73-77 °F       │  _ /"".-.     73-77 °F       │   ,\_(   ).   73-77 °F       │
+        │    (___(__)   ↙ 10-13 mph    │    (___(__)   ↙ 9-12 mph     │    \_(   ).   ← 8-11 mph     │    /(___(__)  ← 4-6 mph      │
+        │     ‘ ‘ ‘ ‘   11 mi          │     ‘ ‘ ‘ ‘   11 mi          │    /(___(__)  11 mi          │      ‘ ‘ ‘ ‘  10 mi          │
+        │    ‘ ‘ ‘ ‘    0.0 in | 70%   │    ‘ ‘ ‘ ‘    0.0 in | 89%   │               0.0 in | 0%    │     ‘ ‘ ‘ ‘   0.0 in | 61%   │
+        └──────────────────────────────┴──────────────────────────────┴──────────────────────────────┴──────────────────────────────┘
+                                                               ┌─────────────┐                                                       
+        ┌──────────────────────────────┬───────────────────────┤  Tue 09 Oct ├───────────────────────┬──────────────────────────────┐
+        │            Morning           │             Noon      └──────┬──────┘     Evening           │             Night            │
+        ├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
+        │  _`/"".-.     Light rain sho…│  _`/"".-.     Light rain sho…│    \  /       Partly cloudy  │    \  /       Partly cloudy  │
+        │   ,\_(   ).   75-77 °F       │   ,\_(   ).   78-80 °F       │  _ /"".-.     77-80 °F       │  _ /"".-.     75-78 °F       │
+        │    /(___(__)  ↙ 8-9 mph      │    /(___(__)  ↓ 8-9 mph      │    \_(   ).   ↙ 8-11 mph     │    \_(   ).   ↙ 6-9 mph      │
+        │      ‘ ‘ ‘ ‘  11 mi          │      ‘ ‘ ‘ ‘  10 mi          │    /(___(__)  10 mi          │    /(___(__)  9 mi           │
+        │     ‘ ‘ ‘ ‘   0.0 in | 89%   │     ‘ ‘ ‘ ‘   0.0 in | 82%   │               0.0 in | 0%    │               0.0 in | 0%    │
+        └──────────────────────────────┴──────────────────────────────┴──────────────────────────────┴──────────────────────────────┘
+
+        Follow @igor_chubin for wttr.in updates
+
+
+  ```
+
 #### feedback
 
 To create an issue in the github repository simple thing that shows a link.  Yeesssssss.
@@ -345,6 +397,7 @@ To create an issue in the github repository simple thing that shows a link.  Yee
 - [Forismatic API](https://forismatic.com/en/api/): Get random quotes that are used in the chat module
 - [Cocktail DB](https://www.thecocktaildb.com/api.php): Used to search for a drink and to get a random drink
 - [Words API](https://www.wordsapi.com/): Used to get the definition of a word
+- [Requests](https://wwww.docs.python-requests.org): Used for online http requests/services 
 - Yoda's illustration SVG was taken from [here](https://www.shareicon.net/yoda-854796)
 
 ## Contribute, you must

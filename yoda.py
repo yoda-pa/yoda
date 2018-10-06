@@ -195,3 +195,22 @@ def goals(ctx, input):
         click.echo('No input specified. Run with --help for info')
 
 cli.add_command(gif.gif)
+
+from modules import weather
+@cli.command()
+@click.pass_context
+@click.argument('input', nargs=-1, required=False, callback=alias.alias_checker)
+def weather(ctx, input):
+    """
+    Get weather\n
+    To use, type: yoda chat <location>
+    """
+    input = util.get_arguments(ctx, -1)
+    if input:
+        test_string = ''
+        for i in input:
+            test_string += (i + ' ')
+        data = sys.modules['modules.weather'].get_weather(test_string)
+    else:
+        click.echo('No input specified. Run with --help for info')
+
