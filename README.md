@@ -209,6 +209,14 @@ For tracking money, this is.
 
 ![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/money.gif)
 
+Get your expenses per month
+```
+$ yoda money exps_month
+$ Sep: spent 75 USD
+$ Nov: spent 15 USD
+$ Dec: spent 125 USD
+```
+
 #### Idea list
 
 For creating list of ideas, type
