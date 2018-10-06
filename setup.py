@@ -20,7 +20,8 @@ setup(
         'PyGithub',
         'future',
         'speedtest-cli',
-        'imageio'
+        'imageio',
+        'requests'
     ],
     package_data={'': ['*.txt', '*.lst']},
     entry_points='''
