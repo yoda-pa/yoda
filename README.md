@@ -390,6 +390,7 @@ To create an issue in the github repository simple thing that shows a link.  Yee
 - [Cocktail DB](https://www.thecocktaildb.com/api.php): Used to search for a drink and to get a random drink
 - [Words API](https://www.wordsapi.com/): Used to get the definition of a word
 - [Requests](https://wwww.docs.python-requests.org): Used for online http requests/services 
+- [wttr](http://wttr.in): Used for getting weather information 
 - Yoda's illustration SVG was taken from [here](https://www.shareicon.net/yoda-854796)
 
 ## Contribute, you must
