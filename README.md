@@ -361,6 +361,40 @@ This command obtains the weather information of a specified location using
 
   ```
 
+#### people
+
+This command can be used to save profiles of people and related information, like their birthdays, likes, and some personalized notes for them.
+
+```
+# To add people(or a friend)
+$ yoda people setup
+
+# To show added friends
+$ yoda people status
+{'entries': [{'dob': '1994-06-26', 'mobile': '7503160101', 'name': 'Joy'}, {'dob': '1994-05-26', 'mobile': '7503160112', 'name': 'Lobo'}]}
+
+# To add what people like(or a friend likes)
+$ yoda people like
+
+# To add personalized notes for people(or friend)
+$ yoda people note
+
+# To view likes of your added people
+$ yoda people likes
+Joy
+Likes:
+1: #petry
+2: #acting
+
+# To view personalized notes for added people(or friend)
+$ yoda people notes
+Lobo
+Notes:
+1: stop saying start doing
+2: keep chin up
+
+```
+
 #### feedback
 
 To create an issue in the github repository simple thing that shows a link.  Yeesssssss.

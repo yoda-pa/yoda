@@ -77,6 +77,31 @@ def love(ctx, input):
 @cli.command()
 @click.pass_context
 @click.argument('input', nargs=-1, required=False, callback=alias.alias_checker)
+def people(ctx, input):
+    """
+    maintain a profile of someone your Friend\n
+
+    commands:\n
+    setup: Setup Friend\n
+    status: check Friend status\n
+    note: Add a note\n
+    notes: View notes\n
+    like: Add things they like\n
+    likes: View things they like\n
+    """
+    input = util.get_arguments(ctx, -1)
+    if input:
+        test_string = ''
+        for i in input:
+            test_string += (i + ' ')
+        data = sys.modules['modules.people'].process(test_string)
+    else:
+        click.echo('No input specified. Run with --help for info')
+
+
+@cli.command()
+@click.pass_context
+@click.argument('input', nargs=-1, required=False, callback=alias.alias_checker)
 def diary(ctx, input):
     """
     Maintain a personal diary\n

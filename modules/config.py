@@ -42,5 +42,6 @@ def get_config_file_paths():
         "LIFE_CONFIG_FILE_PATH": os.path.join(config_path_prefix, 'life/.lifeconfig.yml'),
         "IDEA_CONFIG_FILE_PATH": os.path.join(config_path_prefix, 'life/ideaconfig.txt'),
         "ALIAS_CONFIG_FILE_PATH": os.path.join(config_path_prefix, 'alias/aliases.txt'),
-        "GOALS_CONFIG_FILE_PATH": os.path.join(config_path_prefix, 'goals/.goalsconfig.yml')
+        "GOALS_CONFIG_FILE_PATH": os.path.join(config_path_prefix, 'goals/.goalsconfig.yml'),
+        "PEOPLE_CONFIG_FILE_PATH": os.path.join(config_path_prefix, 'people/.peopleconfig.yml')
     }
