@@ -371,7 +371,11 @@ $ yoda people setup
 
 # To show added friends
 $ yoda people status
-{'entries': [{'dob': '1994-06-26', 'mobile': '7503160101', 'name': 'Joy'}, {'dob': '1994-05-26', 'mobile': '7503160112', 'name': 'Lobo'}]}
+--------------------------------------
+     Mob    |     DOB    |   Name     
+------------|------------|------------
+ 7503160111 | 1994-06-26 | Joy        
+ 7503160112 | 1994-05-26 | Lobo       
 
 # To add what people like(or a friend likes)
 $ yoda people like
