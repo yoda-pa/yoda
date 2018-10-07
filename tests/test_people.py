@@ -27,6 +27,9 @@ class TestPeople(TestCase):
         result = self.runner.invoke(yoda.cli, ['people', 'setup'], input="test people\n1994-01-19\n1122334455")
         self.assertEqual(result.exit_code, 0)
 
+        result = self.runner.invoke(yoda.cli, ['people', 'status'])
+        self.assertEqual(result.exit_code, 0)
+        
         result = self.runner.invoke(yoda.cli, ['people', 'note'], input='test people\ntest note\n-')
         self.assertEqual(result.exit_code, 0)
 
