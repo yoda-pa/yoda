@@ -46,10 +46,20 @@ def status():
     if os.path.isfile(PEOPLE_CONFIG_FILE_PATH):
         with open(PEOPLE_CONFIG_FILE_PATH) as config_file:
             contents = yaml.load(config_file)
-            click.echo(contents)
+            entries = contents['entries']
+            click.echo('People:')
+            click.echo("--------------------------------------")
+            click.echo("     Mob    |     DOB    |   Name     ")
+            click.echo("------------|------------|------------")
+            for i, entry in enumerate(entries):
+                s_no = str(i)
+                name = entry['name']
+                dob = entry['dob']
+                mob = entry['mobile']
+                click.echo(' ' + mob + ' | ' + dob +' | ' + name)
     else:
         click.echo(chalk.red(
-            'The configuration file for this module does not exist. Please type "yoda love setup" to create a new one'))
+            'The configuration file for this module does not exist. Please type "yoda people setup" to create a new one'))
 
 
 def setup():
@@ -197,7 +207,7 @@ def likes():
                 click.echo(str(i) + ": " + n)
     else:
         click.echo(chalk.red(
-            'The Likes file path for this module does not exist. Please type "yoda love like" to create a new one'))
+            'The Likes file path for this module does not exist. Please type "yoda people like" to create a new one'))
 
 
 def notes():
@@ -223,7 +233,7 @@ def notes():
                 click.echo(str(i) + ": " + n)
     else:
         click.echo(chalk.red(
-            'The Likes file path for this module does not exist. Please type "yoda love like" to create a new one'))
+            'The Notes file path for this module does not exist. Please type "yoda people note" to create a new one'))
 
 
 def check_sub_command(c):
