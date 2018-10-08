@@ -21,7 +21,8 @@ setup(
         'future',
         'speedtest-cli',
         'imageio',
-        'requests'
+        'requests',
+        'pydub'
     ],
     package_data={'': ['*.txt', '*.lst']},
     entry_points='''

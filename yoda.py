@@ -45,6 +45,7 @@ cli.add_command(dev.coinflip)
 cli.add_command(dev.iplookup)
 cli.add_command(dev.checksite)
 cli.add_command(dev.horoscope)
+cli.add_command(dev.mp3cutter)
 
 
 @cli.command()
@@ -238,4 +239,3 @@ def weather(ctx, input):
         data = sys.modules['modules.weather'].get_weather(test_string)
     else:
         click.echo('No input specified. Run with --help for info')
-
