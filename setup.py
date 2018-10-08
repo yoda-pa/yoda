@@ -20,7 +20,10 @@ setup(
         'dulwich',
         'PyGithub',
         'future',
-        'speedtest-cli'
+        'speedtest-cli',
+        'imageio',
+        'requests',
+        'pydub'
     ],
     package_data={'': ['*.txt', '*.lst']},
     entry_points='''

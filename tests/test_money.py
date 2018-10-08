@@ -32,3 +32,6 @@ class TestHealth(TestCase):
 
         result = self.runner.invoke(yoda.cli, ['money', 'exps'])
         self.assertEqual(result.exit_code, 0)
+
+        result = self.runner.invoke(yoda.cli, ['money', 'exps_months'])
+        self.assertEqual(result.exit_code, 0)
