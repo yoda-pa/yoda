@@ -326,35 +326,47 @@ def gitsummary(github_login, github_password):
         :param github_login:
         :param github_token:
     """
-    from github import Github
     from datetime import datetime, timedelta
     from time import strftime
+    import github as githublib
 
-    gh = Github(github_login, github_password)
-    count_repos, count_pr, count_issues, count_pr, count_commits = 0, 0, 0, 0, 0
+    def number_of_issues_and_pull_requests(gh):
+        # every pull request is a issue, not every issue is a pr
+        issues, pull_requests = 0, 0
+        for issue in gh.search_issues('', author=github_login, state='open', created='>{}'.format(yesterday)):
+            if issue.pull_request:
+                pull_requests += 1
+            else:
+                issues += 1
+        return issues, pull_requests
 
-    yesterday = datetime.today() - timedelta(days=3)
-    offset_yesterday = yesterday.replace(microsecond=0).isoformat() + strftime('%z')
+    def number_of_repos_and_commits(gh):
+        # one commit can appear in few branches
+        repos = 0
+        commits = set()
+        for repo in gh.get_user().get_repos():
+            repos += 1
+            for branch in repo.get_branches():
+                for commit in repo.get_commits(sha=branch.name, author=github_login, since=yesterday_dt):
+                    commits.add(commit.sha)
+        return repos, len(commits)
 
-    # pr are considered issues by github as well
-    click.echo('Fetching data. Patience you must have, my young padawan.')
-    for issue in gh.search_issues('', author=github_login, state='open', created='>{}'.format(offset_yesterday)):
-        if issue.pull_request:
-            count_pr += 1
-        else:
-            count_issues += 1
+    yesterday_dt = datetime.today() - timedelta(days=3)
+    yesterday = yesterday_dt.strftime("%Y-%m-%dT%H:%M:%SZ")
 
-    # one commit can appear in few branches
-    tmp_commits = set()
-    for repo in gh.get_user().get_repos():
-        count_repos += 1
-        for branch in repo.get_branches():
-            for commit in repo.get_commits(sha=branch.name, author=github_login, since=yesterday):
-                tmp_commits.add(commit.sha)
-    count_commits = len(tmp_commits)
+    click.echo('Fetching data. Patience you must have, my young padawan.\n')
 
-    click.echo('{}, ready your GitHub statistics are. {} repositories you have.'.format(
-        github_login.capitalize(), count_repos))
+    github = githublib.Github(github_login, github_password)
+
+    try:
+        count_repos, count_commits = number_of_repos_and_commits(github)
+    except githublib.BadCredentialsException as e:
+        click.echo(chalk.red('Wrong credentials you gave!'))
+        sys.exit(1)
+
+    count_issues, count_pr = number_of_issues_and_pull_requests(github)
+
+    click.echo('{}, ready your GitHub statistics are.\n{} repositories you have.'.format(
+        github_login, count_repos))
     click.echo('In last 24 hours {} commit(s), {} pull requests(s) and {} issue(s) you made.'.format(
-        count_commits, count_pr, count_issues
-    ))
+        count_commits, count_pr, count_issues))
