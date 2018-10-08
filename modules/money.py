@@ -128,6 +128,33 @@ def expenses():
                            currency_name + ' ' + number + ' ' + item)
 
 
+def expenses_month():
+    """
+    check expenses per month
+    """
+
+    tmp_dict = {}
+    default_cur = None
+    with open(MONEY_CONFIG_FOLDER_PATH + '/expenditures.txt') as fp:
+        for line in fp.read().split('\n'):
+            if len(line) == 0:
+                continue
+            (date, _time, currency_name, number, item) = shlex.split(line)
+            y, m, d = list(map(int, date.split('-')))
+
+            if m not in tmp_dict:
+                tmp_dict[m] = float(number)
+            else:
+                tmp_dict[m] += float(number)
+
+            default_cur = currency_name
+
+        import calendar
+        if len(tmp_dict) != 0:
+            for k in tmp_dict:
+                click.echo(calendar.month_abbr[k] + ': spent ' + str(tmp_dict[k]) + ' ' + default_cur)
+
+
 def check_sub_command(c):
     """
     command checker
@@ -138,7 +165,8 @@ def check_sub_command(c):
         'status': status,
         'setup': setup,
         'exp': expense,
-        'exps': expenses
+        'exps': expenses,
+        'exps_month': expenses_month
     }
     try:
         return sub_commands[c]()

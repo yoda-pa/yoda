@@ -92,7 +92,9 @@ ENV/
 
 # Editor files
 *~
-
+.vscode/
+.mypy_cache/
 .idea/
 .scannerwork/
+
 

@@ -17,6 +17,9 @@ from .config import get_config_file_paths
 from .util import *
 
 
+# Constants:
+VOCAB_LIST = 'resources/vocab-words.txt'
+
 # the main process
 
 
@@ -36,7 +39,7 @@ VOCABULARY_CONFIG_FOLDER_PATH = get_folder_path_from_file_path(
     VOCABULARY_CONFIG_FILE_PATH)
 
 
-def get_words(package='yoda', resource='resources/vocab-words.txt'):
+def get_words(package='yoda', resource=VOCAB_LIST):
     """
     Get words to learn. Each key in dict represent word to learn, values represent definition.
 
@@ -541,7 +544,6 @@ def study_fc(set, dummy):
 @click.argument('action', nargs=1, required=False, callback=alias_checker)
 @click.argument('name', nargs=-1, required=False, callback=alias_checker)
 def flashcards(ctx, domain, action, name):
-    domain, action, name = get_arguments(ctx, 3)
     """
         Flashcards for learning anything and tracking your progress\n\n
         Domains:\n
@@ -557,6 +559,7 @@ def flashcards(ctx, domain, action, name):
         \t status: Current status of study study set
         \t study: start studying the selected study set
     """
+    domain, action, name = get_arguments(ctx, 3)
     domain = str(domain)
     action = str(action)
     name = tuple_to_string(name)
@@ -612,7 +615,7 @@ def define(ctx, word):
                 click.echo(chalk.blue(
                     'This word already exists in the vocabulary set, so you can practice it while using that'))
             else:
-                with open('resources/vocab-words.txt', 'a') as fp:
+                with open(VOCAB_LIST, 'a') as fp:
                     fp.write('{} - {}\n'.format(_word, data['definitions'][0]['definition']))
                 click.echo(chalk.blue(
                     'This word does not exist in the vocabulary set, so it has been added to it so that you can '
@@ -622,5 +625,15 @@ def define(ctx, word):
     except KeyError:
         click.echo(chalk.red('Sorry, no definitions were found for this word'))
         print('Sorry, no definitions were found for this word')
+
+
+def get_words_list():
+    words = []
+    with open(VOCAB_LIST, 'r') as word_list:
+        for line in word_list:
+            word = line.split('-')[0].strip()
+            words.append(word)
+
+    return words
 
 # ----------------------- / define code -----------------------#

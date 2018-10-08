@@ -2,10 +2,14 @@ from __future__ import absolute_import
 from __future__ import division
 
 import json
+import re
 import sys
 
 from builtins import range
 from builtins import str
+
+from pydub import AudioSegment
+from pydub.playback import play
 
 import pyspeedtest
 import os
@@ -19,6 +23,7 @@ from .alias import alias_checker
 FIREBASE_DYNAMIC_LINK_API_KEY = "AIzaSyAuVJ0zfUmacDG5Vie4Jl7_ercv6gSwebc"
 GOOGLE_URL_SHORTENER_API_KEY = "AIzaSyCBAXe-kId9UwvOQ7M2cLYR7hyCpvfdr7w"
 domain = "yodacli.page.link"
+
 
 @click.group()
 def dev():
@@ -34,7 +39,6 @@ def speedtest():
     Run a speed test for your internet connection
     """
     os.system("speedtest-cli")
-
 
 
 # code for URL command
@@ -214,7 +218,14 @@ def portscan():
 @click.pass_context
 @click.argument('ip_address', nargs=1, required=False, callback=alias_checker)
 def iplookup(ctx, ip_address):
+    """
+    Find the geographical location of a given IP address.
+    """
+    # import pdb; pdb.set_trace()
     ip_address = get_arguments(ctx, 1)
+    if not ip_address:
+        return click.echo('Please supply an IP address as follows: $ yoda iplookup <ip_address>')
+
     _ip_address = str(ip_address)
 
     import geoip2.database
@@ -225,3 +236,135 @@ def iplookup(ctx, ip_address):
     reader = geoip2.database.Reader(path)
     response = reader.city(_ip_address)
     return click.echo('{0}, {1}'.format(response.subdivisions.most_specific.name, response.country.name))
+
+
+@dev.command()
+@click.pass_context
+@click.argument('link', nargs=1, required=True)
+def checksite(ctx, link):
+    """
+    Check if website is up and running.
+    """
+    click.echo('Connecting...')
+
+    # request
+    try:
+        r = requests.get(link)
+    except Exception as e:
+        click.echo('Looks like {0} is not a valid URL, check the URL and try again.'.format(link))
+        return
+
+    # check the status code
+    if r.status_code != 200:
+        click.echo("Uh-oh! Site is down. :'(")
+    else:
+        click.echo('Yay! The site is up and running! :)')
+
+
+@dev.command()
+@click.pass_context
+@click.argument('astrological_sign', nargs=1, required=False, callback=alias_checker)
+def horoscope(ctx, astrological_sign):
+    """
+    Find the today's horoscope for the given astrological sign.
+    """
+    astrological_sign = get_arguments(ctx, 1)
+    _astrological_sign = str(astrological_sign)
+
+    try:
+        r = requests.get('http://horoscope-api.herokuapp.com/horoscope/today/{0}'.format(astrological_sign))
+        return click.echo(r.json()['horoscope'])
+    except requests.exceptions.ConnectionError:
+        click.echo('Yoda cannot sense the internet right now!')
+        sys.exit(1)
+
+# idea list process
+@dev.command()
+@click.argument('pattern', nargs=1)
+@click.argument('path', nargs=1)
+@click.option('-r', nargs=1, required=False, default=False)
+@click.option('-i', nargs=1, required=False, default=False)
+def grep(pattern, path, r, i):
+    """
+        Grep for a pattern in a file or recursively through a folder.
+
+        yoda dev grep PATTERN PATH [OPTIONAL ARGUMENTS]
+    """
+    recursive, ignorecase = r, i
+    if ignorecase:
+        pattern = re.compile(pattern, flags=re.IGNORECASE)
+    else:
+        pattern = re.compile(pattern)
+    if os.path.isfile(path):
+        if recursive:
+            click.echo(chalk.red(
+                'Cannot use recursive flag with a file name.'))
+            return
+        with open(path, 'r') as infile:
+            for match in search_file(pattern, infile):
+                click.echo(match, nl=False)
+    else:
+        for dirpath, dirnames, filenames in os.walk(path, topdown=True):
+            for filename in filenames:
+                with open(os.path.join(dirpath, filename), 'r') as infile:
+                    for match in search_file(pattern, infile):
+                        click.echo(match, nl=False)
+            if not recursive:
+                break
+
+@dev.command()
+@click.pass_context
+@click.argument('path', nargs=1, required=True)
+@click.argument('start', nargs=1, required=False, default=0)
+@click.argument('end', nargs=1, required=False, default=0)
+def mp3cutter(ctx, path, start, end):
+    """
+    This command can be used to cut audio tracks right inside your terminal.
+
+    yoda dev mp3cutter MUSIC_PATH START[default: 0] END[default:lenght of music]
+    """
+    click.echo("\nOpening file...")
+
+    try:
+        song = AudioSegment.from_mp3(path)
+    except FileNotFoundError:
+        click.echo("No such file as "+path+", plase re-check the PATH and try again :)")
+        return
+    except IndexError:
+        click.echo("Wrong file format :'( ")
+        return
+
+    song_length = len(song)
+
+    # Check if end point is given or not
+    if not end:
+        end = song_length/1000
+
+    # Check if end point is greater than length of song
+    if end > song_length:
+        click.echo("Duh! Given endpoint is greater than lenght of music :'( ")
+        return
+
+    start = start*1000
+    end = end*1000
+
+    click.echo("Cropping mp3 file from: "+str(start)+" to: "+str(end/1000))
+
+    cropped_file_location = path.replace(".mp3", "_cropped.mp3");
+    # cut the mp3 file
+    song = song[start:end]
+
+    # save
+    song.export(cropped_file_location, format="mp3")
+    click.echo("Yay!! Successfully cropped! :)\n")
+
+    if click.confirm("Do you want to play the cropped mp3 file?"):
+        play(song)
+
+
+
+def search_file(pattern, infile):
+    for line in infile:
+        match = pattern.search(line)
+        if match:
+            yield line
