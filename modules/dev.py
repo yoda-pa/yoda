@@ -8,6 +8,9 @@ import sys
 from builtins import range
 from builtins import str
 
+from pydub import AudioSegment
+from pydub.playback import play
+
 import pyspeedtest
 import os
 import requests
@@ -308,6 +311,56 @@ def grep(pattern, path, r, i):
                         click.echo(match, nl=False)
             if not recursive:
                 break
+
+@dev.command()
+@click.pass_context
+@click.argument('path', nargs=1, required=True)
+@click.argument('start', nargs=1, required=False, default=0)
+@click.argument('end', nargs=1, required=False, default=0)
+def mp3cutter(ctx, path, start, end):
+    """
+    This command can be used to cut audio tracks right inside your terminal.
+
+    yoda dev mp3cutter MUSIC_PATH START[default: 0] END[default:lenght of music]
+    """
+    click.echo("\nOpening file...")
+
+    try:
+        song = AudioSegment.from_mp3(path)
+    except FileNotFoundError:
+        click.echo("No such file as "+path+", plase re-check the PATH and try again :)")
+        return
+    except IndexError:
+        click.echo("Wrong file format :'( ")
+        return
+
+    song_length = len(song)
+
+    # Check if end point is given or not
+    if not end:
+        end = song_length/1000
+
+    # Check if end point is greater than length of song
+    if end > song_length:
+        click.echo("Duh! Given endpoint is greater than lenght of music :'( ")
+        return
+
+    start = start*1000
+    end = end*1000
+
+    click.echo("Cropping mp3 file from: "+str(start)+" to: "+str(end/1000))
+
+    cropped_file_location = path.replace(".mp3", "_cropped.mp3");
+    # cut the mp3 file
+    song = song[start:end]
+
+    # save
+    song.export(cropped_file_location, format="mp3")
+    click.echo("Yay!! Successfully cropped! :)\n")
+
+    if click.confirm("Do you want to play the cropped mp3 file?"):
+        play(song)
+
 
 
 def search_file(pattern, infile):

@@ -46,6 +46,7 @@ cli.add_command(dev.iplookup)
 cli.add_command(dev.checksite)
 cli.add_command(dev.horoscope)
 cli.add_command(dev.gitsummary)
+cli.add_command(dev.mp3cutter)
 
 
 @cli.command()
@@ -71,6 +72,31 @@ def love(ctx, input):
         for i in input:
             test_string += (i + ' ')
         data = sys.modules['modules.love'].process(test_string)
+    else:
+        click.echo('No input specified. Run with --help for info')
+
+
+@cli.command()
+@click.pass_context
+@click.argument('input', nargs=-1, required=False, callback=alias.alias_checker)
+def people(ctx, input):
+    """
+    maintain a profile of someone your Friend\n
+
+    commands:\n
+    setup: Setup Friend\n
+    status: check Friend status\n
+    note: Add a note\n
+    notes: View notes\n
+    like: Add things they like\n
+    likes: View things they like\n
+    """
+    input = util.get_arguments(ctx, -1)
+    if input:
+        test_string = ''
+        for i in input:
+            test_string += (i + ' ')
+        data = sys.modules['modules.people'].process(test_string)
     else:
         click.echo('No input specified. Run with --help for info')
 
@@ -195,4 +221,40 @@ def goals(ctx, input):
     else:
         click.echo('No input specified. Run with --help for info')
 
+@cli.command()
+@click.pass_context
+@click.argument('input', nargs=1,required=True, callback=alias.alias_checker)
+def ascii_transform(ctx, input):
+    """
+    Transform an image into ascii \n\n
+    Pass the absolute path to  the image as the argument\n
+    """
+    input = util.get_arguments(ctx,-1)
+    if input:
+        test_string = ''
+        for i in input:
+            test_string += (i+'')
+        data = sys.modules['modules.asciiator'].process(str(test_string))
+    else:
+        click.echo('No input specified. Run with --help for info')
+    print(data)
+
 cli.add_command(gif.gif)
+
+from modules import weather
+@cli.command()
+@click.pass_context
+@click.argument('input', nargs=-1, required=False, callback=alias.alias_checker)
+def weather(ctx, input):
+    """
+    Get weather\n
+    To use, type: yoda chat <location>
+    """
+    input = util.get_arguments(ctx, -1)
+    if input:
+        test_string = ''
+        for i in input:
+            test_string += (i + ' ')
+        data = sys.modules['modules.weather'].get_weather(test_string)
+    else:
+        click.echo('No input specified. Run with --help for info')

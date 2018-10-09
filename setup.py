@@ -8,6 +8,7 @@ setup(
     include_package_data=True,
     install_requires=[
         'Click',
+        'Pillow',
         'pychalk',
         'apiai',
         'emoji',
@@ -19,7 +20,10 @@ setup(
         'dulwich',
         'PyGithub',
         'future',
-        'speedtest-cli'
+        'speedtest-cli',
+        'imageio',
+        'requests',
+        'pydub'
     ],
     package_data={'': ['*.txt', '*.lst']},
     entry_points='''
