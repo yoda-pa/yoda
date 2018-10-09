@@ -1,5 +1,6 @@
 __all__ = [
 	'alias',
+    'asciiator',
     'chat',
     'dev',
     'love',
