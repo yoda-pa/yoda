@@ -30,8 +30,8 @@
 ### Run, how to
 
 #### Method 1
-You can install yoda directly from the github repository using the following commands in shell.  
-`virtualenv yodaenv`  
+You can install yoda directly from the github repository using the following commands in shell.
+`virtualenv yodaenv`
 `./yodaenv/bin/pip install git+https://github.com/yoda-pa/yoda`
 
 #### Method 2
@@ -123,6 +123,21 @@ Will scan the source directory and generate a gif. File will be located at OUTPU
 e.g.
 yoda gif from-images --source tests/resources/gif_frames/ --output test.gif --fps 9
 will create a gif with 9 fps.
+~~~
+
+- gitsummary
+
+~~~
+$ yoda gitsummary GITHUB_LOGIN GITHUB_PASSWORD
+Uses the GIthub v3 API to get number of repos, commits (last 24hr), open pull requests (last 24hr) and open issues (last 24hr).
+
+e.g.
+yoda gitsummary SomeUsername MySuperS3cr3tP4ssw0rd!
+Fetching data. Patience you must have, my young padawan.
+
+SomeUsername, ready your GitHub statistics are.
+6 repositories you have.
+In last 24 hours 10 commit(s), 2 pull requests(s) and 3 issue(s) you made.
 ~~~
 
 
