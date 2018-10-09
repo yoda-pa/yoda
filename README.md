@@ -132,7 +132,7 @@ $ yoda gitsummary GITHUB_LOGIN GITHUB_PASSWORD
 Uses the GIthub v3 API to get number of repos, commits (last 24hr), open pull requests (last 24hr) and open issues (last 24hr).
 
 e.g.
-yoda gitsummary SomeUsername MySuperS3cr3tP4ssw0rd!
+$ yoda gitsummary SomeUsername MySuperS3cr3tP4ssw0rd!
 Fetching data. Patience you must have, my young padawan.
 
 SomeUsername, ready your GitHub statistics are.
