@@ -348,6 +348,14 @@ def mp3cutter(ctx, path, start, end):
     start = start*1000
     end = end*1000
 
+    if start > end:
+        click.echo("Given startpoint ({0}s) is greater than endpoint ({1}s) :/ ".format(start/1000/60, end/1000/60))
+        return
+
+    if start > song_length:
+        click.echo("Given startpoint ({0}s) is greater than the lenght of music ({1}s)".format(start/1000/60, song_length/1000/60))
+        return
+
     click.echo("Cropping mp3 file from: "+str(start)+" to: "+str(end/1000))
 
     cropped_file_location = path.replace(".mp3", "_cropped.mp3");
