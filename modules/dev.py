@@ -24,6 +24,8 @@ FIREBASE_DYNAMIC_LINK_API_KEY = "AIzaSyAuVJ0zfUmacDG5Vie4Jl7_ercv6gSwebc"
 GOOGLE_URL_SHORTENER_API_KEY = "AIzaSyCBAXe-kId9UwvOQ7M2cLYR7hyCpvfdr7w"
 domain = "yodacli.page.link"
 
+whois_base_url = "https://www.whois.com/whois/"
+
 
 @click.group()
 def dev():
@@ -369,6 +371,50 @@ def mp3cutter(ctx, path, start, end):
     if click.confirm("Do you want to play the cropped mp3 file?"):
         play(song)
 
+@dev.command()
+@click.pass_context
+@click.argument('domain', nargs=1, required=True)
+def whois(ctx, domain):
+    """
+    Get the information about domains.
+    """
+
+    click.echo("Verifying domain...\n")
+
+    data_obj = get_whois_data(domain)[0]
+
+    if not "Domain" in data_obj:
+        click.echo("This domain has not been registered yet :/")
+        return
+
+    # Data that we display
+    labels = ["Domain", "Registrar", "Organization", "Country", "Registered On", "Expires On", "Updated On"]
+
+    for idx, label in enumerate(labels):
+        # Eg:      "Domain:        Facebook.com"
+        # Formula: Label + whitespace + value
+        text_to_print = label+":"+" "*(14-len(label))+data_obj[label]
+
+        if idx == 3:
+            text_to_print+="\n"
+        click.echo(text_to_print)
+
+def get_whois_data(domain):
+    req = requests.get(whois_base_url+domain)
+    html = req.text
+
+    soup = BeautifulSoup(html, 'lxml')
+
+    labels = soup.findAll('div', attrs={'class':'df-label'})
+    values = soup.findAll('div', attrs={'class':'df-value'})
+
+    data_obj = {}
+
+    # convert into pythons dictionaire
+    for i in range(len(labels)):
+        data_obj[clean_soup_data(labels[i])] = clean_soup_data(values[i])
+
+    return data_obj, req.status_code
 
 
 def search_file(pattern, infile):

@@ -46,6 +46,7 @@ cli.add_command(dev.iplookup)
 cli.add_command(dev.checksite)
 cli.add_command(dev.horoscope)
 cli.add_command(dev.mp3cutter)
+cli.add_command(dev.whois)
 
 
 @cli.command()
@@ -237,7 +238,7 @@ def ascii_transform(ctx, input):
     else:
         click.echo('No input specified. Run with --help for info')
     print(data)
-    
+
 cli.add_command(gif.gif)
 
 from modules import weather
