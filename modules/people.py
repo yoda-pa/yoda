@@ -4,6 +4,7 @@ from builtins import input
 import datetime
 from .config import get_config_file_paths
 from .util import *
+import subprocess as sp
 
 # config file path
 PEOPLE_CONFIG_FILE_PATH = get_config_file_paths()["PEOPLE_CONFIG_FILE_PATH"]
@@ -183,7 +184,6 @@ def note():
         click.echo(chalk.red(
             "Friend's config file doesn't exist. Type 'yoda people setup' to setup a friend"))
 
-
 def likes():
     """
     view the things they like
@@ -226,6 +226,7 @@ def notes():
             for entry in entries:
                 if 'notes' in entry:
                     notes.extend(entry['notes'])
+            #TODO: use enumerate function for this stuff
             i = 0
             click.echo('Notes:')
             for n in notes:
@@ -234,6 +235,62 @@ def notes():
     else:
         click.echo(chalk.red(
             'The Notes file path for this module does not exist. Please type "yoda people note" to create a new one'))
+
+def sms():
+    """
+    send an sms to a friend using kdeconnect
+    """
+    def send_sms(number, message):
+            devices = sp.run(['kdeconnect-cli','-l','--id-name-only'],stdout=sp.PIPE)
+            return_code = devices.returncode
+            if(return_code is not 0):
+                click.echo(chalk.red('Not found kdeconnect-cli, return code: ' + str(return_code)))
+                return
+            devices = str(devices.stdout).splitlines()
+            device_id_name_pairs = dict()
+            for device in devices:
+                if('0 devices' in device):
+                    click.echo(chalk.red('Devices found not.'))
+                    return
+            for device in devices:
+                device = device.strip('b\'\\n').split(' ', 1)
+                device_id_name_pairs[device[1]] = device[0]
+            if(len(devices) is 1):
+                the_chosen_device = devices[0].strip('b\'\\n').split(' ', 1)[1]
+                click.echo(chalk.yellow('Device using: ' + the_chosen_device))
+                os.system('kdeconnect-cli -d ' + device_id_name_pairs[the_chosen_device] + ' --send-sms "' + message +'" --destination ' + number)
+            else:
+                choice_map = dict()
+                for idx, device in enumerate(device_id_name_pairs, start=1):
+                    click.echo(chalk.green(str(idx) + ': ' + device))
+                    choice_map[str(idx)] = device
+                the_chosen_device = click.prompt(chalk.blue('Device, you must select: '), default='1', type=click.Choice(choice_map.keys()))
+                #click.echo('you chose: ' + choice_map[the_chosen_device] + ' with id: ' + device_id_name_pairs[choice_map[the_chosen_device]])
+                os.system('kdeconnect-cli -d ' + device_id_name_pairs[choice_map[the_chosen_device]] + ' --send-sms "' + message +'" --destination ' + number)
+            return
+
+    click.echo(chalk.blue('For whom you want to send an sms'))
+    friend_name = input().strip().lower()
+    if os.path.isfile(PEOPLE_CONFIG_FILE_PATH):
+        with open(PEOPLE_CONFIG_FILE_PATH) as fin:
+            contents = yaml.load(fin)
+            entries = contents['entries']
+            for entry in entries:
+                if(friend_name == entry['name']):
+                    number = entry['mobile']
+                    break
+            if('number' not in locals()):
+                click.echo(chalk.red('Friend not found.'))
+            else:
+                if(len(number) is not 0):
+                    click.echo(chalk.blue('Message, you must enter: '))
+                    message = input(':')
+                    click.echo(chalk.yellow('Device to send sms to looking for: ' + number))
+                    send_sms(number, message)
+                else:
+                    click.echo(chalk.red('Friends number not in people file, run `yoda people setup` to add it.'))
+    else:
+        click.echo(chalk.red('The People file does not exist, run `yoda people setup` to create an entry.'))
 
 
 def check_sub_command(c):
@@ -249,6 +306,7 @@ def check_sub_command(c):
         'notes': notes,
         'likes': likes,
         'like': like,
+        'sms': sms
         # 'addbirth': addbirth,
         # 'showbirth': showbirth
     }

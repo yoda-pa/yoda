@@ -89,6 +89,7 @@ def people(ctx, input):
     notes: View notes\n
     like: Add things they like\n
     likes: View things they like\n
+    sms: Send an sms using kdeconnect\n
     """
     input = util.get_arguments(ctx, -1)
     if input:
