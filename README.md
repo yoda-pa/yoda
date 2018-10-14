@@ -1,4 +1,4 @@
-<div align="center" style="margin: 20px">
+﻿<div align="center" style="margin: 25px">
   <img src="https://github.com/yoda-pa/yoda/raw/master/logo.png">
 </div>
 
@@ -43,7 +43,7 @@ Instead of `pip install --editable .` you can use `pip install .` if you don't i
 
 ## Use this package, how to
 
-#### chat
+#### chatbot
 
 This package contains a chatbot too! The `chat` command can be used to chat with it
 
@@ -225,7 +225,7 @@ INR USD
 ₹ 1 = US$ 0.0136
 Enter the amount in INR to be converted to USD
 100
-100 INR = 1.36 USD
+100 INR = 0.014 USD
 ```
 
 #### Idea list
