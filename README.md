@@ -125,6 +125,15 @@ yoda gif from-images --source tests/resources/gif_frames/ --output test.gif --fp
 will create a gif with 9 fps.
 ~~~
 
+- fileshare
+~~~
+$ yoda dev fileshare transport.png
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  379k  100    82  100  379k     14  69962  0:00:05  0:00:05 --:--:-- 78717
+File Link : https://file.io/GTd4FH
+WARNING: File will be deleted after it is accessed once.
+~~~
 
 #### goals
 
