@@ -21,3 +21,6 @@ class test_fileshare(TestCase):
     def runTest(self):
         result = self.runner.invoke(yoda.cli, ['fileshare', 'logo.png'])
         self.assertEqual(result.exit_code, 0)
+
+        result = self.runner.invoke(yoda.cli, ['fileshare', 'wrong_path'])
+        self.assertEqual(result.exit_code, 0)
