@@ -35,3 +35,6 @@ class TestHealth(TestCase):
 
         result = self.runner.invoke(yoda.cli, ['money', 'exps_months'])
         self.assertEqual(result.exit_code, 0)
+
+        result = self.runner.invoke(yoda.cli, ['money', 'convert'], input="INR USD\n100")
+        self.assertEqual(result.exit_code, 0)

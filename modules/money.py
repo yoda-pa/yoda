@@ -7,7 +7,7 @@ import shlex
 import time
 
 import apiai
-from forex_python.converter import CurrencyRates, CurrencyCodes
+from forex_python.converter import CurrencyRates, CurrencyCodes, convert, RatesNotAvailableError
 
 from . import config
 from .config import get_config_file_paths
@@ -154,6 +154,23 @@ def expenses_month():
             for k in tmp_dict:
                 click.echo(calendar.month_abbr[k] + ': spent ' + str(tmp_dict[k]) + ' ' + default_cur)
 
+def convertCurrency():
+    """
+    Convert from one currency to other.
+    """
+    try:
+        click.echo(chalk.blue('Enter currency codes seperated by space:'))
+        currency_name_from, currency_name_to = input().split()
+        currency_rate_per_unit = currency_rates.get_rates(currency_name_from)[currency_name_to]
+        click.echo(currency_codes.get_symbol(currency_name_from) + ' 1' + ' = ' + currency_codes.get_symbol(currency_name_to)+ ' ' + str(currency_rate_per_unit))
+        click.echo('Enter the amount in ' + currency_name_from + ' to be converted to ' + currency_name_to)
+        currency_amount_to_be_converted = int(input())
+        converted_amount = convert(currency_name_from, currency_name_to, currency_amount_to_be_converted)
+        click.echo(str(currency_amount_to_be_converted) + ' ' + currency_name_from + ' = ' + str(converted_amount) + ' ' + currency_name_to)
+    except RatesNotAvailableError:
+        click.echo(chalk.red('Currency code does not exist. Try with some other currency code'))
+    except:
+        click.echo(chalk.red('Something went wrong. Try again!'))
 
 def check_sub_command(c):
     """
@@ -166,7 +183,8 @@ def check_sub_command(c):
         'setup': setup,
         'exp': expense,
         'exps': expenses,
-        'exps_month': expenses_month
+        'exps_month': expenses_month,
+        'convert': convertCurrency
     }
     try:
         return sub_commands[c]()
