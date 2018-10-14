@@ -217,6 +217,17 @@ $ Nov: spent 15 USD
 $ Dec: spent 125 USD
 ```
 
+Convert currency
+```
+$ yoda money convert
+Enter currency codes seperated by space:
+INR USD
+₹ 1 = US$ 0.0136
+Enter the amount in INR to be converted to USD
+100
+100 INR = 1.36 USD
+```
+
 #### Idea list
 
 For creating list of ideas, type
