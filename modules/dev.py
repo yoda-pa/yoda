@@ -112,6 +112,37 @@ def check_sub_command_url(action, url_to_be_expanded_or_shortened):
         click.echo('Try "yoda url --help" for more info')
 
 
+def add_keybindings(keybinding_filepath):
+    pass
+
+
+def search_keybindings(keybinding_filepath, search_editor, search_key):
+    pass
+
+
+def check_sub_command_keybindings(action, keybinding_filepath=None, search_editor=None, search_key=None):
+    """
+    command checker for keybindings
+    :param action:
+    :param keybinding_filepath:, 
+    :param search_key : Default None,
+    :return:
+    """
+    sub_commands = {
+        'add': add_keybindings,
+        'search': search_keybindings
+    }
+    try:
+        return sub_commands[action](keybinding_filepath, search_key)
+        if action == 'add':
+            sub_commands[action](keybinding_filepath)
+        elif action == 'search':
+            sub_commands[action](search_editor,search_key)
+    except KeyError:
+        click.echo(chalk.red('Command does not exist!'))
+        click.echo('Try "yoda dev keybindings --help" for more info')
+
+
 @dev.command()
 @click.pass_context
 @click.argument('input', nargs=1, required=False, callback=alias_checker)
@@ -452,6 +483,25 @@ def fileshare(ctx, path):
             click.echo(chalk.red("File upload failed!"))
     else:
         click.echo(chalk.red("No file such as " + path + ", Please re-check the PATH and try again."))
+
+@dev.command()
+@click.pass_context
+@click.argument('input', nargs=1, required=False)
+@click.argument('keybinding_filepath', nargs=1, required=False, default=None)
+@click.argument('search_editor', nargs=1, required=False, default=None)
+@click.argument('search_key', nargs=1, required=False, default=None)
+def keybindings(ctx, path, start, end):
+    """
+    This command can be used to save keybinding files for different editors.
+
+    yoda dev keybindings KEYBINDING_FILE EDITOR_TO_SEARCH[default: None] WPRD_TO_SEARCH[default:None]
+    """
+    input, key_binding_filepath, search_editor, search_key = get_arguments(ctx, 4)
+    _input = str(input)
+    _key_binding_filepath = str(url)
+    _search_editor = str(search_editor)
+    _search_key = str(search_key)
+    check_sub_command_keybindings(_input, _key_binding_filepath, _search_editor, _search_key)
 
 
 def search_file(pattern, infile):
