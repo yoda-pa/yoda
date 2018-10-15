@@ -494,7 +494,7 @@ def keybindings(ctx, path, start, end):
     """
     This command can be used to save keybinding files for different editors.
 
-    yoda dev keybindings KEYBINDING_FILE EDITOR_TO_SEARCH[default: None] WPRD_TO_SEARCH[default:None]
+    yoda dev keybindings INPUT KEYBINDING_FILE EDITOR_TO_SEARCH[default: None] WORD_TO_SEARCH[default:None]
     """
     input, key_binding_filepath, search_editor, search_key = get_arguments(ctx, 4)
     _input = str(input)
