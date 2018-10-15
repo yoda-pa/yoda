@@ -5,30 +5,67 @@ from click.testing import CliRunner
 import yoda
 
 
-class TestHealth(TestCase):
+class TestIdeas(TestCase):
     """
         Test for the following commands:
 
-        | Module: health
-        | command: health
+        | Module: ideas
+        | command: ideas
     """
 
     def __init__(self, methodName='runTest'):
-        super(TestHealth, self).__init__()
+        super(TestIdeas, self).__init__()
         self.runner = CliRunner()
 
     def runTest(self):
-        result = self.runner.invoke(yoda.cli, ['ideas', 'status'])
-        self.assertEqual(result.exit_code, 0)
+        project_name = 'dummy project'
 
-        result = self.runner.invoke(yoda.cli, ['ideas', 'show'])
-        self.assertEqual(result.exit_code, 0)
+        def _cleanup():
+            result = self.runner.invoke(
+                yoda.cli, ['ideas', 'remove', '--project', project_name])
+            self.assertEqual(result.exit_code, 0)
 
-        result = self.runner.invoke(yoda.cli, ['ideas', 'remove'])
-        self.assertEqual(result.exit_code, 0)
+        def testShowIdeas():
+            result = self.runner.invoke(yoda.cli, ['ideas', 'show'])
+            self.assertEqual(result.exit_code, 0)
 
-        result = self.runner.invoke(yoda.cli, ['ideas', 'add'])
-        self.assertEqual(result.exit_code, 0)
+        def testAddIdeaWithoutProject():
+            result = self.runner.invoke(
+                yoda.cli, ['ideas', 'add', '--task', 'task name'])
 
-        result = self.runner.invoke(yoda.cli, ['ideas', 'remove'])
-        self.assertEqual(result.exit_code, 0)
+            self.assertEqual(result.output,
+                             'Operation aborted. You have not selected any project or task. Please use this command with either --project or --inside flag\n'
+                             )
+            self.assertEqual(result.exit_code, 0)
+
+        def testAddIdea():
+            result = self.runner.invoke(
+                yoda.cli, ['ideas', 'add', '--task', 'test', '--inside', project_name], input='test description'.encode('ascii', 'ignore'))
+            print(result)
+            # <Result TypeError('write() argument must be str, not bytes',)>
+            self.assertEqual(result.output.encode('ascii', 'ignore'),
+                             'Brief desc of the current task : \n'.encode('ascii', 'ignore')
+                             )
+            self.assertEqual(result.exit_code, 0)
+
+        def testRemoveTaskFromProjectIdea():
+            result = self.runner.invoke(
+                yoda.cli, ['ideas', 'remove', '--task', 'test', '--inside', project_name], input='test description'.encode('ascii', 'ignore'))
+            self.assertEqual(result.output.encode('ascii', 'ignore'),
+                             'Task deleted successfully.\n'.encode('ascii', 'ignore')
+                             )
+            self.assertEqual(result.exit_code, 0)
+
+        def testRemoveProjectIdea():
+            result = self.runner.invoke(
+                yoda.cli, ['ideas', 'remove', '--project', project_name])
+            self.assertAlmostEqual(
+                result.output.encode('ascii', 'ignore'),
+                'Project deleted successfully.\n'.encode('ascii', 'ignore'))
+            self.assertEqual(result.exit_code, 0)
+
+        testShowIdeas()
+        testAddIdea()
+        testAddIdeaWithoutProject()
+        testRemoveTaskFromProjectIdea()
+        testRemoveProjectIdea()

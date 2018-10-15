@@ -283,7 +283,7 @@ def add_idea(project_name, task_name):
     desc = input()
     task.append((task_name, desc))  # a new entry created
     data[project_name] = task
-    with open(IDEA_CONFIG_FILE_PATH, 'w') as f:
+    with open(IDEA_CONFIG_FILE_PATH, 'wb') as f:
         data = json.dumps(data)
         data = encryption(data)
         f.write(data)
