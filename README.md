@@ -299,8 +299,45 @@ This command group contains commands that, helpful in learning new things, will 
     $  yoda flashcards study
     ```
 
-- define: to get different meanings of a word. This definition search will be automatically saved, so that while you are working on your vocabulary, you can come through the new word as well.
-![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/define.gif)
+- dictionary: to get definition, synonym, antonym and example of a word. This definition or synonym search will be automatically saved, so that while you are working on your vocabulary, you can come through the new word as well.
+
+  ```
+  $ yoda dictionary define car
+  A few definitions of the word "car" with their parts of speech are given below:
+  ---------------------------------
+  noun: a motor vehicle with four wheels; usually propelled by an internal combustion engine
+  noun: the compartment that is suspended from an airship and that carries personnel and the cargo and the power plant
+  noun: where passengers ride up and down
+  noun: a wheeled vehicle adapted to the rails of railroad
+  noun: a conveyance for passengers or freight on a cable railway
+  This word already exists in the vocabulary set, so you can practice it while using that
+
+  $ yoda dictionary synonym car
+  A few synonyms of the word "car" are given below:
+  ---------------------------------
+  auto
+  automobile
+  machine
+  motorcar
+  gondola
+  elevator car
+  railcar
+  railroad car
+  railway car
+  cable car
+  This word already exists in the vocabulary set, so you can practice it while using that
+
+  $ yoda dictionary antonym car
+  Sorry, no antonyms were found for this word
+
+  $ yoda dictionary example good
+  A few examples of the word "good" are given below:
+  ---------------------------------
+  weigh the good against the bad
+  among the highest goods of all are happiness and self-realization
+  a good friend
+
+  ```
 
 #### Aliasing
 

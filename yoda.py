@@ -159,7 +159,7 @@ cli.add_command(food.food)
 cli.add_command(learn.learn)
 cli.add_command(learn.vocabulary)
 cli.add_command(learn.flashcards)
-cli.add_command(learn.define)
+cli.add_command(learn.dictionary)
 
 
 @cli.command()
