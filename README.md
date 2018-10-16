@@ -125,6 +125,15 @@ yoda gif from-images --source tests/resources/gif_frames/ --output test.gif --fp
 will create a gif with 9 fps.
 ~~~
 
+- fileshare
+~~~
+$ yoda dev fileshare transport.png
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  379k  100    82  100  379k     14  69962  0:00:05  0:00:05 --:--:-- 78717
+File Link : https://file.io/GTd4FH
+WARNING: File will be deleted after it is accessed once.
+~~~
 
 #### goals
 
@@ -215,6 +224,17 @@ $ yoda money exps_month
 $ Sep: spent 75 USD
 $ Nov: spent 15 USD
 $ Dec: spent 125 USD
+```
+
+Convert currency
+```
+$ yoda money convert
+Enter currency codes seperated by space:
+INR USD
+₹ 1 = US$ 0.0136
+Enter the amount in INR to be converted to USD
+100
+100 INR = 1.36 USD
 ```
 
 #### Idea list
@@ -489,6 +509,7 @@ To create an issue in the github repository simple thing that shows a link.  Yee
 - [Words API](https://www.wordsapi.com/): Used to get the definition of a word
 - [Requests](https://wwww.docs.python-requests.org): Used for online http requests/services
 - [wttr](http://wttr.in): Used for getting weather information
+- [file.io](https://file.io/): Used for fileshare
 - Yoda's illustration SVG was taken from [here](https://www.shareicon.net/yoda-854796)
 
 ## Contribute, you must

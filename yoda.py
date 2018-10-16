@@ -47,6 +47,7 @@ cli.add_command(dev.checksite)
 cli.add_command(dev.horoscope)
 cli.add_command(dev.mp3cutter)
 cli.add_command(dev.whois)
+cli.add_command(dev.fileshare)
 
 
 @cli.command()
@@ -142,6 +143,7 @@ def money(ctx, input):
     status: check config\n
     exp: add an expense\n
     exps: view all expenses\n
+    convert: Convert from one currency to other\n
     """
     input = util.get_arguments(ctx, -1)
     if input:

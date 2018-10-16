@@ -416,6 +416,29 @@ def get_whois_data(domain):
 
     return data_obj, req.status_code
 
+@dev.command()
+@click.pass_context
+@click.argument('path', nargs=1, required=True)
+def fileshare(ctx, path):
+    '''
+    Upload and share files using https://file.io.
+    '''
+    if os.path.isfile(path):
+        response = subprocess.check_output([
+        'curl',
+        '-F',
+        'file=@' + path,
+        'https://file.io'])
+
+        response_json = json.loads(response)
+        if 'link' in response_json.keys():
+            click.echo(chalk.green("File Link : " + response_json['link']))
+            click.echo(chalk.yellow("WARNING: File will be deleted after it is accessed once."))
+        else:
+            click.echo(chalk.red("File upload failed!"))
+    else:
+        click.echo(chalk.red("No file such as " + path + ", Please re-check the PATH and try again."))
+
 
 def search_file(pattern, infile):
     for line in infile:
