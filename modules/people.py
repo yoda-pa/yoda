@@ -4,6 +4,8 @@ from builtins import input
 import datetime
 from .config import get_config_file_paths
 from .util import *
+import dbus
+import xml.etree.ElementTree as ET
 
 # config file path
 PEOPLE_CONFIG_FILE_PATH = get_config_file_paths()["PEOPLE_CONFIG_FILE_PATH"]
@@ -235,6 +237,108 @@ def notes():
         click.echo(chalk.red(
             'The Notes file path for this module does not exist. Please type "yoda people note" to create a new one'))
 
+def sms():
+    """
+    send an sms to a friend using kdeconnect
+    """
+    def send_sms(number, message):
+            #get session bus
+            try:
+                session_bus = dbus.SessionBus()
+            except dbus.exceptions.DBusException:
+                click.echo(chalk.red('Have a display you must'))
+                return
+
+            #check for kdeconnect
+            try:
+                devices_dbus_obj = session_bus.get_object('org.kde.kdeconnect','/modules/kdeconnect/devices')
+            except dbus.exceptions.DBusException:
+                click.echo(chalk.red('kdeconnect not installed it appears'))
+                return
+
+            #get devices ids
+            devices_xml = devices_dbus_obj.Introspect(dbus_interface='org.freedesktop.DBus.Introspectable')
+            devices_xml = ET.fromstring(devices_xml)
+            nodes = devices_xml.findall('node')
+            if(len(nodes) is 0):
+                click.echo(chalk.red('Devices there are not'))
+                return
+            deviceIDs = list()
+            for node in nodes:
+                deviceIDs.append(node.get('name'))
+
+            #get devices properties
+            deviceID_Props = dict()
+            for ID in deviceIDs:
+                try:
+                    device = session_bus.get_object('org.kde.kdeconnect', '/modules/kdeconnect/devices/' + ID)
+                    deviceProps = device.GetAll('', dbus_interface='org.freedesktop.DBus.Properties')
+                    deviceID_Props[ID] = deviceProps
+                except dbus.exceptions.DBusException:
+                    #don't create an entry in the dictionary if the object, or a GetAll method does not exist
+                    pass
+            if(len(deviceID_Props) is 0):
+                click.echo(chalk.red('Devices there are not'))
+                return
+
+            #eliminate non sms devices
+            devices_no_sms = list()
+            for device in deviceID_Props:
+                keeping = False
+                for plugin in deviceID_Props[device]['supportedPlugins']:
+                    if('sms' in plugin):
+                        keeping = True
+                if(not keeping):
+                    devices_no_sms.append(device)
+            for device in devices_no_sms:
+                del deviceID_Props[device]
+
+            #if there are no devices that support sms
+            if(len(deviceID_Props) is 0):
+                click.echo(chalk.red('Devices that support sms there are not'))
+                return
+            #elif only one device was found that supports sms
+            elif(len(deviceID_Props) is 1):
+                click.echo(chalk.yellow('Device using: ' + str(list(deviceID_Props.values())[0]['name'])))
+                sendMessage = session_bus.get_object('org.kde.kdeconnect', '/modules/kdeconnect/devices/' + str(list(deviceID_Props.keys())[0]) + '/sms')
+                sendMessage.sendSms(number, message, dbus_interface='org.kde.kdeconnect.device.sms')
+                return
+            #otherwise get user to choose device
+            else:
+                choice_map = dict()
+                for idx, device in enumerate(deviceID_Props, start=1):
+                    click.echo(chalk.green(str(idx) + ': ' + deviceID_Props[device]['name']))
+                    choice_map[str(idx)] = device
+                choice = click.prompt(chalk.blue('Device, you must select: '), default='1', type=click.Choice(choice_map.keys()))
+                #click.echo('you chose: ' + choice_map[the_chosen_device] + ' with id: ' + deviceNames_IDs[choice_map[the_chosen_device]])
+                sendMessage = session_bus.get_object('org.kde.kdeconnect', '/modules/kdeconnect/devices/' + choice_map[choice] + '/sms')
+                sendMessage.sendSms(number, message, dbus_interface='org.kde.kdeconnect.device.sms')
+                return
+
+    click.echo(chalk.blue('For whom you want to send an sms'))
+    friend_name = input().strip()
+    friend_name_lower = friend_name.lower()
+    if os.path.isfile(PEOPLE_CONFIG_FILE_PATH):
+        with open(PEOPLE_CONFIG_FILE_PATH) as fin:
+            contents = yaml.load(fin)
+            entries = contents['entries']
+            for entry in entries:
+                if(friend_name == entry['name'] or friend_name_lower == entry['name']):
+                    number = entry['mobile']
+                    break
+            if('number' not in locals()):
+                click.echo(chalk.red('Friend not found.'))
+            else:
+                if(len(number) is not 0):
+                    click.echo(chalk.blue('Message, you must enter: '))
+                    message = input(':')
+                    click.echo(chalk.yellow('Device to send sms to ' + number + ' looking for: '))
+                    send_sms(number, message)
+                else:
+                    click.echo(chalk.red('Friends number not in people file, run `yoda people setup` to add it.'))
+    else:
+        click.echo(chalk.red('The People file does not exist, run `yoda people setup` to create an entry.'))
+
 
 def check_sub_command(c):
     """
@@ -249,6 +353,7 @@ def check_sub_command(c):
         'notes': notes,
         'likes': likes,
         'like': like,
+        'sms' : sms
         # 'addbirth': addbirth,
         # 'showbirth': showbirth
     }

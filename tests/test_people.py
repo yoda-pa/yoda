@@ -48,5 +48,11 @@ class TestPeople(TestCase):
         result = self.runner.invoke(yoda.cli, ['people', 'notes'], input='test people1')
         self.assertEqual(result.exit_code, 0)
 
+        result = self.runner.invoke(yoda.cli, ['people', 'sms'], input='test people\ntest message')
+        self.assertEqual(result.exit_code, 0)
+
+        result = self.runner.invoke(yoda.cli, ['people', 'sms'], input='test people1\ntest message')
+        self.assertEqual(result.exit_code, 0)
+
         result = self.runner.invoke(yoda.cli, ['people', 'invalid_argument'])
         self.assertEqual(result.exit_code, 0)
