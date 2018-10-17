@@ -79,9 +79,7 @@ def print_reading_list(reading_list_contents, only=RLIST_PARAMS):
     :param reading_list_contents:
     :param only:
     """
-    i = 0
-    for entry in reading_list_contents['entries']:
-        i += 1
+    for i, entry in enumerate(reading_list_contents['entries']):
         click.echo("-" + ('[' + str(i) + ']').ljust(24, '-'))
         title = entry['title']
         author = entry['author']
