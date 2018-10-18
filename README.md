@@ -471,6 +471,22 @@ Notes:
 
 ```
 
+#### lyrics
+
+This command can be used to get the lyrics of a song.
+
+```
+$ yoda lyrics
+Enter the artist name:
+imagine dragons
+Enter the title name:
+thunder
+--------Lyrics--------
+Just a young gun with a quick fuse
+I was uptight, wanna let loose
+I was dreaming of bigger things in
+```
+
 #### feedback
 
 To create an issue in the github repository simple thing that shows a link.  Yeesssssss.
