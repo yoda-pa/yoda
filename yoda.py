@@ -47,6 +47,7 @@ cli.add_command(dev.checksite)
 cli.add_command(dev.horoscope)
 cli.add_command(dev.mp3cutter)
 cli.add_command(dev.fileshare)
+cli.add_command(dev.run)
 
 
 @cli.command()

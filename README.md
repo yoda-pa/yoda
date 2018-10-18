@@ -125,6 +125,17 @@ yoda gif from-images --source tests/resources/gif_frames/ --output test.gif --fp
 will create a gif with 9 fps.
 ~~~
 
+- run
+~~~
+$ yoda run tests/resources/test_code.py
+Compiling code..
+Running code...
+Output:
+Hello, World!
+
+Link: https://code.hackerearth.com/b21841l
+~~~
+
 - fileshare
 ~~~
 $ yoda dev fileshare transport.png
@@ -510,6 +521,7 @@ To create an issue in the github repository simple thing that shows a link.  Yee
 - [Requests](https://wwww.docs.python-requests.org): Used for online http requests/services
 - [wttr](http://wttr.in): Used for getting weather information
 - [file.io](https://file.io/): Used for fileshare
+- [HackerEarthAPI](https://www.hackerearth.com/docs/wiki/developers/legacy/): Used to run code
 - Yoda's illustration SVG was taken from [here](https://www.shareicon.net/yoda-854796)
 
 ## Contribute, you must
