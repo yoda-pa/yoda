@@ -36,8 +36,8 @@ class HackerEarthAPI(object):
         response = None
         try:
             response = requests.post(url, data=params)
-        except Exception, e:
-            print(e)
+        except Exception:
+            print(Exception)
         return response
 
 
