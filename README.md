@@ -526,6 +526,7 @@ To create an issue in the github repository simple thing that shows a link.  Yee
 - [Requests](https://wwww.docs.python-requests.org): Used for online http requests/services
 - [wttr](http://wttr.in): Used for getting weather information
 - [file.io](https://file.io/): Used for fileshare
+- [lyrics.ovh](https://lyricsovh.docs.apiary.io/#): Used for lyrics
 - Yoda's illustration SVG was taken from [here](https://www.shareicon.net/yoda-854796)
 
 ## Contribute, you must
