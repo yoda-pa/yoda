@@ -1,4 +1,5 @@
-import settings
+from __future__ import absolute_import
+from resources.hackerearth import settings
 
 
 class InvalidParameterException(Exception):
@@ -120,7 +121,7 @@ class RunAPIParameters(CompileAPIParameters):
             'memory_limit': self.memory_limit
             })
         return params
-        
+
 class SupportedLanguages(object):
     C = 'C'
     CPP = 'CPP'

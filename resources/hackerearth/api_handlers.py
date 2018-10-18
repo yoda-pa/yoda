@@ -1,12 +1,13 @@
 from __future__ import print_function
+from __future__ import absolute_import
 import json
 import requests
 
-from settings import COMPILE_API_ENDPOINT
-from settings import RUN_API_ENDPOINT
+from resources.hackerearth.settings import COMPILE_API_ENDPOINT
+from resources.hackerearth.settings import RUN_API_ENDPOINT
 
-from result import CompileResult
-from result import RunResult
+from resources.hackerearth.result import CompileResult
+from resources.hackerearth.result import RunResult
 
 
 class HackerEarthAPI(object):
