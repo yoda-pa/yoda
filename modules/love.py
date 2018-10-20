@@ -98,10 +98,8 @@ def notes():
     if os.path.isfile(LOVE_NOTES_FILE_PATH):
         with open(LOVE_NOTES_FILE_PATH) as notes_file:
             contents = yaml.load(notes_file)
-            i = 0
             click.echo('Notes:')
-            for n in contents['notes']:
-                i += 1
+            for i, n in enumerate(contents['notes']):
                 click.echo(str(i) + ": " + n['note'])
     else:
         click.echo(chalk.red(
@@ -158,10 +156,8 @@ def likes():
     if os.path.isfile(LOVE_LIKES_FILE_PATH):
         with open(LOVE_LIKES_FILE_PATH) as likes_file:
             contents = yaml.load(likes_file)
-            i = 0
             click.echo('Likes:')
-            for n in contents['likes']:
-                i += 1
+            for i, n in enumerate(contents['likes']):
                 click.echo(str(i) + ": " + n['like'])
     else:
         click.echo(chalk.red(

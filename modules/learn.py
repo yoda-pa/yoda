@@ -271,14 +271,12 @@ def list_sets_fc(dummy):
         click.echo(chalk.red(
             'There are no sets right now. Type "yoda flashcards sets new <name>" to create one'))
     else:
-        i = 0
         there_are_sets = False
-        for _set in sets:
+        for i, _set in enumerate(sets):
             if sets[_set] >= 1:
                 if not there_are_sets:
                     click.echo('List of all the study sets:')
                     there_are_sets = True
-                i += 1
                 click.echo(str(i) + ') ' + _set)
         if not there_are_sets:
             click.echo(chalk.red(
@@ -512,11 +510,9 @@ def study_fc(set, dummy):
         if len_cards_in_selected_set == 0:
             click.echo(chalk.red('There are no cards in this set!'))
         else:
-            i = 0
             click.echo(chalk.blue('Cards:'))
             click.echo(chalk.blue('_' * width))
-            for card in cards_in_selected_set:
-                i += 1
+            for i, card in enumerate(cards_in_selected_set):
 
                 card_path = FLASHCARDS_CONFIG_FOLDER_PATH + '/' + SELECTED_STUDY_SET + '/' + card
                 with open(card_path) as fp:

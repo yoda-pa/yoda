@@ -86,10 +86,8 @@ def complete_goal():
     if os.path.isfile(GOALS_CONFIG_FILE_PATH):
         with open(GOALS_CONFIG_FILE_PATH) as todays_tasks_entry:
             contents = yaml.load(todays_tasks_entry)
-            i = 0
             no_goal_left = True
             for entry in contents['entries']:
-                i += 1
                 if entry['status'] == 0:
                     no_goal_left = False
 
@@ -102,9 +100,7 @@ def complete_goal():
                 click.echo("Number |  Deadline   | Goal")
                 click.echo("-------|-------------|-----")
 
-                i = 0
-                for entry in contents['entries']:
-                    i += 1
+                for i, entry in enumerate(contents['entries']):
                     deadline = entry['deadline']
                     text = entry['text'] if entry['status'] == 0 else strike(
                         entry['text'])

@@ -200,10 +200,8 @@ def likes():
             for entry in entries:
                 if 'likes' in entry:
                     likes.extend(entry['likes'])
-            i = 0
             click.echo('Likes:')
-            for n in likes:
-                i += 1
+            for i, n in enumerate(likes):
                 click.echo(str(i) + ": " + n)
     else:
         click.echo(chalk.red(
@@ -226,10 +224,8 @@ def notes():
             for entry in entries:
                 if 'notes' in entry:
                     notes.extend(entry['notes'])
-            i = 0
             click.echo('Notes:')
-            for n in notes:
-                i += 1
+            for i, n in enumerate(notes):
                 click.echo(str(i) + ": " + n)
     else:
         click.echo(chalk.red(
