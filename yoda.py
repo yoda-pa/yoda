@@ -46,6 +46,7 @@ cli.add_command(dev.iplookup)
 cli.add_command(dev.checksite)
 cli.add_command(dev.horoscope)
 cli.add_command(dev.mp3cutter)
+cli.add_command(dev.whois)
 cli.add_command(dev.fileshare)
 cli.add_command(dev.run)
 
@@ -160,8 +161,10 @@ cli.add_command(food.food)
 cli.add_command(learn.learn)
 cli.add_command(learn.vocabulary)
 cli.add_command(learn.flashcards)
-cli.add_command(learn.define)
+cli.add_command(learn.dictionary)
 
+# The entertainment module
+cli.add_command(entertainment.lyrics)
 
 @cli.command()
 @click.pass_context

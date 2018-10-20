@@ -90,6 +90,23 @@ Connecting...
 Looks like https://manparvesh is not a valid URL, check the URL and try again.
 ~~~
 
+
+- whois
+
+~~~
+$ yoda dev whois google.com
+Verifying domain...
+
+Domain:        google.com
+Registrar:     MarkMonitor Inc.
+Organization:  Google LLC
+Country:       US
+
+Registered On: 1997-09-15
+Expires On:    2020-09-13
+Updated On:    2018-02-21
+~~~
+
 - grep
 
 ~~~
@@ -310,8 +327,45 @@ This command group contains commands that, helpful in learning new things, will 
     $  yoda flashcards study
     ```
 
-- define: to get different meanings of a word. This definition search will be automatically saved, so that while you are working on your vocabulary, you can come through the new word as well.
-![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/define.gif)
+- dictionary: to get definition, synonym, antonym and example of a word. This definition or synonym search will be automatically saved, so that while you are working on your vocabulary, you can come through the new word as well.
+
+  ```
+  $ yoda dictionary define car
+  A few definitions of the word "car" with their parts of speech are given below:
+  ---------------------------------
+  noun: a motor vehicle with four wheels; usually propelled by an internal combustion engine
+  noun: the compartment that is suspended from an airship and that carries personnel and the cargo and the power plant
+  noun: where passengers ride up and down
+  noun: a wheeled vehicle adapted to the rails of railroad
+  noun: a conveyance for passengers or freight on a cable railway
+  This word already exists in the vocabulary set, so you can practice it while using that
+
+  $ yoda dictionary synonym car
+  A few synonyms of the word "car" are given below:
+  ---------------------------------
+  auto
+  automobile
+  machine
+  motorcar
+  gondola
+  elevator car
+  railcar
+  railroad car
+  railway car
+  cable car
+  This word already exists in the vocabulary set, so you can practice it while using that
+
+  $ yoda dictionary antonym car
+  Sorry, no antonyms were found for this word
+
+  $ yoda dictionary example good
+  A few examples of the word "good" are given below:
+  ---------------------------------
+  weigh the good against the bad
+  among the highest goods of all are happiness and self-realization
+  a good friend
+
+  ```
 
 #### Aliasing
 
@@ -482,6 +536,22 @@ Notes:
 
 ```
 
+#### lyrics
+
+This command can be used to get the lyrics of a song.
+
+```
+$ yoda lyrics
+Enter the artist name:
+imagine dragons
+Enter the title name:
+thunder
+--------Lyrics--------
+Just a young gun with a quick fuse
+I was uptight, wanna let loose
+I was dreaming of bigger things in
+```
+
 #### feedback
 
 To create an issue in the github repository simple thing that shows a link.  Yeesssssss.
@@ -522,7 +592,9 @@ To create an issue in the github repository simple thing that shows a link.  Yee
 - [wttr](http://wttr.in): Used for getting weather information
 - [file.io](https://file.io/): Used for fileshare
 - [HackerEarthAPI](https://www.hackerearth.com/docs/wiki/developers/legacy/): Used to run code
+- [lyrics.ovh](https://lyricsovh.docs.apiary.io/#): Used for lyrics
 - Yoda's illustration SVG was taken from [here](https://www.shareicon.net/yoda-854796)
+- [WhoIs](https://www.whois.com): Used for getting information about domains.
 
 ## Contribute, you must
 Please refer to the [contributing guidelines](https://github.com/yoda-pa/yoda/blob/master/.github/CONTRIBUTING.md) for contributing to this project.

@@ -270,11 +270,9 @@ def complete_task():
     not_valid_task_number = 1
     if os.path.isfile(TODAYS_TASKS_ENTRY_FILE_PATH):
         with open(TODAYS_TASKS_ENTRY_FILE_PATH) as todays_tasks_entry:
-            contents = yaml.load(todays_tasks_entry)
-            i = 0
+            contents = yaml.load(todays_tasks_entry) 
             no_task_left = True
-            for entry in contents['entries']:
-                i += 1
+            for i, entry in enumerate(contents['entries']):
                 if entry['status'] == 0:
                     no_task_left = False
 
@@ -287,9 +285,7 @@ def complete_task():
                 click.echo("Number |  Time   | Task")
                 click.echo("-------|---------|-----")
 
-                i = 0
-                for entry in contents['entries']:
-                    i += 1
+                for i, entry in enumerate(contents['entries']):
                     time = entry['time']
                     text = entry['text'] + " " + entry.get('hashtags', '')
                     text = text if entry['status'] == 0 else strike(text)
@@ -322,9 +318,7 @@ def delete_task():
 		click.echo('--------------------')
 		click.echo('Number |    Date    ')
 		click.echo('--------------------')
-		i=0
-		for some_file in range(0, len(list_of_files)):
-			i+=1
+		for i, some_file in enumerate(range(0, len(list_of_files))):
 			click.echo(str(i)+'      |'+list_of_files[some_file][0:10])
 		while not_valid_date_number:
 			click.echo(chalk.blue('Enter the number to select the date'))
@@ -339,9 +333,7 @@ def delete_task():
 					click.echo('----------------')
 					click.echo("Number |  Time   | Task")
 					click.echo("-------|---------|-----")
-					i = 0
-					for entry in contents['entries']:
-						i += 1
+					for i, entry in enumerate(contents['entries']):
 						time = entry['time']
 						text = entry['text'] + " " + entry.get('hashtags', '')
 						text = text if entry['status'] == 0 else strike(text)
@@ -374,9 +366,7 @@ delete a particular note
 		click.echo('--------------------')
 		click.echo('Number |    Date    ')
 		click.echo('--------------------')
-		i=0
-		for some_file in range(0, len(list_of_files)):
-			i+=1
+		for i, some_file in enumerate(range(0, len(list_of_files))):
 			click.echo(str(i)+'      |'+list_of_files[some_file][0:10])
 		while not_valid_date_number:
 			click.echo(chalk.blue('Enter the number to select the date'))
@@ -391,9 +381,7 @@ delete a particular note
 					click.echo('----------------')
 					click.echo("Number |  Time   |   Title    | Text")
 					click.echo("-------|---------|------------|-----")
-					i = 0
-					for entry in contents['entries']:
-						i += 1
+					for i, entry in enumerate(contents['entries']):
 						time = entry['time']
 						note_title=entry['title']
 						text = entry['text']
@@ -515,9 +503,7 @@ def list_of_tasks_files():
 		click.echo('--------------------')
 		click.echo('Number |    Date    ')
 		click.echo('--------------------')
-		i=0
-		for some_file in range(0, len(list_of_files)):
-			i+=1
+		for i, some_file in enumerate(range(0, len(list_of_files))):
 			click.echo(str(i)+'      |'+list_of_files[some_file][0:10])
 		while not_valid_date_number:
 			click.echo(chalk.blue('Enter the number to select the date'))
@@ -532,9 +518,7 @@ def list_of_tasks_files():
 					click.echo('------------------------------------')
 					click.echo("Number |  Time   |   Title    | Text")
 					click.echo("-------|---------|------------|-----")
-					i = 0
-					for entry in contents['entries']:
-						i += 1
+					for i, entry in enumerate(contents['entries']):
 						time = entry['time']
 						note_title=entry['title']
 						text = entry['text']
@@ -620,9 +604,7 @@ update a particular task
 		click.echo('--------------------')
 		click.echo('Number |    Date    ')
 		click.echo('--------------------')
-		i=0
-		for some_file in range(0, len(list_of_files)):
-			i+=1
+		for i, some_file in enumerate(range(0, len(list_of_files))):
 			click.echo(str(i)+'      |'+list_of_files[some_file][0:10])
 		while not_valid_date_number:
 			click.echo(chalk.blue('Enter the number to select the date'))
@@ -637,9 +619,7 @@ update a particular task
 					click.echo('-----------------------')
 					click.echo("Number |  Time   | Task")
 					click.echo("-------|---------|-----")
-					i = 0
-					for entry in contents['entries']:
-						i += 1
+					for i, entry in enumerate(contents['entries']):
 						time = entry['time']
 						text = entry['text'] + " " + entry.get('hashtags', '')
 						text = text if entry['status'] == 0 else strike(text)
@@ -674,9 +654,7 @@ def update_note():
 		click.echo('--------------------')
 		click.echo('Number |    Date    ')
 		click.echo('--------------------')
-		i=0
-		for some_file in range(0, len(list_of_files)):
-			i+=1
+		for i, some_file in enumerate(range(0, len(list_of_files))):
 			click.echo(str(i)+'      |'+list_of_files[some_file][0:10])
 		while not_valid_date_number:
 			click.echo(chalk.blue('Enter the number to select the date'))
@@ -691,9 +669,7 @@ def update_note():
 					click.echo('------------------------------------')
 					click.echo("Number |  Time   |   Title    | Text")
 					click.echo("-------|---------|------------|-----")
-					i = 0
-					for entry in contents['entries']:
-						i += 1
+					for i, entry in enumerate(contents['entries']):
 						time = entry['time']
 						note_title=entry['title']
 						text = entry['text']
@@ -736,9 +712,7 @@ def delete_completed_task():
 				click.echo('----------------')
 				click.echo("Number |  Time   | Task")
 				click.echo("-------|---------|-----")
-				i = 0
-				for entry in contents['entries']:
-					i += 1
+				for i, entry in enumerate(contents['entries']):
 					time = entry['time']
 					text = entry['text'] + " " + entry.get('hashtags', '')
 					text = text if entry['status'] == 0 else strike(text)
@@ -748,9 +722,7 @@ def delete_completed_task():
 					'Type c to confirm or Ctrl-c to exit.'))
 				user_response = input()
 				if user_response == 'c':
-					i=0
-					for entry in contents['entries']:
-						i+=1
+					for i, entry in enumerate(contents['entries']):
 						if entry['status'] != 0:
 							del contents['entries'][i-1]
 							input_data(contents, TODAYS_TASKS_ENTRY_FILE_PATH)
