@@ -46,6 +46,7 @@ cli.add_command(dev.iplookup)
 cli.add_command(dev.checksite)
 cli.add_command(dev.horoscope)
 cli.add_command(dev.mp3cutter)
+cli.add_command(dev.whois)
 cli.add_command(dev.fileshare)
 
 

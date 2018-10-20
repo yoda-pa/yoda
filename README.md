@@ -90,6 +90,23 @@ Connecting...
 Looks like https://manparvesh is not a valid URL, check the URL and try again.
 ~~~
 
+
+- whois
+
+~~~
+$ yoda dev whois google.com
+Verifying domain...
+
+Domain:        google.com
+Registrar:     MarkMonitor Inc.
+Organization:  Google LLC
+Country:       US
+
+Registered On: 1997-09-15
+Expires On:    2020-09-13
+Updated On:    2018-02-21
+~~~
+
 - grep
 
 ~~~
@@ -565,6 +582,7 @@ To create an issue in the github repository simple thing that shows a link.  Yee
 - [file.io](https://file.io/): Used for fileshare
 - [lyrics.ovh](https://lyricsovh.docs.apiary.io/#): Used for lyrics
 - Yoda's illustration SVG was taken from [here](https://www.shareicon.net/yoda-854796)
+- [WhoIs](https://www.whois.com): Used for getting information about domains.
 
 ## Contribute, you must
 Please refer to the [contributing guidelines](https://github.com/yoda-pa/yoda/blob/master/.github/CONTRIBUTING.md) for contributing to this project.

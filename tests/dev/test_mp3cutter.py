@@ -24,5 +24,7 @@ class TestMpCutter(unittest.TestCase):
         mp3_location = resources + '/test.mp3'
         result = self.runner.invoke(yoda.cli, ['dev', 'mp3cutter', mp3_location])
 
-        print(os.listdir(resources))
         self.assertTrue("test_cropped.mp3" in os.listdir(resources))
+
+        # Delete cropped mp3 file to delete unused file and clear up some space
+        os.remove(mp3_location.replace("test.mp3", "test_cropped.mp3"))
