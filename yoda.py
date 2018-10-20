@@ -45,6 +45,10 @@ cli.add_command(dev.coinflip)
 cli.add_command(dev.iplookup)
 cli.add_command(dev.checksite)
 cli.add_command(dev.horoscope)
+cli.add_command(dev.mp3cutter)
+cli.add_command(dev.whois)
+cli.add_command(dev.fileshare)
+cli.add_command(dev.run)
 
 
 @cli.command()
@@ -70,6 +74,31 @@ def love(ctx, input):
         for i in input:
             test_string += (i + ' ')
         data = sys.modules['modules.love'].process(test_string)
+    else:
+        click.echo('No input specified. Run with --help for info')
+
+
+@cli.command()
+@click.pass_context
+@click.argument('input', nargs=-1, required=False, callback=alias.alias_checker)
+def people(ctx, input):
+    """
+    maintain a profile of someone your Friend\n
+
+    commands:\n
+    setup: Setup Friend\n
+    status: check Friend status\n
+    note: Add a note\n
+    notes: View notes\n
+    like: Add things they like\n
+    likes: View things they like\n
+    """
+    input = util.get_arguments(ctx, -1)
+    if input:
+        test_string = ''
+        for i in input:
+            test_string += (i + ' ')
+        data = sys.modules['modules.people'].process(test_string)
     else:
         click.echo('No input specified. Run with --help for info')
 
@@ -115,6 +144,7 @@ def money(ctx, input):
     status: check config\n
     exp: add an expense\n
     exps: view all expenses\n
+    convert: Convert from one currency to other\n
     """
     input = util.get_arguments(ctx, -1)
     if input:
@@ -131,8 +161,10 @@ cli.add_command(food.food)
 cli.add_command(learn.learn)
 cli.add_command(learn.vocabulary)
 cli.add_command(learn.flashcards)
-cli.add_command(learn.define)
+cli.add_command(learn.dictionary)
 
+# The entertainment module
+cli.add_command(entertainment.lyrics)
 
 @cli.command()
 @click.pass_context
@@ -191,5 +223,43 @@ def goals(ctx, input):
         for i in input:
             test_string += (i + ' ')
         data = sys.modules['modules.goals'].process(test_string)
+    else:
+        click.echo('No input specified. Run with --help for info')
+
+@cli.command()
+@click.pass_context
+@click.argument('input', nargs=1,required=True, callback=alias.alias_checker)
+def ascii_transform(ctx, input):
+    """
+    Transform an image into ascii \n\n
+    Pass the absolute path to  the image as the argument\n
+    """
+    input = util.get_arguments(ctx,-1)
+    if input:
+        test_string = ''
+        for i in input:
+            test_string += (i+'')
+        data = sys.modules['modules.asciiator'].process(str(test_string))
+    else:
+        click.echo('No input specified. Run with --help for info')
+    print(data)
+
+cli.add_command(gif.gif)
+
+from modules import weather
+@cli.command()
+@click.pass_context
+@click.argument('input', nargs=-1, required=False, callback=alias.alias_checker)
+def weather(ctx, input):
+    """
+    Get weather\n
+    To use, type: yoda chat <location>
+    """
+    input = util.get_arguments(ctx, -1)
+    if input:
+        test_string = ''
+        for i in input:
+            test_string += (i + ' ')
+        data = sys.modules['modules.weather'].get_weather(test_string)
     else:
         click.echo('No input specified. Run with --help for info')

@@ -90,6 +90,23 @@ Connecting...
 Looks like https://manparvesh is not a valid URL, check the URL and try again.
 ~~~
 
+
+- whois
+
+~~~
+$ yoda dev whois google.com
+Verifying domain...
+
+Domain:        google.com
+Registrar:     MarkMonitor Inc.
+Organization:  Google LLC
+Country:       US
+
+Registered On: 1997-09-15
+Expires On:    2020-09-13
+Updated On:    2018-02-21
+~~~
+
 - grep
 
 ~~~
@@ -107,6 +124,43 @@ This search is case insensitive.
 $ yoda dev grep yOdA yoda.py -i True
 Will recursively search the file yoda.py for any line containing the word yoda.
 This search is case insensitive.
+~~~
+
+- gif
+
+~~~
+$ yoda gif from_images --source SOURCE_DIR --output OUTPUT_FILE
+Will scan the source directory and generate a gif. File will be located at OUTPUT_FILE.
+e.g.
+yoda gif from-images --source tests/resources/gif_frames/ --output test.gif
+
+$ yoda gif from_images --source SOURCE_DIR --output OUTPUT_FILE --<param> <value>
+Will scan the source directory and generate a gif. File will be located at OUTPUT_FILE.
+<param> and <value> can be any keyword argument that imageio's mimsave function takes.
+e.g.
+yoda gif from-images --source tests/resources/gif_frames/ --output test.gif --fps 9
+will create a gif with 9 fps.
+~~~
+
+- run
+~~~
+$ yoda run tests/resources/test_code.py
+Compiling code..
+Running code...
+Output:
+Hello, World!
+
+Link: https://code.hackerearth.com/b21841l
+~~~
+
+- fileshare
+~~~
+$ yoda dev fileshare transport.png
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  379k  100    82  100  379k     14  69962  0:00:05  0:00:05 --:--:-- 78717
+File Link : https://file.io/GTd4FH
+WARNING: File will be deleted after it is accessed once.
 ~~~
 
 #### goals
@@ -192,6 +246,25 @@ For tracking money, this is.
 
 ![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/money.gif)
 
+Get your expenses per month
+```
+$ yoda money exps_month
+$ Sep: spent 75 USD
+$ Nov: spent 15 USD
+$ Dec: spent 125 USD
+```
+
+Convert currency
+```
+$ yoda money convert
+Enter currency codes seperated by space:
+INR USD
+₹ 1 = US$ 0.0136
+Enter the amount in INR to be converted to USD
+100
+100 INR = 1.36 USD
+```
+
 #### Idea list
 
 For creating list of ideas, type
@@ -254,8 +327,45 @@ This command group contains commands that, helpful in learning new things, will 
     $  yoda flashcards study
     ```
 
-- define: to get different meanings of a word. This definition search will be automatically saved, so that while you are working on your vocabulary, you can come through the new word as well.
-![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/define.gif)
+- dictionary: to get definition, synonym, antonym and example of a word. This definition or synonym search will be automatically saved, so that while you are working on your vocabulary, you can come through the new word as well.
+
+  ```
+  $ yoda dictionary define car
+  A few definitions of the word "car" with their parts of speech are given below:
+  ---------------------------------
+  noun: a motor vehicle with four wheels; usually propelled by an internal combustion engine
+  noun: the compartment that is suspended from an airship and that carries personnel and the cargo and the power plant
+  noun: where passengers ride up and down
+  noun: a wheeled vehicle adapted to the rails of railroad
+  noun: a conveyance for passengers or freight on a cable railway
+  This word already exists in the vocabulary set, so you can practice it while using that
+
+  $ yoda dictionary synonym car
+  A few synonyms of the word "car" are given below:
+  ---------------------------------
+  auto
+  automobile
+  machine
+  motorcar
+  gondola
+  elevator car
+  railcar
+  railroad car
+  railway car
+  cable car
+  This word already exists in the vocabulary set, so you can practice it while using that
+
+  $ yoda dictionary antonym car
+  Sorry, no antonyms were found for this word
+
+  $ yoda dictionary example good
+  A few examples of the word "good" are given below:
+  ---------------------------------
+  weigh the good against the bad
+  among the highest goods of all are happiness and self-realization
+  a good friend
+
+  ```
 
 #### Aliasing
 
@@ -283,6 +393,164 @@ This command group contains commands to alias cumbersome commands.
   $ yoda alias delete "s"
 
   ```
+
+
+
+#### ascii_transfrom
+
+This command outputs transformed ascii version of a given image.
+
+```
+    # give the path of the image you want to transform
+    $ yoda ascii_transform logo.png
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%.%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%..S%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%..+.?%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%..SSS%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%.+..+..+?%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%..SSSSS%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%..+..+..+..%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%SSSSS++%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%...+.....+...%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%SSS++++%%%%%%%%%%%%%%%%%%%%%%%%%%%..............S%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%S+++++.%%%%%%%%%%..........?%%%................%%%%..........%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%++++...%%%%%%%%%%SSS............+++....+++.............SSS%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%++.....%%%%%%%%%SSSS.........+....+.+....+..+......SSS%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%.....**%%%%%%%%SSSSS...+..+......+.............SSSS%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%...****%%%%%%%SSSSSS...........+......+..+.SSSSS%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%.******%%%%%%SSSSSS......@@.....@@......SSSSS%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%*****%%%%%%SSSS.......@......@.......SSSS%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%******%%%%%%%%SS..........SSS.........%S%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%..******%%%%%%%%%%%......................%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%....****%%%%%%%%%%%%%%.......S.............%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%++.....*%%%%%%%%%%%%%%%%%%.....%%%.S.........%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%++++....%%%%%%%%%%%%%%%%%%%%%?......%%%%%%...%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%S+++++..%%%%%%%%%%%%%%%%%%%%%%%%%............?%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%SSSS++++%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%.........%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%.SSSSS++%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%......?%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%..SSSSS%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%..SSS%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%..%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%.SSSSS++++++......*****%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%.SSSSS++++++......*****%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%.SSSSS++++++......*****%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+```
+
+
+
+#### Weather
+
+This command obtains the weather information of a specified location using
+[wttr](http://wttr.in) as the weather service.
+
+   ```
+  # getting weather for location [CITY COUNTRY]
+  # country and be omitted if there are no clashes of same named cities
+  $ yoda weather tokyo japan
+  Weather report: Tokyo, Japan
+
+            \  /       Partly cloudy
+          _ /"".-.     80-84 °F       
+            \_(   ).   ↑ 24 mph       
+            /(___(__)  10 mi          
+                       0.0 in         
+                                                               ┌─────────────┐                                                       
+        ┌──────────────────────────────┬───────────────────────┤  Sun 07 Oct ├───────────────────────┬──────────────────────────────┐
+        │            Morning           │             Noon      └──────┬──────┘     Evening           │             Night            │
+        ├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
+        │    \  /       Partly cloudy  │    \  /       Partly cloudy  │    \  /       Partly cloudy  │    \  /       Partly cloudy  │
+        │  _ /"".-.     82-87 °F       │  _ /"".-.     87-91 °F       │  _ /"".-.     86 °F          │  _ /"".-.     80-82 °F       │
+        │    \_(   ).   ↗ 14-17 mph    │    \_(   ).   ↘ 3-4 mph      │    \_(   ).   ↓ 7-10 mph     │    \_(   ).   ↙ 11-15 mph    │
+        │    /(___(__)  11 mi          │    /(___(__)  12 mi          │    /(___(__)  11 mi          │    /(___(__)  11 mi          │
+        │               0.0 in | 0%    │               0.0 in | 0%    │               0.0 in | 0%    │               0.0 in | 0%    │
+        └──────────────────────────────┴──────────────────────────────┴──────────────────────────────┴──────────────────────────────┘
+                                                               ┌─────────────┐                                                       
+        ┌──────────────────────────────┬───────────────────────┤  Mon 08 Oct ├───────────────────────┬──────────────────────────────┐
+        │            Morning           │             Noon      └──────┬──────┘     Evening           │             Night            │
+        ├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
+        │      .-.      Light rain     │      .-.      Light drizzle  │    \  /       Partly cloudy  │  _`/"".-.     Patchy rain po…│
+        │     (   ).    73-77 °F       │     (   ).    73-77 °F       │  _ /"".-.     73-77 °F       │   ,\_(   ).   73-77 °F       │
+        │    (___(__)   ↙ 10-13 mph    │    (___(__)   ↙ 9-12 mph     │    \_(   ).   ← 8-11 mph     │    /(___(__)  ← 4-6 mph      │
+        │     ‘ ‘ ‘ ‘   11 mi          │     ‘ ‘ ‘ ‘   11 mi          │    /(___(__)  11 mi          │      ‘ ‘ ‘ ‘  10 mi          │
+        │    ‘ ‘ ‘ ‘    0.0 in | 70%   │    ‘ ‘ ‘ ‘    0.0 in | 89%   │               0.0 in | 0%    │     ‘ ‘ ‘ ‘   0.0 in | 61%   │
+        └──────────────────────────────┴──────────────────────────────┴──────────────────────────────┴──────────────────────────────┘
+                                                               ┌─────────────┐                                                       
+        ┌──────────────────────────────┬───────────────────────┤  Tue 09 Oct ├───────────────────────┬──────────────────────────────┐
+        │            Morning           │             Noon      └──────┬──────┘     Evening           │             Night            │
+        ├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
+        │  _`/"".-.     Light rain sho…│  _`/"".-.     Light rain sho…│    \  /       Partly cloudy  │    \  /       Partly cloudy  │
+        │   ,\_(   ).   75-77 °F       │   ,\_(   ).   78-80 °F       │  _ /"".-.     77-80 °F       │  _ /"".-.     75-78 °F       │
+        │    /(___(__)  ↙ 8-9 mph      │    /(___(__)  ↓ 8-9 mph      │    \_(   ).   ↙ 8-11 mph     │    \_(   ).   ↙ 6-9 mph      │
+        │      ‘ ‘ ‘ ‘  11 mi          │      ‘ ‘ ‘ ‘  10 mi          │    /(___(__)  10 mi          │    /(___(__)  9 mi           │
+        │     ‘ ‘ ‘ ‘   0.0 in | 89%   │     ‘ ‘ ‘ ‘   0.0 in | 82%   │               0.0 in | 0%    │               0.0 in | 0%    │
+        └──────────────────────────────┴──────────────────────────────┴──────────────────────────────┴──────────────────────────────┘
+
+        Follow @igor_chubin for wttr.in updates
+
+
+  ```
+
+#### people
+
+This command can be used to save profiles of people and related information, like their birthdays, likes, and some personalized notes for them.
+
+```
+# To add people(or a friend)
+$ yoda people setup
+
+# To show added friends
+$ yoda people status
+--------------------------------------
+     Mob    |     DOB    |   Name     
+------------|------------|------------
+ 7503160111 | 1994-06-26 | Joy        
+ 7503160112 | 1994-05-26 | Lobo       
+
+# To add what people like(or a friend likes)
+$ yoda people like
+
+# To add personalized notes for people(or friend)
+$ yoda people note
+
+# To view likes of your added people
+$ yoda people likes
+Joy
+Likes:
+1: #petry
+2: #acting
+
+# To view personalized notes for added people(or friend)
+$ yoda people notes
+Lobo
+Notes:
+1: stop saying start doing
+2: keep chin up
+
+```
+
+#### lyrics
+
+This command can be used to get the lyrics of a song.
+
+```
+$ yoda lyrics
+Enter the artist name:
+imagine dragons
+Enter the title name:
+thunder
+--------Lyrics--------
+Just a young gun with a quick fuse
+I was uptight, wanna let loose
+I was dreaming of bigger things in
+```
 
 #### feedback
 
@@ -320,7 +588,13 @@ To create an issue in the github repository simple thing that shows a link.  Yee
 - [Forismatic API](https://forismatic.com/en/api/): Get random quotes that are used in the chat module
 - [Cocktail DB](https://www.thecocktaildb.com/api.php): Used to search for a drink and to get a random drink
 - [Words API](https://www.wordsapi.com/): Used to get the definition of a word
+- [Requests](https://wwww.docs.python-requests.org): Used for online http requests/services
+- [wttr](http://wttr.in): Used for getting weather information
+- [file.io](https://file.io/): Used for fileshare
+- [HackerEarthAPI](https://www.hackerearth.com/docs/wiki/developers/legacy/): Used to run code
+- [lyrics.ovh](https://lyricsovh.docs.apiary.io/#): Used for lyrics
 - Yoda's illustration SVG was taken from [here](https://www.shareicon.net/yoda-854796)
+- [WhoIs](https://www.whois.com): Used for getting information about domains.
 
 ## Contribute, you must
 Please refer to the [contributing guidelines](https://github.com/yoda-pa/yoda/blob/master/.github/CONTRIBUTING.md) for contributing to this project.

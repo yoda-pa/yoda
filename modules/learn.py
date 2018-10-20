@@ -271,14 +271,12 @@ def list_sets_fc(dummy):
         click.echo(chalk.red(
             'There are no sets right now. Type "yoda flashcards sets new <name>" to create one'))
     else:
-        i = 0
         there_are_sets = False
-        for _set in sets:
+        for i, _set in enumerate(sets):
             if sets[_set] >= 1:
                 if not there_are_sets:
                     click.echo('List of all the study sets:')
                     there_are_sets = True
-                i += 1
                 click.echo(str(i) + ') ' + _set)
         if not there_are_sets:
             click.echo(chalk.red(
@@ -512,11 +510,9 @@ def study_fc(set, dummy):
         if len_cards_in_selected_set == 0:
             click.echo(chalk.red('There are no cards in this set!'))
         else:
-            i = 0
             click.echo(chalk.blue('Cards:'))
             click.echo(chalk.blue('_' * width))
-            for card in cards_in_selected_set:
-                i += 1
+            for i, card in enumerate(cards_in_selected_set):
 
                 card_path = FLASHCARDS_CONFIG_FOLDER_PATH + '/' + SELECTED_STUDY_SET + '/' + card
                 with open(card_path) as fp:
@@ -579,17 +575,31 @@ def flashcards(ctx, domain, action, name):
 
 # ----------------------- / flashcards code -----------------------#
 
-# ----------------------- define code -----------------------#
+# ----------------------- dictionary code -----------------------#
 @learn.command()
 @click.pass_context
+@click.argument('dictionary_option', nargs=1, required=True, callback=alias_checker)
 @click.argument('word', nargs=1, required=False, callback=alias_checker)
-def define(ctx, word):
+def dictionary(ctx, dictionary_option, word):
     """
-        Get the meaning of a word
+        Get the definition, synonym, antonym or example of a word.
+        \nOptions : define, synonym, antonym, example
     """
+    dictionary_option_list = {}
+    dictionary_option_list['define'] = 'definitions'
+    dictionary_option_list['synonym'] = 'synonyms'
+    dictionary_option_list['antonym'] = 'antonyms'
+    dictionary_option_list['example'] = 'examples'
+
+    dictionary_option = get_arguments(ctx, 1)
     word = get_arguments(ctx, 1)
     _word = str(word)
-    r = requests.get('https://wordsapiv1.p.mashape.com/words/' + _word + '/definitions', headers={
+
+    if dictionary_option not in dictionary_option_list.keys():
+        click.echo(chalk.red('Please use the right dictionary command.'))
+        sys.exit()
+
+    r = requests.get('https://wordsapiv1.p.mashape.com/words/' + _word + '/' + dictionary_option_list[dictionary_option], headers={
         'X-Mashape-Key': 'Yq72o8odIlmshPTjxnTMN1xixyy5p1lgtd0jsn2NsJfn7pflhR',
         "Accept": "application/json"
     })
@@ -598,7 +608,7 @@ def define(ctx, word):
     try:
         _word = data['word']
         posted = False
-        if len(data['definitions']):
+        if dictionary_option == 'define' and len(data['definitions']):
             if not posted:
                 click.echo(chalk.blue(
                     'A few definitions of the word "' + _word + '" with their parts of speech are given below:'))
@@ -608,23 +618,34 @@ def define(ctx, word):
             for definition in data['definitions']:
                 print(definition['partOfSpeech'] + ': ' + definition['definition'])
 
+        elif len(data[dictionary_option_list[dictionary_option]]):
+            if not posted:
+                click.echo(chalk.blue(
+                    'A few ' + dictionary_option_list[dictionary_option] + ' of the word "' + _word + '" are given below:'))
+                click.echo('---------------------------------')
+                posted = True
+
+            for dictionary_value in data[dictionary_option_list[dictionary_option]]:
+                print(dictionary_value)
+
+        if posted and dictionary_option in ['antonym', 'example']:
+            pass
         # if this word is not in the vocabulary list, add to it!
-        if posted:
+        elif posted:
             words = get_words_list()
             if _word in words:
                 click.echo(chalk.blue(
                     'This word already exists in the vocabulary set, so you can practice it while using that'))
             else:
                 with open(VOCAB_LIST, 'a') as fp:
-                    fp.write('{} - {}\n'.format(_word, data['definitions'][0]['definition']))
+                    fp.write('{} - {}\n'.format(_word, data[dictionary_option_list[dictionary_option]][0]))
                 click.echo(chalk.blue(
                     'This word does not exist in the vocabulary set, so it has been added to it so that you can '
                     'practice it while using that'))
         else:
-            click.echo(chalk.red('Sorry, no definitions were found for this word'))
+            click.echo(chalk.red('Sorry, no ' + dictionary_option_list[dictionary_option] + ' were found for this word'))
     except KeyError:
         click.echo(chalk.red('Sorry, no definitions were found for this word'))
-        print('Sorry, no definitions were found for this word')
 
 
 def get_words_list():
@@ -636,4 +657,4 @@ def get_words_list():
 
     return words
 
-# ----------------------- / define code -----------------------#
+# ----------------------- / dictionary code -----------------------#

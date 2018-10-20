@@ -4,6 +4,9 @@ import errno
 import os.path
 import subprocess
 
+import re
+from bs4 import BeautifulSoup
+
 import chalk
 import click
 import yaml
@@ -174,3 +177,9 @@ def append_data_into_file(data, file_path):
         # enter data
         with open(file_path, "w") as todays_tasks_entry:
             yaml.dump(contents, todays_tasks_entry, default_flow_style=False)
+
+def clean_soup_data(data):
+    data = str(data)
+    cleaner = re.compile('<.*?>')
+    data = re.sub(cleaner, '', data)
+    return data.replace(":", "").strip()

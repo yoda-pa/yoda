@@ -8,6 +8,9 @@ import sys
 from builtins import range
 from builtins import str
 
+from pydub import AudioSegment
+from pydub.playback import play
+
 import pyspeedtest
 import os
 import requests
@@ -17,9 +20,17 @@ from past.utils import old_div
 from .util import *
 from .alias import alias_checker
 
+from resources.hackerearth.language import supported_languages
+from resources.hackerearth.parameters import RunAPIParameters
+
+from resources.hackerearth.api_handlers import HackerEarthAPI
+
 FIREBASE_DYNAMIC_LINK_API_KEY = "AIzaSyAuVJ0zfUmacDG5Vie4Jl7_ercv6gSwebc"
 GOOGLE_URL_SHORTENER_API_KEY = "AIzaSyCBAXe-kId9UwvOQ7M2cLYR7hyCpvfdr7w"
 domain = "yodacli.page.link"
+HACKEREARTH_API_KEY = '0a7f0101e5cc06e4417a3addeb76164680ac83a4'
+
+whois_base_url = "https://www.whois.com/whois/"
 
 
 @click.group()
@@ -257,7 +268,7 @@ def checksite(ctx, link):
     else:
         click.echo('Yay! The site is up and running! :)')
 
- 
+
 @dev.command()
 @click.pass_context
 @click.argument('astrological_sign', nargs=1, required=False, callback=alias_checker)
@@ -309,6 +320,131 @@ def grep(pattern, path, r, i):
             if not recursive:
                 break
 
+@dev.command()
+@click.pass_context
+@click.argument('path', nargs=1, required=True)
+@click.argument('start', nargs=1, required=False, default=0)
+@click.argument('end', nargs=1, required=False, default=0)
+def mp3cutter(ctx, path, start, end):
+    """
+    This command can be used to cut audio tracks right inside your terminal.
+
+    yoda dev mp3cutter MUSIC_PATH START[default: 0] END[default:lenght of music]
+    """
+    click.echo("\nOpening file...")
+
+    try:
+        song = AudioSegment.from_mp3(path)
+    except FileNotFoundError:
+        click.echo("No such file as "+path+", plase re-check the PATH and try again :)")
+        return
+    except IndexError:
+        click.echo("Wrong file format :'( ")
+        return
+
+    song_length = len(song)
+
+    # Check if end point is given or not
+    if not end:
+        end = song_length/1000
+
+    # Check if end point is greater than length of song
+    if end > song_length:
+        click.echo("Duh! Given endpoint is greater than lenght of music :'( ")
+        return
+
+    start = start*1000
+    end = end*1000
+
+    if start > end:
+        click.echo("Given startpoint ({0}s) is greater than endpoint ({1}s) :/ ".format(start/1000/60, end/1000/60))
+        return
+
+    if start > song_length:
+        click.echo("Given startpoint ({0}s) is greater than the lenght of music ({1}s)".format(start/1000/60, song_length/1000/60))
+        return
+
+    click.echo("Cropping mp3 file from: "+str(start)+" to: "+str(end/1000))
+
+    cropped_file_location = path.replace(".mp3", "_cropped.mp3");
+    # cut the mp3 file
+    song = song[start:end]
+
+    # save
+    song.export(cropped_file_location, format="mp3")
+    click.echo("Yay!! Successfully cropped! :)\n")
+
+    if click.confirm("Do you want to play the cropped mp3 file?"):
+        play(song)
+
+@dev.command()
+@click.pass_context
+@click.argument('domain', nargs=1, required=True)
+def whois(ctx, domain):
+    """
+    Get the information about domains.
+    """
+
+    click.echo("Verifying domain...\n")
+
+    data_obj = get_whois_data(domain)[0]
+
+    if not "Domain" in data_obj:
+        click.echo("This domain has not been registered yet :/")
+        return
+
+    # Data that we display
+    labels = ["Domain", "Registrar", "Organization", "Country", "Registered On", "Expires On", "Updated On"]
+
+    for idx, label in enumerate(labels):
+        # Eg:      "Domain:        Facebook.com"
+        # Formula: Label + whitespace + value
+        text_to_print = label+":"+" "*(14-len(label))+data_obj[label]
+
+        if idx == 3:
+            text_to_print+="\n"
+        click.echo(text_to_print)
+
+def get_whois_data(domain):
+    req = requests.get(whois_base_url+domain)
+    html = req.text
+
+    soup = BeautifulSoup(html, 'lxml')
+
+    labels = soup.findAll('div', attrs={'class':'df-label'})
+    values = soup.findAll('div', attrs={'class':'df-value'})
+
+    data_obj = {}
+
+    # convert into pythons dictionaire
+    for i in range(len(labels)):
+        data_obj[clean_soup_data(labels[i])] = clean_soup_data(values[i])
+
+    return data_obj, req.status_code
+
+@dev.command()
+@click.pass_context
+@click.argument('path', nargs=1, required=True)
+def fileshare(ctx, path):
+    '''
+    Upload and share files using https://file.io.
+    '''
+    if os.path.isfile(path):
+        response = subprocess.check_output([
+        'curl',
+        '-F',
+        'file=@' + path,
+        'https://file.io'])
+
+        response_json = json.loads(response)
+        if 'link' in response_json.keys():
+            click.echo(chalk.green("File Link : " + response_json['link']))
+            click.echo(chalk.yellow("WARNING: File will be deleted after it is accessed once."))
+        else:
+            click.echo(chalk.red("File upload failed!"))
+    else:
+        click.echo(chalk.red("No file such as " + path + ", Please re-check the PATH and try again."))
+
 
 def search_file(pattern, infile):
     for line in infile:
@@ -316,3 +452,40 @@ def search_file(pattern, infile):
         if match:
             yield line
 
+@dev.command()
+@click.pass_context
+@click.argument('path', nargs=1, required=True)
+def run(ctx, path):
+    '''
+    Complie and run code without a local compiler.
+    '''
+    if os.path.isfile(path):
+        source = open(path, 'r').read()
+        file_extension = path.rsplit('.',1)[1]
+
+        if file_extension not in supported_languages.keys():
+            click.echo(chalk.red('Sorry, Unsupported language.'))
+            sys.exit(1)
+
+        lang = supported_languages[file_extension]
+        compressed = 1
+        html = 0
+        params = RunAPIParameters(
+                client_secret=HACKEREARTH_API_KEY, source=source,
+                lang=lang, compressed=compressed, html=html)
+
+        api = HackerEarthAPI(params)
+
+        click.echo(chalk.yellow('Compiling code..'))
+        r = api.compile()
+
+        click.echo(chalk.cyan('Running code...'))
+        r = api.run()
+        output = r.__dict__.get('output')
+
+        click.echo(chalk.green('Output:'))
+        click.echo(output)
+        click.echo("Link: " + r.__dict__.get('web_link'))
+
+    else:
+        click.echo(chalk.red("No file such as " + path + ", Please re-check the PATH and try again."))
