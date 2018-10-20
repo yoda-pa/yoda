@@ -508,6 +508,22 @@ Notes:
 
 ```
 
+#### lyrics
+
+This command can be used to get the lyrics of a song.
+
+```
+$ yoda lyrics
+Enter the artist name:
+imagine dragons
+Enter the title name:
+thunder
+--------Lyrics--------
+Just a young gun with a quick fuse
+I was uptight, wanna let loose
+I was dreaming of bigger things in
+```
+
 #### feedback
 
 To create an issue in the github repository simple thing that shows a link.  Yeesssssss.
@@ -547,6 +563,7 @@ To create an issue in the github repository simple thing that shows a link.  Yee
 - [Requests](https://wwww.docs.python-requests.org): Used for online http requests/services
 - [wttr](http://wttr.in): Used for getting weather information
 - [file.io](https://file.io/): Used for fileshare
+- [lyrics.ovh](https://lyricsovh.docs.apiary.io/#): Used for lyrics
 - Yoda's illustration SVG was taken from [here](https://www.shareicon.net/yoda-854796)
 
 ## Contribute, you must

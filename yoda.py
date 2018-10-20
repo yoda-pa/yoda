@@ -161,6 +161,8 @@ cli.add_command(learn.vocabulary)
 cli.add_command(learn.flashcards)
 cli.add_command(learn.dictionary)
 
+# The entertainment module
+cli.add_command(entertainment.lyrics)
 
 @cli.command()
 @click.pass_context
