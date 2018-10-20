@@ -50,7 +50,7 @@ class BaseAPIParameters(object):
         """Removes parameters whose values are set to None.
         """
         clean_params = {}
-        for key, value in params.iteritems():
+        for key, value in params.items():
             if value is not None:
                 clean_params[key] = value
 

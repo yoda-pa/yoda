@@ -58,8 +58,9 @@ def url_shorten(url_to_be_shortened):
     :param url_to_be_shortened:
     """
     try:
-        r = requests.post('https://firebasedynamiclinks.googleapis.com/v1/shortLinks?key=' + FIREBASE_DYNAMIC_LINK_API_KEY,
-                          data=json.dumps({"dynamicLinkInfo": {"dynamicLinkDomain": domain,"link": url_to_be_shortened }}), headers={
+        r = requests.post(
+            'https://firebasedynamiclinks.googleapis.com/v1/shortLinks?key=' + FIREBASE_DYNAMIC_LINK_API_KEY,
+            data=json.dumps({"dynamicLinkInfo": {"dynamicLinkDomain": domain, "link": url_to_be_shortened}}), headers={
                 'Content-Type': 'application/json'
             })
     except requests.exceptions.ConnectionError:
@@ -88,7 +89,7 @@ def url_expand(url_to_be_expanded):
     res = data['longUrl']
     if domain in data['longUrl']:
         res = data['longUrl'].split('=')[1]
-        #res = res[:-3]
+        # res = res[:-3]
     response = 'Here\'s your original URL:\n' + res
     click.echo(response)
 
@@ -286,6 +287,7 @@ def horoscope(ctx, astrological_sign):
         click.echo('Yoda cannot sense the internet right now!')
         sys.exit(1)
 
+
 # idea list process
 @dev.command()
 @click.argument('pattern', nargs=1)
@@ -320,6 +322,7 @@ def grep(pattern, path, r, i):
             if not recursive:
                 break
 
+
 @dev.command()
 @click.pass_context
 @click.argument('path', nargs=1, required=True)
@@ -336,7 +339,7 @@ def mp3cutter(ctx, path, start, end):
     try:
         song = AudioSegment.from_mp3(path)
     except FileNotFoundError:
-        click.echo("No such file as "+path+", plase re-check the PATH and try again :)")
+        click.echo("No such file as " + path + ", plase re-check the PATH and try again :)")
         return
     except IndexError:
         click.echo("Wrong file format :'( ")
@@ -346,25 +349,27 @@ def mp3cutter(ctx, path, start, end):
 
     # Check if end point is given or not
     if not end:
-        end = song_length/1000
+        end = song_length / 1000
 
     # Check if end point is greater than length of song
     if end > song_length:
         click.echo("Duh! Given endpoint is greater than lenght of music :'( ")
         return
 
-    start = start*1000
-    end = end*1000
+    start = start * 1000
+    end = end * 1000
 
     if start > end:
-        click.echo("Given startpoint ({0}s) is greater than endpoint ({1}s) :/ ".format(start/1000/60, end/1000/60))
+        click.echo(
+            "Given startpoint ({0}s) is greater than endpoint ({1}s) :/ ".format(start / 1000 / 60, end / 1000 / 60))
         return
 
     if start > song_length:
-        click.echo("Given startpoint ({0}s) is greater than the lenght of music ({1}s)".format(start/1000/60, song_length/1000/60))
+        click.echo("Given startpoint ({0}s) is greater than the lenght of music ({1}s)".format(start / 1000 / 60,
+                                                                                               song_length / 1000 / 60))
         return
 
-    click.echo("Cropping mp3 file from: "+str(start)+" to: "+str(end/1000))
+    click.echo("Cropping mp3 file from: " + str(start) + " to: " + str(end / 1000))
 
     cropped_file_location = path.replace(".mp3", "_cropped.mp3");
     # cut the mp3 file
@@ -376,6 +381,7 @@ def mp3cutter(ctx, path, start, end):
 
     if click.confirm("Do you want to play the cropped mp3 file?"):
         play(song)
+
 
 @dev.command()
 @click.pass_context
@@ -399,20 +405,21 @@ def whois(ctx, domain):
     for idx, label in enumerate(labels):
         # Eg:      "Domain:        Facebook.com"
         # Formula: Label + whitespace + value
-        text_to_print = label+":"+" "*(14-len(label))+data_obj[label]
+        text_to_print = label + ":" + " " * (14 - len(label)) + data_obj[label]
 
         if idx == 3:
-            text_to_print+="\n"
+            text_to_print += "\n"
         click.echo(text_to_print)
 
+
 def get_whois_data(domain):
-    req = requests.get(whois_base_url+domain)
+    req = requests.get(whois_base_url + domain)
     html = req.text
 
     soup = BeautifulSoup(html, 'lxml')
 
-    labels = soup.findAll('div', attrs={'class':'df-label'})
-    values = soup.findAll('div', attrs={'class':'df-value'})
+    labels = soup.findAll('div', attrs={'class': 'df-label'})
+    values = soup.findAll('div', attrs={'class': 'df-value'})
 
     data_obj = {}
 
@@ -421,6 +428,7 @@ def get_whois_data(domain):
         data_obj[clean_soup_data(labels[i])] = clean_soup_data(values[i])
 
     return data_obj, req.status_code
+
 
 @dev.command()
 @click.pass_context
@@ -431,10 +439,10 @@ def fileshare(ctx, path):
     '''
     if os.path.isfile(path):
         response = subprocess.check_output([
-        'curl',
-        '-F',
-        'file=@' + path,
-        'https://file.io'])
+            'curl',
+            '-F',
+            'file=@' + path,
+            'https://file.io'])
 
         response_json = json.loads(response)
         if 'link' in response_json.keys():
@@ -452,16 +460,17 @@ def search_file(pattern, infile):
         if match:
             yield line
 
+
 @dev.command()
 @click.pass_context
 @click.argument('path', nargs=1, required=True)
 def run(ctx, path):
-    '''
-    Complie and run code without a local compiler.
-    '''
+    """
+        Compile and run code without a local compiler.
+    """
     if os.path.isfile(path):
         source = open(path, 'r').read()
-        file_extension = path.rsplit('.',1)[1]
+        file_extension = path.rsplit('.', 1)[1]
 
         if file_extension not in supported_languages.keys():
             click.echo(chalk.red('Sorry, Unsupported language.'))
@@ -471,8 +480,8 @@ def run(ctx, path):
         compressed = 1
         html = 0
         params = RunAPIParameters(
-                client_secret=HACKEREARTH_API_KEY, source=source,
-                lang=lang, compressed=compressed, html=html)
+            client_secret=HACKEREARTH_API_KEY, source=source,
+            lang=lang, compressed=compressed, html=html)
 
         api = HackerEarthAPI(params)
 
@@ -488,4 +497,5 @@ def run(ctx, path):
         click.echo("Link: " + r.__dict__.get('web_link'))
 
     else:
-        click.echo(chalk.red("No file such as " + path + ", Please re-check the PATH and try again."))
+        click.echo(chalk.red("No file such as " + path + ", Please re-check the file path and try again."))
+        sys.exit(1)

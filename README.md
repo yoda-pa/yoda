@@ -591,7 +591,7 @@ To create an issue in the github repository simple thing that shows a link.  Yee
 - [Requests](https://wwww.docs.python-requests.org): Used for online http requests/services
 - [wttr](http://wttr.in): Used for getting weather information
 - [file.io](https://file.io/): Used for fileshare
-- [HackerEarthAPI](https://www.hackerearth.com/docs/wiki/developers/legacy/): Used to run code
+- [HackerEarthAPI](https://www.hackerearth.com/docs/wiki/developers/v3/): Used to run code
 - [lyrics.ovh](https://lyricsovh.docs.apiary.io/#): Used for lyrics
 - Yoda's illustration SVG was taken from [here](https://www.shareicon.net/yoda-854796)
 - [WhoIs](https://www.whois.com): Used for getting information about domains.
