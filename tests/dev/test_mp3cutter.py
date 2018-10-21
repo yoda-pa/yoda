@@ -22,7 +22,7 @@ class TestMpCutter(unittest.TestCase):
         resources = resources + '/resources'
 
         mp3_location = resources + '/test.mp3'
-        result = self.runner.invoke(yoda.cli, ['dev', 'mp3cutter', mp3_location])
+        result = self.runner.invoke(yoda.cli, ['dev', 'mp3cutter', mp3_location], input="y")
 
         self.assertTrue("test_cropped.mp3" in os.listdir(resources))
 
