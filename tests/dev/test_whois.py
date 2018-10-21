@@ -13,6 +13,7 @@ class TestWhois(unittest.TestCase):
 
     def __init__(self, methodName='runTest'):
         super(TestWhois, self).__init__()
+        self.runner = CliRunner()
 
 
     def runTest(self):
