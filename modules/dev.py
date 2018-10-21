@@ -475,7 +475,7 @@ def run(ctx, path):
 
         if file_extension not in supported_languages.keys():
             click.echo(chalk.red('Sorry, Unsupported language.'))
-            sys.exit(1)
+            sys.exit(-1)
 
         lang = supported_languages[file_extension]
         compressed = 1

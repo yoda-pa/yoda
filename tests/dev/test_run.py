@@ -26,5 +26,5 @@ class TestRun(TestCase):
         output_string = str(result.output.encode('ascii', 'ignore').decode('utf-8')).strip()
 
         result = self.runner.invoke(yoda.cli, ['run', 'logo.png'])
-        self.assertEqual(result.exit_code, 1)
+        self.assertEqual(result.exit_code, -1)
         output_string = str(result.output.encode('ascii', 'ignore').decode('utf-8')).strip()
