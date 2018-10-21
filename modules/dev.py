@@ -336,14 +336,15 @@ def mp3cutter(ctx, path, start, end):
     """
     click.echo("\nOpening file...")
 
+    if not os.path.isfile(path):
+        click.echo(chalk.red("No file such as " + path + ", Please re-check the file path and try again."))
+        sys.exit(1)
+
     try:
         song = AudioSegment.from_mp3(path)
-    except FileNotFoundError:
-        click.echo("No such file as " + path + ", plase re-check the PATH and try again :)")
-        return
     except IndexError:
-        click.echo("Wrong file format :'( ")
-        return
+        click.echo(chalk.red("Wrong file format :'( "))
+        sys.exit(1)
 
     song_length = len(song)
 
@@ -362,12 +363,12 @@ def mp3cutter(ctx, path, start, end):
     if start > end:
         click.echo(
             "Given startpoint ({0}s) is greater than endpoint ({1}s) :/ ".format(start / 1000 / 60, end / 1000 / 60))
-        return
+        sys.exit(1)
 
     if start > song_length:
         click.echo("Given startpoint ({0}s) is greater than the lenght of music ({1}s)".format(start / 1000 / 60,
                                                                                                song_length / 1000 / 60))
-        return
+        sys.exit(1)
 
     click.echo("Cropping mp3 file from: " + str(start) + " to: " + str(end / 1000))
 
