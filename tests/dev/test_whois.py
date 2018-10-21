@@ -1,6 +1,7 @@
 import unittest
 
 from click.testing import CliRunner
+import yoda
 
 class TestWhois(unittest.TestCase):
     """
