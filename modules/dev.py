@@ -398,7 +398,7 @@ def whois(ctx, domain):
 
     if not "Domain" in data_obj:
         click.echo("This domain has not been registered yet :/")
-        return
+        sys.exit(1)
 
     # Data that we display
     labels = ["Domain", "Registrar", "Organization", "Country", "Registered On", "Expires On", "Updated On"]
