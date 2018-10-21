@@ -48,3 +48,8 @@ class TestMpCutter(unittest.TestCase):
         result = self.runner.invoke(yoda.cli, ['mp3cutter', mp3_location, '90000', '90'])
         self.assertEqual(result.exit_code, 1)
         output_string = str(result.output.encode('ascii', 'ignore').decode('utf-8')).strip()
+
+        # Test for startpoint greater than the lenght of music
+        result = self.runner.invoke(yoda.cli, ['mp3cutter', mp3_location, '1000', '1001'])
+        self.assertEqual(result.exit_code, 1)
+        output_string = str(result.output.encode('ascii', 'ignore').decode('utf-8')).strip()
