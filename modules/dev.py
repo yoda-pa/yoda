@@ -355,7 +355,7 @@ def mp3cutter(ctx, path, start, end):
     # Check if end point is greater than length of song
     if end > song_length:
         click.echo("Duh! Given endpoint is greater than lenght of music :'( ")
-        return
+        sys.exit(1)
 
     start = start * 1000
     end = end * 1000
