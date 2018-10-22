@@ -11,14 +11,18 @@ from builtins import str
 from pydub import AudioSegment
 from pydub.playback import play
 
+from fuzzywuzzy import fuzz
+
 import pyspeedtest
 import os
 import requests
+import pandas as pd
 
 from past.utils import old_div
 
 from .util import *
 from .alias import alias_checker
+from .config import *
 
 from resources.hackerearth.language import supported_languages
 from resources.hackerearth.parameters import RunAPIParameters
@@ -31,6 +35,33 @@ domain = "yodacli.page.link"
 HACKEREARTH_API_KEY = '0a7f0101e5cc06e4417a3addeb76164680ac83a4'
 
 whois_base_url = "https://www.whois.com/whois/"
+
+KEYBINDINGS_CONFIG_FILE_PATH = get_config_file_paths()["KEYBINDINGS_CONFIG_FILE_PATH"]
+KEYBINDINGS_CONFIG_FOLDER_PATH = get_folder_path_from_file_path(KEYBINDINGS_CONFIG_FILE_PATH)
+
+def get_software_file_path(software_name):
+    """
+    get file path for software entry file
+    :return:
+    """
+    return KEYBINDINGS_CONFIG_FOLDER_PATH + '/' + software_name + ".yaml"
+
+
+def append_data_into_file(data, file_path):
+    """
+    append data into existing file
+    :param data:
+    :param file_path:
+    """
+    with open(file_path) as todays_tasks_entry:
+        # read contents
+        contents = yaml.load(todays_tasks_entry)
+        contents['entries'].append(
+            data
+        )
+        # enter data
+        with open(file_path, "w") as todays_tasks_entry:
+            yaml.dump(contents, todays_tasks_entry, default_flow_style=False)
 
 
 @click.group()
@@ -112,20 +143,104 @@ def check_sub_command_url(action, url_to_be_expanded_or_shortened):
         click.echo('Try "yoda url --help" for more info')
 
 
-def add_keybindings(keybinding_filepath):
-    pass
-
-
-def search_keybindings(keybinding_filepath, search_editor, search_key):
-    pass
-
-
-def check_sub_command_keybindings(action, keybinding_filepath=None, search_editor=None, search_key=None):
+def add_keybindings(software, keybinding_filepath):
     """
-    command checker for keybindings
+    add/import key binding file
+    :param software:
+    :param keybinding_filepath:
+    """
+    SOFTWARE_FILE_PATH = get_software_file_path(software)
+
+    if not os.path.isfile(SOFTWARE_FILE_PATH):
+        if os.path.isfile(KEYBINDINGS_CONFIG_FILE_PATH):
+            setup_data = dict(
+                software=software,
+                file=software+'.yaml'
+            )
+            append_data_into_file(setup_data, KEYBINDINGS_CONFIG_FILE_PATH)
+        else:
+            setup_data = dict(
+                entries=[
+                    dict(
+                        software=software,
+                        file=software+'.yaml'
+                        )
+                    ]
+                )
+            input_data(setup_data, KEYBINDINGS_CONFIG_FILE_PATH)
+        try:
+            data = pd.read_csv(keybinding_filepath,header=None)
+
+            with open(SOFTWARE_FILE_PATH,'w') as fin:
+                entries = []
+                for index, row in data.iterrows():
+                    action = row[0]
+                    _key = row[1]
+                    entry = {'action':action,'key':_key}
+                    entries.append(entry)
+                setup_data = dict(
+                    entries=entries
+                    )
+                input_data(setup_data, SOFTWARE_FILE_PATH)
+
+        except Exception as e:
+            print(e)
+    else:
+        click.echo(chalk.red(
+            "Software's config file already exists. Type 'yoda dev keybindings --help'"))
+
+
+def search_keybindings(software, search_key):
+    """
+    search
+    :param software:
+    :param search_key:
+    """
+    SOFTWARE_FILE_PATH = get_software_file_path(software)
+    matched_keys = []
+    matched_actions = []
+    matched_keys_actions_pairs = []
+    if os.path.isfile(SOFTWARE_FILE_PATH):
+        with open(SOFTWARE_FILE_PATH) as fin:
+            contents = yaml.load(fin)
+            entries = contents['entries']
+            # click.echo(entries)
+            for entry in entries:
+                act = entry['action']
+                key = entry['key']
+                # fr = fuzz.ratio(search_key,act)
+                # fpr = fuzz.partial_ratio(search_key,act)
+                ftsr = fuzz.token_sort_ratio(search_key,act)
+                # print([fr,fpr,ftsr])
+                # if any(fuzzy_match for fuzzy_match in [fr,fpr,ftsr] if fuzzy_match>=50):
+                if ftsr >= 50:
+                    # click.echo(entry)
+                    matched_actions.append(act)
+                    matched_keys.append(key)
+
+            if matched_actions:
+                matched_keys_actions_pairs = list(zip(matched_keys,matched_actions))
+
+            ## Beautify matched output
+            if matched_keys_actions_pairs:
+                click.echo('Key Bindings:')
+                click.echo("---------------------------------------")
+                click.echo("     key       |          action       ")
+                click.echo("---------------|-----------------------")
+                for key,act in matched_keys_actions_pairs:
+                    click.echo('       ' + key + '       |       ' + act)
+            else:
+                click.echo(chalk.red("No key matched, please try another option"))
+    else:
+        click.echo(chalk.red(
+            "Software's config file doesn't exist. Type 'yoda dev keybindings --help'"))
+
+
+def check_sub_command_keybindings(action, software, fp_or_searchkey):
+    """
+    command checker for keybindings\n
     :param action:
-    :param keybinding_filepath:, 
-    :param search_key : Default None,
+    :param fp_or_searchkey:,
     :return:
     """
     sub_commands = {
@@ -133,11 +248,7 @@ def check_sub_command_keybindings(action, keybinding_filepath=None, search_edito
         'search': search_keybindings
     }
     try:
-        return sub_commands[action](keybinding_filepath, search_key)
-        if action == 'add':
-            sub_commands[action](keybinding_filepath)
-        elif action == 'search':
-            sub_commands[action](search_editor,search_key)
+        return sub_commands[action](software,fp_or_searchkey)
     except KeyError:
         click.echo(chalk.red('Command does not exist!'))
         click.echo('Try "yoda dev keybindings --help" for more info')
@@ -486,22 +597,21 @@ def fileshare(ctx, path):
 
 @dev.command()
 @click.pass_context
-@click.argument('input', nargs=1, required=False)
-@click.argument('keybinding_filepath', nargs=1, required=False, default=None)
-@click.argument('search_editor', nargs=1, required=False, default=None)
-@click.argument('search_key', nargs=1, required=False, default=None)
-def keybindings(ctx, path, start, end):
+@click.argument('input', nargs=1, required=True, callback=alias_checker)
+@click.argument('software', nargs=1, required=False, callback=alias_checker)
+@click.argument('fp_or_searchkey', nargs=1, required=False, callback=alias_checker)
+def keybindings(ctx, input, software, fp_or_searchkey):
     """
-    This command can be used to save keybinding files for different editors.
-
-    yoda dev keybindings INPUT KEYBINDING_FILE EDITOR_TO_SEARCH[default: None] WORD_TO_SEARCH[default:None]
+    This command can be used to save or search keybindings for different softwares.
+    yoda dev keybindings INPUT[add,search] SOFTWARE_NAME[default: None] FILE_TO_ADD_OR_ACTION_TO_SEARCH[default:None]
     """
-    input, key_binding_filepath, search_editor, search_key = get_arguments(ctx, 4)
+    input, software, fp_or_searchkey = get_arguments(ctx, 3)
     _input = str(input)
-    _key_binding_filepath = str(url)
-    _search_editor = str(search_editor)
-    _search_key = str(search_key)
-    check_sub_command_keybindings(_input, _key_binding_filepath, _search_editor, _search_key)
+    _software = str(software)
+    _fp_or_searchkey = str(fp_or_searchkey)
+    create_folder(KEYBINDINGS_CONFIG_FOLDER_PATH)
+    # print(_input,_software,_fp_or_searchkey)
+    check_sub_command_keybindings(_input, _software, _fp_or_searchkey)
 
 
 def search_file(pattern, infile):

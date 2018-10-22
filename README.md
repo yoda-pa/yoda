@@ -163,6 +163,23 @@ File Link : https://file.io/GTd4FH
 WARNING: File will be deleted after it is accessed once.
 ~~~
 
+- keybindings
+~~~
+# To add(or import) a keybindings file
+$ yoda dev keybindings add vim /absolute/path/to/keybinding/file.csv
+
+# To search keybinding action for a software
+$ yoda dev keybindings search vim move cusror
+Key Bindings:
+---------------------------------------
+     key       |          action       
+---------------|-----------------------
+       h       |       move cursor left
+       j       |       move cursor down
+       k       |       move cursor up
+       l       |       move cursor right
+~~~
+
 #### goals
 
 For settings and maintaining your goals, type

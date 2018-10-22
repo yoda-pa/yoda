@@ -23,7 +23,10 @@ setup(
         'speedtest-cli',
         'imageio',
         'requests',
-        'pydub'
+        'pydub',
+        'pandas',
+        'fuzzywuzzy',
+        'python-levenshtein'
     ],
     package_data={'': ['*.txt', '*.lst']},
     entry_points='''
