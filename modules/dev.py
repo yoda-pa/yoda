@@ -336,14 +336,15 @@ def mp3cutter(ctx, path, start, end):
     """
     click.echo("\nOpening file...")
 
+    if not os.path.isfile(path):
+        click.echo(chalk.red("No file such as " + path + ", Please re-check the file path and try again."))
+        sys.exit(1)
+
     try:
         song = AudioSegment.from_mp3(path)
-    except FileNotFoundError:
-        click.echo("No such file as " + path + ", plase re-check the PATH and try again :)")
-        return
     except IndexError:
-        click.echo("Wrong file format :'( ")
-        return
+        click.echo(chalk.red("Wrong file format :'( "))
+        sys.exit(1)
 
     song_length = len(song)
 
@@ -354,7 +355,7 @@ def mp3cutter(ctx, path, start, end):
     # Check if end point is greater than length of song
     if end > song_length:
         click.echo("Duh! Given endpoint is greater than lenght of music :'( ")
-        return
+        sys.exit(1)
 
     start = start * 1000
     end = end * 1000
@@ -362,12 +363,12 @@ def mp3cutter(ctx, path, start, end):
     if start > end:
         click.echo(
             "Given startpoint ({0}s) is greater than endpoint ({1}s) :/ ".format(start / 1000 / 60, end / 1000 / 60))
-        return
+        sys.exit(1)
 
     if start > song_length:
         click.echo("Given startpoint ({0}s) is greater than the lenght of music ({1}s)".format(start / 1000 / 60,
                                                                                                song_length / 1000 / 60))
-        return
+        sys.exit(1)
 
     click.echo("Cropping mp3 file from: " + str(start) + " to: " + str(end / 1000))
 
@@ -397,7 +398,7 @@ def whois(ctx, domain):
 
     if not "Domain" in data_obj:
         click.echo("This domain has not been registered yet :/")
-        return
+        sys.exit(1)
 
     # Data that we display
     labels = ["Domain", "Registrar", "Organization", "Country", "Registered On", "Expires On", "Updated On"]
@@ -474,7 +475,7 @@ def run(ctx, path):
 
         if file_extension not in supported_languages.keys():
             click.echo(chalk.red('Sorry, Unsupported language.'))
-            sys.exit(1)
+            sys.exit(-1)
 
         lang = supported_languages[file_extension]
         compressed = 1

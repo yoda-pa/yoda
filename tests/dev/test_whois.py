@@ -1,6 +1,7 @@
 import unittest
 
-from modules.dev import get_whois_data
+from click.testing import CliRunner
+import yoda
 
 class TestWhois(unittest.TestCase):
     """
@@ -12,8 +13,14 @@ class TestWhois(unittest.TestCase):
 
     def __init__(self, methodName='runTest'):
         super(TestWhois, self).__init__()
+        self.runner = CliRunner()
 
 
     def runTest(self):
-        request_code = get_whois_data("https://google.com")[1]
-        self.assertTrue(request_code == 200)
+        result = self.runner.invoke(yoda.cli, ['whois', 'https://google.com'])
+        self.assertEqual(result.exit_code, 0)
+        output_string = str(result.output.encode('ascii', 'ignore').decode('utf-8')).strip()
+
+        result = self.runner.invoke(yoda.cli, ['whois', 'http://asdfghjklpoiuytrew.com/'])
+        self.assertEqual(result.exit_code, 1)
+        output_string = str(result.output.encode('ascii', 'ignore').decode('utf-8')).strip()
