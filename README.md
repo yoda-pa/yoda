@@ -575,7 +575,6 @@ To create an issue in the github repository simple thing that shows a link.  Yee
 - [chardet](https://github.com/chardet/chardet): universal character encoding detector
 - [Codecov](https://codecov.io/): code coverage dashboard
 - [coverage](https://pypi.org/project/coverage/): For code coverage testing
-- [NumPy](http://www.numpy.org/): For scientific computation
 - [requests](http://docs.python-requests.org/en/latest/): For HTTP requests
 - [nose](https://github.com/nose-devs/nose): For unit testing
 - [urllib3](https://github.com/urllib3/urllib3): HTTP client
