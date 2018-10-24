@@ -27,4 +27,3 @@ lxml==3.5.0
 pandas==0.23.4
 fuzzywuzzy==0.17.0
 python-levenshtein==0.12.0
-
