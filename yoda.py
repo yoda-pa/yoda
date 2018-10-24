@@ -253,7 +253,7 @@ from modules import weather
 def weather(ctx, input):
     """
     Get weather\n
-    To use, type: yoda chat <location>
+    To use, type: yoda weather <location>
     """
     input = util.get_arguments(ctx, -1)
     if input:
