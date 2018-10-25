@@ -10,6 +10,7 @@
   <a href="https://sonarcloud.io/dashboard?id=yoda"><img src="https://sonarcloud.io/api/project_badges/measure?project=yoda&metric=alert_status&template=FLAT" alt="SonarCloud Quality Status"></a>
   <a href="https://manparvesh.mit-license.org/"><img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square" alt="License"></a>
   <a href="https://github.com/yoda-pa/yoda"><img src="https://img.shields.io/badge/version-0.3.0-blue.svg?style=flat-square" alt="Project status"></a>
+  <a href="https://github.com/ambv/black"><img src="https://img.shields.io/badge/code%20style-black-000000.svg" alt="Code style: black"></a>
 
   <p>Wise and powerful personal assistant, available in your nearest terminal</p><br>
 
