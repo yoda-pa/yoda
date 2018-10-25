@@ -13,46 +13,48 @@ class TestFlashCard(TestCase):
         | command: url
     """
 
-    def __init__(self, methodName='runTest'):
+    def __init__(self, methodName="runTest"):
         super(TestFlashCard, self).__init__()
         self.runner = CliRunner()
 
     def runTest(self):
-        #Test create set
+        # Test create set
 
         def testCreateSet():
-            result = self.runner.invoke(yoda.cli, ['flashcards', 'sets', 'new', '1', ], input='test set')
+            result = self.runner.invoke(
+                yoda.cli, ["flashcards", "sets", "new", "1"], input="test set"
+            )
             self.assertEqual(result.exit_code, 0)
 
         # Test set select
         def testSetSelect():
-            result = self.runner.invoke(yoda.cli, ['flashcards', 'select', '1'], )
+            result = self.runner.invoke(yoda.cli, ["flashcards", "select", "1"])
             self.assertEqual(result.exit_code, 0)
-            output_string = str(result.output.encode('ascii', 'ignore'))
+            output_string = str(result.output.encode("ascii", "ignore"))
             self.assertEqual(type(output_string), str)
 
-        #Test list available sets
+        # Test list available sets
         def testShowAvaialableSets():
-            result = self.runner.invoke(yoda.cli, ['flashcards', 'sets', 'list'])
+            result = self.runner.invoke(yoda.cli, ["flashcards", "sets", "list"])
             self.assertEqual(result.exit_code, 0)
-            output_string = str(result.output.encode('ascii', 'ignore'))
+            output_string = str(result.output.encode("ascii", "ignore"))
             self.assertEqual(type(output_string), str)
 
         # Test creation of cards
         def testCardCreation():
-            result = self.runner.invoke(yoda.cli, ['flashcards', 'cards', 'add', 'test'], input='test card\n\n')
+            result = self.runner.invoke(
+                yoda.cli, ["flashcards", "cards", "add", "test"], input="test card\n\n"
+            )
             self.assertEqual(result.exit_code, 0)
-            output_string = str(result.output.encode('ascii', 'ignore'))
+            output_string = str(result.output.encode("ascii", "ignore"))
             self.assertEqual(type(output_string), str)
 
-        #Test selected set status
+        # Test selected set status
         def testSetStatus():
-            result = self.runner.invoke(yoda.cli, ['flashcards', 'status',])
+            result = self.runner.invoke(yoda.cli, ["flashcards", "status"])
             self.assertEqual(result.exit_code, 0)
-            output_string = str(result.output.encode('ascii', 'ignore'))
+            output_string = str(result.output.encode("ascii", "ignore"))
             self.assertEqual(type(output_string), str)
-
-
 
         testCreateSet()
         testSetSelect()

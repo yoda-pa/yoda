@@ -13,11 +13,13 @@ class TestIPLookup(TestCase):
         | command: iplookup
     """
 
-    def __init__(self, methodName='runTest'):
+    def __init__(self, methodName="runTest"):
         super(TestIPLookup, self).__init__()
         self.runner = CliRunner()
 
     def runTest(self):
-        result = self.runner.invoke(yoda.cli, ['iplookup', '128.101.101.101'])
-        output_string = str(result.output.encode('ascii', 'ignore').decode('utf-8')).strip()
-        self.assertTrue(output_string == 'Minnesota, United States')
+        result = self.runner.invoke(yoda.cli, ["iplookup", "128.101.101.101"])
+        output_string = str(
+            result.output.encode("ascii", "ignore").decode("utf-8")
+        ).strip()
+        self.assertTrue(output_string == "Minnesota, United States")

@@ -12,9 +12,10 @@ import click
 import yaml
 
 try:
-    raw_input          # Python 2
+    raw_input  # Python 2
 except NameError:
     raw_input = input  # Python 3
+
 
 def alias_checker(ctx, param, value):
     from .alias import Alias
@@ -32,6 +33,7 @@ def alias_checker(ctx, param, value):
     else:
         ctx.obj.append(value)
     return None
+
 
 def get_arguments(ctx, n):
     if n == -1:
@@ -74,10 +76,13 @@ def ask_overwrite(file_path):
     :return:
     """
     if os.path.isfile(file_path):
-        click.echo(chalk.red(
-            'A configuration file already exists. Are you sure you want to overwrite it? (y/n)'))
+        click.echo(
+            chalk.red(
+                "A configuration file already exists. Are you sure you want to overwrite it? (y/n)"
+            )
+        )
         overwrite_response = input().lower()
-        if not (overwrite_response == 'y' or overwrite_response == 'yes'):
+        if not (overwrite_response == "y" or overwrite_response == "yes"):
             return True
         return False
     return False
@@ -89,7 +94,7 @@ def input_data(data, file_path):
     :param data:
     :param file_path:
     """
-    with open(file_path, 'a') as config_file:
+    with open(file_path, "a") as config_file:
         yaml.dump(data, config_file, default_flow_style=False)
 
 
@@ -109,9 +114,9 @@ def tuple_to_string(input):
     :return:
     """
     if input:
-        test_string = ''
+        test_string = ""
         for i in input:
-            test_string += (i + ' ')
+            test_string += i + " "
         return test_string.lower().strip()
 
 
@@ -121,7 +126,7 @@ def spaces_to_colons(s):
     :param s:
     :return:
     """
-    return '-'.join(s.split(' '))
+    return "-".join(s.split(" "))
 
 
 def colons_to_spaces(s):
@@ -130,10 +135,10 @@ def colons_to_spaces(s):
     :param s:
     :return:
     """
-    return ' '.join(s.split('-'))
+    return " ".join(s.split("-"))
 
 
-command = ['tput', 'cols']
+command = ["tput", "cols"]
 
 
 def get_terminal_width():
@@ -144,11 +149,13 @@ def get_terminal_width():
     try:
         width = int(subprocess.check_output(command))
     except OSError as e:
-        print("Invalid Command '{0}': exit status ({1})".format(
-            command[0], e.errno))
+        print("Invalid Command '{0}': exit status ({1})".format(command[0], e.errno))
     except subprocess.CalledProcessError as e:
-        print("Command '{0}' returned non-zero exit status: ({1})".format(
-            command, e.returncode))
+        print(
+            "Command '{0}' returned non-zero exit status: ({1})".format(
+                command, e.returncode
+            )
+        )
     else:
         return width
 
@@ -170,16 +177,15 @@ def append_data_into_file(data, file_path):
     with open(file_path) as todays_tasks_entry:
         # read contents
         contents = yaml.load(todays_tasks_entry)
-        contents['entries'].append(
-            data
-        )
+        contents["entries"].append(data)
 
         # enter data
         with open(file_path, "w") as todays_tasks_entry:
             yaml.dump(contents, todays_tasks_entry, default_flow_style=False)
 
+
 def clean_soup_data(data):
     data = str(data)
-    cleaner = re.compile('<.*?>')
-    data = re.sub(cleaner, '', data)
+    cleaner = re.compile("<.*?>")
+    data = re.sub(cleaner, "", data)
     return data.replace(":", "").strip()

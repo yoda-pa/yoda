@@ -14,27 +14,27 @@ class TestDictionary(TestCase):
         | command: define, synonym, antonym, example
     """
 
-    def __init__(self, methodName='runTest'):
+    def __init__(self, methodName="runTest"):
         super(TestDictionary, self).__init__()
         self.runner = CliRunner()
 
     def runTest(self):
-        result = self.runner.invoke(yoda.cli, ['dictionary', 'define', 'fat'])
+        result = self.runner.invoke(yoda.cli, ["dictionary", "define", "fat"])
         self.assertEqual(result.exit_code, 0)
-        output_string = str(result.output.encode('ascii', 'ignore'))
+        output_string = str(result.output.encode("ascii", "ignore"))
         self.assertEqual(type(output_string), str)
 
-        result = self.runner.invoke(yoda.cli, ['dictionary', 'synonym', 'fat'])
+        result = self.runner.invoke(yoda.cli, ["dictionary", "synonym", "fat"])
         self.assertEqual(result.exit_code, 0)
-        output_string = str(result.output.encode('ascii', 'ignore'))
+        output_string = str(result.output.encode("ascii", "ignore"))
         self.assertEqual(type(output_string), str)
 
-        result = self.runner.invoke(yoda.cli, ['dictionary', 'antonym', 'fat'])
+        result = self.runner.invoke(yoda.cli, ["dictionary", "antonym", "fat"])
         self.assertEqual(result.exit_code, 0)
-        output_string = str(result.output.encode('ascii', 'ignore'))
+        output_string = str(result.output.encode("ascii", "ignore"))
         self.assertEqual(type(output_string), str)
 
-        result = self.runner.invoke(yoda.cli, ['dictionary', 'example', 'fat'])
+        result = self.runner.invoke(yoda.cli, ["dictionary", "example", "fat"])
         self.assertEqual(result.exit_code, 0)
-        output_string = str(result.output.encode('ascii', 'ignore'))
+        output_string = str(result.output.encode("ascii", "ignore"))
         self.assertEqual(type(output_string), str)
