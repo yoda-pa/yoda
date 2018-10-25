@@ -127,6 +127,44 @@ def expenses():
                 click.echo(date + ' ' + _time + ' ' +
                            currency_name + ' ' + number + ' ' + item)
 
+def expenses_year():
+    year = datetime.datetime.now().year
+    months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AGS", "SEP", "OCT", "NOV", "DEC"]
+    amounts = [0] * 12
+    width_calendar = 90
+    row = ""
+
+    with open(MONEY_CONFIG_FOLDER_PATH + '/expenditures.txt') as fp:
+        for line in fp.read().split('\n'):
+            if len(line) == 0:
+                continue
+            (date, _time, currency_name, number, item) = shlex.split(line)
+            y, m, d = list(map(int, date.split('-')))
+            if y == year:
+                amounts[m - 1] = amounts[m - 1] + float(number)
+
+    click.echo("\nTotal expenses in the {} year: ${:,.2f}\n".format(year, sum(amounts)))
+
+    width_column = (width_calendar - 3) // 4
+    horizontal_div = "+-+-+-+-+\n".replace("-", "-" * width_column)
+    horizontal_space = "| | | | |\n".replace(" ", " " * width_column)
+
+    for i in range(3):
+        row += horizontal_div
+        for j in range(4):
+            row += "|" + " " * ((width_column - 3)//2) + months[i * 4 + j] + " " * ((width_column - 3)//2)
+        row += "|\n"
+        row += horizontal_div
+        row += horizontal_space
+        for j in range(4):
+            amount = '${:,.2f}'.format(amounts[i * 4 + j])
+            width_spaces = (width_column - len(amount))//2
+            row += "|" + " " * width_spaces + amount + " " * (width_column - width_spaces - len(amount))
+        row += "|\n"
+        row += horizontal_space
+    row += horizontal_div
+    click.echo(row)
+
 
 def check_sub_command(c):
     """
@@ -138,7 +176,8 @@ def check_sub_command(c):
         'status': status,
         'setup': setup,
         'exp': expense,
-        'exps': expenses
+        'exps': expenses,
+        'exps_year': expenses_year,
     }
     try:
         return sub_commands[c]()
