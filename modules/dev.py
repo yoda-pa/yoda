@@ -620,16 +620,12 @@ def fileshare(ctx, path):
     Upload and share files using https://file.io.
     """
     if os.path.isfile(path):
-        response = subprocess.check_output(
-            ["curl", "-F", "file=@" + path, "https://file.io"]
-        )
-
-        response_json = json.loads(response)
-        if "link" in response_json.keys():
-            click.echo(chalk.green("File Link : " + response_json["link"]))
-            click.echo(
-                chalk.yellow("WARNING: File will be deleted after it is accessed once.")
-            )
+        files = {'file': open(path, 'rb')}
+        resp = requests.post('https://file.io', files=files)
+        response_json = json.loads(resp.text)
+        if 'link' in response_json.keys():
+            click.echo(chalk.green("File Link : " + response_json['link']))
+            click.echo(chalk.yellow("WARNING: File will be deleted after it is accessed once."))
         else:
             click.echo(chalk.red("File upload failed!"))
     else:
