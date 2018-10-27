@@ -300,41 +300,83 @@ def complete_task():
         )
 
 
+def _date_task_number(list_of_files):
+    not_valid_date_number = 1
+    click.echo("Select the date:- \n")
+    click.echo("--------------------")
+    click.echo("Number |    Date    ")
+    click.echo("--------------------")
+    for i, some_file in enumerate(range(0, len(list_of_files))):
+        click.echo(str(i) + "      |" + list_of_files[some_file][0:10])
+    while not_valid_date_number:
+        click.echo(chalk.blue("Enter the number to select the date"))
+        selected_date = int(input())
+        if selected_date > len(list_of_files):
+            click.echo(chalk.red("Please Enter a valid date number!"))
+        else:
+            SELECTED_DATE_PATH = os.path.join(
+                DIARY_CONFIG_FOLDER_PATH + "/" + list_of_files[selected_date - 1]
+            )
+            with open(SELECTED_DATE_PATH) as selected_task:
+                contents = yaml.load(selected_task)
+                click.echo("\nTasks for " + list_of_files[some_file][0:10])
+                click.echo("-----------------------")
+                click.echo("Number |  Time   | Task")
+                click.echo("-------|---------|-----")
+                for i, entry in enumerate(contents["entries"]):
+                    time = entry["time"]
+                    text = entry["text"] + " " + entry.get("hashtags", "")
+                    text = text if entry["status"] == 0 else strike(text)
+                    click.echo("   " + str(i) + "   | " + time + ": " + text)
+            not_valid_date_number = 0
+
+
+def _date_note_number(list_of_files):
+    not_valid_date_number = 1
+    contents = None
+    SELECTED_DATE_PATH = None
+
+    click.echo("Select the date:- \n")
+    click.echo("--------------------")
+    click.echo("Number |    Date    ")
+    click.echo("--------------------")
+    for i, some_file in enumerate(range(0, len(list_of_files))):
+        click.echo(str(i) + "      |" + list_of_files[some_file][0:10])
+    while not_valid_date_number:
+        click.echo(chalk.blue("Enter the number to select the date"))
+        selected_date = int(input())
+        if selected_date > len(list_of_files):
+            click.echo(chalk.red("Please Enter a valid Date number!"))
+        else:
+            SELECTED_DATE_PATH = os.path.join(
+                DIARY_CONFIG_FOLDER_PATH + "/" + list_of_files[selected_date - 1]
+            )
+            with open(SELECTED_DATE_PATH) as selected_note:
+                contents = yaml.load(selected_note)
+                click.echo("\nNotes for " + list_of_files[some_file][0:10])
+                click.echo("----------------")
+                click.echo("Number |  Time   |   Title    | Text")
+                click.echo("-------|---------|------------|-----")
+                for i, entry in enumerate(contents["entries"]):
+                    entry["index"] = str(i)
+                    time = entry["time"]
+                    note_title = entry["title"]
+                    text = entry["text"]
+                    click.echo(
+                        "{index}      |{time} |  {title}  | {text}".format(**entry)
+                    )
+            not_valid_date_number = 0
+    return contents, SELECTED_DATE_PATH
+
+
 def delete_task():
     """
-	delete a particular task
-	"""
+    delete a particular task
+    """
     list_of_files = list_of_tasks_files()
     if list_of_files:
         not_valid_task_number = 1
-        not_valid_date_number = 1
-        click.echo("Select the date:- \n")
-        click.echo("--------------------")
-        click.echo("Number |    Date    ")
-        click.echo("--------------------")
-        for i, some_file in enumerate(range(0, len(list_of_files))):
-            click.echo(str(i) + "      |" + list_of_files[some_file][0:10])
-        while not_valid_date_number:
-            click.echo(chalk.blue("Enter the number to select the date"))
-            selected_date = int(input())
-            if selected_date > len(list_of_files):
-                click.echo(chalk.red("Please Enter a valid task number!"))
-            else:
-                SELECTED_DATE_PATH = os.path.join(
-                    DIARY_CONFIG_FOLDER_PATH + "/" + list_of_files[selected_date - 1]
-                )
-                with open(SELECTED_DATE_PATH) as selected_task:
-                    contents = yaml.load(selected_task)
-                    click.echo("\nTasks for " + list_of_files[some_file][0:10])
-                    click.echo("----------------")
-                    click.echo("Number |  Time   | Task")
-                    click.echo("-------|---------|-----")
-                    for i, entry in enumerate(contents["entries"]):
-                        time = entry["time"]
-                        text = entry["text"] + " " + entry.get("hashtags", "")
-                        text = text if entry["status"] == 0 else strike(text)
-                        click.echo("   " + str(i) + "   | " + time + ": " + text)
-                not_valid_date_number = 0
+        _date_task_number(list_of_files)
         while not_valid_task_number:
             click.echo(
                 chalk.blue("Enter the task number that you would like to delete")
@@ -353,49 +395,13 @@ def delete_task():
 
 
 def delete_note():
-
     """
-delete a particular note
-	"""
+    delete a particular note
+    """
     list_of_files = list_of_notes_files()
     if list_of_files:
         not_valid_note_number = 1
-        not_valid_date_number = 1
-        click.echo("Select the date:- \n")
-        click.echo("--------------------")
-        click.echo("Number |    Date    ")
-        click.echo("--------------------")
-        for i, some_file in enumerate(range(0, len(list_of_files))):
-            click.echo(str(i) + "      |" + list_of_files[some_file][0:10])
-        while not_valid_date_number:
-            click.echo(chalk.blue("Enter the number to select the date"))
-            selected_date = int(input())
-            if selected_date > len(list_of_files):
-                click.echo(chalk.red("Please Enter a valid Date number!"))
-            else:
-                SELECTED_DATE_PATH = os.path.join(
-                    DIARY_CONFIG_FOLDER_PATH + "/" + list_of_files[selected_date - 1]
-                )
-                with open(SELECTED_DATE_PATH) as selected_note:
-                    contents = yaml.load(selected_note)
-                    click.echo("\nNotes for " + list_of_files[some_file][0:10])
-                    click.echo("----------------")
-                    click.echo("Number |  Time   |   Title    | Text")
-                    click.echo("-------|---------|------------|-----")
-                    for i, entry in enumerate(contents["entries"]):
-                        time = entry["time"]
-                        note_title = entry["title"]
-                        text = entry["text"]
-                        click.echo(
-                            str(i)
-                            + "      |"
-                            + time
-                            + " |  "
-                            + note_title
-                            + "  | "
-                            + text
-                        )
-                not_valid_date_number = 0
+        contents, SELECTED_DATE_PATH = _date_note_number(list_of_files)
         while not_valid_note_number:
             click.echo(
                 chalk.blue("Enter the note number that you would like to delete")
@@ -625,40 +631,12 @@ def get_task_info(timestamp, date):
 
 def update_task():
     """
-update a particular task
-	"""
-
+    update a particular task
+    """
     list_of_files = list_of_tasks_files()
     if list_of_files:
         not_valid_task_number = 1
-        not_valid_date_number = 1
-        click.echo("Select the date:- \n")
-        click.echo("--------------------")
-        click.echo("Number |    Date    ")
-        click.echo("--------------------")
-        for i, some_file in enumerate(range(0, len(list_of_files))):
-            click.echo(str(i) + "      |" + list_of_files[some_file][0:10])
-        while not_valid_date_number:
-            click.echo(chalk.blue("Enter the number to select the date"))
-            selected_date = int(input())
-            if selected_date > len(list_of_files):
-                click.echo(chalk.red("Please Enter a valid date number!"))
-            else:
-                SELECTED_DATE_PATH = os.path.join(
-                    DIARY_CONFIG_FOLDER_PATH + "/" + list_of_files[selected_date - 1]
-                )
-                with open(SELECTED_DATE_PATH) as selected_task:
-                    contents = yaml.load(selected_task)
-                    click.echo("\nTasks for " + list_of_files[some_file][0:10])
-                    click.echo("-----------------------")
-                    click.echo("Number |  Time   | Task")
-                    click.echo("-------|---------|-----")
-                    for i, entry in enumerate(contents["entries"]):
-                        time = entry["time"]
-                        text = entry["text"] + " " + entry.get("hashtags", "")
-                        text = text if entry["status"] == 0 else strike(text)
-                        click.echo("   " + str(i) + "   | " + time + ": " + text)
-                not_valid_date_number = 0
+        _date_task_number(list_of_files)
         while not_valid_task_number:
             click.echo(
                 chalk.blue("Enter the task number that you would like to update")
@@ -686,42 +664,7 @@ def update_note():
     list_of_files = list_of_notes_files()
     if list_of_files:
         not_valid_note_number = 1
-        not_valid_date_number = 1
-        click.echo("Select the date:- \n")
-        click.echo("--------------------")
-        click.echo("Number |    Date    ")
-        click.echo("--------------------")
-        for i, some_file in enumerate(range(0, len(list_of_files))):
-            click.echo(str(i) + "      |" + list_of_files[some_file][0:10])
-        while not_valid_date_number:
-            click.echo(chalk.blue("Enter the number to select the date"))
-            selected_date = int(input())
-            if selected_date > len(list_of_files):
-                click.echo(chalk.red("Please Enter a valid Date number!"))
-            else:
-                SELECTED_DATE_PATH = os.path.join(
-                    DIARY_CONFIG_FOLDER_PATH + "/" + list_of_files[selected_date - 1]
-                )
-                with open(SELECTED_DATE_PATH) as selected_note:
-                    contents = yaml.load(selected_note)
-                    click.echo("\nNotes for " + list_of_files[some_file][0:10])
-                    click.echo("------------------------------------")
-                    click.echo("Number |  Time   |   Title    | Text")
-                    click.echo("-------|---------|------------|-----")
-                    for i, entry in enumerate(contents["entries"]):
-                        time = entry["time"]
-                        note_title = entry["title"]
-                        text = entry["text"]
-                        click.echo(
-                            str(i)
-                            + "      |"
-                            + time
-                            + " |  "
-                            + note_title
-                            + "  | "
-                            + text
-                        )
-                not_valid_date_number = 0
+        contents, SELECTED_DATE_PATH = _date_note_number(list_of_files)
         while not_valid_note_number:
             click.echo(
                 chalk.blue("Enter the note number that you would like to update")
@@ -734,8 +677,7 @@ def update_note():
                 click.echo(chalk.blue("Enter the new text"))
                 new_note = input()
                 contents["entries"][note_to_be_updated - 1]["text"] = new_note
-                input_data(contents, TODAYS_NOTES_ENTRY_FILE_PATH)
-
+                input_data(contents, SELECTED_DATE_PATH)
     else:
         click.echo(
             chalk.red('There are no tasks. Add a new task by entering "yoda diary nt"')
