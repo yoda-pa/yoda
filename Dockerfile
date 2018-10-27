@@ -12,4 +12,4 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
-RUN pip install .
+RUN pip install -e .
