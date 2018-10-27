@@ -94,7 +94,7 @@ def expense():
         request.query = input()
         click.echo('output: ')
         response = request.getresponse().read()
-        output = json.loads(response)
+        output = json.loads(response.decode('utf8').replace('\n', ''))
         # click.echo(output)
         currency_name = output['result']['parameters']['currency-name']
         item = output['result']['parameters']['any'] if len(output['result']['parameters']['any'].split(
