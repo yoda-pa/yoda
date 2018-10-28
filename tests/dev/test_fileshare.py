@@ -6,7 +6,7 @@ from click.testing import CliRunner
 import yoda
 
 
-class test_fileshare(TestCase):
+class testFileshare(TestCase):
     """
         Test for the following commands:
 
@@ -16,7 +16,7 @@ class test_fileshare(TestCase):
     """
 
     def __init__(self, methodName='runTest'):
-        super(test_fileshare, self).__init__()
+        super(testFileshare, self).__init__()
         self.runner = CliRunner()
 
     def runTest(self):

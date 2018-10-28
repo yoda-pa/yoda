@@ -1,10 +1,11 @@
 # coding=utf-8
 import sys
 from unittest import TestCase
+import mock
 from click.testing import CliRunner
 
 import yoda
-
+from requests.exceptions import ConnectionError
 
 class TestHoroscope(TestCase):
     """
@@ -19,11 +20,21 @@ class TestHoroscope(TestCase):
         self.runner = CliRunner()
 
     def runTest(self):
-        result = self.runner.invoke(yoda.cli, ['horoscope', 'aries'])
+        def test_with_correct_input():
+            result = self.runner.invoke(yoda.cli, ['horoscope', 'aries'])
 
-        if sys.version_info[0] == 3:
-            string_types = str
-        else:
-            string_types = basestring
+            if sys.version_info[0] == 3:
+                string_types = str
+            else:
+                string_types = basestring
 
-        self.assertIsInstance(result.output, string_types)
+            self.assertIsInstance(result.output, string_types)
+            self.assertEqual(result.exit_code, 0)
+
+        @mock.patch('requests.get', return_value=ConnectionError)
+        def test_with_connection_error(_self):
+            result = self.runner.invoke(yoda.cli, ['horoscope', 'aries'])
+            self.assertEqual(result.exit_code, 1)
+
+        test_with_correct_input()
+        test_with_connection_error()
