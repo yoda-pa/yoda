@@ -589,8 +589,10 @@ def fileshare(ctx, path):
             click.echo(chalk.yellow("WARNING: File will be deleted after it is accessed once."))
         else:
             click.echo(chalk.red("File upload failed!"))
+            sys.exit(1)
     else:
         click.echo(chalk.red("No file such as " + path + ", Please re-check the PATH and try again."))
+        sys.exit(-1)
 
 @dev.command()
 @click.pass_context
