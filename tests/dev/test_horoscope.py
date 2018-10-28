@@ -7,6 +7,9 @@ from click.testing import CliRunner
 import yoda
 from requests.exceptions import ConnectionError
 
+def function_with_connection_error():
+    raise ConnectionError()
+
 class TestHoroscope(TestCase):
     """
         Test for the following commands:
@@ -31,7 +34,7 @@ class TestHoroscope(TestCase):
             self.assertIsInstance(result.output, string_types)
             self.assertEqual(result.exit_code, 0)
 
-        @mock.patch('requests.get', return_value=ConnectionError)
+        @mock.patch('requests.get', side_effect=function_with_connection_error)
         def test_with_connection_error(_self):
             result = self.runner.invoke(yoda.cli, ['horoscope', 'aries'])
             self.assertEqual(result.exit_code, 1)
