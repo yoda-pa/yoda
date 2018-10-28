@@ -28,7 +28,7 @@ class test_fileshare(TestCase):
 
         def test_with_wrong_file_path():
             result = self.runner.invoke(yoda.cli, ['fileshare', 'wrong_path'])
-            self.assertEqual(result.exit_code, 0)
+            self.assertEqual(result.exit_code, -1)
 
         @mock.patch('json.loads', return_value=empty_response_json)
         def test_with_no_key_in_response(_self):
