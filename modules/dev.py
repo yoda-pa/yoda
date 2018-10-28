@@ -401,13 +401,14 @@ def checksite(ctx, link):
     # request
     try:
         r = requests.get(link)
-    except Exception as e:
+    except requests.exceptions.ConnectionError:
         click.echo('Looks like {0} is not a valid URL, check the URL and try again.'.format(link))
-        return
+        sys.exit(-1)
 
     # check the status code
     if r.status_code != 200:
         click.echo("Uh-oh! Site is down. :'(")
+        sys.exit(1)
     else:
         click.echo('Yay! The site is up and running! :)')
 
