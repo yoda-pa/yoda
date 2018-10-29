@@ -1,8 +1,11 @@
 from __future__ import absolute_import
 from __future__ import division
 
+import collections
 import json
 import re
+import itertools
+import string
 import sys
 
 from builtins import range
@@ -28,6 +31,8 @@ from resources.hackerearth.language import supported_languages
 from resources.hackerearth.parameters import RunAPIParameters
 
 from resources.hackerearth.api_handlers import HackerEarthAPI
+
+from .ciphers import *
 
 FIREBASE_DYNAMIC_LINK_API_KEY = "AIzaSyAuVJ0zfUmacDG5Vie4Jl7_ercv6gSwebc"
 GOOGLE_URL_SHORTENER_API_KEY = "AIzaSyCBAXe-kId9UwvOQ7M2cLYR7hyCpvfdr7w"
@@ -64,7 +69,6 @@ def append_data_into_file(data, file_path):
         with open(file_path, "w") as todays_tasks_entry:
             yaml.dump(contents, todays_tasks_entry, default_flow_style=False)
 
-
 @click.group()
 def dev():
     """
@@ -79,6 +83,7 @@ def speedtest():
     Run a speed test for your internet connection
     """
     os.system("speedtest-cli")
+
 
 
 # code for URL command
@@ -413,21 +418,19 @@ def checksite(ctx, link):
     # request
     try:
         r = requests.get(link)
-    except Exception as e:
-        click.echo(
-            "Looks like {0} is not a valid URL, check the URL and try again.".format(
-                link
-            )
-        )
-        return
+
+    except requests.exceptions.ConnectionError:
+        click.echo('Looks like {0} is not a valid URL, check the URL and try again.'.format(link))
+        sys.exit(-1)
+
 
     # check the status code
     if r.status_code != 200:
         click.echo("Uh-oh! Site is down. :'(")
+        sys.exit(1)
     else:
-        click.echo("Yay! The site is up and running! :)")
-
-
+        click.echo('Yay! The site is up and running! :)')
+ 
 @dev.command()
 @click.pass_context
 @click.argument("astrological_sign", nargs=1, required=False, callback=alias_checker)
@@ -446,8 +449,8 @@ def horoscope(ctx, astrological_sign):
         )
         return click.echo(r.json()["horoscope"])
     except requests.exceptions.ConnectionError:
-        click.echo("Yoda cannot sense the internet right now!")
-        sys.exit(1)
+        click.echo('Yoda cannot sense the internet right now!')
+        sys.exit(-1)
 
 
 # idea list process
@@ -459,7 +462,6 @@ def horoscope(ctx, astrological_sign):
 def grep(pattern, path, r, i):
     """
         Grep for a pattern in a file or recursively through a folder.
-
         yoda dev grep PATTERN PATH [OPTIONAL ARGUMENTS]
     """
     recursive, ignorecase = r, i
@@ -628,13 +630,10 @@ def fileshare(ctx, path):
             click.echo(chalk.yellow("WARNING: File will be deleted after it is accessed once."))
         else:
             click.echo(chalk.red("File upload failed!"))
+            sys.exit(1)
     else:
-        click.echo(
-            chalk.red(
-                "No file such as " + path + ", Please re-check the PATH and try again."
-            )
-        )
-
+        click.echo(chalk.red("No file such as " + path + ", Please re-check the PATH and try again."))
+        sys.exit(-1)
 
 @dev.command()
 @click.pass_context
@@ -660,6 +659,48 @@ def search_file(pattern, infile):
         match = pattern.search(line)
         if match:
             yield line
+
+
+@dev.command()
+@click.pass_context
+@click.argument('mode', nargs=1, required=False, callback=alias_checker)
+def ciphers(ctx, mode):
+    """
+    Encrypts and decrypts texts in classical ciphers
+    """
+
+    mode = get_arguments(ctx, 1)
+    if mode is None:
+        click.echo("No mode was passed.(choose encrypt or decrypt")
+        return
+    
+    _mode = str(mode).lower()
+    
+
+    cipher_dict = {
+                    "Atbash": atbash.AtbashCipher,
+                    "Caesar": caesar.CaesarCipher,
+                    "ROT13": rot13.ROT13Cipher
+                }
+
+    for index, cipher in enumerate(cipher_dict):
+        print("{0}: {1}".format(index, cipher))
+
+    cipher_choice = int(click.prompt("Choose a cipher"))
+    if cipher_choice > len(cipher_dict) - 1 or cipher_choice < 0:
+        click.echo("Invalid cipher number was chosen.")
+        return
+
+    cipher = cipher_dict[list(cipher_dict.keys())[cipher_choice]]()
+
+    if _mode == "encrypt":
+        clear_text = click.prompt("The text you want to encrypt")
+        return click.echo(cipher.encrypt(clear_text))
+    elif _mode == "decrypt":
+        cipher_text = click.prompt("The text you want to decrypt")
+        return click.echo(cipher.decrypt(cipher_text))
+    else:
+        return click.echo("Invalid mode passed.")
 
 
 @dev.command()
@@ -710,3 +751,4 @@ def run(ctx, path):
             )
         )
         sys.exit(1)
+
