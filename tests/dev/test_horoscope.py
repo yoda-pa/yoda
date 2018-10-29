@@ -37,7 +37,7 @@ class TestHoroscope(TestCase):
         @mock.patch('requests.get', side_effect=function_with_connection_error)
         def test_with_connection_error(_self):
             result = self.runner.invoke(yoda.cli, ['horoscope', 'aries'])
-            self.assertEqual(result.exit_code, 1)
+            self.assertEqual(result.exit_code, -1)
 
         test_with_correct_input()
         test_with_connection_error()

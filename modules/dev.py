@@ -428,7 +428,7 @@ def horoscope(ctx, astrological_sign):
         return click.echo(r.json()['horoscope'])
     except requests.exceptions.ConnectionError:
         click.echo('Yoda cannot sense the internet right now!')
-        sys.exit(1)
+        sys.exit(-1)
 
 
 # idea list process

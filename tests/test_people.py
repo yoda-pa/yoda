@@ -60,6 +60,3 @@ class TestPeople(TestCase):
 
         result = self.runner.invoke(yoda.cli, ['people', 'like'], input='invalid')
         self.assertEqual(result.exit_code, 0)
-
-        result = self.runner.invoke(yoda.cli, ['people', 'setup'], input='test people')
-        self.assertEqual(result.exit_code, 0)
