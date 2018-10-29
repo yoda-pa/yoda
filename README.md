@@ -10,6 +10,7 @@
   <a href="https://sonarcloud.io/dashboard?id=yoda"><img src="https://sonarcloud.io/api/project_badges/measure?project=yoda&metric=alert_status&template=FLAT" alt="SonarCloud Quality Status"></a>
   <a href="https://manparvesh.mit-license.org/"><img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square" alt="License"></a>
   <a href="https://github.com/yoda-pa/yoda"><img src="https://img.shields.io/badge/version-0.3.0-blue.svg?style=flat-square" alt="Project status"></a>
+  <a href="https://github.com/ambv/black"><img src="https://img.shields.io/badge/code%20style-black-000000.svg" alt="Code style: black"></a>
 
   <p>Wise and powerful personal assistant, available in your nearest terminal</p><br>
 
@@ -30,8 +31,8 @@
 ### Run, how to
 
 #### Method 1
-You can install yoda directly from the github repository using the following commands in shell.  
-`virtualenv yodaenv`  
+You can install yoda directly from the github repository using the following commands in shell.
+`virtualenv yodaenv`
 `./yodaenv/bin/pip install git+https://github.com/yoda-pa/yoda`
 
 #### Method 2
@@ -40,6 +41,10 @@ Clone this repository and create a virtual environment using Python 2 in the clo
 ![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/firstsetup.gif)
 
 Instead of `pip install --editable .` you can use `pip install .` if you don't intend to make any changes in the code.
+
+#### Method 3
+Clone this repository and build the Docker image (`make build`) and then run:
+`docker run --rm -it --name yoda yoda:latest yoda chat Hello`
 
 ## Use this package, how to
 
@@ -161,6 +166,23 @@ $ yoda dev fileshare transport.png
 100  379k  100    82  100  379k     14  69962  0:00:05  0:00:05 --:--:-- 78717
 File Link : https://file.io/GTd4FH
 WARNING: File will be deleted after it is accessed once.
+~~~
+
+- keybindings
+~~~
+# To add(or import) a keybindings file
+$ yoda dev keybindings add vim /absolute/path/to/keybinding/file.csv
+
+# To search keybinding action for a software
+$ yoda dev keybindings search vim move cusror
+Key Bindings:
+---------------------------------------
+     key       |          action       
+---------------|-----------------------
+       h       |       move cursor left
+       j       |       move cursor down
+       k       |       move cursor up
+       l       |       move cursor right
 ~~~
 
 #### goals
@@ -575,7 +597,6 @@ To create an issue in the github repository simple thing that shows a link.  Yee
 - [chardet](https://github.com/chardet/chardet): universal character encoding detector
 - [Codecov](https://codecov.io/): code coverage dashboard
 - [coverage](https://pypi.org/project/coverage/): For code coverage testing
-- [NumPy](http://www.numpy.org/): For scientific computation
 - [requests](http://docs.python-requests.org/en/latest/): For HTTP requests
 - [nose](https://github.com/nose-devs/nose): For unit testing
 - [urllib3](https://github.com/urllib3/urllib3): HTTP client
@@ -591,7 +612,7 @@ To create an issue in the github repository simple thing that shows a link.  Yee
 - [Requests](https://wwww.docs.python-requests.org): Used for online http requests/services
 - [wttr](http://wttr.in): Used for getting weather information
 - [file.io](https://file.io/): Used for fileshare
-- [HackerEarthAPI](https://www.hackerearth.com/docs/wiki/developers/legacy/): Used to run code
+- [HackerEarthAPI](https://www.hackerearth.com/docs/wiki/developers/v3/): Used to run code
 - [lyrics.ovh](https://lyricsovh.docs.apiary.io/#): Used for lyrics
 - Yoda's illustration SVG was taken from [here](https://www.shareicon.net/yoda-854796)
 - [WhoIs](https://www.whois.com): Used for getting information about domains.

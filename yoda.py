@@ -7,6 +7,7 @@ from modules import *
 
 sys.path.insert(1, os.getcwd())
 
+
 @click.group(cls=alias.Alias)
 @click.pass_context
 def cli(ctx):
@@ -14,13 +15,14 @@ def cli(ctx):
     Yoda PA: A personal assistant based on the command line
     """
 
+
 # The alias module
 cli.add_command(alias.alias)
 
 
 @cli.command()
 @click.pass_context
-@click.argument('input', nargs=-1, required=False, callback=alias.alias_checker)
+@click.argument("input", nargs=-1, required=False, callback=alias.alias_checker)
 def chat(ctx, input):
     """
     A simple chatbot\n
@@ -28,12 +30,12 @@ def chat(ctx, input):
     """
     input = util.get_arguments(ctx, -1)
     if input:
-        test_string = ''
+        test_string = ""
         for i in input:
-            test_string += i + ' '
-        data = sys.modules['modules.chat'].process(test_string)
+            test_string += i + " "
+        data = sys.modules["modules.chat"].process(test_string)
     else:
-        click.echo('No input specified. Run with --help for info')
+        click.echo("No input specified. Run with --help for info")
 
 
 # The devtools module
@@ -43,17 +45,19 @@ cli.add_command(dev.url)
 cli.add_command(dev.hackernews)
 cli.add_command(dev.coinflip)
 cli.add_command(dev.iplookup)
+cli.add_command(dev.ciphers)
 cli.add_command(dev.checksite)
 cli.add_command(dev.horoscope)
 cli.add_command(dev.mp3cutter)
 cli.add_command(dev.whois)
 cli.add_command(dev.fileshare)
 cli.add_command(dev.run)
+cli.add_command(dev.keybindings)
 
 
 @cli.command()
 @click.pass_context
-@click.argument('input', nargs=-1, required=False, callback=alias.alias_checker)
+@click.argument("input", nargs=-1, required=False, callback=alias.alias_checker)
 def love(ctx, input):
     """
     maintain a profile of someone you love\n
@@ -70,17 +74,17 @@ def love(ctx, input):
     """
     input = util.get_arguments(ctx, -1)
     if input:
-        test_string = ''
+        test_string = ""
         for i in input:
-            test_string += (i + ' ')
-        data = sys.modules['modules.love'].process(test_string)
+            test_string += i + " "
+        data = sys.modules["modules.love"].process(test_string)
     else:
-        click.echo('No input specified. Run with --help for info')
+        click.echo("No input specified. Run with --help for info")
 
 
 @cli.command()
 @click.pass_context
-@click.argument('input', nargs=-1, required=False, callback=alias.alias_checker)
+@click.argument("input", nargs=-1, required=False, callback=alias.alias_checker)
 def people(ctx, input):
     """
     maintain a profile of someone your Friend\n
@@ -95,17 +99,17 @@ def people(ctx, input):
     """
     input = util.get_arguments(ctx, -1)
     if input:
-        test_string = ''
+        test_string = ""
         for i in input:
-            test_string += (i + ' ')
-        data = sys.modules['modules.people'].process(test_string)
+            test_string += i + " "
+        data = sys.modules["modules.people"].process(test_string)
     else:
-        click.echo('No input specified. Run with --help for info')
+        click.echo("No input specified. Run with --help for info")
 
 
 @cli.command()
 @click.pass_context
-@click.argument('input', nargs=-1, required=False, callback=alias.alias_checker)
+@click.argument("input", nargs=-1, required=False, callback=alias.alias_checker)
 def diary(ctx, input):
     """
     Maintain a personal diary\n
@@ -125,17 +129,17 @@ def diary(ctx, input):
     """
     input = util.get_arguments(ctx, -1)
     if input:
-        test_string = ''
+        test_string = ""
         for i in input:
-            test_string += (i + ' ')
-        data = sys.modules['modules.diary'].process(test_string)
+            test_string += i + " "
+        data = sys.modules["modules.diary"].process(test_string)
     else:
-        click.echo('No input specified. Run with --help for info')
+        click.echo("No input specified. Run with --help for info")
 
 
 @cli.command()
 @click.pass_context
-@click.argument('input', nargs=-1, required=False, callback=alias.alias_checker)
+@click.argument("input", nargs=-1, required=False, callback=alias.alias_checker)
 def money(ctx, input):
     """
     For tracking money \n\n
@@ -148,12 +152,13 @@ def money(ctx, input):
     """
     input = util.get_arguments(ctx, -1)
     if input:
-        test_string = ''
+        test_string = ""
         for i in input:
-            test_string += (i + ' ')
-        data = sys.modules['modules.money'].process(test_string)
+            test_string += i + " "
+        data = sys.modules["modules.money"].process(test_string)
     else:
-        click.echo('No input specified. Run with --help for info')
+        click.echo("No input specified. Run with --help for info")
+
 
 # The food module
 cli.add_command(food.food)
@@ -166,21 +171,22 @@ cli.add_command(learn.dictionary)
 # The entertainment module
 cli.add_command(entertainment.lyrics)
 
+
 @cli.command()
 @click.pass_context
-@click.argument('input', nargs=-1, required=False, callback=alias.alias_checker)
+@click.argument("input", nargs=-1, required=False, callback=alias.alias_checker)
 def setup(ctx, input):
     """
     create a setup configuration for you to save some information locally
     """
     input = util.get_arguments(ctx, -1)
     if input:
-        test_string = ''
+        test_string = ""
         for i in input:
-            test_string += (i + ' ')
-        data = sys.modules['modules.setup'].process(test_string)
+            test_string += i + " "
+        data = sys.modules["modules.setup"].process(test_string)
     else:
-        click.echo('No input specified. Run with --help for info')
+        click.echo("No input specified. Run with --help for info")
 
 
 # feedback
@@ -192,20 +198,23 @@ def feedback():
     - Suggesting a feature
     - General suggestion
     """
-    click.echo('For:\n\
+    click.echo(
+        "For:\n\
     1. reporting a bug\n\
     2. For suggesting a feature\n\
     3. Any general suggestion or question\n\
-Please create an issue in the Github repository:\nhttps://github.com/yoda-pa/yoda/issues/new')
+Please create an issue in the Github repository:\nhttps://github.com/yoda-pa/yoda/issues/new"
+    )
 
 
 # the life module
 cli.add_command(life.rlist)
 cli.add_command(life.ideas)
 
+
 @cli.command()
 @click.pass_context
-@click.argument('input', nargs=-1, required=False, callback=alias.alias_checker)
+@click.argument("input", nargs=-1, required=False, callback=alias.alias_checker)
 def goals(ctx, input):
     """
     Set your goals \n\n
@@ -219,47 +228,51 @@ def goals(ctx, input):
     """
     input = util.get_arguments(ctx, -1)
     if input:
-        test_string = ''
+        test_string = ""
         for i in input:
-            test_string += (i + ' ')
-        data = sys.modules['modules.goals'].process(test_string)
+            test_string += i + " "
+        data = sys.modules["modules.goals"].process(test_string)
     else:
-        click.echo('No input specified. Run with --help for info')
+        click.echo("No input specified. Run with --help for info")
+
 
 @cli.command()
 @click.pass_context
-@click.argument('input', nargs=1,required=True, callback=alias.alias_checker)
+@click.argument("input", nargs=1, required=True, callback=alias.alias_checker)
 def ascii_transform(ctx, input):
     """
     Transform an image into ascii \n\n
     Pass the absolute path to  the image as the argument\n
     """
-    input = util.get_arguments(ctx,-1)
+    input = util.get_arguments(ctx, -1)
     if input:
-        test_string = ''
+        test_string = ""
         for i in input:
-            test_string += (i+'')
-        data = sys.modules['modules.asciiator'].process(str(test_string))
+            test_string += i + ""
+        data = sys.modules["modules.asciiator"].process(str(test_string))
     else:
-        click.echo('No input specified. Run with --help for info')
+        click.echo("No input specified. Run with --help for info")
     print(data)
+
 
 cli.add_command(gif.gif)
 
 from modules import weather
+
+
 @cli.command()
 @click.pass_context
-@click.argument('input', nargs=-1, required=False, callback=alias.alias_checker)
+@click.argument("input", nargs=-1, required=False, callback=alias.alias_checker)
 def weather(ctx, input):
     """
     Get weather\n
-    To use, type: yoda chat <location>
+    To use, type: yoda weather <location>
     """
     input = util.get_arguments(ctx, -1)
     if input:
-        test_string = ''
+        test_string = ""
         for i in input:
-            test_string += (i + ' ')
-        data = sys.modules['modules.weather'].get_weather(test_string)
+            test_string += i + " "
+        data = sys.modules["modules.weather"].get_weather(test_string)
     else:
-        click.echo('No input specified. Run with --help for info')
+        click.echo("No input specified. Run with --help for info")

@@ -13,34 +13,27 @@ class TestHealth(TestCase):
         | command: health
     """
 
-    def __init__(self, methodName='runTest'):
+    def __init__(self, methodName="runTest"):
         super(TestHealth, self).__init__()
         self.runner = CliRunner()
 
     def runTest(self):
-        result = self.runner.invoke(yoda.cli, ['setup'])
+        result = self.runner.invoke(yoda.cli, ["setup"])
         self.assertEqual(result.exit_code, 0)
 
-        result = self.runner.invoke(yoda.cli, ['setup', 'check'])
+        result = self.runner.invoke(yoda.cli, ["setup", "check"])
         self.assertEqual(result.exit_code, 0)
 
-        result = self.runner.invoke(yoda.cli, ['setup', 'new'], input="\n"
-                                                                      "MP"
-                                                                      "\n"
-                                                                      "a"
-                                                                      "\n"
-                                                                      "\n"
-                                                                      "mp"
-                                                                      "\n"
-                                                                      "\n"
-                                                                      "mp"
-                                                                      "\n"
-                                                                      "~/.yoda/")
+        result = self.runner.invoke(
+            yoda.cli,
+            ["setup", "new"],
+            input="\n" "MP" "\n" "a" "\n" "\n" "mp" "\n" "\n" "mp" "\n" "~/.yoda/",
+        )
 
-        result = self.runner.invoke(yoda.cli, ['setup', 'delete'])
+        result = self.runner.invoke(yoda.cli, ["setup", "delete"])
 
-        result = self.runner.invoke(yoda.cli, ['setup', 'check'])
+        result = self.runner.invoke(yoda.cli, ["setup", "check"])
         self.assertEqual(result.exit_code, 0)
 
-        result = self.runner.invoke(yoda.cli, ['setup', 'invalid_argument'])
+        result = self.runner.invoke(yoda.cli, ["setup", "invalid_argument"])
         self.assertEqual(result.exit_code, 0)
