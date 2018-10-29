@@ -418,17 +418,16 @@ def checksite(ctx, link):
     # request
     try:
         r = requests.get(link)
-    except Exception as e:
-        click.echo(
-            "Looks like {0} is not a valid URL, check the URL and try again.".format(
-                link
-            )
-        )
-        return
+
+    except requests.exceptions.ConnectionError:
+        click.echo('Looks like {0} is not a valid URL, check the URL and try again.'.format(link))
+        sys.exit(-1)
+
 
     # check the status code
     if r.status_code != 200:
         click.echo("Uh-oh! Site is down. :'(")
+        sys.exit(1)
     else:
         click.echo('Yay! The site is up and running! :)')
  
@@ -450,8 +449,8 @@ def horoscope(ctx, astrological_sign):
         )
         return click.echo(r.json()["horoscope"])
     except requests.exceptions.ConnectionError:
-        click.echo("Yoda cannot sense the internet right now!")
-        sys.exit(1)
+        click.echo('Yoda cannot sense the internet right now!')
+        sys.exit(-1)
 
 
 # idea list process
@@ -631,13 +630,10 @@ def fileshare(ctx, path):
             click.echo(chalk.yellow("WARNING: File will be deleted after it is accessed once."))
         else:
             click.echo(chalk.red("File upload failed!"))
+            sys.exit(1)
     else:
-        click.echo(
-            chalk.red(
-                "No file such as " + path + ", Please re-check the PATH and try again."
-            )
-        )
-
+        click.echo(chalk.red("No file such as " + path + ", Please re-check the PATH and try again."))
+        sys.exit(-1)
 
 @dev.command()
 @click.pass_context
