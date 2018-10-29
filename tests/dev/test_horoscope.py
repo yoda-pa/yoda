@@ -14,12 +14,12 @@ class TestHoroscope(TestCase):
         | command: horoscope
     """
 
-    def __init__(self, methodName='runTest'):
+    def __init__(self, methodName="runTest"):
         super(TestHoroscope, self).__init__()
         self.runner = CliRunner()
 
     def runTest(self):
-        result = self.runner.invoke(yoda.cli, ['horoscope', 'aries'])
+        result = self.runner.invoke(yoda.cli, ["horoscope", "aries"])
 
         if sys.version_info[0] == 3:
             string_types = str

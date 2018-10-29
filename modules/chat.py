@@ -19,13 +19,12 @@ import click
 
 from . import config
 
-CLIENT_ACCESS_TOKEN = os.environ.get('API_AI_TOKEN', config.API_AI_TOKEN)
+CLIENT_ACCESS_TOKEN = os.environ.get("API_AI_TOKEN", config.API_AI_TOKEN)
 ai = apiai.ApiAI(CLIENT_ACCESS_TOKEN)
 request = ai.text_request()
-request.session_id = os.environ.get(
-    'API_AI_SESSION_ID', config.API_AI_SESSION_ID)
+request.session_id = os.environ.get("API_AI_SESSION_ID", config.API_AI_SESSION_ID)
 
-QUOTE_API_URL = 'https://api.forismatic.com/api/1.0/'
+QUOTE_API_URL = "https://api.forismatic.com/api/1.0/"
 
 
 def process(input_string):
@@ -33,15 +32,10 @@ def process(input_string):
     minimal chat bot
     :param input_string:
     """
-    if 'inspire' in input_string:
-        send_data = {
-            'method': 'getQuote',
-            'format': 'json',
-            'lang': 'en',
-            'key': ""
-        }
-        hdr = {'User-Agent': "Magic Browser"}
-        full_url = QUOTE_API_URL + '?' + urllib.parse.urlencode(send_data)
+    if "inspire" in input_string:
+        send_data = {"method": "getQuote", "format": "json", "lang": "en", "key": ""}
+        hdr = {"User-Agent": "Magic Browser"}
+        full_url = QUOTE_API_URL + "?" + urllib.parse.urlencode(send_data)
         response = urlopen(Request(full_url, headers=hdr))
         response = response.read()
         output = json.loads(response)
@@ -55,10 +49,10 @@ def process(input_string):
             response = request.getresponse().read()
         except socket.gaierror:
             # if the user is not connected to internet don't give a response
-            click.echo(chalk.red('Yoda cannot sense the internet right now!'))
+            click.echo(chalk.red("Yoda cannot sense the internet right now!"))
             sys.exit(1)
 
-        output = json.loads(response.decode('utf-8'))
+        output = json.loads(response.decode("utf-8"))
         answer = output["result"]["fulfillment"]["speech"]
-        click.echo(chalk.blue('Yoda speaks:'))
+        click.echo(chalk.blue("Yoda speaks:"))
         click.echo(answer)

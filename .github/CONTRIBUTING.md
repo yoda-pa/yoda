@@ -26,8 +26,8 @@ If you are interested in contributing by writing code, you can do so by implemen
 # Fork, then clone the repo
 $ git clone git@github.com:<your-username>/yoda.git
 
-# create a virtualenv
-$ virtualenv venv  
+# create a virtualenv using python 2
+$ virtualenv -p /usr/bin/python2 venv
 
 # activate the virtualenv
 $ . venv/bin/activate
