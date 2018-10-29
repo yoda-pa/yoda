@@ -15,6 +15,9 @@ enter: ## Enter the running container
 test: up ## Run tests
 	docker-compose -p yoda run yoda /bin/bash -c 'python -m unittest discover tests'
 
+lint: up ## Lint the project
+	docker-compose -p yoda run yoda /bin/bash -c 'black --check .'
+
 down: ## Stop the container
 	docker-compose -p yoda stop
 
