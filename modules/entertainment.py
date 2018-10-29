@@ -6,11 +6,13 @@ import json
 
 from .util import *
 
+
 @click.group()
 def entertainment():
     """
         The entertainment module
     """
+
 
 # ----------------------- lyrics code -----------------------#
 @entertainment.command()
@@ -25,12 +27,15 @@ def lyrics():
     lyrics_request = requests.get("https://api.lyrics.ovh/v1/" + artist + "/" + title)
     lyrics_data = lyrics_request.json()
 
-    if 'lyrics' in lyrics_data.keys():
+    if "lyrics" in lyrics_data.keys():
         click.echo(chalk.green("--------Lyrics--------"))
-        click.echo(lyrics_data['lyrics'])
-    elif 'error' in lyrics_data.keys():
-        click.echo(chalk.yellow(lyrics_data['error']))
-    else: # if there is no lyrics or error in API response.
-        click.echo(chalk.red("Something wrong with the request. Please raise an issue."))
+        click.echo(lyrics_data["lyrics"])
+    elif "error" in lyrics_data.keys():
+        click.echo(chalk.yellow(lyrics_data["error"]))
+    else:  # if there is no lyrics or error in API response.
+        click.echo(
+            chalk.red("Something wrong with the request. Please raise an issue.")
+        )
+
 
 # ----------------------- / lyrics code -----------------------#

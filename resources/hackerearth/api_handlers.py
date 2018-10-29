@@ -26,7 +26,7 @@ class HackerEarthAPI(object):
     def run(self):
         response = self.__request(RUN_API_ENDPOINT, self.params_dict)
         result = RunResult(response.text)
-        if response.status_code !=200:
+        if response.status_code != 200:
             result.valid = False
         else:
             result.valid = True
@@ -39,7 +39,6 @@ class HackerEarthAPI(object):
         except Exception:
             print(Exception)
         return response
-
 
     def __result(self, res):
         result = json.load(res)

@@ -15,7 +15,7 @@ class TestChecksite(TestCase):
         | command: checksite
     """
 
-    def __init__(self, methodName='runTest'):
+    def __init__(self, methodName="runTest"):
         super(TestChecksite, self).__init__()
         self.runner = CliRunner()
 
