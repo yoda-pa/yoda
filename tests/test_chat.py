@@ -13,13 +13,13 @@ class TestChat(TestCase):
         | command: chat
     """
 
-    def __init__(self, methodName='runTest'):
+    def __init__(self, methodName="runTest"):
         super(TestChat, self).__init__()
         self.runner = CliRunner()
 
     def runTest(self):
-        result = self.runner.invoke(yoda.cli, ['chat', 'hello'])
+        result = self.runner.invoke(yoda.cli, ["chat", "hello"])
         self.assertEqual(result.exit_code, 0)
 
-        result = self.runner.invoke(yoda.cli, ['chat'])
+        result = self.runner.invoke(yoda.cli, ["chat"])
         self.assertEqual(result.exit_code, 0)
