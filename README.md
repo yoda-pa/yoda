@@ -180,6 +180,18 @@ Key Bindings:
        l       |       move cursor right
 ~~~
 
+- command keep
+~~~
+# To add a command to your keep
+$ yoda keep save -k find -k text -k name 'find . -name "*.txt"' command used to find textfiles by name
+# To show all commands
+$ yoda keep findall
+# To show commands by keywords
+$ yoda keep find -k text
+# To remove a command
+$ yoda keep remove -i ##command index, showed when running find or findall##
+~~~
+
 #### goals
 
 For settings and maintaining your goals, type
