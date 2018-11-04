@@ -6,7 +6,6 @@ click==6.7
 codecov==2.0.15
 coverage==4.5.1
 idna==2.6
-numpy==1.14.2
 pydub==0.23.0
 pyspeedtest==1.2.7
 requests==2.18.4
@@ -23,3 +22,9 @@ PyGithub==1.39
 emoji==0.5.0
 speedtest-cli==2.0.2
 geoip2==2.9.0
+beautifulsoup4==4.4.1
+lxml==3.5.0
+pandas==0.23.4
+fuzzywuzzy==0.17.0
+python-levenshtein==0.12.0
+mock==2.0.0

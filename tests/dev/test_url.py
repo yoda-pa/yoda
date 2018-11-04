@@ -14,35 +14,43 @@ class TestSpeedtest(TestCase):
         | command: url
     """
 
-    def __init__(self, methodName='runTest'):
+    def __init__(self, methodName="runTest"):
         super(TestSpeedtest, self).__init__()
         self.runner = CliRunner()
 
     def runTest(self):
         # shorten url
-        url_to_test = 'http://manparvesh.com/'.strip()
-        result = self.runner.invoke(yoda.cli, ['url', 'shorten', url_to_test])
+        url_to_test = "http://manparvesh.com/".strip()
+        result = self.runner.invoke(yoda.cli, ["url", "shorten", url_to_test])
         self.assertEqual(result.exit_code, 0)
-        output_string = str(result.output.encode('ascii', 'ignore').decode('utf-8'))
+        output_string = str(result.output.encode("ascii", "ignore").decode("utf-8"))
 
         self.assertEqual(type(output_string), str)
-        self.assertTrue(output_string.startswith('Here\'s your shortened URL:'))
-        shortened_url = str(output_string[str(output_string).find('http'):]).strip()
+        self.assertTrue(output_string.startswith("Here's your shortened URL:"))
+        shortened_url = str(output_string[str(output_string).find("http") :]).strip()
 
         # expand url
-        result_decode = self.runner.invoke(yoda.cli, ['url', 'expand', shortened_url])
+        result_decode = self.runner.invoke(yoda.cli, ["url", "expand", shortened_url])
         self.assertEqual(result_decode.exit_code, 0)
-        second_output_string = str(result_decode.output.encode('ascii', 'ignore').decode('utf-8'))
+        second_output_string = str(
+            result_decode.output.encode("ascii", "ignore").decode("utf-8")
+        )
 
         self.assertEqual(type(second_output_string), str)
-        self.assertTrue(second_output_string.startswith('Here\'s your original URL:'))
-        expanded_url = str(second_output_string[str(second_output_string).find('http'):]).strip()
+        self.assertTrue(second_output_string.startswith("Here's your original URL:"))
+        expanded_url = str(
+            second_output_string[str(second_output_string).find("http") :]
+        ).strip()
 
         # check if the original url and obtained url are equal
         self.assertEqual(url_to_test, expanded_url)
 
         # incorrect command should show our custom response instead of stacktrace
-        result = self.runner.invoke(yoda.cli, ['url', 'incorrect_subcommand', 'aaa'])
+        result = self.runner.invoke(yoda.cli, ["url", "incorrect_subcommand", "aaa"])
         self.assertEqual(result.exit_code, 0)
-        final_output_string = str(result.output.encode('ascii', 'ignore').decode('utf-8')).strip()
-        self.assertTrue(final_output_string.endswith('Try "yoda url --help" for more info'))
+        final_output_string = str(
+            result.output.encode("ascii", "ignore").decode("utf-8")
+        ).strip()
+        self.assertTrue(
+            final_output_string.endswith('Try "yoda url --help" for more info')
+        )

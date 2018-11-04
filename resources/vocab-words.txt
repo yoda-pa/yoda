@@ -686,3 +686,5 @@ woman - a human female employed to do housework
 c - a unit of electrical charge equal to the amount of charge transferred by a current of 1 ampere in 1 second
 car - a motor vehicle with four wheels; usually propelled by an internal combustion engine
 friend - a member of the Religious Society of Friends founded by George Fox (the Friends have never called themselves Quakers)
+fat - {'definition': 'make fat or plump', 'partOfSpeech': 'verb'}
+fun - {'definition': 'activities that are enjoyable or amusing', 'partOfSpeech': 'noun'}
