@@ -386,7 +386,7 @@ def gitsummary(github_login, github_password):
     def number_of_issues_and_pull_requests(gh):
         # every pull request is a issue, not every issue is a pr
         issues, pull_requests = 0, 0
-        for issue in gh.search_issues('', author=github_login, state='open', created='>{}'.format(yesterday)):
+        for issue in gh.search_issues('', author=real_github_login, state='open', created='>{}'.format(yesterday)):
             if issue.pull_request:
                 pull_requests += 1
             else:
@@ -400,7 +400,7 @@ def gitsummary(github_login, github_password):
         for repo in gh.get_user().get_repos():
             repos += 1
             for branch in repo.get_branches():
-                for commit in repo.get_commits(sha=branch.name, author=github_login, since=yesterday_dt):
+                for commit in repo.get_commits(sha=branch.name, author=real_github_login, since=yesterday_dt):
                     commits.add(commit.sha)
         return repos, len(commits)
 
@@ -412,14 +412,17 @@ def gitsummary(github_login, github_password):
     github = githublib.Github(github_login, github_password)
 
     try:
-        count_repos, count_commits = number_of_repos_and_commits(github)
-    except githublib.BadCredentialsException as e:
+        # user might provide email address as username and authentication would work
+        # but search_issues requires the proper username
+        real_github_login = github.get_user().login
+    except githublib.BadCredentialsException:
         click.echo(chalk.red('Wrong credentials you gave!'))
         sys.exit(1)
 
+    count_repos, count_commits = number_of_repos_and_commits(github)
     count_issues, count_pr = number_of_issues_and_pull_requests(github)
 
     click.echo('{}, ready your GitHub statistics are.\n{} repositories you have.'.format(
-        github_login, count_repos))
+        real_github_login, count_repos))
     click.echo('In last 24 hours {} commit(s), {} pull requests(s) and {} issue(s) you made.'.format(
         count_commits, count_pr, count_issues))
