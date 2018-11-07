@@ -23,3 +23,4 @@ PyGithub==1.39
 emoji==0.5.0
 speedtest-cli==2.0.2
 geoip2==2.9.0
+mock==2.0.0
