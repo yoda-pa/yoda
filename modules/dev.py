@@ -422,7 +422,7 @@ def gitsummary(github_login, github_password):
     count_repos, count_commits = number_of_repos_and_commits(github)
     count_issues, count_pr = number_of_issues_and_pull_requests(github)
 
-    click.echo('{}, ready your GitHub statistics are.\n{} repositories you have.'.format(
+    click.echo('{}, ready your GitHub statistics are - {} repositories you have.'.format(
         real_github_login, count_repos))
     click.echo('In last 24 hours {} commit(s), {} pull requests(s) and {} issue(s) you made.'.format(
         count_commits, count_pr, count_issues))
