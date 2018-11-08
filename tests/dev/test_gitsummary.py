@@ -1,24 +1,12 @@
 import sys
-from unittest import TestCase
-import mock
 from functools import wraps
-from click.testing import CliRunner
+from unittest import TestCase
 
-# def mock_decorator(*args, **kwargs):
-#     def decorator(f):
-#         @wraps(f)
-#         def decorated_function(*args, **kwargs):
-#             return f(*args, **kwargs)
-#         return decorated_function
-#     return decorator
-
-# mock.patch('click.group', mock_decorator).start()
-# # mock.patch('de.group', lambda: x).start()
-# # mock.patch('click.argument', lambda x: x).start()
-
-import yoda
+import random
 import github
-
+import mock
+import yoda
+from click.testing import CliRunner
 
 
 class GitSummaryTest(TestCase):
@@ -33,80 +21,59 @@ class GitSummaryTest(TestCase):
         super(GitSummaryTest, self).__init__()
         self.runner = CliRunner()
 
-
     def runTest(self):
         def testExitingWithBadCredentials():
-            result = self.runner.invoke(yoda.cli, ['gitsummary', 'bad_username', 'bad_password', ], )
+            result = self.runner.invoke(
+                yoda.cli, ['gitsummary', 'bad_username', 'bad_password', ], )
             self.assertEqual(result.exit_code, 1)
 
-        @mock.patch('yoda.dev.gitsummary')
-        def testCalledWithProperArgs(mock_gitsummar):
-            yoda.dev.gitsummary('abc', 'def')
-            mock_gitsummar.assert_called_with('abc', 'def')
+        @mock.patch.object(github, 'Github', autospec=True)
+        def testStatisticCounting(mock_githublib):
+            mock_githublib.return_value = True
+            result = self.runner.invoke(yoda.cli, ['gitsummary', 'login', 'password', ], )
 
-        # @mock.patch.object(github, 'Github', autospec=True)
-        # def testStatisticCounting(mock_githublib):
-        #     mock_githublib.return_value = True
-        #     # mock_githublib.Github.return_value = True
-        #     result = self.runner.invoke(yoda.cli, ['gitsummary', 'login', 'password', ], )
-        #     # yoda.dev.gitsummary(github_login='a', github_password='b')
+            mock_githublib.assert_called_with('login', 'password')
+            self.assertTrue(mock_githublib.called)
 
-        #     mock_githublib.assert_called_with('login', 'password')
-        #     self.assertTrue(mock_githublib.called)
-
-        @mock.patch('yoda.dev.githublib')
-        def testIssuesAndPrCounting(mock_gh):
-            # prop = mock.PropertyMock(return_value='USER')
-            mock_gh.Github.get_user.login = mock.PropertyMock(return_value=[])
+        @mock.patch.object(github, 'Github', autospec=True)
+        def testGettingLogin(mock_gh):
+            # Mocking username
+            type(mock_gh().get_user()).login = mock.PropertyMock(return_value='TestUser')
 
             result = self.runner.invoke(yoda.cli, ['gitsummary', 'login', 'password', ], )
-            self.assertEqual(result.output, 'abc')
+            self.assertIn('TestUser, ready your GitHub statistics are.', result.output)
 
+        @mock.patch.object(github, 'Github', autospec=True)
+        def testIssuesAndPrCounting(mock_gh):
+            # Mocking issues and pull requests - expecting 3 issues, 2 PR
+            issue = mock.MagicMock()
+            pull_request = mock.MagicMock()
+            type(issue).pull_request = mock.PropertyMock(return_value=False)
+            type(pull_request).pull_request = mock.PropertyMock(return_value=True)
+            mock_gh().search_issues.return_value = [issue, issue, issue, pull_request, pull_request]
 
-        # @mock.patch('github')
-        # def testIssuesAndPrCounting(mock_githublib):
+            result = self.runner.invoke(yoda.cli, ['gitsummary', 'login', 'password', ], )
+            self.assertIn('2 pull requests(s)', result.output)
+            self.assertIn('3 issue(s)', result.output)
 
-        #     l = mock.PropertyMock(return_value='OK')
-        #     u = mock.MagicMock()
-        #     u.get_user.return_value = l
-        #     mock_githublib.return_value = u
+        @mock.patch.object(github, 'Github', autospec=True)
+        def testReposAndCommitsCounting(mock_gh):
+            # Mocking repos and commits - expecting 2 repos, 30 commits (2 repos * 3 branches * 5 commits)
+            repo = mock.MagicMock()
+            branch = mock.MagicMock()
+            commit = mock.MagicMock()
+            type(commit).sha = mock.PropertyMock(side_effect=(i for i in range(60)))
 
+            mock_gh().get_user().get_repos.return_value = [repo for _ in range(2)]
+            repo.get_branches.return_value = [branch for _ in range(3)]
+            repo.get_commits.return_value = [commit for _ in range(5)]
 
-        #     # issue = mock.MagicMock()
-        #     # issue.pull_request = False
-        #     # pr = mock.MagicMock()
-        #     # pr.pull_request = True
-        #     # mock_githublib.search_issues = [issue, issue,pr, pr]
-
-
-
-        #     # mock_githublib.get_user.return_value = l
-
-        #     result = self.runner.invoke(yoda.cli, ['gitsummary', 'login', 'password', ], )
-
-        #     # self.assertTrue(mock_githublib.search_issues.called)
-        #     self.assertEqual(result.output, 'abc')
-
-
-
-        # def testIssuesAndPrCounting(mock_counter):
-        #     with patch('yoda.dev.gitsummary.number_of_issues_and_pull_requests')
-        #     mock_counter.return_value = 3, 2
-        #     # mock_counter.Github.return_value = True
-        #     result = self.runner.invoke(yoda.cli, ['gitsummary', 'login', 'password', ], )
-        #     mock_counter.assert_called_with('login', 'password')
-        #     self.assertTrue(mock_counter.called)
-
-
-
-
-
-
-
-
+            result = self.runner.invoke(yoda.cli, ['gitsummary', 'login', 'password', ], )
+            self.assertIn('2 repositories', result.output)
+            self.assertIn('30 commit(s)', result.output)
 
         testExitingWithBadCredentials()
         testCalledWithProperArgs()
-        # testStatisticCounting()
+        testGettingLogin()
         testIssuesAndPrCounting()
-
+        testReposAndCommitsCounting()
