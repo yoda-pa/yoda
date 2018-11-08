@@ -2,7 +2,6 @@ import sys
 from functools import wraps
 from unittest import TestCase
 
-import random
 import github
 import mock
 import yoda
