@@ -7,6 +7,7 @@ from .util import get_folder_path_from_file_path, create_folder
 ALIAS_CONFIG_FILE_PATH = get_config_file_paths()["ALIAS_CONFIG_FILE_PATH"]
 ALIAS_CONFIG_FOLDER_PATH = get_folder_path_from_file_path(ALIAS_CONFIG_FILE_PATH)
 
+
 class Alias(click.Group):
 
     _aliases = {}
@@ -14,12 +15,14 @@ class Alias(click.Group):
     def __init__(self, *args, **kwargs):
         create_folder(ALIAS_CONFIG_FOLDER_PATH)
         try:
-            with open(ALIAS_CONFIG_FOLDER_PATH + '/alias.txt', 'r') as f:
+            with open(ALIAS_CONFIG_FOLDER_PATH + "/alias.txt", "r") as f:
                 lines = f.readlines()
                 for i in range(1, len(lines), 2):
-                    Alias._aliases[lines[i].strip('\n')] = lines[i - 1].strip('\n').split()
+                    Alias._aliases[lines[i].strip("\n")] = (
+                        lines[i - 1].strip("\n").split()
+                    )
         except:
-            fo = open(ALIAS_CONFIG_FOLDER_PATH + '/alias.txt', 'w')
+            fo = open(ALIAS_CONFIG_FOLDER_PATH + "/alias.txt", "w")
             fo.close()
         super(Alias, self).__init__(*args, **kwargs)
 
@@ -32,7 +35,6 @@ class Alias(click.Group):
     #             args[0].insert(0, command)
     #     return super(Alias, self).__call__(*args, **kwargs)
 
-
     def get_command(self, ctx, cmd_name):
         ctx.obj = []
         cmd = click.Group.get_command(self, ctx, cmd_name)
@@ -44,6 +46,7 @@ class Alias(click.Group):
             return click.Group.get_command(self, ctx, Alias._aliases[cmd_name][0])
 
         return None
+
 
 def alias_checker(ctx, param, value):
     if value is None or len(value) == 0:
@@ -60,15 +63,17 @@ def alias_checker(ctx, param, value):
         ctx.obj.append(value)
     return None
 
+
 @click.group()
 def alias():
     """
         For creating aliases to cumbersome commands
     """
 
+
 @alias.command()
-@click.argument('orig_cmd', nargs=1)
-@click.argument('alias_cmd', nargs=1)
+@click.argument("orig_cmd", nargs=1)
+@click.argument("alias_cmd", nargs=1)
 def new(orig_cmd, alias_cmd):
     """
         Alias a new command \n\n
@@ -87,17 +92,20 @@ def new(orig_cmd, alias_cmd):
         click.echo("Aliasing failed - Alias must not contain spaces")
         return
     if alias_cmd in Alias._aliases.keys():
-        click.echo("Aliasing failed - Alias name already exists. Use alias delete to remove it")
+        click.echo(
+            "Aliasing failed - Alias name already exists. Use alias delete to remove it"
+        )
         return
     if orig_cmd and alias_cmd:
         create_folder(ALIAS_CONFIG_FOLDER_PATH)
-        with open(ALIAS_CONFIG_FOLDER_PATH + '/alias.txt', 'a') as f:
-            f.write(orig_cmd + '\n' + alias_cmd + '\n')
+        with open(ALIAS_CONFIG_FOLDER_PATH + "/alias.txt", "a") as f:
+            f.write(orig_cmd + "\n" + alias_cmd + "\n")
         Alias._aliases[alias_cmd] = orig_cmd
         click.echo("Aliased %s as %s" % (orig_cmd, alias_cmd))
 
+
 @alias.command()
-@click.argument('alias', nargs=1)
+@click.argument("alias", nargs=1)
 def delete(alias):
     """
         Delete an alias \n\n
@@ -108,9 +116,9 @@ def delete(alias):
         return
     del Alias._aliases[alias]
     create_folder(ALIAS_CONFIG_FOLDER_PATH)
-    with open(ALIAS_CONFIG_FOLDER_PATH + '/alias.txt', 'w') as f:
+    with open(ALIAS_CONFIG_FOLDER_PATH + "/alias.txt", "w") as f:
         for key in Alias._aliases.keys():
-            f.write(' '.join(Alias._aliases[key]) + '\n' + key + '\n')
+            f.write(" ".join(Alias._aliases[key]) + "\n" + key + "\n")
 
 
 @alias.command()
@@ -121,4 +129,4 @@ def show():
     """
     click.echo("alias_command : original_command")
     for key in Alias._aliases.keys():
-        click.echo(key + " : " + ' '.join(Alias._aliases[key]))
+        click.echo(key + " : " + " ".join(Alias._aliases[key]))

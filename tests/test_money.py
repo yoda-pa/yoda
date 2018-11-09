@@ -13,25 +13,32 @@ class TestHealth(TestCase):
         | command: health
     """
 
-    def __init__(self, methodName='runTest'):
+    def __init__(self, methodName="runTest"):
         super(TestHealth, self).__init__()
         self.runner = CliRunner()
 
     def runTest(self):
-        result = self.runner.invoke(yoda.cli, ['money', 'status'])
+        result = self.runner.invoke(yoda.cli, ["money", "status"])
         self.assertEqual(result.exit_code, 0)
 
-        result = self.runner.invoke(yoda.cli, ['money'])
+        result = self.runner.invoke(yoda.cli, ["money"])
         self.assertEqual(result.exit_code, 0)
 
-        result = self.runner.invoke(yoda.cli, ['money', 'setup'], input="SGD\n200")
+        result = self.runner.invoke(yoda.cli, ["money", "setup"], input="SGD\n200")
         self.assertEqual(result.exit_code, 0)
 
-        result = self.runner.invoke(yoda.cli, ['money', 'exp'], input='Spent 20 dollars on a t-shirt')
+        result = self.runner.invoke(
+            yoda.cli, ["money", "exp"], input="Spent 20 dollars on a t-shirt"
+        )
         self.assertEqual(result.exit_code, 0)
 
-        result = self.runner.invoke(yoda.cli, ['money', 'exps'])
+        result = self.runner.invoke(yoda.cli, ["money", "exps"])
         self.assertEqual(result.exit_code, 0)
 
-        result = self.runner.invoke(yoda.cli, ['money', 'exps_months'])
+        result = self.runner.invoke(yoda.cli, ["money", "exps_months"])
+        self.assertEqual(result.exit_code, 0)
+
+        result = self.runner.invoke(
+            yoda.cli, ["money", "convert"], input="INR USD\n100"
+        )
         self.assertEqual(result.exit_code, 0)

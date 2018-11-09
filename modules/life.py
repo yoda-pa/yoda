@@ -15,10 +15,9 @@ from .util import *
 from .alias import alias_checker
 
 # config file path
-LIFE_CONFIG_FILE_PATH = get_config_file_paths()['LIFE_CONFIG_FILE_PATH']
-LIFE_CONFIG_FOLDER_PATH = get_folder_path_from_file_path(
-    LIFE_CONFIG_FILE_PATH)
-RLIST_PARAMS = ('title', 'author', 'kind', 'tags')
+LIFE_CONFIG_FILE_PATH = get_config_file_paths()["LIFE_CONFIG_FILE_PATH"]
+LIFE_CONFIG_FOLDER_PATH = get_folder_path_from_file_path(LIFE_CONFIG_FILE_PATH)
+RLIST_PARAMS = ("title", "author", "kind", "tags")
 
 
 def is_in_params(params, query, article):
@@ -64,7 +63,9 @@ def empty_list_prompt():
     """
     Empty list prompt
     """
-    click.echo("You reading list is empty. Add something to the list, do you want to? (Y/n)")
+    click.echo(
+        "You reading list is empty. Add something to the list, do you want to? (Y/n)"
+    )
     decision = get_input().lower()
 
     if decision == "y" or not decision:
@@ -79,19 +80,17 @@ def print_reading_list(reading_list_contents, only=RLIST_PARAMS):
     :param reading_list_contents:
     :param only:
     """
-    i = 0
-    for entry in reading_list_contents['entries']:
-        i += 1
-        click.echo("-" + ('[' + str(i) + ']').ljust(24, '-'))
-        title = entry['title']
-        author = entry['author']
-        kind = entry['kind']
-        tags = entry['tags']
+    for i, entry in enumerate(reading_list_contents["entries"]):
+        click.echo("-" + ("[" + str(i) + "]").ljust(24, "-"))
+        title = entry["title"]
+        author = entry["author"]
+        kind = entry["kind"]
+        tags = entry["tags"]
 
-        click.echo("Title: " + title) if title and 'title' in only else None
-        click.echo("Author: " + author) if author and 'author' in only else None
-        click.echo("Kind: " + kind) if kind and 'kind' in only else None
-        click.echo("Tags: " + ", ".join(tags)) if tags and 'tags' in only else None
+        click.echo("Title: " + title) if title and "title" in only else None
+        click.echo("Author: " + author) if author and "author" in only else None
+        click.echo("Kind: " + kind) if kind and "kind" in only else None
+        click.echo("Tags: " + ", ".join(tags)) if tags and "tags" in only else None
 
     click.echo("---END-OF-READING-LIST---")
 
@@ -108,12 +107,15 @@ def view_reading_list(opts):
             last_updated = time.ctime(os.path.getmtime(READING_LIST_ENTRY_FILE_PATH))
             query = opts[1]
             params = opts[0]
-            search = ''
+            search = ""
 
-            if query != 'None':
+            if query != "None":
                 search = "(filtered by " + params + ": " + query + ")"
-                filtered_contents = [article for article in file_contents['entries'] if
-                                     is_in_params(params, query, article)]
+                filtered_contents = [
+                    article
+                    for article in file_contents["entries"]
+                    if is_in_params(params, query, article)
+                ]
                 file_contents = dict(entries=filtered_contents)
 
             click.echo(chalk.blue("Your awesome reading list " + search))
@@ -138,24 +140,21 @@ def add_to_reading_list(query=""):
     click.echo(chalk.blue("Author of the article:"))
     _author = get_input()
 
-    click.echo(chalk.blue("Article type/kind/genre (e.g. book, article, blog, sci-fi):"))
+    click.echo(
+        chalk.blue("Article type/kind/genre (e.g. book, article, blog, sci-fi):")
+    )
     _kind = get_input()
 
     click.echo(chalk.blue("Tags for easier filtering/searching (seperated by spaces):"))
     _tags = get_input().split()
 
-    setup_data = dict(
-        title=_title,
-        author=_author,
-        kind=_kind,
-        tags=_tags
-    )
+    setup_data = dict(title=_title, author=_author, kind=_kind, tags=_tags)
 
     if os.path.isfile(READING_LIST_ENTRY_FILE_PATH):
         append_data_into_file(setup_data, READING_LIST_ENTRY_FILE_PATH)
     else:
         setup_data = dict(entries=[setup_data])
-        create_folder(os.path.join(LIFE_CONFIG_FOLDER_PATH, 'rlist'))
+        create_folder(os.path.join(LIFE_CONFIG_FOLDER_PATH, "rlist"))
         input_data(setup_data, READING_LIST_ENTRY_FILE_PATH)
 
     click.echo(chalk.blue("Added " + _title + " to your reading list!"))
@@ -165,9 +164,9 @@ def add_to_reading_list(query=""):
 
 
 @life.command()
-@click.argument('subcommand', nargs=1)
-@click.option('--params', nargs=1, required=False, default="tags")
-@click.argument('query', nargs=1, required=False)
+@click.argument("subcommand", nargs=1)
+@click.option("--params", nargs=1, required=False, default="tags")
+@click.argument("query", nargs=1, required=False)
 def rlist(sub_command, params, query):
     """
         Reading list for your daily life
@@ -189,10 +188,7 @@ def rlist(sub_command, params, query):
     query = str(query)
     opts = (params, query) if params and query else ()
     # print opts
-    sub_commands = {
-        'view': view_reading_list,
-        'add': add_to_reading_list,
-    }
+    sub_commands = {"view": view_reading_list, "add": add_to_reading_list}
     try:
         sub_commands[sub_command](opts)
     except KeyError:
@@ -204,22 +200,16 @@ def rlist(sub_command, params, query):
 
 # config file path
 
-IDEA_CONFIG_FILE_PATH = get_config_file_paths()['IDEA_CONFIG_FILE_PATH']
-CONFIG_FILE_PATH = get_config_file_paths()['USER_CONFIG_FILE_PATH']
+IDEA_CONFIG_FILE_PATH = get_config_file_paths()["IDEA_CONFIG_FILE_PATH"]
+CONFIG_FILE_PATH = get_config_file_paths()["USER_CONFIG_FILE_PATH"]
 cipher_key = cypher_pass_generator()
 cipher_IV456 = cypher_pass_generator()
 
 setup_data = dict(
     name="",
     email="",
-    github=dict(
-        username="",
-        password=""
-    ),
-    encryption=dict(
-        cipher_key=cipher_key,
-        cipher_IV456=cipher_IV456
-    )
+    github=dict(username="", password=""),
+    encryption=dict(cipher_key=cipher_key, cipher_IV456=cipher_IV456),
 )
 
 if not os.path.exists(os.path.dirname(CONFIG_FILE_PATH)):
@@ -230,13 +220,13 @@ if not os.path.exists(os.path.dirname(CONFIG_FILE_PATH)):
             raise
 
 if not os.path.isfile(CONFIG_FILE_PATH):
-    with open(CONFIG_FILE_PATH, 'w') as config_file:
+    with open(CONFIG_FILE_PATH, "w") as config_file:
         yaml.dump(setup_data, config_file, default_flow_style=False)
 
 config_file = open(CONFIG_FILE_PATH)
 contents = yaml.load(config_file)
-cipher_key = contents['encryption']['cipher_key']
-cipher_IV456 = contents['encryption']['cipher_IV456']
+cipher_key = contents["encryption"]["cipher_key"]
+cipher_IV456 = contents["encryption"]["cipher_IV456"]
 
 
 def encryption(text):
@@ -255,7 +245,7 @@ def decryption(text):
     :return:
     """
     s = AES.new(cipher_key, AES.MODE_CBC, cipher_IV456).decrypt(text)
-    return s[:old_div(len(s), 16)]
+    return s[: old_div(len(s), 16)]
 
 
 def add_idea(project_name, task_name):
@@ -279,11 +269,11 @@ def add_idea(project_name, task_name):
     else:
         task = []
 
-    click.echo(chalk.blue('Brief desc of the current task : '))
+    click.echo(chalk.blue("Brief desc of the current task : "))
     desc = input()
     task.append((task_name, desc))  # a new entry created
     data[project_name] = task
-    with open(IDEA_CONFIG_FILE_PATH, 'w') as f:
+    with open(IDEA_CONFIG_FILE_PATH, "w") as f:
         data = json.dumps(data)
         data = encryption(data)
         f.write(data)
@@ -304,13 +294,17 @@ def show(project_name, task_name):
             data = json.loads(data)
         f.close()
     except:
-        click.echo(chalk.red('There are no saved ideas for now. Please run "yoda ideas add" to add a new idea'))
+        click.echo(
+            chalk.red(
+                'There are no saved ideas for now. Please run "yoda ideas add" to add a new idea'
+            )
+        )
         return
     for proj, task in list(data.items()):
         click.echo(chalk.yellow(proj))
         for _task_name, _task_description in task:
-            click.echo(chalk.cyan('\t' + _task_name))
-            click.echo(chalk.cyan('\t\t' + _task_description))
+            click.echo(chalk.cyan("\t" + _task_name))
+            click.echo(chalk.cyan("\t\t" + _task_description))
 
 
 def remove(project, task=None):
@@ -333,25 +327,31 @@ def remove(project, task=None):
     try:
         if task is None:
             del data[project]  # a project deleted
-            click.echo(chalk.blue('Project deleted successfully.'))
+            click.echo(chalk.blue("Project deleted successfully."))
         else:
-            data[project] = [x for x in data[project] if x[0] != task]  # task inside a respective project deleted
-            click.echo(chalk.blue('Task deleted successfully.'))
-        with open(IDEA_CONFIG_FILE_PATH, 'w') as f:
+            data[project] = [
+                x for x in data[project] if x[0] != task
+            ]  # task inside a respective project deleted
+            click.echo(chalk.blue("Task deleted successfully."))
+        with open(IDEA_CONFIG_FILE_PATH, "w") as f:
             data = json.dumps(data)
             data = encryption(data)
             f.write(data)
         f.close()
     except:
-        click.echo(chalk.red("Wrong task or project entered. Please check using 'yoda ideas show'"))
+        click.echo(
+            chalk.red(
+                "Wrong task or project entered. Please check using 'yoda ideas show'"
+            )
+        )
 
 
 # idea list process
 @life.command()
-@click.argument('subcommand', nargs=1)
-@click.option('--task', nargs=1, required=False, default=None)
-@click.option('--project', nargs=1, required=False, default=None)
-@click.option('--inside', nargs=1, required=False, default=None)
+@click.argument("subcommand", nargs=1)
+@click.option("--task", nargs=1, required=False, default=None)
+@click.option("--project", nargs=1, required=False, default=None)
+@click.option("--inside", nargs=1, required=False, default=None)
 def ideas(subcommand, task, project, inside):
     """
         Keep track of your precious ideas.
@@ -369,18 +369,17 @@ def ideas(subcommand, task, project, inside):
             remove a project/task
 
     """
-    if subcommand != 'show' and (project or inside) is None:
-        click.echo(chalk.red(
-            'Operation aborted. You have not selected any project or task. Please use this command with either '
-            '--project or --inside flag'))
+    if subcommand != "show" and (project or inside) is None:
+        click.echo(
+            chalk.red(
+                "Operation aborted. You have not selected any project or task. Please use this command with either "
+                "--project or --inside flag"
+            )
+        )
         return
-    sub_commands = {
-        'show': show,
-        'add': add_idea,
-        'remove': remove,
-    }
+    sub_commands = {"show": show, "add": add_idea, "remove": remove}
     try:
         sub_commands[subcommand]((project or inside), task)
     except KeyError:
-        click.echo(chalk.red('Command ' + subcommand + ' does not exist.'))
+        click.echo(chalk.red("Command " + subcommand + " does not exist."))
         click.echo('Try "yoda ideas --help" for more info')

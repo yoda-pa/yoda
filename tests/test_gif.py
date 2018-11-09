@@ -14,18 +14,25 @@ class TestGifMaker(TestCase):
         | command: from_images
     """
 
-    def __init__(self, methodName='runTest'):
+    def __init__(self, methodName="runTest"):
         super(TestGifMaker, self).__init__()
         self.runner = CliRunner()
 
     def runTest(self):
-        source = os.path.join(os.getcwd(), 'tests/resources/gif_frames')
+        source = os.path.join(os.getcwd(), "tests/resources/gif_frames")
         with self.runner.isolated_filesystem():
-            output = os.path.join(os.getcwd(), 'test.gif')
-            self.runner.invoke(yoda.cli, ['gif',
-                                          'from-images',
-                                          '--source', source,
-                                          '--output', output,
-                                          '--fps', '9'
-                                          ])
+            output = os.path.join(os.getcwd(), "test.gif")
+            self.runner.invoke(
+                yoda.cli,
+                [
+                    "gif",
+                    "from-images",
+                    "--source",
+                    source,
+                    "--output",
+                    output,
+                    "--fps",
+                    "9",
+                ],
+            )
             self.assertTrue(os.path.isfile(output))
