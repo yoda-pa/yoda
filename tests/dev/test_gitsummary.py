@@ -27,7 +27,7 @@ class GitSummaryTest(TestCase):
             self.assertEqual(result.exit_code, 1)
 
         @mock.patch.object(github, 'Github', autospec=True)
-        def testStatisticCounting(mock_githublib):
+        def testCommandGetsCalled(mock_githublib):
             mock_githublib.return_value = True
             result = self.runner.invoke(yoda.cli, ['gitsummary', 'login', 'password', ], )
 
@@ -72,7 +72,7 @@ class GitSummaryTest(TestCase):
             self.assertIn('30 commit(s)', result.output)
 
         testExitingWithBadCredentials()
-        testCalledWithProperArgs()
+        testCommandGetsCalled()
         testGettingLogin()
         testIssuesAndPrCounting()
         testReposAndCommitsCounting()
