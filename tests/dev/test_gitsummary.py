@@ -40,7 +40,7 @@ class GitSummaryTest(TestCase):
             type(mock_gh().get_user()).login = mock.PropertyMock(return_value='TestUser')
 
             result = self.runner.invoke(yoda.cli, ['gitsummary', 'login', 'password', ], )
-            self.assertIn('TestUser, ready your GitHub statistics are.', result.output)
+            self.assertIn('TestUser, ready your GitHub statistics are', result.output)
 
         @mock.patch.object(github, 'Github', autospec=True)
         def testIssuesAndPrCounting(mock_gh):
