@@ -147,6 +147,21 @@ yoda gif from-images --source tests/resources/gif_frames/ --output test.gif --fp
 will create a gif with 9 fps.
 ~~~
 
+- gitsummary
+
+~~~
+$ yoda gitsummary GITHUB_LOGIN GITHUB_PASSWORD
+Uses the GIthub v3 API to get number of repos, commits (last 24hr), open pull requests (last 24hr) and open issues (last 24hr).
+
+e.g.
+$ yoda gitsummary SomeUsername MySuperS3cr3tP4ssw0rd!
+Fetching data. Patience you must have, my young padawan.
+
+SomeUsername, ready your GitHub statistics are.
+6 repositories you have.
+In last 24 hours 10 commit(s), 2 pull requests(s) and 3 issue(s) you made.
+~~~
+
 - run
 ~~~
 $ yoda run tests/resources/test_code.py
@@ -177,7 +192,7 @@ $ yoda dev keybindings add vim /absolute/path/to/keybinding/file.csv
 $ yoda dev keybindings search vim move cusror
 Key Bindings:
 ---------------------------------------
-     key       |          action       
+     key       |          action
 ---------------|-----------------------
        h       |       move cursor left
        j       |       move cursor down
@@ -480,11 +495,11 @@ This command obtains the weather information of a specified location using
   Weather report: Tokyo, Japan
 
             \  /       Partly cloudy
-          _ /"".-.     80-84 °F       
-            \_(   ).   ↑ 24 mph       
-            /(___(__)  10 mi          
-                       0.0 in         
-                                                               ┌─────────────┐                                                       
+          _ /"".-.     80-84 °F
+            \_(   ).   ↑ 24 mph
+            /(___(__)  10 mi
+                       0.0 in
+                                                               ┌─────────────┐
         ┌──────────────────────────────┬───────────────────────┤  Sun 07 Oct ├───────────────────────┬──────────────────────────────┐
         │            Morning           │             Noon      └──────┬──────┘     Evening           │             Night            │
         ├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
@@ -494,7 +509,7 @@ This command obtains the weather information of a specified location using
         │    /(___(__)  11 mi          │    /(___(__)  12 mi          │    /(___(__)  11 mi          │    /(___(__)  11 mi          │
         │               0.0 in | 0%    │               0.0 in | 0%    │               0.0 in | 0%    │               0.0 in | 0%    │
         └──────────────────────────────┴──────────────────────────────┴──────────────────────────────┴──────────────────────────────┘
-                                                               ┌─────────────┐                                                       
+                                                               ┌─────────────┐
         ┌──────────────────────────────┬───────────────────────┤  Mon 08 Oct ├───────────────────────┬──────────────────────────────┐
         │            Morning           │             Noon      └──────┬──────┘     Evening           │             Night            │
         ├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
@@ -504,7 +519,7 @@ This command obtains the weather information of a specified location using
         │     ‘ ‘ ‘ ‘   11 mi          │     ‘ ‘ ‘ ‘   11 mi          │    /(___(__)  11 mi          │      ‘ ‘ ‘ ‘  10 mi          │
         │    ‘ ‘ ‘ ‘    0.0 in | 70%   │    ‘ ‘ ‘ ‘    0.0 in | 89%   │               0.0 in | 0%    │     ‘ ‘ ‘ ‘   0.0 in | 61%   │
         └──────────────────────────────┴──────────────────────────────┴──────────────────────────────┴──────────────────────────────┘
-                                                               ┌─────────────┐                                                       
+                                                               ┌─────────────┐
         ┌──────────────────────────────┬───────────────────────┤  Tue 09 Oct ├───────────────────────┬──────────────────────────────┐
         │            Morning           │             Noon      └──────┬──────┘     Evening           │             Night            │
         ├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
@@ -531,10 +546,10 @@ $ yoda people setup
 # To show added friends
 $ yoda people status
 --------------------------------------
-     Mob    |     DOB    |   Name     
+     Mob    |     DOB    |   Name
 ------------|------------|------------
- 7503160111 | 1994-06-26 | Joy        
- 7503160112 | 1994-05-26 | Lobo       
+ 7503160111 | 1994-06-26 | Joy
+ 7503160112 | 1994-05-26 | Lobo
 
 # To add what people like(or a friend likes)
 $ yoda people like

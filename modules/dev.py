@@ -430,7 +430,7 @@ def checksite(ctx, link):
         sys.exit(1)
     else:
         click.echo('Yay! The site is up and running! :)')
- 
+
 @dev.command()
 @click.pass_context
 @click.argument("astrological_sign", nargs=1, required=False, callback=alias_checker)
@@ -662,6 +662,64 @@ def search_file(pattern, infile):
 
 
 @dev.command()
+@click.argument('github_login', nargs=1)
+@click.argument('github_password', nargs=1)
+def gitsummary(github_login, github_password):
+    """
+        Gets Github user stats - commits (all), repos (24hr), issues (24hr), pull requests (24hr).
+        :param github_login:
+        :param github_token:
+    """
+    from datetime import datetime, timedelta
+    from time import strftime
+    import github as githublib
+
+    def number_of_issues_and_pull_requests(gh):
+        # every pull request is a issue, not every issue is a pr
+        issues, pull_requests = 0, 0
+        for issue in gh.search_issues('', author=real_github_login, state='open', created='>{}'.format(yesterday)):
+            if issue.pull_request:
+                pull_requests += 1
+            else:
+                issues += 1
+        return issues, pull_requests
+
+    def number_of_repos_and_commits(gh):
+        # one commit can appear in few branches
+        repos = 0
+        commits = set()
+        for repo in gh.get_user().get_repos():
+            repos += 1
+            for branch in repo.get_branches():
+                for commit in repo.get_commits(sha=branch.name, author=real_github_login, since=yesterday_dt):
+                    commits.add(commit.sha)
+        return repos, len(commits)
+
+    yesterday_dt = datetime.today() - timedelta(days=3)
+    yesterday = yesterday_dt.strftime("%Y-%m-%dT%H:%M:%SZ")
+
+    click.echo('Fetching data. Patience you must have, my young padawan.\n')
+
+    github = githublib.Github(github_login, github_password)
+
+    try:
+        # user might provide email address as username and authentication would work
+        # but search_issues requires the proper username
+        real_github_login = github.get_user().login
+    except githublib.BadCredentialsException:
+        click.echo(chalk.red('Wrong credentials you gave!'))
+        sys.exit(1)
+
+    count_repos, count_commits = number_of_repos_and_commits(github)
+    count_issues, count_pr = number_of_issues_and_pull_requests(github)
+
+    click.echo('{}, ready your GitHub statistics are - {} repositories you have.'.format(
+        real_github_login, count_repos))
+    click.echo('In last 24 hours {} commit(s), {} pull requests(s) and {} issue(s) you made.'.format(
+        count_commits, count_pr, count_issues))
+
+
+@dev.command()
 @click.pass_context
 @click.argument('mode', nargs=1, required=False, callback=alias_checker)
 def ciphers(ctx, mode):
@@ -673,9 +731,9 @@ def ciphers(ctx, mode):
     if mode is None:
         click.echo("No mode was passed.(choose encrypt or decrypt")
         return
-    
+
     _mode = str(mode).lower()
-    
+
 
     cipher_dict = {
                     "Atbash": atbash.AtbashCipher,
