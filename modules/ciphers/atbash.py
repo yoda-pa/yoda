@@ -1,4 +1,5 @@
 import string
+import sys
 
 import click
 
@@ -28,7 +29,7 @@ class AtbashCipher:
         for char in message:
             if char not in self.alphabet and char != " ":
                 click.echo("Atbash only supports ASCII characters.")
-                return
+                sys.exit(1)
 
             encrypted_message += self.key[char]
         return encrypted_message

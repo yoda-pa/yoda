@@ -730,7 +730,7 @@ def ciphers(ctx, mode):
     mode = get_arguments(ctx, 1)
     if mode is None:
         click.echo("No mode was passed.(choose encrypt or decrypt")
-        return
+        sys.exit(1)
 
     _mode = str(mode).lower()
 
@@ -747,7 +747,7 @@ def ciphers(ctx, mode):
     cipher_choice = int(click.prompt("Choose a cipher"))
     if cipher_choice > len(cipher_dict) - 1 or cipher_choice < 0:
         click.echo("Invalid cipher number was chosen.")
-        return
+        sys.exit(1)
 
     cipher = cipher_dict[list(cipher_dict.keys())[cipher_choice]]()
 
@@ -758,7 +758,8 @@ def ciphers(ctx, mode):
         cipher_text = click.prompt("The text you want to decrypt")
         return click.echo(cipher.decrypt(cipher_text))
     else:
-        return click.echo("Invalid mode passed.")
+        click.echo("Invalid mode passed.")
+        sys.exit(1)
 
 
 @dev.command()
