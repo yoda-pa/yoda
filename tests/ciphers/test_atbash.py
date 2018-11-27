@@ -12,7 +12,7 @@ class TestAtbash(unittest.TestCase):
         | Module: ciphers
         | command: ciphers
         | args: encrypt
-        | input: 2 <text>
+        | input: 0 <text>
     """
 
     def __init__(self, methodName="runTest"):
@@ -22,22 +22,22 @@ class TestAtbash(unittest.TestCase):
     def runTest(self):
         # testing for invalid text input for Atbash encryption
         result = self.runner.invoke(yoda.cli, ["ciphers", "encrypt"],
-                                    input="2\n$#$#")
+                                    input="0\n$#$#")
         self.assertNotEqual(result.exit_code, 0)
 
         # testing for invalid text input for Atbash decryption
         result = self.runner.invoke(yoda.cli, ["ciphers", "decrypt"],
-                                    input="2\n12345")
+                                    input="0\n12345")
         self.assertNotEqual(result.exit_code, 0)
 
         # testing for working Atbash encryption
         result = self.runner.invoke(yoda.cli, ["ciphers", "encrypt"],
-                                    input="2\nsample")
+                                    input="0\nsample")
         self.assertEqual(result.exit_code, 0)
 
         # testing for working Atbash decryption
         result = self.runner.invoke(yoda.cli, ["ciphers", "decrypt"],
-                                    input="2\nsample")
+                                    input="0\nsample")
         self.assertEqual(result.exit_code, 0)
 
 

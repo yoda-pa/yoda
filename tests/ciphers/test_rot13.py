@@ -12,7 +12,7 @@ class TestRot13(unittest.TestCase):
         | Module: ciphers
         | command: ciphers
         | args: encrypt
-        | input: 1 <text>
+        | input: 2 <text>
     """
 
     def __init__(self, methodName="runTest"):
@@ -22,22 +22,22 @@ class TestRot13(unittest.TestCase):
     def runTest(self):
         # testing for invalid text input for rot13 encryption
         result = self.runner.invoke(yoda.cli, ["ciphers", "encrypt"],
-                                    input="1\nabc1!")
+                                    input="2\nabc1!")
         self.assertNotEqual(result.exit_code, 0)
 
         # testing for invalid text input for rot13 decryption
         result = self.runner.invoke(yoda.cli, ["ciphers", "decrypt"],
-                                    input="1\n12345")
+                                    input="2\n12345")
         self.assertNotEqual(result.exit_code, 0)
 
         # testing for working rot13 encryption
         result = self.runner.invoke(yoda.cli, ["ciphers", "encrypt"],
-                                    input="1\nsample")
+                                    input="2\nsample")
         self.assertEqual(result.exit_code, 0)
 
         # testing for working rot13 decryption
         result = self.runner.invoke(yoda.cli, ["ciphers", "decrypt"],
-                                    input="1\nsample")
+                                    input="2\nsample")
         self.assertEqual(result.exit_code, 0)
 
 

@@ -12,7 +12,7 @@ class TestCeaser(unittest.TestCase):
         | Module: ciphers
         | command: ciphers
         | args: encrypt
-        | input: 0 <text> <shift>
+        | input: 1 <text> <shift>
     """
 
     def __init__(self, methodName="runTest"):
@@ -22,32 +22,32 @@ class TestCeaser(unittest.TestCase):
     def runTest(self):
         # testing for invalid shift input for ceaser encryption
         result = self.runner.invoke(yoda.cli, ["ciphers", "encrypt"],
-                                    input="0\nsample\na")
+                                    input="1\nsample\na")
         self.assertNotEqual(result.exit_code, 0)
 
         # testing for invalid shift input for ceaser decryption
         result = self.runner.invoke(yoda.cli, ["ciphers", "decrypt"],
-                                    input="0\nsample\na")
+                                    input="1\nsample\na")
         self.assertNotEqual(result.exit_code, 0)
 
         # testing for invalid text input for ceaser encryption
         result = self.runner.invoke(yoda.cli, ["ciphers", "encrypt"],
-                                    input="0\n$#$#\n3")
+                                    input="1\n$#$#\n3")
         self.assertNotEqual(result.exit_code, 0)
 
         # testing for invalid text input for ceaser decryption
         result = self.runner.invoke(yoda.cli, ["ciphers", "decrypt"],
-                                    input="0\n12345\n3")
+                                    input="1\n12345\n3")
         self.assertNotEqual(result.exit_code, 0)
 
         # testing for working ceaser encryption
         result = self.runner.invoke(yoda.cli, ["ciphers", "encrypt"],
-                                    input="0\nsample\n3")
+                                    input="1\nsample\n3")
         self.assertEqual(result.exit_code, 0)
 
         # testing for working ceaser decryption
         result = self.runner.invoke(yoda.cli, ["ciphers", "decrypt"],
-                                    input="0\nsample\n3")
+                                    input="1\nsample\n3")
         self.assertEqual(result.exit_code, 0)
 
 
