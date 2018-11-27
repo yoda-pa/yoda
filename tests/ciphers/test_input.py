@@ -22,22 +22,22 @@ class TestInput(unittest.TestCase):
     def runTest(self):
         # testing for no mode passed for ciphers
         result = self.runner.invoke(yoda.cli, ["ciphers"])
-        self.assertNotEquals(result.exit_code, 0)
+        self.assertNotEqual(result.exit_code, 0)
 
         # testing for invalid cipher input selection in encrypt mode
         result = self.runner.invoke(yoda.cli, ["ciphers", "encrypt"],
                                     input="3\nsample\na")
-        self.assertNotEquals(result.exit_code, 0)
+        self.assertNotEqual(result.exit_code, 0)
 
         # testing for invalid cipher input selection in decrypt mode
         result = self.runner.invoke(yoda.cli, ["ciphers", "decrypt"],
                                     input="3\nsample\na")
-        self.assertNotEquals(result.exit_code, 0)
+        self.assertNotEqual(result.exit_code, 0)
 
         # testing for invalid cipher mode
         result = self.runner.invoke(yoda.cli, ["ciphers", "abc"],
                                     input="3\nsample\na")
-        self.assertNotEquals(result.exit_code, 0)
+        self.assertNotEqual(result.exit_code, 0)
 
 
 if __name__ == "__main__":

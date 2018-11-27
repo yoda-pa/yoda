@@ -22,13 +22,13 @@ class TestRot13(unittest.TestCase):
     def runTest(self):
         # testing for invalid text input for rot13 encryption
         result = self.runner.invoke(yoda.cli, ["ciphers", "encrypt"],
-                                    input="1\n$#$#")
-        self.assertNotEquals(result.exit_code, 0)
+                                    input="1\nabc1!")
+        self.assertNotEqual(result.exit_code, 0)
 
         # testing for invalid text input for rot13 decryption
         result = self.runner.invoke(yoda.cli, ["ciphers", "decrypt"],
                                     input="1\n12345")
-        self.assertNotEquals(result.exit_code, 0)
+        self.assertNotEqual(result.exit_code, 0)
 
         # testing for working rot13 encryption
         result = self.runner.invoke(yoda.cli, ["ciphers", "encrypt"],

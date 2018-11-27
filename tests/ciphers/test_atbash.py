@@ -23,12 +23,12 @@ class TestAtbash(unittest.TestCase):
         # testing for invalid text input for Atbash encryption
         result = self.runner.invoke(yoda.cli, ["ciphers", "encrypt"],
                                     input="2\n$#$#")
-        self.assertNotEquals(result.exit_code, 0)
+        self.assertNotEqual(result.exit_code, 0)
 
         # testing for invalid text input for Atbash decryption
         result = self.runner.invoke(yoda.cli, ["ciphers", "decrypt"],
                                     input="2\n12345")
-        self.assertNotEquals(result.exit_code, 0)
+        self.assertNotEqual(result.exit_code, 0)
 
         # testing for working Atbash encryption
         result = self.runner.invoke(yoda.cli, ["ciphers", "encrypt"],
