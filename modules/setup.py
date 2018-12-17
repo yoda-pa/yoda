@@ -8,6 +8,7 @@ import getpass
 import os.path
 import random
 import string
+import shutil
 
 import chalk
 import click
@@ -17,6 +18,7 @@ from Crypto.Cipher import AES
 
 from .config import get_config_file_paths
 from .config import update_config_path
+from .util import get_folder_path_from_file_path
 
 CONFIG_FILE_PATH = get_config_file_paths()["USER_CONFIG_FILE_PATH"]
 
@@ -124,6 +126,7 @@ def create():
             click.echo(chalk.blue("Where shall your config be stored? (Default: ~/.yoda/)"))
             config_path = os.path.expanduser(input().strip())
 
+    OLD_CONFIG_FILE_PATH = get_config_file_paths()["USER_CONFIG_FILE_PATH"]
     update_config_path(config_path)
     CONFIG_FILE_PATH = get_config_file_paths()["USER_CONFIG_FILE_PATH"]
 
@@ -158,6 +161,10 @@ def create():
 
     with open(CONFIG_FILE_PATH, "w") as config_file:
         yaml.dump(setup_data, config_file, default_flow_style=False)
+
+    os.remove(OLD_CONFIG_FILE_PATH)
+    shutil.rmtree(get_folder_path_from_file_path(OLD_CONFIG_FILE_PATH))
+    click.echo(chalk.green('Removed old setup configuration'))
 
     click.echo(
         chalk.green(
