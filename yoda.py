@@ -181,7 +181,7 @@ def setup(ctx, input):
     create a setup configuration for you to save some information locally
 
     Commands:\n
-    create: Create a setup configuration\n
+    new: Create a setup configuration\n
     check: Check existing setup\n
     delete: Delete existing setup\n
     """

@@ -64,7 +64,7 @@ def decrypt_password():
     return s[: old_div(len(s), 16)]
 
 
-def create():
+def new():
     """
     create new config file
     :return:
@@ -137,13 +137,6 @@ def create():
         encryption=dict(cipher_key=cipher_key, cipher_IV456=cipher_IV456),
     )
 
-    if not os.path.exists(os.path.dirname(CONFIG_FILE_PATH)):
-        try:
-            os.makedirs(os.path.dirname(CONFIG_FILE_PATH))
-        except OSError as exc:  # Guard against race condition
-            if exc.errno != errno.EEXIST:
-                raise
-
     if os.path.isfile(CONFIG_FILE_PATH):
         uconfig_file = open(CONFIG_FILE_PATH)
         uconfig_contents = yaml.load(uconfig_file)
@@ -158,13 +151,20 @@ def create():
             overwrite_response = input().lower()
             if not (overwrite_response == "y" or overwrite_response == "yes"):
                 return
+            else:
+                os.remove(OLD_CONFIG_FILE_PATH)
+                shutil.rmtree(get_folder_path_from_file_path(OLD_CONFIG_FILE_PATH))
+                click.echo(chalk.green('Removed old setup configuration'))
+
+    if not os.path.exists(os.path.dirname(CONFIG_FILE_PATH)):
+        try:
+            os.makedirs(os.path.dirname(CONFIG_FILE_PATH))
+        except OSError as exc:  # Guard against race condition
+            if exc.errno != errno.EEXIST:
+                raise
 
     with open(CONFIG_FILE_PATH, "w") as config_file:
         yaml.dump(setup_data, config_file, default_flow_style=False)
-
-    os.remove(OLD_CONFIG_FILE_PATH)
-    shutil.rmtree(get_folder_path_from_file_path(OLD_CONFIG_FILE_PATH))
-    click.echo(chalk.green('Removed old setup configuration'))
 
     click.echo(
         chalk.green(
@@ -189,7 +189,7 @@ def check():
     else:
         click.echo(
             chalk.red(
-                'The configuration file does not exist. Please type "yoda setup create" to create a new one'
+                'The configuration file does not exist. Please type "yoda setup new" to create a new one'
             )
         )
 
@@ -219,7 +219,7 @@ def check_sub_command(c):
     :param c:
     :return:
     """
-    sub_commands = {"create": create, "check": check, "delete": delete}
+    sub_commands = {"new": new, "check": check, "delete": delete}
     try:
         return sub_commands[c]()
     except KeyError:
