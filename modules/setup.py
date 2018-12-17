@@ -107,9 +107,22 @@ def create():
     while not os.path.isdir(config_path):
         if len(config_path) == 0:
             break
-        click.echo(chalk.red("Path doesn't exist!"))
-        click.echo(chalk.blue("Where shall your config be stored? (Default: ~/.yoda/)"))
-        config_path = os.path.expanduser(input().strip())
+        click.echo(
+            chalk.red(
+                "Path doesn't exist! Do you want to create it? (y/n)"
+            )
+        )
+        createdir_response = input().lower()
+        if createdir_response == "y" or createdir_response == "yes":
+            try:
+                os.makedirs(os.path.dirname(config_path))
+            except OSError as exc:  # Guard against race condition
+                if exc.errno != errno.EEXIST:
+                    raise
+            click.echo(chalk.green('Folder created!'))
+        else:
+            click.echo(chalk.blue("Where shall your config be stored? (Default: ~/.yoda/)"))
+            config_path = os.path.expanduser(input().strip())
 
     update_config_path(config_path)
     CONFIG_FILE_PATH = get_config_file_paths()["USER_CONFIG_FILE_PATH"]
