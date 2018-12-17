@@ -9,7 +9,7 @@ idna==2.6
 pydub==0.23.0
 pyspeedtest==1.2.7
 requests>=2.20.0
-urllib3==1.22
+urllib3==1.23
 future==0.16.0
 pychalk==2.0.0
 forex-python==1.0.0
