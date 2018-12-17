@@ -129,17 +129,28 @@ def create():
                 raise
 
     if os.path.isfile(CONFIG_FILE_PATH):
-        click.echo(
-            chalk.red(
-                "A configuration file already exists. Are you sure you want to overwrite it? (y/n)"
+        uconfig_file = open(CONFIG_FILE_PATH)
+        uconfig_contents = yaml.load(uconfig_file)
+        # check if name and email are alredy configured
+        if not (uconfig_contents["name"] == "" or uconfig_contents["email"] == ""):
+            # It is alredy configured. overwrite?
+            click.echo(
+                chalk.red(
+                    'A setup configuration already exists. Are you sure you want to overwrite it? (y/n)'
+                )
             )
-        )
-        overwrite_response = input().lower()
-        if not (overwrite_response == "y" or overwrite_response == "yes"):
-            return
+            overwrite_response = input().lower()
+            if not (overwrite_response == "y" or overwrite_response == "yes"):
+                return
 
     with open(CONFIG_FILE_PATH, "w") as config_file:
         yaml.dump(setup_data, config_file, default_flow_style=False)
+
+    click.echo(
+        chalk.green(
+            'Done!'
+        )
+    )
 
 
 def check():
@@ -158,7 +169,7 @@ def check():
     else:
         click.echo(
             chalk.red(
-                'The configuration file does not exist. Please type "yoda setup new" to create a new one'
+                'The configuration file does not exist. Please type "yoda setup create" to create a new one'
             )
         )
 
