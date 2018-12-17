@@ -62,7 +62,7 @@ def decrypt_password():
     return s[: old_div(len(s), 16)]
 
 
-def new():
+def create():
     """
     create new config file
     :return:
@@ -188,7 +188,7 @@ def check_sub_command(c):
     :param c:
     :return:
     """
-    sub_commands = {"new": new, "check": check, "delete": delete}
+    sub_commands = {"create": create, "check": check, "delete": delete}
     try:
         return sub_commands[c]()
     except KeyError:
