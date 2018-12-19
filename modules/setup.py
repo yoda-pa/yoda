@@ -1,20 +1,21 @@
-from __future__ import division
 from __future__ import absolute_import
-from builtins import input
-from builtins import range
-from past.utils import old_div
+from __future__ import division
+
 import errno
 import getpass
 import os.path
 import random
-import string
 import shutil
+import string
 
 import chalk
 import click
 import lepl.apps.rfc3696
 import yaml
 from Crypto.Cipher import AES
+from builtins import input
+from builtins import range
+from past.utils import old_div
 
 from .config import get_config_file_paths
 from .config import update_config_path
@@ -110,10 +111,16 @@ def new():
 
     click.echo(chalk.blue("Enter your github password:"))
     gh_password = getpass.getpass()
-    while len(gh_password) == 0:
+    # limit the loop to run 5 times to avoid infinity loop while testing
+    i = 0
+    while len(gh_password) == 0 and i < 5:
         click.echo(chalk.red("You entered nothing!"))
         click.echo(chalk.blue("Enter your github password:"))
         gh_password = getpass.getpass()
+        i = i + 1
+        if i == 4:
+            click.echo(chalk.red("Too many tries"))
+            return
     # let's encrypt our password
     cipher_key = cypher_pass_generator()
     cipher_IV456 = cypher_pass_generator()
