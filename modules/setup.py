@@ -21,6 +21,7 @@ from .config import update_config_path
 from .util import get_folder_path_from_file_path
 
 CONFIG_FILE_PATH = get_config_file_paths()["USER_CONFIG_FILE_PATH"]
+OLD_CONFIG_FILE_PATH = CONFIG_FILE_PATH
 
 try:
     raw_input  # Python 2
@@ -63,6 +64,22 @@ def decrypt_password():
     s = AES.new(cipher_key, AES.MODE_CBC, cipher_IV456).decrypt(cipher_text)
     return s[: old_div(len(s), 16)]
 
+def config_exists():
+    """
+    Check if there is a Name, E-mail, GhUser and GhPassword configured
+    :return:
+    """
+
+    if os.path.isfile(CONFIG_FILE_PATH):
+        uconfig_file = open(CONFIG_FILE_PATH)
+        uconfig_contents = yaml.load(uconfig_file)
+        # check if name is alredy configured.
+        if uconfig_contents["name"] == "":
+            return False
+        else:
+            return True
+    else:
+        return False
 
 def new():
     """
@@ -126,7 +143,6 @@ def new():
             click.echo(chalk.blue("Where shall your config be stored? (Default: ~/.yoda/)"))
             config_path = os.path.expanduser(input().strip())
 
-    OLD_CONFIG_FILE_PATH = get_config_file_paths()["USER_CONFIG_FILE_PATH"]
     update_config_path(config_path)
     CONFIG_FILE_PATH = get_config_file_paths()["USER_CONFIG_FILE_PATH"]
 
@@ -137,24 +153,20 @@ def new():
         encryption=dict(cipher_key=cipher_key, cipher_IV456=cipher_IV456),
     )
 
-    if os.path.isfile(CONFIG_FILE_PATH):
-        uconfig_file = open(CONFIG_FILE_PATH)
-        uconfig_contents = yaml.load(uconfig_file)
-        # check if name and email are alredy configured
-        if not (uconfig_contents["name"] == "" or uconfig_contents["email"] == ""):
-            # It is alredy configured. overwrite?
-            click.echo(
-                chalk.red(
-                    'A setup configuration already exists. Are you sure you want to overwrite it? (y/n)'
-                )
+    if config_exists():
+        # It is alredy configured. overwrite?
+        click.echo(
+            chalk.red(
+                'A setup configuration already exists. Are you sure you want to overwrite it? (y/n)'
             )
-            overwrite_response = input().lower()
-            if not (overwrite_response == "y" or overwrite_response == "yes"):
-                return
-            else:
-                os.remove(OLD_CONFIG_FILE_PATH)
-                shutil.rmtree(get_folder_path_from_file_path(OLD_CONFIG_FILE_PATH))
-                click.echo(chalk.green('Removed old setup configuration'))
+        )
+        overwrite_response = input().lower()
+        if not (overwrite_response == "y" or overwrite_response == "yes"):
+            return
+        else:
+            os.remove(OLD_CONFIG_FILE_PATH)
+            shutil.rmtree(get_folder_path_from_file_path(OLD_CONFIG_FILE_PATH))
+            click.echo(chalk.green('Removed old setup configuration'))
 
     if not os.path.exists(os.path.dirname(CONFIG_FILE_PATH)):
         try:
@@ -178,7 +190,7 @@ def check():
     """
     check existing setup
     """
-    if os.path.isfile(CONFIG_FILE_PATH):
+    if config_exists():
         with open(CONFIG_FILE_PATH) as config_file:
             contents = yaml.load(config_file)
             click.echo("Name: " + contents["name"])
@@ -199,7 +211,7 @@ def delete():
     delete config_file
     :return:
     """
-    if os.path.isfile(CONFIG_FILE_PATH):
+    if config_exists():
         click.echo(
             chalk.red("Are you sure you want to delete previous configuration? (y/n)")
         )
@@ -207,7 +219,8 @@ def delete():
         if delete_response != "y":
             click.echo("Operation cancelled")
             return
-        os.remove(CONFIG_FILE_PATH)
+        os.remove(OLD_CONFIG_FILE_PATH)
+        shutil.rmtree(get_folder_path_from_file_path(OLD_CONFIG_FILE_PATH))
         click.echo(chalk.red("Configuration file deleted"))
     else:
         click.echo(chalk.red("Configuration file does not exist!"))
