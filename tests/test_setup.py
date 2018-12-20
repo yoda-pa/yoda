@@ -21,7 +21,7 @@ class TestSetup(TestCase):
         super(TestSetup, self).__init__()
         self.runner = CliRunner()
 
-    def TestNew(self):
+    def Newtest(self):
         """
         Test "yoda setup new"
         :return:
@@ -100,7 +100,7 @@ class TestSetup(TestCase):
         self.assertIn("Removed old setup configuration", result.output)
         self.assertEqual(result.exit_code, 0)
 
-    def TestDelete(self):
+    def Deletetest(self):
         """
         Test "yoda setup delete"
         :return:
@@ -122,7 +122,7 @@ class TestSetup(TestCase):
         self.assertEqual(result.exit_code, 0)
         self.assertIn("Configuration file deleted", result.output)
 
-    def TestCheck(self, expectedoutput):
+    def Checktest(self, expectedoutput):
         """
         Test "yoda setup check"
         :param expectedoutput: 0 = Config. does NOT exist 1 = Config. Exists
@@ -150,7 +150,7 @@ class TestSetup(TestCase):
         result = self.runner.invoke(yoda.cli, ["setup"])
         self.assertEqual(result.exit_code, 0)
 
-        self.TestNew()
-        self.TestCheck(1)
-        self.TestDelete()
-        self.TestCheck(0)
+        self.Newtest()
+        self.Checktest(1)
+        self.Deletetest()
+        self.Checktest(0)
