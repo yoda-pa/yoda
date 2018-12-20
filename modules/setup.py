@@ -65,12 +65,14 @@ def decrypt_password():
     s = AES.new(cipher_key, AES.MODE_CBC, cipher_IV456).decrypt(cipher_text)
     return s[: old_div(len(s), 16)]
 
+
 def config_exists():
     """
     Check if there is a Name, E-mail, GhUser and GhPassword configured
     :return:
     """
 
+    CONFIG_FILE_PATH = get_config_file_paths()["USER_CONFIG_FILE_PATH"]
     if os.path.isfile(CONFIG_FILE_PATH):
         uconfig_file = open(CONFIG_FILE_PATH)
         uconfig_contents = yaml.load(uconfig_file)
@@ -81,6 +83,7 @@ def config_exists():
             return True
     else:
         return False
+
 
 def new():
     """
@@ -197,12 +200,14 @@ def check():
     """
     check existing setup
     """
+    CONFIG_FILE_PATH = get_config_file_paths()["USER_CONFIG_FILE_PATH"]
     if config_exists():
         with open(CONFIG_FILE_PATH) as config_file:
             contents = yaml.load(config_file)
             click.echo("Name: " + contents["name"])
             click.echo("Email: " + contents["email"])
             click.echo("Github username: " + contents["github"]["username"])
+            return
 
             # click.echo(decrypt_password())
     else:
@@ -211,6 +216,7 @@ def check():
                 'The configuration file does not exist. Please type "yoda setup new" to create a new one'
             )
         )
+        return
 
 
 def delete():
@@ -218,6 +224,7 @@ def delete():
     delete config_file
     :return:
     """
+    CONFIG_FILE_PATH = get_config_file_paths()["USER_CONFIG_FILE_PATH"]
     if config_exists():
         click.echo(
             chalk.red("Are you sure you want to delete previous configuration? (y/n)")
@@ -226,11 +233,13 @@ def delete():
         if delete_response != "y":
             click.echo("Operation cancelled")
             return
-        os.remove(OLD_CONFIG_FILE_PATH)
-        shutil.rmtree(get_folder_path_from_file_path(OLD_CONFIG_FILE_PATH))
+        os.remove(CONFIG_FILE_PATH)
+        shutil.rmtree(get_folder_path_from_file_path(CONFIG_FILE_PATH))
         click.echo(chalk.red("Configuration file deleted"))
+        return
     else:
         click.echo(chalk.red("Configuration file does not exist!"))
+        return
 
 
 def check_sub_command(c):
