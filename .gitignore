@@ -97,4 +97,5 @@ ENV/
 .idea/
 .scannerwork/
 
-
+.screenshots/
+venv-test/
