@@ -38,7 +38,7 @@ You can install yoda directly from the github repository using the following com
 #### Method 2
 Clone this repository and create a virtual environment using Python 2 in the cloned directory (`virtualenv -p /usr/bin/python2 venv`). Steps after that:
 
-![](https://raw.githubusercontent.com/man-contributions/yoda/master/screencasts/firstsetup.gif)
+![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/firstsetup.gif)
 
 Instead of `pip install --editable .` you can use `pip install .` if you don't intend to make any changes in the code.
 
