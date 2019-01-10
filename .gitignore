@@ -98,4 +98,4 @@ ENV/
 .scannerwork/
 
 .screenshots/
-venv-test/
+venv-demo/
