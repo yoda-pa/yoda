@@ -583,7 +583,19 @@ Please refer to the [contributing guidelines](https://github.com/yoda-pa/yoda/bl
 - [sdtimes](https://sdtimes.com/os/sd-times-github-project-week-yoda-2/)
 
 ## Changelog
+
+### v0.4.0
+Related milestone: [v0.4.0](https://github.com/yoda-pa/yoda/milestone/2)
+- Added goals and analysis
+- Added reading list
+- Enhancements to diary
+- Better documentation and code quality than before
+- Added more tests
+- Security alert fixes
+- Various bug fixes
+
 ### v0.3.0
+Related milestone: [v0.3.0](https://github.com/yoda-pa/yoda/milestone/3)
 - Support for both Python 2 and Python 3
 - Command aliasing
 - Port scanning
@@ -594,6 +606,7 @@ Please refer to the [contributing guidelines](https://github.com/yoda-pa/yoda/bl
 - Bug fixes
 
 ### v0.2.0
+Related milestone: [v0.2.0](https://github.com/yoda-pa/yoda/milestone/1)
 - Idea list
 - Reading list
 - Automated tests
