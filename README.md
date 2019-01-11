@@ -74,43 +74,27 @@ This command group contains some sub-commands that may be helpful for developers
 
 - horoscope
 
-~~~
-$ yoda horoscope aries
-You may stomp your feet all you like, but you're not going to get your way today. The days of 'me-myself' are over. Also, today you may invite unwanted trouble. It may do you some good, suggests Ganesha, if you change the hub of your activities.
-~~~
+![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/horoscope.gif)
 
 - sitechecker
 
+Usage:
 ~~~
 $ yoda checksite https://manparvesh.com
-Connecting...
-Yay! The site is up and running! :)
 
 $ yoda checksite https://manparveshs.com
-Connecting...
-Looks like https://manparveshs.com is not a valid URL, check the URL and try again.
-
-$yoda checksite https://manparvesh
-Connecting...
-Looks like https://manparvesh is not a valid URL, check the URL and try again.
 ~~~
 
+![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/sitechecker.gif)
 
 - whois
 
+Usage:
 ~~~
 $ yoda dev whois google.com
-Verifying domain...
-
-Domain:        google.com
-Registrar:     MarkMonitor Inc.
-Organization:  Google LLC
-Country:       US
-
-Registered On: 1997-09-15
-Expires On:    2020-09-13
-Updated On:    2018-02-21
 ~~~
+
+![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/whois.gif)
 
 - grep
 
@@ -165,23 +149,17 @@ In last 24 hours 10 commit(s), 2 pull requests(s) and 3 issue(s) you made.
 - run
 ~~~
 $ yoda run tests/resources/test_code.py
-Compiling code..
-Running code...
-Output:
-Hello, World!
-
-Link: https://code.hackerearth.com/b21841l
 ~~~
+
+![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/runcode.gif)
+
 
 - fileshare
 ~~~
-$ yoda dev fileshare transport.png
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-100  379k  100    82  100  379k     14  69962  0:00:05  0:00:05 --:--:-- 78717
-File Link : https://file.io/GTd4FH
-WARNING: File will be deleted after it is accessed once.
+$ yoda fileshare transport.png
 ~~~
+
+![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/fileshare.gif)
 
 - keybindings
 ~~~
@@ -221,7 +199,10 @@ $ yoda goals analyze
 $ yoda goals tasks
 
 ```
-Use this module with ```diary``` module and assign new tasks to the goals by typing
+
+![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/goals.gif)
+
+**Note:** Use this module with ```diary``` module and assign new tasks to the goals by typing
 
 ```
 $ yoda diary nt
@@ -238,36 +219,44 @@ For creating and writing new note type
 
 ```
 #For writing new note
-$yoda diary nn
+$ yoda diary nn
+
 #First give the title of the note.
 #Sencond give the text of the note
 
 #Viewing all notes.
-$yoda diary notes
+$ yoda diary notes
+
 #Updating note
 #Choose the date and then the note to update
-$yoda diary un
+$ yoda diary un
+
 #Deleting Note
 #Choose the date and then the note to delete
-$yoda diary dn
+$ yoda diary dn
 ```
 For writing and viewing tasks.
 
 ```
-#Writing new task
-$yoda diary nt
-#Viewing all tasks
-$yoda diary tasks
-#Change the status of task to completed
-$yoda diary ct
-#Update task
-#Choose the date and then the task to update
-yoda diary ut
-#Delete Task
-#Choose the date and then the task to delete
-yoda diary dt
-#Delete all completed tasks for today
-yoda diary dct
+# Writing new task
+$ yoda diary nt
+
+# Viewing all tasks
+$ yoda diary tasks
+
+# Change the status of task to completed
+$ yoda diary ct
+
+# Update task
+# Choose the date and then the task to update
+$ yoda diary ut
+
+# Delete Task
+# Choose the date and then the task to delete
+$ yoda diary dt
+
+# Delete all completed tasks for today
+$ yoda diary dct
 # type c to confirm the deletion
 ```
 
@@ -488,52 +477,7 @@ This command outputs transformed ascii version of a given image.
 This command obtains the weather information of a specified location using
 [wttr](http://wttr.in) as the weather service.
 
-   ```
-  # getting weather for location [CITY COUNTRY]
-  # country and be omitted if there are no clashes of same named cities
-  $ yoda weather tokyo japan
-  Weather report: Tokyo, Japan
-
-            \  /       Partly cloudy
-          _ /"".-.     80-84 °F
-            \_(   ).   ↑ 24 mph
-            /(___(__)  10 mi
-                       0.0 in
-                                                               ┌─────────────┐
-        ┌──────────────────────────────┬───────────────────────┤  Sun 07 Oct ├───────────────────────┬──────────────────────────────┐
-        │            Morning           │             Noon      └──────┬──────┘     Evening           │             Night            │
-        ├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
-        │    \  /       Partly cloudy  │    \  /       Partly cloudy  │    \  /       Partly cloudy  │    \  /       Partly cloudy  │
-        │  _ /"".-.     82-87 °F       │  _ /"".-.     87-91 °F       │  _ /"".-.     86 °F          │  _ /"".-.     80-82 °F       │
-        │    \_(   ).   ↗ 14-17 mph    │    \_(   ).   ↘ 3-4 mph      │    \_(   ).   ↓ 7-10 mph     │    \_(   ).   ↙ 11-15 mph    │
-        │    /(___(__)  11 mi          │    /(___(__)  12 mi          │    /(___(__)  11 mi          │    /(___(__)  11 mi          │
-        │               0.0 in | 0%    │               0.0 in | 0%    │               0.0 in | 0%    │               0.0 in | 0%    │
-        └──────────────────────────────┴──────────────────────────────┴──────────────────────────────┴──────────────────────────────┘
-                                                               ┌─────────────┐
-        ┌──────────────────────────────┬───────────────────────┤  Mon 08 Oct ├───────────────────────┬──────────────────────────────┐
-        │            Morning           │             Noon      └──────┬──────┘     Evening           │             Night            │
-        ├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
-        │      .-.      Light rain     │      .-.      Light drizzle  │    \  /       Partly cloudy  │  _`/"".-.     Patchy rain po…│
-        │     (   ).    73-77 °F       │     (   ).    73-77 °F       │  _ /"".-.     73-77 °F       │   ,\_(   ).   73-77 °F       │
-        │    (___(__)   ↙ 10-13 mph    │    (___(__)   ↙ 9-12 mph     │    \_(   ).   ← 8-11 mph     │    /(___(__)  ← 4-6 mph      │
-        │     ‘ ‘ ‘ ‘   11 mi          │     ‘ ‘ ‘ ‘   11 mi          │    /(___(__)  11 mi          │      ‘ ‘ ‘ ‘  10 mi          │
-        │    ‘ ‘ ‘ ‘    0.0 in | 70%   │    ‘ ‘ ‘ ‘    0.0 in | 89%   │               0.0 in | 0%    │     ‘ ‘ ‘ ‘   0.0 in | 61%   │
-        └──────────────────────────────┴──────────────────────────────┴──────────────────────────────┴──────────────────────────────┘
-                                                               ┌─────────────┐
-        ┌──────────────────────────────┬───────────────────────┤  Tue 09 Oct ├───────────────────────┬──────────────────────────────┐
-        │            Morning           │             Noon      └──────┬──────┘     Evening           │             Night            │
-        ├──────────────────────────────┼──────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
-        │  _`/"".-.     Light rain sho…│  _`/"".-.     Light rain sho…│    \  /       Partly cloudy  │    \  /       Partly cloudy  │
-        │   ,\_(   ).   75-77 °F       │   ,\_(   ).   78-80 °F       │  _ /"".-.     77-80 °F       │  _ /"".-.     75-78 °F       │
-        │    /(___(__)  ↙ 8-9 mph      │    /(___(__)  ↓ 8-9 mph      │    \_(   ).   ↙ 8-11 mph     │    \_(   ).   ↙ 6-9 mph      │
-        │      ‘ ‘ ‘ ‘  11 mi          │      ‘ ‘ ‘ ‘  10 mi          │    /(___(__)  10 mi          │    /(___(__)  9 mi           │
-        │     ‘ ‘ ‘ ‘   0.0 in | 89%   │     ‘ ‘ ‘ ‘   0.0 in | 82%   │               0.0 in | 0%    │               0.0 in | 0%    │
-        └──────────────────────────────┴──────────────────────────────┴──────────────────────────────┴──────────────────────────────┘
-
-        Follow @igor_chubin for wttr.in updates
-
-
-  ```
+![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/weather.gif)
 
 #### people
 
