@@ -62,121 +62,121 @@ This command group contains some sub-commands that may be helpful for developers
 
 - speedtest
 
-![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/speedtest.gif)
+  ![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/speedtest.gif)
 
 - url
 
-![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/url.gif)
+  ![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/url.gif)
 
 - hackernews
 
-![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/hackernews.gif)
+  ![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/hackernews.gif)
 
 - horoscope
 
-![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/horoscope.gif)
+  ![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/horoscope.gif)
 
 - sitechecker
 
-Usage:
-~~~
-$ yoda checksite https://manparvesh.com
+  Usage:
+  ~~~
+  $ yoda checksite https://manparvesh.com
 
-$ yoda checksite https://manparveshs.com
-~~~
+  $ yoda checksite https://manparveshs.com
+  ~~~
 
-![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/sitechecker.gif)
+  ![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/sitechecker.gif)
 
 - whois
 
-Usage:
-~~~
-$ yoda dev whois google.com
-~~~
+  Usage:
+  ~~~
+  $ yoda dev whois google.com
+  ~~~
 
-![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/whois.gif)
+  ![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/whois.gif)
 
 - grep
 
-~~~
-$ yoda dev grep PATTERN FILE|FOLDER -r [True] -i [True]
--r is the flag for recursive search. -i enables case insensitive search.
-Both are optional parameter and the flags are off if they are not provided.
+  ~~~
+  $ yoda dev grep PATTERN FILE|FOLDER -r [True] -i [True]
+  -r is the flag for recursive search. -i enables case insensitive search.
+  Both are optional parameter and the flags are off if they are not provided.
 
-$ yoda dev grep \d+ modules/ -r True
-Will recursively search all files in modules directory for any line containing 1 or more digits.
+  $ yoda dev grep \d+ modules/ -r True
+  Will recursively search all files in modules directory for any line containing 1 or more digits.
 
-$ yoda dev grep yOdA modules/ -i True
-Will recursively search all files in modules directory for any line containing the word yoda.
-This search is case insensitive.
+  $ yoda dev grep yOdA modules/ -i True
+  Will recursively search all files in modules directory for any line containing the word yoda.
+  This search is case insensitive.
 
-$ yoda dev grep yOdA yoda.py -i True
-Will recursively search the file yoda.py for any line containing the word yoda.
-This search is case insensitive.
-~~~
+  $ yoda dev grep yOdA yoda.py -i True
+  Will recursively search the file yoda.py for any line containing the word yoda.
+  This search is case insensitive.
+  ~~~
 
 - gif
 
-~~~
-$ yoda gif from_images --source SOURCE_DIR --output OUTPUT_FILE
-Will scan the source directory and generate a gif. File will be located at OUTPUT_FILE.
-e.g.
-yoda gif from-images --source tests/resources/gif_frames/ --output test.gif
+  ~~~
+  $ yoda gif from_images --source SOURCE_DIR --output OUTPUT_FILE
+  Will scan the source directory and generate a gif. File will be located at OUTPUT_FILE.
+  e.g.
+  yoda gif from-images --source tests/resources/gif_frames/ --output test.gif
 
-$ yoda gif from_images --source SOURCE_DIR --output OUTPUT_FILE --<param> <value>
-Will scan the source directory and generate a gif. File will be located at OUTPUT_FILE.
-<param> and <value> can be any keyword argument that imageio's mimsave function takes.
-e.g.
-yoda gif from-images --source tests/resources/gif_frames/ --output test.gif --fps 9
-will create a gif with 9 fps.
-~~~
+  $ yoda gif from_images --source SOURCE_DIR --output OUTPUT_FILE --<param> <value>
+  Will scan the source directory and generate a gif. File will be located at OUTPUT_FILE.
+  <param> and <value> can be any keyword argument that imageio's mimsave function takes.
+  e.g.
+  yoda gif from-images --source tests/resources/gif_frames/ --output test.gif --fps 9
+  will create a gif with 9 fps.
+  ~~~
 
 - gitsummary
 
-~~~
-$ yoda gitsummary GITHUB_LOGIN GITHUB_PASSWORD
-Uses the GIthub v3 API to get number of repos, commits (last 24hr), open pull requests (last 24hr) and open issues (last 24hr).
+  ~~~
+  $ yoda gitsummary GITHUB_LOGIN GITHUB_PASSWORD
+  Uses the GIthub v3 API to get number of repos, commits (last 24hr), open pull requests (last 24hr) and open issues (last 24hr).
 
-e.g.
-$ yoda gitsummary SomeUsername MySuperS3cr3tP4ssw0rd!
-Fetching data. Patience you must have, my young padawan.
+  e.g.
+  $ yoda gitsummary SomeUsername MySuperS3cr3tP4ssw0rd!
+  Fetching data. Patience you must have, my young padawan.
 
-SomeUsername, ready your GitHub statistics are.
-6 repositories you have.
-In last 24 hours 10 commit(s), 2 pull requests(s) and 3 issue(s) you made.
-~~~
+  SomeUsername, ready your GitHub statistics are.
+  6 repositories you have.
+  In last 24 hours 10 commit(s), 2 pull requests(s) and 3 issue(s) you made.
+  ~~~
 
 - run
-~~~
-$ yoda run tests/resources/test_code.py
-~~~
+  ~~~
+  $ yoda run tests/resources/test_code.py
+  ~~~
 
-![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/runcode.gif)
+  ![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/runcode.gif)
 
 
 - fileshare
-~~~
-$ yoda fileshare transport.png
-~~~
+  ~~~
+  $ yoda fileshare transport.png
+  ~~~
 
-![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/fileshare.gif)
+  ![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/fileshare.gif)
 
 - keybindings
-~~~
-# To add(or import) a keybindings file
-$ yoda dev keybindings add vim /absolute/path/to/keybinding/file.csv
+  ~~~
+  # To add(or import) a keybindings file
+  $ yoda dev keybindings add vim /absolute/path/to/keybinding/file.csv
 
-# To search keybinding action for a software
-$ yoda dev keybindings search vim move cusror
-Key Bindings:
----------------------------------------
-     key       |          action
----------------|-----------------------
-       h       |       move cursor left
-       j       |       move cursor down
-       k       |       move cursor up
-       l       |       move cursor right
-~~~
+  # To search keybinding action for a software
+  $ yoda dev keybindings search vim move cusror
+  Key Bindings:
+  ---------------------------------------
+      key       |          action
+  ---------------|-----------------------
+        h       |       move cursor left
+        j       |       move cursor down
+        k       |       move cursor up
+        l       |       move cursor right
+  ~~~
 
 #### goals
 
