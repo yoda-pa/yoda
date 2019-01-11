@@ -50,7 +50,7 @@ Clone this repository and build the Docker image (`make build`) and then run:
 
 #### chat
 
-This package contains a chatbot too! The `chat` command can be used to chat with it
+Use the `chat` command to talk to the inbuilt chatbot for this project.
 
 ![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/chat.gif)
 
@@ -60,23 +60,19 @@ You can test the chat functionality on api.ai agent website [here](https://bot.a
 
 This command group contains some sub-commands that may be helpful for developers and tech-geeks.
 
-- speedtest
+- **speedtest**: check your internet speed
 
   ![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/speedtest.gif)
 
-- url
+- **url**: URL shortener
 
   ![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/url.gif)
 
-- hackernews
+- **hackernews**: read hackernews articles
 
   ![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/hackernews.gif)
 
-- horoscope
-
-  ![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/horoscope.gif)
-
-- sitechecker
+- **sitechecker**: check if a site is up
 
   Usage:
   ~~~
@@ -87,7 +83,7 @@ This command group contains some sub-commands that may be helpful for developers
 
   ![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/sitechecker.gif)
 
-- whois
+- **whois**: get whois records
 
   Usage:
   ~~~
@@ -96,7 +92,7 @@ This command group contains some sub-commands that may be helpful for developers
 
   ![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/whois.gif)
 
-- grep
+- **grep**: grep implementation
 
   ~~~
   $ yoda dev grep PATTERN FILE|FOLDER -r [True] -i [True]
@@ -115,7 +111,7 @@ This command group contains some sub-commands that may be helpful for developers
   This search is case insensitive.
   ~~~
 
-- gif
+- **gif**: Create gif from images
 
   ~~~
   $ yoda gif from_images --source SOURCE_DIR --output OUTPUT_FILE
@@ -131,7 +127,7 @@ This command group contains some sub-commands that may be helpful for developers
   will create a gif with 9 fps.
   ~~~
 
-- gitsummary
+- **gitsummary**: gets the summary of your github account
 
   ~~~
   $ yoda gitsummary GITHUB_LOGIN GITHUB_PASSWORD
@@ -146,7 +142,7 @@ This command group contains some sub-commands that may be helpful for developers
   In last 24 hours 10 commit(s), 2 pull requests(s) and 3 issue(s) you made.
   ~~~
 
-- run
+- **run**: compile and run source codes written in different programming languages!
   ~~~
   $ yoda run tests/resources/test_code.py
   ~~~
@@ -154,14 +150,14 @@ This command group contains some sub-commands that may be helpful for developers
   ![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/runcode.gif)
 
 
-- fileshare
+- **fileshare**: share files that are accessible only once
   ~~~
   $ yoda fileshare transport.png
   ~~~
 
   ![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/fileshare.gif)
 
-- keybindings
+- **keybindings**: save key bindings
   ~~~
   # To add(or import) a keybindings file
   $ yoda dev keybindings add vim /absolute/path/to/keybinding/file.csv
@@ -178,9 +174,21 @@ This command group contains some sub-commands that may be helpful for developers
         l       |       move cursor right
   ~~~
 
+- **IP lookup:** Get the geographical location of an IP address.
+
+  ```
+  $ yoda iplookup 23.20.227.213
+  $ Virginia, United States
+  ```
+
+#### horoscope
+See your horoscope
+
+![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/horoscope.gif)
+
 #### goals
 
-For settings and maintaining your goals, type
+Create and complete goals, add tasks and analyze your progress.
 
 ```
 # To set a goal (name, description, deadline)
@@ -218,21 +226,21 @@ This command can be used to maintain a personal diary, roughly based on the conc
 For creating and writing new note type
 
 ```
-#For writing new note
+# For writing new note
 $ yoda diary nn
 
-#First give the title of the note.
-#Sencond give the text of the note
+# First give the title of the note.
+# Second give the text of the note
 
-#Viewing all notes.
+# Viewing all notes.
 $ yoda diary notes
 
-#Updating note
-#Choose the date and then the note to update
+# Updating note
+# Choose the date and then the note to update
 $ yoda diary un
 
-#Deleting Note
-#Choose the date and then the note to delete
+# Deleting Note
+# Choose the date and then the note to delete
 $ yoda diary dn
 ```
 For writing and viewing tasks.
@@ -262,7 +270,7 @@ $ yoda diary dct
 
 #### love
 
-This command can be used to maintain a profile of someone you love.
+This command can be used to maintain a profile of someone you love, take notes and remember what they like.
 
 ![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/love.gif)
 
@@ -309,25 +317,16 @@ $ yoda ideas remove --task <task_name> --inside <project_name>
 $ yoda ideas remove --project <project_name>
 ```
 
-#### IP lookup
-
-Get the geographical location of an IP address.
-
-```
-$ yoda iplookup 23.20.227.213
-$ Virginia, United States
-```
-
 #### learn
 
-This command group contains commands that, helpful in learning new things, will be.  Yeesssssss.
+This command group contains commands that, helpful in learning new things, will be.
 
-- vocabulary: For enhancing your vocabulary and tracking your progress.
+- **vocabulary**: For enhancing your vocabulary and tracking your progress.
 
     ![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/vocab.gif)
 
 
-- flashcards: for learning anything! ([inspiration](https://github.com/zergov/flashcards))
+- **flashcards**: for learning anything! ([inspiration](https://github.com/zergov/flashcards))
 
     ```
     # create new set (remember to keep the name to one word)
@@ -353,7 +352,7 @@ This command group contains commands that, helpful in learning new things, will 
     $  yoda flashcards study
     ```
 
-- dictionary: to get definition, synonym, antonym and example of a word. This definition or synonym search will be automatically saved, so that while you are working on your vocabulary, you can come through the new word as well.
+- **dictionary:** to get definition, synonym, antonym and example of a word. This definition or synonym search will be automatically saved, so that while you are working on your vocabulary, you can come through the new word as well.
 
   ```
   $ yoda dictionary define car
@@ -395,7 +394,7 @@ This command group contains commands that, helpful in learning new things, will 
 
 #### Aliasing
 
-This command group contains commands to alias cumbersome commands.
+This command allows you to alias cumbersome commands.
 
   ```
   # before: shortening a url
@@ -577,7 +576,7 @@ To create an issue in the github repository simple thing that shows a link.  Yee
 - [WhoIs](https://www.whois.com): Used for getting information about domains.
 
 ## Contribute, you must
-Please refer to the [contributing guidelines](https://github.com/yoda-pa/yoda/blob/master/.github/CONTRIBUTING.md) for contributing to this project.
+Please refer to the [contributing guidelines](https://github.com/yoda-pa/yoda/blob/master/.github/CONTRIBUTING.md) for contributing to this project. This project was made possible by contributions from [many awesome people](https://github.com/yoda-pa/yoda/graphs/contributors).
 
 ## In the news
 - [ostechnix](https://www.ostechnix.com/yoda-the-command-line-personal-assistant-for-your-linux-system/)
