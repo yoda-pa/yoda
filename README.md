@@ -24,7 +24,7 @@
 - [python (both 2 and 3 are supported)](https://www.python.org/downloads/)
 - [virtualenv](https://virtualenv.pypa.io/en/stable/installation/) (only for testing and development)
 - Python development package:
-  - `python-dev` package (if using Ubuntu)
+  - Ubuntu: `sudo apt-get install -y libxml2-dev libxslt-dev python-dev libav-tools`
   - `Visual C++ 9.0 for Python` (If using Windows)
   - `python-devel` package (If using MacOS/OSX: [link](https://stackoverflow.com/questions/32578106/how-to-install-python-devel-in-mac-os/32578175#32578175))
 
