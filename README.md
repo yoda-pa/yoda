@@ -61,125 +61,126 @@ You can test the chat functionality on api.ai agent website [here](https://bot.a
 This command group contains some sub-commands that may be helpful for developers and tech-geeks.
 
 - **speedtest**: check your internet speed
-
   ![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/speedtest.gif)
 
 - **url**: URL shortener
-
   ![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/url.gif)
 
 - **hackernews**: read hackernews articles
-
   ![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/hackernews.gif)
 
 - **sitechecker**: check if a site is up
 
-  Usage:
-  ~~~
-  $ yoda checksite https://manparvesh.com
+    Usage:
 
-  $ yoda checksite https://manparveshs.com
-  ~~~
+    ~~~
+    $ yoda checksite https://manparvesh.com
 
-  ![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/sitechecker.gif)
+    $ yoda checksite https://manparveshs.com
+    ~~~
+
+    ![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/sitechecker.gif)
 
 - **whois**: get whois records
 
-  Usage:
-  ~~~
-  $ yoda dev whois google.com
-  ~~~
+    Usage:
+    ~~~
+    $ yoda dev whois google.com
+    ~~~
 
-  ![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/whois.gif)
+    ![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/whois.gif)
 
 - **grep**: grep implementation
+ 
+    ~~~
+    $ yoda dev grep PATTERN FILE|FOLDER -r [True] -i [True]
+    -r is the flag for recursive search. -i enables case insensitive search.
+    Both are optional parameter and the flags are off if they are not provided.
 
-  ~~~
-  $ yoda dev grep PATTERN FILE|FOLDER -r [True] -i [True]
-  -r is the flag for recursive search. -i enables case insensitive search.
-  Both are optional parameter and the flags are off if they are not provided.
+    $ yoda dev grep \d+ modules/ -r True
+    Will recursively search all files in modules directory for any line containing 1 or more digits.
 
-  $ yoda dev grep \d+ modules/ -r True
-  Will recursively search all files in modules directory for any line containing 1 or more digits.
+    $ yoda dev grep yOdA modules/ -i True
+    Will recursively search all files in modules directory for any line containing the word yoda.
+    This search is case insensitive.
 
-  $ yoda dev grep yOdA modules/ -i True
-  Will recursively search all files in modules directory for any line containing the word yoda.
-  This search is case insensitive.
-
-  $ yoda dev grep yOdA yoda.py -i True
-  Will recursively search the file yoda.py for any line containing the word yoda.
-  This search is case insensitive.
-  ~~~
+    $ yoda dev grep yOdA yoda.py -i True
+    Will recursively search the file yoda.py for any line containing the word yoda.
+    This search is case insensitive.
+    ~~~
 
 - **gif**: Create gif from images
 
-  ~~~
-  $ yoda gif from_images --source SOURCE_DIR --output OUTPUT_FILE
-  Will scan the source directory and generate a gif. File will be located at OUTPUT_FILE.
-  e.g.
-  yoda gif from-images --source tests/resources/gif_frames/ --output test.gif
+    ~~~
+    $ yoda gif from_images --source SOURCE_DIR --output OUTPUT_FILE
+    Will scan the source directory and generate a gif. File will be located at OUTPUT_FILE.
+    e.g.
+    yoda gif from-images --source tests/resources/gif_frames/ --output test.gif
 
-  $ yoda gif from_images --source SOURCE_DIR --output OUTPUT_FILE --<param> <value>
-  Will scan the source directory and generate a gif. File will be located at OUTPUT_FILE.
-  <param> and <value> can be any keyword argument that imageio's mimsave function takes.
-  e.g.
-  yoda gif from-images --source tests/resources/gif_frames/ --output test.gif --fps 9
-  will create a gif with 9 fps.
-  ~~~
+    $ yoda gif from_images --source SOURCE_DIR --output OUTPUT_FILE --<param> <value>
+    Will scan the source directory and generate a gif. File will be located at OUTPUT_FILE.
+    <param> and <value> can be any keyword argument that imageio's mimsave function takes.
+    e.g.
+    yoda gif from-images --source tests/resources/gif_frames/ --output test.gif --fps 9
+    will create a gif with 9 fps.
+    ~~~
 
 - **gitsummary**: gets the summary of your github account
 
-  ~~~
-  $ yoda gitsummary GITHUB_LOGIN GITHUB_PASSWORD
-  Uses the GIthub v3 API to get number of repos, commits (last 24hr), open pull requests (last 24hr) and open issues (last 24hr).
+    ~~~
+    $ yoda gitsummary GITHUB_LOGIN GITHUB_PASSWORD
+    Uses the GIthub v3 API to get number of repos, commits (last 24hr), open pull requests (last 24hr) and open issues (last 24hr).
 
-  e.g.
-  $ yoda gitsummary SomeUsername MySuperS3cr3tP4ssw0rd!
-  Fetching data. Patience you must have, my young padawan.
+    e.g.
+    $ yoda gitsummary SomeUsername MySuperS3cr3tP4ssw0rd!
+    Fetching data. Patience you must have, my young padawan.
 
-  SomeUsername, ready your GitHub statistics are.
-  6 repositories you have.
-  In last 24 hours 10 commit(s), 2 pull requests(s) and 3 issue(s) you made.
-  ~~~
+    SomeUsername, ready your GitHub statistics are.
+    6 repositories you have.
+    In last 24 hours 10 commit(s), 2 pull requests(s) and 3 issue(s) you made.
+    ~~~
 
 - **run**: compile and run source codes written in different programming languages!
-  ~~~
-  $ yoda run tests/resources/test_code.py
-  ~~~
 
-  ![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/runcode.gif)
+    ~~~
+    $ yoda run tests/resources/test_code.py
+    ~~~
+
+    ![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/runcode.gif)
 
 
 - **fileshare**: share files that are accessible only once
-  ~~~
-  $ yoda fileshare transport.png
-  ~~~
 
-  ![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/fileshare.gif)
+    ~~~
+    $ yoda fileshare transport.png
+    ~~~
+
+    ![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/fileshare.gif)
 
 - **keybindings**: save key bindings
-  ~~~
-  # To add(or import) a keybindings file
-  $ yoda dev keybindings add vim /absolute/path/to/keybinding/file.csv
 
-  # To search keybinding action for a software
-  $ yoda dev keybindings search vim move cusror
-  Key Bindings:
-  ---------------------------------------
-      key       |          action
-  ---------------|-----------------------
-        h       |       move cursor left
-        j       |       move cursor down
-        k       |       move cursor up
-        l       |       move cursor right
-  ~~~
+    ~~~
+    # To add(or import) a keybindings file
+    $ yoda dev keybindings add vim /absolute/path/to/keybinding/file.csv
+
+    # To search keybinding action for a software
+    $ yoda dev keybindings search vim move cusror
+    Key Bindings:
+    ---------------------------------------
+        key       |          action
+    ---------------|-----------------------
+          h       |       move cursor left
+          j       |       move cursor down
+          k       |       move cursor up
+          l       |       move cursor right
+    ~~~
 
 - **IP lookup:** Get the geographical location of an IP address.
 
-  ```
-  $ yoda iplookup 23.20.227.213
-  $ Virginia, United States
-  ```
+    ```
+    $ yoda iplookup 23.20.227.213
+    Virginia, United States
+    ```
 
 #### horoscope
 See your horoscope
@@ -354,43 +355,43 @@ This command group contains commands that, helpful in learning new things, will 
 
 - **dictionary:** to get definition, synonym, antonym and example of a word. This definition or synonym search will be automatically saved, so that while you are working on your vocabulary, you can come through the new word as well.
 
-  ```
-  $ yoda dictionary define car
-  A few definitions of the word "car" with their parts of speech are given below:
-  ---------------------------------
-  noun: a motor vehicle with four wheels; usually propelled by an internal combustion engine
-  noun: the compartment that is suspended from an airship and that carries personnel and the cargo and the power plant
-  noun: where passengers ride up and down
-  noun: a wheeled vehicle adapted to the rails of railroad
-  noun: a conveyance for passengers or freight on a cable railway
-  This word already exists in the vocabulary set, so you can practice it while using that
+    ```
+    $ yoda dictionary define car
+    A few definitions of the word "car" with their parts of speech are given below:
+    ---------------------------------
+    noun: a motor vehicle with four wheels; usually propelled by an internal combustion engine
+    noun: the compartment that is suspended from an airship and that carries personnel and the cargo and the power plant
+    noun: where passengers ride up and down
+    noun: a wheeled vehicle adapted to the rails of railroad
+    noun: a conveyance for passengers or freight on a cable railway
+    This word already exists in the vocabulary set, so you can practice it while using that
 
-  $ yoda dictionary synonym car
-  A few synonyms of the word "car" are given below:
-  ---------------------------------
-  auto
-  automobile
-  machine
-  motorcar
-  gondola
-  elevator car
-  railcar
-  railroad car
-  railway car
-  cable car
-  This word already exists in the vocabulary set, so you can practice it while using that
+    $ yoda dictionary synonym car
+    A few synonyms of the word "car" are given below:
+    ---------------------------------
+    auto
+    automobile
+    machine
+    motorcar
+    gondola
+    elevator car
+    railcar
+    railroad car
+    railway car
+    cable car
+    This word already exists in the vocabulary set, so you can practice it while using that
 
-  $ yoda dictionary antonym car
-  Sorry, no antonyms were found for this word
+    $ yoda dictionary antonym car
+    Sorry, no antonyms were found for this word
 
-  $ yoda dictionary example good
-  A few examples of the word "good" are given below:
-  ---------------------------------
-  weigh the good against the bad
-  among the highest goods of all are happiness and self-realization
-  a good friend
+    $ yoda dictionary example good
+    A few examples of the word "good" are given below:
+    ---------------------------------
+    weigh the good against the bad
+    among the highest goods of all are happiness and self-realization
+    a good friend
 
-  ```
+    ```
 
 #### Aliasing
 
@@ -480,7 +481,7 @@ This command obtains the weather information of a specified location using
 
 #### people
 
-This command can be used to save profiles of people and related information, like their birthdays, likes, and some personalized notes for them.
+This is an inbuilt people manager that can be used to save profiles of people and related information, like their birthdays, likes, and some personalized notes for them.
 
 ```
 # To add people(or a friend)
