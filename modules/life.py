@@ -18,7 +18,7 @@ from .alias import alias_checker
 LIFE_CONFIG_FILE_PATH = get_config_file_paths()["LIFE_CONFIG_FILE_PATH"]
 LIFE_CONFIG_FOLDER_PATH = get_folder_path_from_file_path(LIFE_CONFIG_FILE_PATH)
 RLIST_PARAMS = ("title", "author", "kind", "tags")
-
+create_folder(LIFE_CONFIG_FOLDER_PATH)
 
 def is_in_params(params, query, article):
     """
@@ -360,7 +360,7 @@ def ideas(subcommand, task, project, inside):
 
         ACTION:
 
-            show   : list out all the exiting ideas
+            show   : list out all the existing ideas
 
             add    : add a project or a task inside a project. You need to use either --project or --inside flag to
             add a new project/task
