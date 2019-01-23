@@ -6,6 +6,7 @@ from past.utils import old_div
 import json
 import os.path
 import time
+import datetime
 
 from Crypto.Cipher import AES
 
@@ -383,3 +384,196 @@ def ideas(subcommand, task, project, inside):
     except KeyError:
         click.echo(chalk.red("Command " + subcommand + " does not exist."))
         click.echo('Try "yoda ideas --help" for more info')
+
+
+# ==========================================================================
+
+# lease list operations
+
+# config file path
+LENDLIST_CONFIG_FILE_PATH = get_config_file_paths()["LEASELIST_CONFIG_FILE_PATH"]
+LENDLIST_PARAMS = ("status", "item", "person", "enddate")
+
+def empty_lending_list_prompt():
+    """
+    Empty list prompt
+    """
+    click.echo("Your lease list is empty. Add something to the list, do you want to? (y/n)")
+    decision = get_input().lower()
+    params = 0
+
+    if decision == "y" or not decision:
+        add_to_lending_list(params)
+    else:
+        click.echo("Using 'yoda leaselist add', you can create later.")
+
+
+def print_lending_list(lending_list_contents, only=LENDLIST_PARAMS):
+    """
+    prints reading list
+    :param reading_list_contents:
+    :param only:
+    """
+    for i, entry in enumerate(lending_list_contents["entries"]):
+        click.echo("-" + ("[" + str(i + 1) + "]").ljust(24, "-"))
+        status = entry["status"]
+        item = entry["item"]
+        person = entry["person"]
+        enddate = entry["enddate"]
+
+        click.echo("Status: " + status) if status and "status" in only else None
+        click.echo("Item: " + item) if item and "item" in only else None
+        click.echo("Who: " + person) if person and "person" in only else None
+        
+        if enddate > datetime.date.today():
+            click.echo("End Date: " + str(enddate)) if enddate and "enddate" in only else None
+        else:
+            click.echo(chalk.red("End Date: " + str(enddate)) if enddate and "enddate" in only else None)
+
+    click.echo("---END-OF-LEASE-LIST---")
+
+def show_lending_list(params):
+    """
+    shows all items lent and borrowed
+    """
+    if os.path.isfile(LENDLIST_CONFIG_FILE_PATH):
+        with open(LENDLIST_CONFIG_FILE_PATH) as reading_list_entry:
+            file_contents = yaml.load(reading_list_entry)
+            file_contents = dict(file_contents)
+            last_updated = time.ctime(os.path.getmtime(LENDLIST_CONFIG_FILE_PATH))
+            
+            click.echo(chalk.blue("Last updated: " + last_updated))
+            print_lending_list(file_contents)
+    else:
+        empty_lending_list_prompt()
+
+
+def add_to_lending_list(params):
+    """
+    add anything to the reading list
+    """
+    click.echo(chalk.blue("Did you lend or borrow this item? (l/b)"))
+    
+    def add_to_list(_status, _item, _person, _enddate):
+        setup_data = dict(status=_status, item=_item, person=_person, enddate=_enddate)
+
+        if os.path.isfile(LENDLIST_CONFIG_FILE_PATH):
+            append_data_into_file(setup_data, LENDLIST_CONFIG_FILE_PATH)
+        else:
+            setup_data = dict(entries=[setup_data])
+            create_folder(os.path.join(LIFE_CONFIG_FOLDER_PATH, "lendlist"))
+            input_data(setup_data, LENDLIST_CONFIG_FILE_PATH)
+
+        click.echo(chalk.blue("Added " + _item + " to your lease list!"))
+
+
+    def status_check(_status):
+        if _status == "l":
+            _status = "Lent"
+
+            click.echo(chalk.blue("What item did you lend?"))
+            _item = get_input()
+
+            click.echo(chalk.blue("Who did you lend it to?"))
+            _person = get_input()
+
+            while True:
+                try:
+                    click.echo(chalk.blue("When do you need it back? (dd/mm/yyyy)"))
+                    date_entry = get_input()
+                    day, month, year = map(int, date_entry.split('/'))
+                    _enddate = datetime.date(year, month, day)
+                    break
+                except:
+                    click.echo(chalk.red("Invalid date input!"))
+  
+            add_to_list(_status, _item, _person, _enddate)
+
+        elif _status == "b":
+            _status = "Borrowed"
+
+            click.echo(chalk.blue("What item did you borrow?"))
+            _item = get_input()
+
+            click.echo(chalk.blue("Who did you borrow it from?"))
+            _person = get_input()
+
+            while True:
+                try:
+                    click.echo(chalk.blue("When do you need to give it back? (dd/mm/yy)"))
+                    date_entry = get_input()
+                    day, month, year = map(int, date_entry.split('/'))
+                    _enddate = datetime.date(year, month, day)
+                    break
+                except:
+                    click.echo(chalk.red("Invalid date input!"))
+
+            add_to_list(_status, _item, _person, _enddate)
+
+        else:
+            click.echo(chalk.red("Input not recognised! Type l for lent and b for borrowed."))
+            _status = get_input().lower()
+            status_check(_status)
+
+    _status = get_input().lower()
+    status_check(_status)
+
+
+def remove_from_lending_list(params):
+    """
+    remove an item from your lease list
+    """
+    if os.path.isfile(LENDLIST_CONFIG_FILE_PATH):
+        with open(LENDLIST_CONFIG_FILE_PATH) as reading_list_entry:
+            file_contents = yaml.load(reading_list_entry)
+            file_contents = dict(file_contents)
+            
+            while True:
+                try:
+                    click.echo(chalk.blue("Enter your item's number. (Shown above it on the lease list)"))
+                    number = get_input()
+
+                    for i, entry in enumerate(file_contents["entries"]):
+                        if i == int(number) - 1:
+                            del file_contents["entries"][i]
+                    break
+                except:
+                    click.echo(chalk.red("That doesn't match any item. Try 'yoda leaselist show' to view your items."))
+
+            
+        with open(LENDLIST_CONFIG_FILE_PATH, "w") as lease_entry:
+            yaml.dump(file_contents, lease_entry, default_flow_style=False)
+            click.echo(chalk.blue("Item successfully removed!"))
+
+
+
+    else:
+        empty_lending_list_prompt()
+    
+
+
+# leaselist process
+@life.command()
+@click.argument("subcommand", nargs=1)
+@click.option("--params", nargs=1, required=False, default="tags")
+def leaselist(subcommand, params):
+    """
+        Keep track of items you have lent/borrowed.
+
+        ACTION:
+
+            show   : lists all items you have lent or borrowed
+
+            add    : add an item you have lent or borrowed
+
+            remove : remove an item from your lease list
+    """
+
+    sub_commands = {"show": show_lending_list, "add": add_to_lending_list, "remove": remove_from_lending_list}
+    try:
+        sub_commands[subcommand](params)
+    except KeyError:
+        click.echo(chalk.red("Command " + subcommand + " does not exist!"))
+        click.echo("Try 'yoda leaselist --help' for more info'")
+
+

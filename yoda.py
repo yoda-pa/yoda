@@ -211,6 +211,7 @@ Please create an issue in the Github repository:\nhttps://github.com/yoda-pa/yod
 # the life module
 cli.add_command(life.rlist)
 cli.add_command(life.ideas)
+cli.add_command(life.leaselist)
 
 
 @cli.command()

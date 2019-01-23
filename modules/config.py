@@ -55,6 +55,9 @@ def get_config_file_paths():
         "IDEA_CONFIG_FILE_PATH": os.path.join(
             config_path_prefix, "life/ideaconfig.txt"
         ),
+        "LEASELIST_CONFIG_FILE_PATH": os.path.join(
+            config_path_prefix, "life/.leaseconfig.yml"
+        ),
         "ALIAS_CONFIG_FILE_PATH": os.path.join(config_path_prefix, "alias/aliases.txt"),
         "GOALS_CONFIG_FILE_PATH": os.path.join(
             config_path_prefix, "goals/.goalsconfig.yml"
