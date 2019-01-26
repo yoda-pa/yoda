@@ -299,6 +299,21 @@ Enter the amount in INR to be converted to USD
 100
 100 INR = 1.36 USD
 ```
+#### leaselist
+
+Keep a record of things people have taken from you, and the things you have taken from them - to remind them / yourself to return
+
+```
+# To add an item
+$ yoda leaselist add
+
+# To show list of items lent/borrowed
+$ yoda leaselist show
+
+# To remove an item from the list
+$ yoda leaselist remove
+
+```
 
 #### Idea list
 
