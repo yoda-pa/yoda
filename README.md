@@ -187,6 +187,18 @@ See your horoscope
 
 ![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/horoscope.gif)
 
+- command keep
+~~~
+# To add a command to your keep
+$ yoda keep save -k find -k text -k name 'find . -name "*.txt"' command used to find textfiles by name
+# To show all commands
+$ yoda keep findall
+# To show commands by keywords
+$ yoda keep find -k text
+# To remove a command
+$ yoda keep remove -i ##command index, showed when running find or findall##
+~~~
+
 #### goals
 
 Create and complete goals, add tasks and analyze your progress.

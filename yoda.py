@@ -281,4 +281,7 @@ def weather(ctx, input):
             test_string += i + " "
         data = sys.modules["modules.weather"].get_weather(test_string)
     else:
-        click.echo("No input specified. Run with --help for info")
+        click.echo('No input specified. Run with --help for info')
+        
+from modules import keep
+cli.add_command(keep.keep)
