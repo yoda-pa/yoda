@@ -277,5 +277,4 @@ def weather(ctx, input):
     else:
         click.echo('No input specified. Run with --help for info')
 
-from modules import keep
 cli.add_command(keep.keep)
