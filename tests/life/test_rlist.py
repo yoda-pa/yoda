@@ -13,7 +13,7 @@ class TestHealth(TestCase):
         | command: health
     """
 
-    def __init__(self, methodName='runTest'):
+    def __init__(self, methodName="runTest"):
         super(TestHealth, self).__init__()
         self.runner = CliRunner()
 
