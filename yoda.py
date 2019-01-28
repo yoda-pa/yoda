@@ -1,5 +1,6 @@
 import os
 import sys
+import json
 
 import click
 
@@ -55,6 +56,33 @@ cli.add_command(dev.fileshare)
 cli.add_command(dev.run)
 cli.add_command(dev.keybindings)
 
+# custom commands
+cli.add_command(dev.cc)
+
+
+def _rename(newname):
+    def decorator(f):
+        f.__name__ = newname
+        f.__doc__ = 'Custom command: "{0}"'.format(newname)
+        return f
+    return decorator
+
+
+def _create_custom_command(command):
+    @cli.command()
+    @_rename(str(command))
+    def f():
+        os.system(command)
+
+    return f;
+
+
+if os.path.isdir('resources/custom_commands'):
+    with open('resources/custom_commands/custom_commands.json') as f:
+        data = json.load(f)
+
+        for command in data:
+            cli.add_command(_create_custom_command(command))
 
 @cli.command()
 @click.pass_context

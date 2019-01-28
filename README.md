@@ -345,6 +345,25 @@ $ yoda ideas remove --task <task_name> --inside <project_name>
 $ yoda ideas remove --project <project_name>
 ```
 
+#### IP lookup
+
+Get the geographical location of an IP address.
+
+```
+$ yoda iplookup 23.20.227.213
+Virginia, United States
+```
+
+#### Custom cummands
+
+Set a custom command.
+
+```
+$ yoda cc pwd
+$ yoda pwd
+/home/alex/git-clones/yoda
+```
+
 #### learn
 
 This command group contains commands that, helpful in learning new things, will be.

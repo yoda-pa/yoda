@@ -431,6 +431,7 @@ def checksite(ctx, link):
     else:
         click.echo('Yay! The site is up and running! :)')
 
+
 @dev.command()
 @click.pass_context
 @click.argument("astrological_sign", nargs=1, required=False, callback=alias_checker)
@@ -660,6 +661,40 @@ def search_file(pattern, infile):
         if match:
             yield line
 
+@dev.command()
+@click.pass_context
+@click.argument('custom_command', nargs=1, required=False, callback=alias_checker)
+def cc(ctx, custom_command):
+    """
+        Set a custom command
+
+        yoda dev cc custom_command
+    """
+
+    custom_command = get_arguments(ctx, 1)
+    _custom_command = str(custom_command)
+
+    from .config import get_config_file_paths
+    from .util import get_folder_path_from_file_path, create_folder
+
+    CUSTOM_COMMAND_CONFIG_FOLDER_PATH = 'resources/custom_commands'
+
+    create_folder('resources')
+    create_folder(CUSTOM_COMMAND_CONFIG_FOLDER_PATH)
+
+    data = dict()
+
+    try:
+        with open(CUSTOM_COMMAND_CONFIG_FOLDER_PATH + '/custom_commands.json') as f:
+            data = json.load(f)
+    except:
+        with open(CUSTOM_COMMAND_CONFIG_FOLDER_PATH + '/custom_commands.json', 'w') as f:
+            json.dump(data, f)
+
+    data[_custom_command] = _custom_command
+
+    with open(CUSTOM_COMMAND_CONFIG_FOLDER_PATH + '/custom_commands.json', 'w') as f:
+        json.dump(data, f)
 
 @dev.command()
 @click.argument('github_login', nargs=1)
