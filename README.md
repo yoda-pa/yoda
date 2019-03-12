@@ -30,21 +30,23 @@
 
 ### Run, how to
 
-#### Method 1
+#### 1. Docker
+
+1. [Install docker](https://docs.docker.com/install/)
+2. Run `docker run --rm -it yodapa/yoda:latest yoda chat Hi`
+
+#### 2. Using pip, without cloning
+
 You can install yoda directly from the github repository using the following commands in shell.
 `virtualenv yodaenv`
 `./yodaenv/bin/pip install git+https://github.com/yoda-pa/yoda`
 
-#### Method 2
+#### 3. Using pip, with cloning
 Clone this repository and create a virtual environment using Python 2 in the cloned directory (`virtualenv -p /usr/bin/python2 venv`). Steps after that:
 
 ![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/firstsetup.gif)
 
 Instead of `pip install --editable .` you can use `pip install .` if you don't intend to make any changes in the code.
-
-#### Method 3
-Clone this repository and build the Docker image (`make build`) and then run:
-`docker run --rm -it --name yoda yoda:latest yoda chat Hello`
 
 ## Use this package, how to
 
