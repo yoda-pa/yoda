@@ -26,22 +26,15 @@ class TestWeather(unittest.TestCase):
 
         city = "Mexico City"
         result = self.runner.invoke(yoda.cli, ["weather", city])
-        self.assertTrue(city.lower() in result.output.lower())
+        self.assertTrue("Mexico+City".lower() in result.output.lower())
 
         city = "Tokyo"
         result = self.runner.invoke(yoda.cli, ["weather", city])
-        # checking for expected city and country
-        self.assertTrue(
-            city.lower() in result.output.lower() and "japan" in result.output.lower()
-        )
+        self.assertTrue(city.lower() in result.output.lower())
 
         city = "Belleville Ontario"
-
-        # Belleville is a city name in multiple countries - this is checking to
-        # see that the right city is found
-
         result = self.runner.invoke(yoda.cli, ["weather", city])
-        self.assertTrue("canada" in result.output.lower())
+        self.assertTrue("Belleville+Ontario".lower() in result.output.lower())
 
 
 if __name__ == "__main__":

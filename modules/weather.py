@@ -16,7 +16,7 @@ def get_weather(location):
     # does a good job handling the text on it's own.
 
     #'+' replaces the white space as this is tested to work better with wttr
-    location = location.replace(" ", "+")
+    location = location.strip().replace(" ", "+")
 
     weather_service = "http://wttr.in/"
 
