@@ -1,5 +1,10 @@
 import random
-from urllib import quote
+import sys
+
+if sys.version_info[0] >= 3:
+    from urllib.parse import quote
+else:
+    from urllib import quote
 
 import click
 import requests
@@ -69,8 +74,12 @@ def suggest_restaurant():
     """
     Get a suggested restaurant in your city.
     """
-    city = raw_input('What city are you in? ')
-    cuisine = raw_input('What type of food are you interested in? ')
+    if sys.version_info[0] >= 3:
+        city = input('What city are you in? ')
+        cuisine = input('What type of food are you interested in? ')
+    else:
+        city = raw_input('What city are you in? ')
+        cuisine = raw_input('What type of food are you interested in? ')
     yelp_url = '{0}{1}'.format(API_HOST, quote(SEARCH_PATH.encode('utf8')))
     url_params = {
         'term': 'restaurant+' + cuisine,
