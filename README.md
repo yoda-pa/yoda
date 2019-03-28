@@ -581,6 +581,22 @@ I was uptight, wanna let loose
 I was dreaming of bigger things in
 ```
 
+#### food
+
+Use this command to get suggestions related to food.
+
+```
+# To get a restaurant suggestion in your city:
+$ yoda food suggest_restaurant
+What city are you in? Berlin
+What type of food are you interested in? Chinese
+
+Why don't you try THIS restaurant tonight!
+
+Shaniu's House of Noodles on Pariser Str. 58
+Book a table at +493091552605
+```
+
 #### feedback
 
 To create an issue in the github repository simple thing that shows a link.  Yeesssssss.

@@ -1,13 +1,24 @@
-import requests
+import random
+import sys
+
+if sys.version_info[0] >= 3:
+    from urllib.parse import quote
+else:
+    from urllib import quote
+
 import click
-import json
+import requests
+
+API_KEY = 'PssDzQz9vE51CseZKIKtUc76g-nFf5Xmv-Ha0_SGBowyEME0YNxG9iGMDsQ722rAPHLLupyUlMWHRdqaCCnrp-RAFLGVYIWfOAuB2Wn-5C0aR-1bnA5Csu4PGDCMXHYx'
+API_HOST = 'https://api.yelp.com'
+SEARCH_PATH = '/v3/businesses/search'
 
 
 @click.group()
 def food():
     """
-            Food module... yum
-            Suggest recipes for food, drinks, and restaurants
+    Food module... yum
+    Suggest recipes for food, drinks, and restaurants
     """
 
 
@@ -56,3 +67,35 @@ def suggest_drinks():
                 drinkIngredients.append(ingredient)
 
     getDrinkSuggestion()
+
+
+@food.command()
+def suggest_restaurant():
+    """
+    Get a suggested restaurant in your city.
+    """
+    if sys.version_info[0] >= 3:
+        city = input('What city are you in? ')
+        cuisine = input('What type of food are you interested in? ')
+    else:
+        city = raw_input('What city are you in? ')
+        cuisine = raw_input('What type of food are you interested in? ')
+    yelp_url = '{0}{1}'.format(API_HOST, quote(SEARCH_PATH.encode('utf8')))
+    url_params = {
+        'term': 'restaurant+' + cuisine,
+        'categories': cuisine,
+        'location': city.replace(' ', '+'),
+        'limit': 50
+    }
+    req = requests.get(yelp_url, headers={'Authorization': 'Bearer ' + API_KEY}, params=url_params)
+    parsed_response = req.json()
+    businesses = parsed_response['businesses']
+    if len(businesses) == 0:
+        click.echo('Could not find any restaurants like that in your city :(')
+    else:
+        restaurant = random.choice(businesses)
+        click.echo()
+        click.echo("Why don't you try THIS restaurant tonight!")
+        click.echo()
+        click.echo(restaurant['name'] + ' on ' + restaurant['location']['address1'])
+        click.echo('Book a table at ' + restaurant['phone'])
