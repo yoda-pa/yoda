@@ -31,7 +31,7 @@ class TestChat(TestCase):
 
     def runTest(self):
         with patch('modules.chat.request') as request:
-            request.getresponse().read = MagicMock(return_value=HELLO_JSON_RESPONSE)
+            request.getresponse().read = MagicMock(return_value=HELLO_JSON_RESPONSE.encode('utf-8'))
             result = self.runner.invoke(yoda.cli, ["chat", "hello"])
             self.assertEqual(result.exit_code, 0)
 
