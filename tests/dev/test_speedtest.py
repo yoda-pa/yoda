@@ -1,4 +1,5 @@
 # coding=utf-8
+from mock import patch
 from unittest import TestCase
 from click.testing import CliRunner
 
@@ -13,15 +14,13 @@ class TestSpeedtest(TestCase):
         | command: speedtest
     """
 
-    def __init__(self, methodName="runTest"):
+    def __init__(self, methodName='runTest'):
         super(TestSpeedtest, self).__init__()
         self.runner = CliRunner()
 
-    def runTest(self):
-        result = self.runner.invoke(yoda.cli, ["speedtest"])
-        print(
-            "------============------============------============------============------============------============------============"
-        )
-        print(str(result.output.encode("ascii", "ignore")))
+    @patch('modules.dev.os')
+    def runTest(self, os):
+        result = self.runner.invoke(yoda.cli, ['speedtest'])
+        os.system.assert_called_once_with('speedtest-cli')
         self.assertEqual(result.exit_code, 0)
         self.assertIsNone(result.exception)
