@@ -1,4 +1,5 @@
 # coding=utf-8
+from mock import patch
 from unittest import TestCase
 from click.testing import CliRunner
 
@@ -17,7 +18,15 @@ class TestHealth(TestCase):
         super(TestHealth, self).__init__()
         self.runner = CliRunner()
 
-    def runTest(self):
+    @patch('modules.money.convert')
+    @patch('modules.money.currency_codes')
+    @patch('modules.money.currency_rates.get_rates')
+    def runTest(self, get_rates, currency_codes, convert):
+        currency_codes.get_symbol.return_value = 'USD'
+        get_rates.return_value = {'USD': 1}
+        convert.return_value = 1
+        currency_codes.get_currency_name.return_value = 'USD'
+
         result = self.runner.invoke(yoda.cli, ["money", "status"])
         self.assertEqual(result.exit_code, 0)
 

@@ -812,36 +812,37 @@ def run(ctx, path):
         Compile and run code without a local compiler.
     """
     if os.path.isfile(path):
-        source = open(path, "r").read()
-        file_extension = path.rsplit(".", 1)[1]
+        with open(path, "r") as source_file:
+            source = source_file.read()
+            file_extension = path.rsplit(".", 1)[1]
 
-        if file_extension not in supported_languages.keys():
-            click.echo(chalk.red("Sorry, Unsupported language."))
-            sys.exit(-1)
+            if file_extension not in supported_languages.keys():
+                click.echo(chalk.red("Sorry, Unsupported language."))
+                sys.exit(-1)
 
-        lang = supported_languages[file_extension]
-        compressed = 1
-        html = 0
-        params = RunAPIParameters(
-            client_secret=HACKEREARTH_API_KEY,
-            source=source,
-            lang=lang,
-            compressed=compressed,
-            html=html,
-        )
+            lang = supported_languages[file_extension]
+            compressed = 1
+            html = 0
+            params = RunAPIParameters(
+                client_secret=HACKEREARTH_API_KEY,
+                source=source,
+                lang=lang,
+                compressed=compressed,
+                html=html,
+            )
 
-        api = HackerEarthAPI(params)
+            api = HackerEarthAPI(params)
 
-        click.echo(chalk.yellow("Compiling code.."))
-        r = api.compile()
+            click.echo(chalk.yellow("Compiling code.."))
+            r = api.compile()
 
-        click.echo(chalk.cyan("Running code..."))
-        r = api.run()
-        output = r.__dict__.get("output")
+            click.echo(chalk.cyan("Running code..."))
+            r = api.run()
+            output = r.__dict__.get("output")
 
-        click.echo(chalk.green("Output:"))
-        click.echo(output)
-        click.echo("Link: " + r.__dict__.get("web_link"))
+            click.echo(chalk.green("Output:"))
+            click.echo(output)
+            click.echo("Link: " + r.__dict__.get("web_link"))
 
     else:
         click.echo(

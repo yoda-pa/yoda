@@ -7,8 +7,20 @@ from click.testing import CliRunner
 import yoda
 from requests.exceptions import ConnectionError
 
+
+ARIES_HOROSCOPE_RESULT = {
+    u'date': u'2019-03-21', u'sunsign': u'aries',
+    u'horoscope': (u'A plain Jane day. Work goes on as usual, and there is'
+                   u'progress. But as Ganesha says, it\'s an ordinary day. Hum,'
+                   u' whistle, doodle, and sip your green tea. While day '
+                   u'dreaming, start planning your dream home. After all, '
+                   u'that\'s where the first plan takes shape.')
+}
+
+
 def function_with_connection_error():
     raise ConnectionError()
+
 
 class TestHoroscope(TestCase):
     """
@@ -24,7 +36,9 @@ class TestHoroscope(TestCase):
 
     def runTest(self):
 
-        def test_with_correct_input():
+        @mock.patch('modules.dev.requests')
+        def test_with_correct_input(requests):
+            requests.get.json.return_value = ARIES_HOROSCOPE_RESULT
             result = self.runner.invoke(yoda.cli, ['horoscope', 'aries'])
             if sys.version_info[0] == 3:
                 string_types = str
