@@ -13,21 +13,30 @@ except ImportError:
     # Fall back to Python 2's urllib2
     from urllib2 import urlopen, Request
 
-import apiai
 import chalk
 import click
 
 from . import config
 
 CLIENT_ACCESS_TOKEN = os.environ.get("API_AI_TOKEN", config.API_AI_TOKEN)
-ai = apiai.ApiAI(CLIENT_ACCESS_TOKEN)
-request = ai.text_request()
-request.session_id = os.environ.get("API_AI_SESSION_ID", config.API_AI_SESSION_ID)
+
 
 QUOTE_API_URL = "https://api.forismatic.com/api/1.0/"
 
+'''
+setup function for apiai import and related variables
+Putting these in a function improves load time for all yoda commands
+'''
+def import_apiai():
+    global apiai, request
+    import apiai
+
+    ai = apiai.ApiAI(CLIENT_ACCESS_TOKEN)
+    request = ai.text_request()
+    request.session_id = os.environ.get("API_AI_SESSION_ID", config.API_AI_SESSION_ID)
 
 def process(input_string):
+    import_apiai()
     """
     minimal chat bot
     :param input_string:

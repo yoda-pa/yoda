@@ -45,6 +45,10 @@ KEYBINDINGS_CONFIG_FOLDER_PATH = get_folder_path_from_file_path(
     KEYBINDINGS_CONFIG_FILE_PATH
 )
 
+'''
+setup function for importing pandas
+Putting this in a function improves load time for all yoda commands
+'''
 def import_pandas():
     global pd
     import pandas as pd
