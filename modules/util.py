@@ -5,7 +5,6 @@ import os.path
 import subprocess
 
 import re
-from bs4 import BeautifulSoup
 
 import chalk
 import click

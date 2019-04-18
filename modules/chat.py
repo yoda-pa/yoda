@@ -23,6 +23,9 @@ CLIENT_ACCESS_TOKEN = os.environ.get("API_AI_TOKEN", config.API_AI_TOKEN)
 
 QUOTE_API_URL = "https://api.forismatic.com/api/1.0/"
 
+# required to be compatible with mocking tests
+request = None
+
 '''
 setup function for apiai import and related variables
 Putting these in a function improves load time for all yoda commands

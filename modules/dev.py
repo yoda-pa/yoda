@@ -11,14 +11,9 @@ import sys
 from builtins import range
 from builtins import str
 
-from pydub import AudioSegment
-from pydub.playback import play
-
-from fuzzywuzzy import fuzz
-
-import pyspeedtest
 import os
 import requests
+#final changes
 
 from past.utils import old_div
 
@@ -210,6 +205,11 @@ def search_keybindings(software, search_key):
     :param software:
     :param search_key:
     """
+
+    #importing fuzzywuzzy in this function improves load time for all yoda commands
+    from fuzzywuzzy import fuzz
+
+
     SOFTWARE_FILE_PATH = get_software_file_path(software)
     matched_keys = []
     matched_actions = []
@@ -506,6 +506,11 @@ def mp3cutter(ctx, path, start, end):
 
     yoda dev mp3cutter MUSIC_PATH START[default: 0] END[default:lenght of music]
     """
+
+    #importing pydub functions in this function improves load time for all yoda commands
+    from pydub import AudioSegment
+    from pydub.playback import play
+
     click.echo("\nOpening file...")
 
     if not os.path.isfile(path):
@@ -606,6 +611,9 @@ def whois(ctx, domain):
 
 
 def get_whois_data(domain):
+    #importing BeautifulSoup in this function improves load time for all yoda commands
+    from bs4 import BeautifulSoup
+
     req = requests.get(whois_base_url + domain)
     html = req.text
 
