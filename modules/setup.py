@@ -10,7 +10,6 @@ import string
 
 import chalk
 import click
-import lepl.apps.rfc3696
 import yaml
 from Crypto.Cipher import AES
 from builtins import input
@@ -90,6 +89,10 @@ def new():
     create new config file
     :return:
     """
+
+    #importing lepl in this function improves load time for all yoda commands
+    import lepl.apps.rfc3696
+
     click.echo(chalk.blue("Enter your name:"))
     name = input().strip()
     while len(name) == 0:

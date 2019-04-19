@@ -2,7 +2,6 @@ import os
 
 import chalk
 import click
-import imageio
 
 
 @click.group()
@@ -25,6 +24,9 @@ def gif():
 )
 @click.pass_context
 def from_images(ctx):
+    #importing imageio in theis function improves load time for all yoda commands
+    import imageio
+
     args = {
         ctx.args[i].strip("--"): ctx.args[i + 1] for i in range(0, len(ctx.args), 2)
     }

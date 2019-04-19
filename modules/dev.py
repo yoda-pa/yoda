@@ -11,15 +11,9 @@ import sys
 from builtins import range
 from builtins import str
 
-from pydub import AudioSegment
-from pydub.playback import play
-
-from fuzzywuzzy import fuzz
-
-import pyspeedtest
 import os
 import requests
-import pandas as pd
+#final changes
 
 from past.utils import old_div
 
@@ -46,6 +40,13 @@ KEYBINDINGS_CONFIG_FOLDER_PATH = get_folder_path_from_file_path(
     KEYBINDINGS_CONFIG_FILE_PATH
 )
 
+'''
+setup function for importing pandas
+Putting this in a function improves load time for all yoda commands
+'''
+def import_pandas():
+    global pd
+    import pandas as pd
 
 def get_software_file_path(software_name):
     """
@@ -158,6 +159,7 @@ def check_sub_command_url(action, url_to_be_expanded_or_shortened):
 
 
 def add_keybindings(software, keybinding_filepath):
+    import_pandas()
     """
     add/import key binding file
     :param software:
@@ -203,6 +205,11 @@ def search_keybindings(software, search_key):
     :param software:
     :param search_key:
     """
+
+    #importing fuzzywuzzy in this function improves load time for all yoda commands
+    from fuzzywuzzy import fuzz
+
+
     SOFTWARE_FILE_PATH = get_software_file_path(software)
     matched_keys = []
     matched_actions = []
@@ -380,6 +387,7 @@ def portscan():
 @click.pass_context
 @click.argument("ip_address", nargs=1, required=False, callback=alias_checker)
 def iplookup(ctx, ip_address):
+    import_pandas()
     """
     Find the geographical location of a given IP address.
     """
@@ -498,6 +506,11 @@ def mp3cutter(ctx, path, start, end):
 
     yoda dev mp3cutter MUSIC_PATH START[default: 0] END[default:lenght of music]
     """
+
+    #importing pydub functions in this function improves load time for all yoda commands
+    from pydub import AudioSegment
+    from pydub.playback import play
+
     click.echo("\nOpening file...")
 
     if not os.path.isfile(path):
@@ -598,6 +611,9 @@ def whois(ctx, domain):
 
 
 def get_whois_data(domain):
+    #importing BeautifulSoup in this function improves load time for all yoda commands
+    from bs4 import BeautifulSoup
+
     req = requests.get(whois_base_url + domain)
     html = req.text
 

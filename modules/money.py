@@ -6,7 +6,7 @@ import json
 import shlex
 import time
 
-import apiai
+
 from forex_python.converter import (
     CurrencyRates,
     CurrencyCodes,
@@ -19,9 +19,7 @@ from .config import get_config_file_paths
 from .util import *
 
 CLIENT_ACCESS_TOKEN = os.environ.get("API_AI_TOKEN", config.API_AI_TOKEN)
-ai = apiai.ApiAI(CLIENT_ACCESS_TOKEN)
-request = ai.text_request()
-request.session_id = os.environ.get("API_AI_SESSION_ID", config.API_AI_SESSION_ID)
+
 
 # config file path
 MONEY_CONFIG_FILE_PATH = get_config_file_paths()["MONEY_CONFIG_FILE_PATH"]
@@ -30,6 +28,21 @@ MONEY_CONFIG_FOLDER_PATH = get_folder_path_from_file_path(MONEY_CONFIG_FILE_PATH
 # currency converter
 currency_rates = CurrencyRates()
 currency_codes = CurrencyCodes()
+
+# required to be compatible with mocking tests
+request = None
+
+'''
+setup function for apiai import and related variables
+Putting these in a function improves load time for all yoda commands
+'''
+def import_apiai():
+    global apiai, request
+    import apiai
+
+    ai = apiai.ApiAI(CLIENT_ACCESS_TOKEN)
+    request = ai.text_request()
+    request.session_id = os.environ.get("API_AI_SESSION_ID", config.API_AI_SESSION_ID)
 
 
 def __validate_currency_name_and_amount(currency_name, amount):
@@ -92,6 +105,7 @@ def setup():
 
 
 def expense():
+    import_apiai()
     """
     add expense
     """
