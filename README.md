@@ -603,6 +603,32 @@ To create an issue in the github repository simple thing that shows a link.  Yee
 
 ![](https://raw.githubusercontent.com/yoda-pa/yoda/master/screencasts/feedback.gif)
 
+#### ciphers
+
+Use this command to encrypt or decrypt text using various classical ciphers
+
+```
+$ yoda ciphers encrypt
+0: Atbash
+1: Caesar
+2: ROT13
+3: Vigenere
+Choose a cipher: 3
+The text you want to encrypt: Mary had a litle lamb
+The encryption keyword: mango
+ZBFF WNE O SXGUZL ANNP
+
+$ yoda ciphers decrypt
+0: Atbash
+1: Caesar
+2: ROT13
+3: Vigenere
+Choose a cipher: 3
+The text you want to decrypt: ZBFF WNE O SXGUZL ANNP
+The encryption keyword: mango
+Mary had a litle lamb
+```
+
 ## Packages and services used
 
 - [Click](http://click.pocoo.org/5/): for building command line application
