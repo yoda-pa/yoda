@@ -626,7 +626,7 @@ $ yoda ciphers decrypt
 Choose a cipher: 3
 The text you want to decrypt: ZBFF WNE O SXGUZL ANNP
 The encryption keyword: mango
-Mary had a litle lamb
+MARY HAD A LITTLE LAMB
 ```
 
 ## Packages and services used
