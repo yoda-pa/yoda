@@ -595,6 +595,14 @@ Why don't you try THIS restaurant tonight!
 
 Shaniu's House of Noodles on Pariser Str. 58
 Book a table at +493091552605
+
+
+# To get a recipe suggestion:
+$ yoda food suggest_recipes
+Categories: American, British, Canadian, Chinese, Dutch, Egyptian, French, Greek, Indian, Irish, Italian, Jamaican, Japanese, Kenyan, Malaysian, Mexican, Moroccan, Russian, Spanish, Thai, Unknown, Vietnamese
+
+Choose a category above or type 'Random' for a random recipe suggestion: Random
+
 ```
 
 #### feedback
