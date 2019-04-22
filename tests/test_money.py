@@ -36,13 +36,7 @@ class TestHealth(TestCase):
         result = self.runner.invoke(yoda.cli, ["money", "setup"], input="SGD\n200")
         self.assertEqual(result.exit_code, 0)
 
-        result = self.runner.invoke(
-            yoda.cli, ["money", "exp"], input="Spent 20 dollars on a t-shirt"
-        )
-        self.assertEqual(result.exit_code, 0)
-
         result = self.runner.invoke(yoda.cli, ["money", "exps"])
-        self.assertEqual(result.exit_code, 0)
 
         result = self.runner.invoke(yoda.cli, ["money", "exps_months"])
         self.assertEqual(result.exit_code, 0)
@@ -50,4 +44,35 @@ class TestHealth(TestCase):
         result = self.runner.invoke(
             yoda.cli, ["money", "convert"], input="INR USD\n100"
         )
+        self.assertEqual(result.exit_code, 0)
+
+
+        result = self.runner.invoke(yoda.cli, ["money", "reset"])
+        self.assertEqual(result.exit_code, 0)
+
+        result = self.runner.invoke(yoda.cli, ["money", "setup"], input="USD\n200")
+        self.assertEqual(result.exit_code, 0)
+
+        result = self.runner.invoke(yoda.cli, ["money", "status"])
+        self.assertEqual(result.exit_code, 0)
+
+        result = self.runner.invoke(yoda.cli, ["money", "exp"], input="200")
+        self.assertEqual(result.exit_code, 0)
+
+        result = self.runner.invoke(yoda.cli, ["money", "deposit"], input="250")
+        self.assertEqual(result.exit_code, 0)
+
+        result = self.runner.invoke(yoda.cli, ["money", "exp"], input="15")
+        self.assertEqual(result.exit_code, 0)
+
+        result = self.runner.invoke(yoda.cli, ["money", "exps"])
+        self.assertEqual(result.exit_code, 0)
+
+        result = self.runner.invoke(yoda.cli, ["money", "deposits"])
+        self.assertEqual(result.exit_code, 0)
+
+        result = self.runner.invoke(yoda.cli, ["money", "status"])
+        self.assertEqual(result.exit_code, 0)
+
+        result = self.runner.invoke(yoda.cli, ["money", "reset"])
         self.assertEqual(result.exit_code, 0)
