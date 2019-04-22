@@ -789,7 +789,8 @@ def ciphers(ctx, mode):
     cipher_dict = {
                     "Atbash": atbash.AtbashCipher,
                     "Caesar": caesar.CaesarCipher,
-                    "ROT13": rot13.ROT13Cipher
+                    "ROT13": rot13.ROT13Cipher,
+                    "Vigenere": vigenere.VigenereCipher
                 }
 
     for index, cipher in enumerate(cipher_dict):
