@@ -11,4 +11,4 @@
 - [ ] added some tests for the functionality
 - [ ] updated the README with example
 
-**Fixes**: #
+Fixes: #
