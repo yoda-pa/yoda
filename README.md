@@ -587,7 +587,7 @@ Use this command to get suggestions related to food.
 
 ```
 # To get a restaurant suggestion in your city:
-$ yoda food suggest-restaurant
+$ yoda food suggest_restaurant
 What city are you in? Berlin
 What type of food are you interested in? Chinese
 
@@ -598,7 +598,7 @@ Book a table at +493091552605
 
 
 # To get a drink suggestion
-$ yoda food suggest-drinks
+$ yoda food suggest_drinks
 Like you need a drink you look.  Hmmmmmm.
 ---------------------Jello shots---------------------
 Ingredients:
@@ -609,7 +609,7 @@ Instructions: Boil 3 cups of water then add jello. Mix jello and water until jel
 
 
 # To get a recipe suggestion
-$ yoda food suggest-recipes
+$ yoda food suggest_recipes
 Categories: American, British, Canadian, Chinese, Dutch, Egyptian, French, Greek, Indian, Irish, Italian, Jamaican, Japanese, Kenyan, Malaysian, Mexican, Moroccan, Russian, Spanish, Thai, Unknown, Vietnamese
 
 Choose a category above or type 'Random' for a random recipe suggestion: Random
