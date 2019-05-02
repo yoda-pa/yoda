@@ -595,6 +595,41 @@ Why don't you try THIS restaurant tonight!
 
 Shaniu's House of Noodles on Pariser Str. 58
 Book a table at +493091552605
+
+
+# To get a drink suggestion
+$ yoda food suggest_drinks
+Like you need a drink you look.  Hmmmmmm.
+---------------------Jello shots---------------------
+Ingredients:
+Vodka x 2 cups
+Jello x 3 packages
+Water x 3 cups
+Instructions: Boil 3 cups of water then add jello. Mix jello and water until jello is completely disolved. Add the two cups of vodka and mix together. Pour mixture into plastic shot glasses and chill until firm. Then, eat away...
+
+
+# To get a recipe suggestion
+$ yoda food suggest_recipes
+Categories: American, British, Canadian, Chinese, Dutch, Egyptian, French, Greek, Indian, Irish, Italian, Jamaican, Japanese, Kenyan, Malaysian, Mexican, Moroccan, Russian, Spanish, Thai, Unknown, Vietnamese
+
+Choose a category above or type 'Random' for a random recipe suggestion: Random
+
+---------------------Spicy Arrabiata Penne---------------------
+
+Ingredients:
+penne rigate x 1 pound
+olive oil x 1/4 cup
+garlic x 3 cloves
+chopped tomatoes x 1 tin
+red chile flakes x 1/2 teaspoon
+italian seasoning x 1/2 teaspoon
+basil x 6 leaves
+Parmigiano-Reggiano x spinkling
+
+Instructions: Bring a large pot of water to a boil. Add kosher salt to the boiling water, then add the pasta. Cook according to the package instructions, about 9 minutes.
+In a large skillet over medium-high heat, add the olive oil and heat until the oil starts to shimmer. Add the garlic and cook, stirring, until fragrant, 1 to 2 minutes. Add the chopped tomatoes, red chile flakes, Italian seasoning and salt and pepper to taste. Bring to a boil and cook for 5 minutes. Remove from the heat and add the chopped basil.
+Drain the pasta and add it to the sauce. Garnish with Parmigiano-Reggiano flakes and more basil and serve warm.
+
 ```
 
 #### feedback
