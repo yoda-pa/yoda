@@ -1,5 +1,6 @@
 import random
 import sys
+import pprint
 
 if sys.version_info[0] >= 3:
     from urllib.parse import quote
@@ -20,7 +21,6 @@ def food():
     Food module... yum
     Suggest recipes for food, drinks, and restaurants
     """
-
 
 @food.command()
 def suggest_drinks():
@@ -99,3 +99,91 @@ def suggest_restaurant():
         click.echo()
         click.echo(restaurant['name'] + ' on ' + restaurant['location']['address1'])
         click.echo('Book a table at ' + restaurant['phone'])
+
+
+@food.command()
+def suggest_recipes():
+    """
+    Get suggested a random meal recipe from theMealDB API.
+    """
+    click.echo("Categories: American, British, Canadian, Chinese, Dutch, Egyptian, " + 
+        "French, Greek, Indian, Irish, Italian, Jamaican, Japanese, Kenyan, Malaysian, Mexican, " + 
+        "Moroccan, Russian, Spanish, Thai, Unknown, Vietnamese whoe hasldf")
+    click.echo()
+
+    if sys.version_info[0] >= 3:
+        category = input('Choose a category above or type \'Random\' for a random recipe suggestion: ')
+    else:
+        category = raw_input('Choose a category above or type \'Random\' for a random recipe suggestion: ')
+
+    category = category.capitalize()
+    
+    def outputMeal(mealJSON):
+        click.echo()
+        click.echo("---------------------" + mealJSON[0]["strMeal"] + "---------------------")
+        click.echo()
+
+        #print ingredients
+        click.echo("Ingredients: ")
+        for i in range(1, 25):
+            ingredient = mealJSON[0]["strIngredient" + str(i)]
+            qty = mealJSON[0]["strMeasure" + str(i)]
+            if ingredient:
+                ingredientStr = ingredient.encode("utf-8")
+                if not qty:
+                    output_str = "{} (as needed)".format(ingredientStr)
+                else:
+                    qtyStr = qty.encode("utf-8")
+                    output_str = "{} x {}" .format(ingredientStr, qtyStr)
+
+                click.echo(output_str)
+            else:
+                break
+
+        #print instructions
+        click.echo()
+        click.echo("Instructions: " + mealJSON[0]["strInstructions"])
+
+    def randomURL():
+        #fetch random meal from database
+        randomURL = "https://www.themealdb.com/api/json/v1/1/random.php"
+
+        req = requests.get(randomURL)
+        parsed_response = req.json()
+
+        outputMeal(parsed_response["meals"])
+        return parsed_response["meals"]
+
+    def categoryURL(category):
+        #fetch random meal from a specific category
+        categoryURL = "https://www.themealdb.com/api/json/v1/1/filter.php?a=" + category
+
+        req = requests.get(categoryURL)
+        parsed_response = req.json()
+
+        #if the category is invalid, the result we get is 'None'
+        if(parsed_response["meals"] == None):
+            click.echo()
+            click.echo("Invalid Input")
+            click.echo()
+            exit(1)
+
+        
+        #len(parsed_response["meals"]) is number of meals in that category
+        #get a random one
+        length = len(parsed_response["meals"]) - 1
+        rand = random.randint(0, 10)
+        if rand  + 1 > length:
+            rand = length
+        mealID = parsed_response["meals"][rand]["idMeal"]
+        
+        mealURL = "https://www.themealdb.com/api/json/v1/1/lookup.php?i=" + mealID
+        req = requests.get(mealURL)
+        parsed_response = req.json()
+
+        outputMeal(parsed_response["meals"])
+
+    if category == "Random":
+        data = randomURL()
+    else:
+        data = categoryURL(category)
