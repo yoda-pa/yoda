@@ -9,5 +9,4 @@ about: Suggest an enhancement to the Yoda project
 
 **Why is this needed**:
 
-<!-- DO NOT EDIT BELOW THIS LINE -->
-/kind feature
+**Any ideas you might have for implementation**:
