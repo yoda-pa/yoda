@@ -11,11 +11,9 @@ about: Report test failures in Yoda
 
 **Since when has it been failing**:
 
-**Testgrid link**:
+**Travis link**:
 
 **Reason for failure**:
 
 **Anything else we need to know**:
 
-<!-- DO NOT EDIT BELOW THIS LINE -->
-/kind failing-test
