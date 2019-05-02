@@ -9,7 +9,7 @@ about: Report a bug encountered while using yoda
 
 **What happened**:
 
-**What you expected to happen**:
+**What did you expect to happen**:
 
 **How to reproduce it (as minimally and precisely as possible)**:
 
@@ -18,8 +18,4 @@ about: Report a bug encountered while using yoda
 **Environment**:
 - Yoda version (use `yoda version`):
 - OS (e.g. from /etc/os-release):
-- Kernel (e.g. `uname -a`):
-- Others:
-
-<!-- DO NOT EDIT BELOW THIS LINE -->
-/kind bug
+- Python Version:
