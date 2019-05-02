@@ -9,7 +9,7 @@
 <a href="https://travis-ci.org/yoda-pa/yoda"><img src="https://travis-ci.org/yoda-pa/yoda.svg?branch=master" alt="Build status"></a>
   <a href="https://sonarcloud.io/dashboard?id=yoda"><img src="https://sonarcloud.io/api/project_badges/measure?project=yoda&metric=alert_status&template=FLAT" alt="SonarCloud Quality Status"></a>
   <a href="https://manparvesh.mit-license.org/"><img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square" alt="License"></a>
-  <a href="https://github.com/yoda-pa/yoda"><img src="https://img.shields.io/badge/version-0.4.0-blue.svg?style=flat-square" alt="Project status"></a>
+  <a href="https://github.com/yoda-pa/yoda"><img src="https://img.shields.io/badge/version-1.0.0-blue.svg?style=flat-square" alt="Project status"></a>
   <a href="https://github.com/ambv/black"><img src="https://img.shields.io/badge/code%20style-black-000000.svg" alt="Code style: black"></a>
 
   <p>Wise and powerful personal assistant, available in your nearest terminal</p><br>
@@ -710,8 +710,30 @@ Please refer to the [contributing guidelines](https://github.com/yoda-pa/yoda/bl
 
 ## Changelog
 
+### v1.0.0
+Related milestone: [v1.0.0](https://github.com/yoda-pa/yoda/milestone/5)
+
+Changes in this version:
+- Docker setup
+- Load modules on demand
+- Mock external services in tests
+- Support for custom commands
+- Currency conversion
+- Weather functionality
+- Money Manager: monthly expenses
+- Gif creator
+- Site checker
+- IP Lookup
+- Grep
+- Horoscope
+- Suggest drinks
+- Suggest recipes
+- Small bug fixes and improvements
+
 ### v0.4.0
 Related milestone: [v0.4.0](https://github.com/yoda-pa/yoda/milestone/2)
+
+Changes in this version:
 - Added goals and analysis
 - Added reading list
 - Enhancements to diary
@@ -722,6 +744,8 @@ Related milestone: [v0.4.0](https://github.com/yoda-pa/yoda/milestone/2)
 
 ### v0.3.0
 Related milestone: [v0.3.0](https://github.com/yoda-pa/yoda/milestone/3)
+
+Changes in this version:
 - Support for both Python 2 and Python 3
 - Command aliasing
 - Port scanning
@@ -733,6 +757,8 @@ Related milestone: [v0.3.0](https://github.com/yoda-pa/yoda/milestone/3)
 
 ### v0.2.0
 Related milestone: [v0.2.0](https://github.com/yoda-pa/yoda/milestone/1)
+
+Changes in this version:
 - Idea list
 - Reading list
 - Automated tests
