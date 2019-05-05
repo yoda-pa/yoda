@@ -1,6 +1,7 @@
 import collections
 import itertools
 import string
+import sys
 
 import click
 
@@ -31,7 +32,7 @@ class ROT13Cipher:
         for char in message:
             if char not in string.ascii_uppercase and char != " ":
                 click.echo("The ROT13 Cipher only supports ASCII characters")
-                return
+                sys.exit(1)
 
             if char == " ":
                 encrypted_text += " "
@@ -49,7 +50,7 @@ class ROT13Cipher:
         for char in message:
             if char not in string.ascii_uppercase and char != " ":
                 click.echo("The ROT13 Cipher only supports ASCII characters")
-                return
+                sys.exit(1)
 
             if char == " ":
                 decrypted_text += " "
