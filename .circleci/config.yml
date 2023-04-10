@@ -22,7 +22,7 @@ jobs:
       - run:
           name: "Install dependencies"
           command: |
-            sudo apt-get install -y libav-tools
+            sudo apt-get install -y libavcodec-extra
             pip install -r requirements.txt
       - run:
           name: "Run tests"
