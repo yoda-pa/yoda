@@ -5,22 +5,34 @@ version: 2.1
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/configuration-reference/#jobs
 jobs:
-  say-hello:
+  build:
     # Specify the execution environment. You can specify an image from Docker Hub or use one of our convenience images from CircleCI's Developer Hub.
     # See: https://circleci.com/docs/configuration-reference/#executor-job
     docker:
-      - image: cimg/base:stable
+      - image: cimg/python:3.9
+        environment:
+          # Set a user-wide flag for pip not to install as root.
+          PIP_USER: "true"
+          # Tell pip not to ask for confirmation.
+          PIP_DISABLE_PIP_VERSION_CHECK: "true"
     # Add steps to the job
     # See: https://circleci.com/docs/configuration-reference/#steps
     steps:
       - checkout
       - run:
-          name: "Say hello"
-          command: "echo Hello, World!"
+          name: "Install dependencies"
+          command: |
+            sudo apt-get install -y libav-tools
+            pip install -r requirements.txt
+      - run:
+          name: "Run tests"
+          command: |
+            coverage run setup.py test
+            codecov
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
 workflows:
-  say-hello-workflow:
+  build:
     jobs:
-      - say-hello
+      - build
