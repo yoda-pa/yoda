@@ -65,7 +65,7 @@ class CompileAPIParameters(BaseAPIParameters):
         client_secret,
         source,
         lang,
-        async=0,
+        _async=0,
         id=None,
         save=1,
         callback="",
@@ -77,7 +77,7 @@ class CompileAPIParameters(BaseAPIParameters):
         self.save = save
         self.callback = callback
         self.compressed = compressed
-        self.async = async
+        self._async = _async
 
     def _build_params_dict(self):
         params = super(CompileAPIParameters, self)._build_params_dict()
@@ -88,7 +88,7 @@ class CompileAPIParameters(BaseAPIParameters):
                 "save": self.save,
                 "callback": self.callback,
                 "compressed": self.compressed,
-                "async": self.async,
+                "_async": self._async,
             }
         )
         return params
@@ -103,7 +103,7 @@ class RunAPIParameters(CompileAPIParameters):
         program_input=None,
         time_limit=settings.RUN_TIME_UPPER_LIMIT,
         memory_limit=settings.MEMORY_UPPER_LIMIT,
-        async=0,
+        _async=0,
         id=None,
         save=1,
         callback="",
@@ -117,7 +117,7 @@ class RunAPIParameters(CompileAPIParameters):
         self.save = save
         self.callback = callback
         self.compressed = compressed
-        self.async = async
+        self._async = _async
         self.html = html
         self.compiled = compiled
         self.time_limit = min(time_limit, settings.RUN_TIME_UPPER_LIMIT)
