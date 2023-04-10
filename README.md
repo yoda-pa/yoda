@@ -6,7 +6,7 @@
 
   <h1>yoda</h1>
 
-<a href="https://travis-ci.org/yoda-pa/yoda"><img src="https://travis-ci.org/yoda-pa/yoda.svg?branch=master" alt="Build status"></a>
+<a href="https://app.travis-ci.com/yoda-pa/yoda"><img src="https://app.travis-ci.com/yoda-pa/yoda.svg?branch=master" alt="Build status"></a>
   <a href="https://sonarcloud.io/dashboard?id=yoda"><img src="https://sonarcloud.io/api/project_badges/measure?project=yoda&metric=alert_status&template=FLAT" alt="SonarCloud Quality Status"></a>
   <a href="https://manparvesh.mit-license.org/"><img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square" alt="License"></a>
   <a href="https://github.com/yoda-pa/yoda"><img src="https://img.shields.io/badge/version-1.0.0-blue.svg?style=flat-square" alt="Project status"></a>

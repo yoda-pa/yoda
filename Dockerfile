@@ -1,15 +1,15 @@
-FROM python:3.5-jessie
+FROM python:3.9-buster
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-      libav-tools \
+      libavcodec-extra \
       && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /usr/src/app
 
-ADD requirements.txt .
+COPY requirements.txt .
 
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-RUN pip install -e .
+RUN pip install --no-cache-dir -e .
