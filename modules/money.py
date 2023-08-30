@@ -72,7 +72,7 @@ def status():
     """
     if os.path.isfile(MONEY_CONFIG_FILE_PATH):
         with open(MONEY_CONFIG_FILE_PATH) as config_file:
-            contents = yaml.load(config_file)
+            contents = yaml.safe_load(config_file)
             click.echo(contents)
     else:
         click.echo(
@@ -99,10 +99,68 @@ def setup():
     click.echo(chalk.blue("Enter initial amount:"))
     initial_money = int(input().strip())
 
-    setup_data = dict(currency_code=currency_code, initial_money=initial_money)
+    setup_data = dict(currency_code=currency_code, initial_money=initial_money, current_money=initial_money)
 
     input_data(setup_data, MONEY_CONFIG_FILE_PATH)
 
+
+def deposit():
+    import_apiai()
+    """
+    add deposit
+    """
+    create_folder(MONEY_CONFIG_FOLDER_PATH)
+    with open(MONEY_CONFIG_FOLDER_PATH + "/deposits.txt", "a") as fp:
+        request.query = input()
+        click.echo("output: ")
+        response = request.getresponse().read()
+        output = json.loads(response.decode('utf8').replace('\n', ''))
+        currency_name = output["result"]["parameters"]["currency-name"]
+        item = (
+            output["result"]["parameters"]["any"]
+            if len(output["result"]["parameters"]["any"].split()) == 1
+            else ('"' + output["result"]["parameters"]["any"] + '"')
+        )
+        number = output["result"]["parameters"]["number"]
+
+        click.echo(item)
+
+        timestamp = datetime.datetime.fromtimestamp(time.time()).strftime(
+            "%Y-%m-%d %H:%M:%S"
+        )
+
+        valid_deposit = __validate_currency_name_and_amount(currency_name, number)
+        if valid_deposit == False:
+            click.echo("Invalid Expense!")
+        else:
+            fp.write("{} {} {} {}\n".format(timestamp, currency_name, number, item))
+
+            #update the total money you have
+            with open(MONEY_CONFIG_FILE_PATH,"r") as ymlFile:
+                cur_yaml = yaml.safe_load(ymlFile) 
+                print(cur_yaml)
+                cur_yaml['current_money'] = int(cur_yaml['current_money']) + int(number)
+
+            if cur_yaml:
+                with open(MONEY_CONFIG_FILE_PATH,'w') as ymlFile:
+                    yaml.safe_dump(cur_yaml, ymlFile) 
+
+
+def deposits():
+    """
+    check expenses
+    """
+    with open(MONEY_CONFIG_FOLDER_PATH + "/deposits.txt") as fp:
+        for line in fp.read().split("\n"):
+            if len(line) == 0:
+                continue
+            (date, _time, currency_name, number, item) = shlex.split(line)
+            y, m, d = list(map(int, date.split("-")))
+
+            if datetime.datetime(y, m, d).month == datetime.datetime.now().month:
+                click.echo(
+                    date + " " + _time + " " + currency_name + " " + number + " " + item
+                )   
 
 def expense():
     import_apiai()
@@ -115,7 +173,6 @@ def expense():
         click.echo("output: ")
         response = request.getresponse().read()
         output = json.loads(response.decode('utf8').replace('\n', ''))
-        # click.echo(output)
         currency_name = output["result"]["parameters"]["currency-name"]
         item = (
             output["result"]["parameters"]["any"]
@@ -134,6 +191,16 @@ def expense():
         else:
             fp.write("{} {} {} {}\n".format(timestamp, currency_name, number, item))
 
+            #update the total money you have
+            with open(MONEY_CONFIG_FILE_PATH,"r") as ymlFile:
+                cur_yaml = yaml.safe_load(ymlFile) 
+                print(cur_yaml)
+                cur_yaml['current_money'] = int(cur_yaml['current_money']) - int(number)
+
+            if cur_yaml:
+                with open(MONEY_CONFIG_FILE_PATH,'w') as ymlFile:
+                    yaml.safe_dump(cur_yaml, ymlFile) 
+
 
 def expenses():
     """
@@ -150,6 +217,14 @@ def expenses():
                 click.echo(
                     date + " " + _time + " " + currency_name + " " + number + " " + item
                 )
+
+def reset():
+    """
+    clear everything in money account
+    """
+    open(MONEY_CONFIG_FILE_PATH, 'w').close()
+    open(MONEY_CONFIG_FOLDER_PATH + "/expenditures.txt", 'w').close()
+    open(MONEY_CONFIG_FOLDER_PATH + "/deposits.txt", 'w').close()
 
 
 def expenses_month():
@@ -240,8 +315,11 @@ def check_sub_command(c):
     sub_commands = {
         "status": status,
         "setup": setup,
+        "deposit": deposit,
+        "deposits": deposits,
         "exp": expense,
         "exps": expenses,
+        "reset": reset,
         "exps_month": expenses_month,
         "convert": convertCurrency,
     }
