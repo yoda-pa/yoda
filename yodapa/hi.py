@@ -1,0 +1,2 @@
+def hu():
+    return "Hello!"

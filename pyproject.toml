@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "yodapa"
+version = "0.1.0"
+description = "Personal Assistant on the command line"
+authors = ["Man Parvesh Singh Randhawa <manparveshsinghrandhawa@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+typer = "^0.12.5"
+pytest = "^8.3.3"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
