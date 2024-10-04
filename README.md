@@ -1,6 +1,7 @@
 # Yoda PA
 
-PyPi link: https://pypi.org/project/yodapa/
+[![Github CI](https://github.com/yoda-pa/yoda/actions/workflows/ci.yml/badge.svg)](https://github.com/yoda-pa/yoda/actions/workflows/ci.yml)
+[![PyPI version](https://badge.fury.io/py/yodapa.svg)](https://badge.fury.io/py/yodapa)
 
 ## Development setup
 

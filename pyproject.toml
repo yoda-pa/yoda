@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "yodapa"
-version = "0.1.2"
+version = "0.1.3"
 description = "Personal Assistant on the command line"
 authors = ["Man Parvesh Singh Randhawa <manparveshsinghrandhawa@gmail.com>"]
 license = "MIT"
