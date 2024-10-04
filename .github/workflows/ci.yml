@@ -27,9 +27,7 @@ jobs:
           cache: 'poetry'
 
       - name: Install Poetry
-        uses: snok/install-poetry@v2
-        with:
-          version: stable
+        uses: snok/install-poetry@v1
 
       - name: Configure Poetry to use the local cache
         run: poetry config virtualenvs.in-project false
