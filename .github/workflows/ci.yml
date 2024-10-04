@@ -37,12 +37,17 @@ jobs:
       - name: Run Tests
         run: poetry run pytest
 
+      # Publish to PyPI
+      - name: Configure pypi api token
+        if: github.ref == 'refs/heads/v2' && github.event_name == 'push'
+        run: poetry config pypi-token.pypi $PYPI_API_TOKEN
+        env:
+          $PYPI_API_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
+
       - name: Build the package
+        if: github.ref == 'refs/heads/v2' && github.event_name == 'push'
         run: poetry build
 
       - name: Publish to PyPI
         if: github.ref == 'refs/heads/v2' && github.event_name == 'push'
-        run: poetry publish --username $PYPI_USERNAME --password $PYPI_PASSWORD
-        env:
-          PYPI_USERNAME: ${{ secrets.PYPI_USERNAME }}
-          PYPI_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+        run: poetry publish
