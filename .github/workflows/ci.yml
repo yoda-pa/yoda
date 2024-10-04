@@ -36,3 +36,13 @@ jobs:
 
       - name: Run Tests
         run: poetry run pytest
+
+      - name: Build the package
+        run: poetry build
+
+      - name: Publish to PyPI
+        if: github.ref == 'refs/heads/v2' && github.event_name == 'push'
+        run: poetry publish --username $PYPI_USERNAME --password $PYPI_PASSWORD
+        env:
+          PYPI_USERNAME: ${{ secrets.PYPI_USERNAME }}
+          PYPI_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
