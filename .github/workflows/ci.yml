@@ -42,7 +42,7 @@ jobs:
         if: github.ref == 'refs/heads/v2' && github.event_name == 'push'
         run: poetry config pypi-token.pypi $PYPI_API_TOKEN
         env:
-          $PYPI_API_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
+          PYPI_API_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
 
       - name: Build the package
         if: github.ref == 'refs/heads/v2' && github.event_name == 'push'
