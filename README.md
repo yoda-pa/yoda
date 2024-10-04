@@ -16,3 +16,10 @@ poetry shell
 # Now you should be able to communicate with yoda
 yoda --help
 ```
+
+### Testing
+
+```bash
+# Run tests when in the virtual environment
+pytest
+```
