@@ -9,7 +9,8 @@ on:
       - v2
 
 jobs:
-  build:
+  test:
+    name: Test on all python versions
     runs-on: ubuntu-latest
 
     strategy:
@@ -37,17 +38,37 @@ jobs:
       - name: Run Tests
         run: poetry run pytest
 
-      # Publish to PyPI
+  publish:
+    name: Publish to PyPI
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.ref == 'refs/heads/v2' && github.event_name == 'push'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+
+      - name: Configure Poetry to use the local cache
+        run: poetry config virtualenvs.in-project false
+
+      - name: Install dependencies
+        run: poetry install --no-interaction --no-ansi
+
       - name: Configure pypi api token
-        if: github.ref == 'refs/heads/v2' && github.event_name == 'push'
         run: poetry config pypi-token.pypi $PYPI_API_TOKEN
         env:
           PYPI_API_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
 
       - name: Build the package
-        if: github.ref == 'refs/heads/v2' && github.event_name == 'push'
         run: poetry build
 
       - name: Publish to PyPI
-        if: github.ref == 'refs/heads/v2' && github.event_name == 'push'
         run: poetry publish
