@@ -15,6 +15,7 @@ homepage = "https://yoda-pa.github.io/"
 python = "^3.9"
 typer = "^0.12.5"
 pytest = "^8.3.3"
+pyyaml = "^6.0.2"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.3"
@@ -25,3 +26,6 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
 yoda = "cli.yoda:app"
+
+[tool.poetry.plugins."yodapa.plugins"]
+hi_plugin = "yodapa.plugins.hi_plugin:HiPlugin"
