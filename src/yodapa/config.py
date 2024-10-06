@@ -6,7 +6,7 @@ import yaml
 
 class ConfigManager:
     def __init__(self, config_file: Path = None):
-        self.config_file = config_file or self.get_default_config_file()
+        self.config_file = self.get_default_config_file()
         self.config: Dict[str, Any] = dict()
         self.load()
 

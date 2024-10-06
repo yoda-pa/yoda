@@ -1,21 +1,23 @@
-from typing import Annotated, Optional
-
 import typer
 
-from yodapa.interfaces.plugin_interface import YodaPluginInterface
+from yodapa.plugin_manager.decorator import yoda_plugin
 
 
-class HiPlugin(YodaPluginInterface):
-    def get_app(self):
-        app = typer.Typer()
+@yoda_plugin(name="hi")
+class HiPlugin:
+    """
+    Hi plugin. Say hello.
 
-        @app.command()
-        def hello(name: Annotated[Optional[str], typer.Argument()] = None):
-            """Say hello."""
-            name = name or "Hello from Yoda!"
-            typer.echo(f"Hello {name}!!!!!!!!!!!!!!!!!!!")
+    Example:
+        $ yoda hi hello --name MP
+        $ yoda hi hello
+    """
 
-        return app
+    def hello(self, name: str = None):
+        """Say hello."""
+        name = name or "Padawan"
+        typer.echo(f"Hello {name}!")
 
-    def name(self) -> str:
-        return "hi"
+    def _private_method_should_not_be_added(self):
+        """This method should not be added as a command."""
+        raise NotImplementedError()
