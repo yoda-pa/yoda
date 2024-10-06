@@ -33,7 +33,19 @@ class PluginManager:
             except Exception as e:
                 typer.echo(f"Failed to load plugin {name}: {e}", err=True)
 
-        print("Plugins discovered:", self.plugins)
+        # Discover plugins in the local plugins directory
+        # TODO: this is untested. We also need to add a way to install plugins
+        local_plugins_dir = self.config.get_yoda_plugins_dir()
+        if local_plugins_dir.exists() and local_plugins_dir.is_dir():
+            for finder, name, ispkg in pkgutil.iter_modules([str(local_plugins_dir)]):
+                try:
+                    module = importlib.import_module(f"yodapa.plugins.{name}")
+                    plugin_class = getattr(module, "Plugin", None)
+                    if plugin_class and issubclass(plugin_class, YodaPluginInterface):
+                        plugin_instance = plugin_class()
+                        self.plugins.append(plugin_instance)
+                except Exception as e:
+                    typer.echo(f"Failed to load local plugin {name}: {e}", err=True)
 
     def load_plugins(self):
         for plugin in self.plugins:
