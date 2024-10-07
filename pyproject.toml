@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "yodapa"
-version = "0.2.0"
+version = "0.3.0"
 description = "Personal Assistant on the command line"
 authors = ["Man Parvesh Singh Randhawa <manparveshsinghrandhawa@gmail.com>"]
 license = "MIT"
@@ -24,7 +24,7 @@ pytest = "^8.3.3"
 
 
 [tool.poetry.group.docs.dependencies]
-mkdocstrings = {extras = ["python"], version = "^0.26.1"}
+mkdocstrings = { extras = ["python"], version = "^0.26.1" }
 
 [build-system]
 requires = ["poetry-core"]

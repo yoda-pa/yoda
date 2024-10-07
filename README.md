@@ -5,6 +5,8 @@
 
 Personal Assistant on the command line.
 
+![Yoda](docs/docs/logo.png)
+
 ## Installation
 
 ```bash
