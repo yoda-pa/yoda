@@ -5,7 +5,7 @@ import yaml
 
 
 class ConfigManager:
-    def __init__(self, config_file: Path = None):
+    def __init__(self):
         self.config_file = self.get_default_config_file()
         self.config: Dict[str, Any] = dict()
         self.load()
@@ -15,7 +15,7 @@ class ConfigManager:
             with open(self.config_file) as f:
                 self.config = yaml.safe_load(f)
         else:
-            self.config = dict()
+            self.config = self.get_default_config()
 
     def save(self):
         self.config_file.parent.mkdir(parents=True, exist_ok=True)
