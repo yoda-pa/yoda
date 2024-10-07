@@ -9,13 +9,17 @@ from yodapa.config import ConfigManager
 
 
 class PluginManager:
+    """Plugin manager class. Manages the plugins in the 'plugins' directory and the local plugins directory."""
+
     def __init__(self, app: typer.Typer, config: ConfigManager):
         self.app: typer.Typer = app
         self.config: ConfigManager = config
         self.plugins: List = []
 
     def discover_plugins(self):
-        # Discover plugins within the 'plugins' directory
+        """Discover plugins in the 'plugins' directory and the local plugins directory."""
+
+        # 1. Discover plugins within the 'plugins' directory
         plugins_pkg = importlib.import_module('yodapa.plugins')
         plugins_path = plugins_pkg.__path__
 
@@ -31,7 +35,7 @@ class PluginManager:
             except Exception as e:
                 typer.echo(f"Failed to load plugin {name}: {e}", err=True)
 
-        # Discover plugins in the local plugins directory
+        # 2. Discover plugins in the local plugins directory
         local_plugins_dir = self.config.get_yoda_plugins_dir()
         if local_plugins_dir.exists() and local_plugins_dir.is_dir():
             for finder, name, ispkg in pkgutil.iter_modules([str(local_plugins_dir)]):
@@ -66,6 +70,7 @@ class PluginManager:
         # print("Plugins discovered:", self.plugins)
 
     def load_plugins(self):
+        """Load the plugins into the yoda typer app."""
         for plugin in self.plugins:
             try:
                 self.app.add_typer(plugin.typer_app, name=plugin.name, help=f"{plugin.name} plugin commands")
