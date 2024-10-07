@@ -1,0 +1,34 @@
+site_name: Yoda PA
+site_url: https://yoda-pa.github.io/yoda
+repo_url: https://github.com/yoda-pa/yoda
+repo_name: yoda-pa/yoda
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  palette:
+    primary: 'teal'
+    accent: 'purple'
+  font:
+    text: 'Roboto'
+    code: 'Roboto Mono'
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - search.highlight
+    - toc.integrate
+    - instant_loading
+
+plugins:
+  - search
+  - mkdocstrings:
+      default_handler: python
+
+nav:
+  - Home: index.md
+  - Documentation:
+      - Plugins: plugins.md
+      - Modules: modules.md
+  - About:
+      - Contributors: contributors.md
+      - License: license.md
