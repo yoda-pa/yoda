@@ -365,9 +365,27 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#list-plugins" class="md-nav__link">
+    <span class="md-ellipsis">
+      List plugins
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#write-your-own-plugin-for-yoda" class="md-nav__link">
     <span class="md-ellipsis">
       Write your own plugin for Yoda
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-ai-to-generate-your-own-plugin" class="md-nav__link">
+    <span class="md-ellipsis">
+      Use AI to generate your own plugin
     </span>
   </a>
   
@@ -620,6 +638,11 @@ yoda --help
 <pre><code class="language-bash">yoda configure
 </code></pre>
 <h2 id="plugins">Plugins</h2>
+<p>Yoda is designed to be extensible. You can write your own plugins or use the AI to generate one for you.</p>
+<h3 id="list-plugins">List plugins</h3>
+<p>The help command will list all the available plugins.</p>
+<pre><code class="language-bash">$ yoda --help
+</code></pre>
 <h3 id="write-your-own-plugin-for-yoda">Write your own plugin for Yoda</h3>
 <p>Simply create a class with the <code>@yoda_plugin(name="plugin-name")</code> decorator and add methods to it. The non-private
 methods will be automatically added as sub-commands to Yoda, with the command being the name you provide to the
@@ -646,6 +669,68 @@ class HiPlugin:
     def _private_method_should_not_be_added(self):
         &quot;&quot;&quot;This method should not be added as a command.&quot;&quot;&quot;
         raise NotImplementedError()
+</code></pre>
+<h3 id="use-ai-to-generate-your-own-plugin">Use AI to generate your own plugin</h3>
+<pre><code class="language-bash">$ yoda ai generate-command todo &quot;todo list that keeps track of your todos&quot;
+
+🤖 Generated code:
+
+import typer
+
+from yodapa.plugin_manager.decorator import yoda_plugin
+
+
+@yoda_plugin(name=&quot;todo&quot;)
+class TodoPlugin:
+    &quot;&quot;&quot;
+    Todo plugin. Keeps track of your todos.
+
+    Example:
+        $ yoda todo list --all
+        $ yoda todo add &quot;Finish assignment&quot;
+        $ yoda todo done 1
+        $ yoda todo delete 2
+    &quot;&quot;&quot;
+
+    def list(self, all: bool = False):
+        &quot;&quot;&quot;List all todos.&quot;&quot;&quot;
+        if all:
+            typer.echo(&quot;All todos:&quot;)
+            for todo in self.todos:
+                typer.echo(f&quot;- {todo}&quot;)
+        else:
+            typer.echo(&quot;Active todos:&quot;)
+            for todo in self.active_todos:
+                typer.echo(f&quot;- {todo}&quot;)
+
+    def add(self, name: str):
+        &quot;&quot;&quot;Add a new todo.&quot;&quot;&quot;
+        if name == &quot;&quot;:
+            raise ValueError(&quot;Todo name cannot be empty&quot;)
+        self.todos.append(name)
+        typer.echo(f&quot;Added todo '{name}'&quot;)
+
+    def done(self, id: int):
+        &quot;&quot;&quot;Mark a todo as done.&quot;&quot;&quot;
+        if id &lt; 0 or id &gt;= len(self.todos):
+            raise ValueError(&quot;Todo ID out of range&quot;)
+        self.active_todos.remove(self.todos[id])
+        typer.echo(f&quot;Marked todo {id} as done&quot;)
+
+    def delete(self, id: int):
+        &quot;&quot;&quot;Delete a todo.&quot;&quot;&quot;
+        if id &lt; 0 or id &gt;= len(self.todos):
+            raise ValueError(&quot;Todo ID out of range&quot;)
+        self.todos.remove(self.todos[id])
+        typer.echo(f&quot;Deleted todo {id}&quot;)
+
+    def __init__(self):
+        self.todos = []
+        self.active_todos = []
+
+if __name__ == &quot;__main__&quot;:
+    typer.run(TodoPlugin())
+
 </code></pre>
 <h2 id="development-setup">Development setup</h2>
 <pre><code class="language-bash"># 1. Install poetry from their website: https://python-poetry.org/docs/#installation
