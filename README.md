@@ -5,7 +5,7 @@
 
 Personal Assistant on the command line.
 
-![Yoda](docs/docs/logo.png)
+![Yoda](logo.png)
 
 ## Installation
 
@@ -22,6 +22,16 @@ yoda configure
 ```
 
 ## Plugins
+
+Yoda is designed to be extensible. You can write your own plugins or use the AI to generate one for you.
+
+### List plugins
+
+The help command will list all the available plugins.
+
+```bash
+$ yoda --help
+```
 
 ### Write your own plugin for Yoda
 
@@ -52,6 +62,71 @@ class HiPlugin:
     def _private_method_should_not_be_added(self):
         """This method should not be added as a command."""
         raise NotImplementedError()
+```
+
+### Use AI to generate your own plugin
+
+```bash
+$ yoda ai generate-command todo "todo list that keeps track of your todos"
+
+🤖 Generated code:
+
+import typer
+
+from yodapa.plugin_manager.decorator import yoda_plugin
+
+
+@yoda_plugin(name="todo")
+class TodoPlugin:
+    """
+    Todo plugin. Keeps track of your todos.
+
+    Example:
+        $ yoda todo list --all
+        $ yoda todo add "Finish assignment"
+        $ yoda todo done 1
+        $ yoda todo delete 2
+    """
+
+    def list(self, all: bool = False):
+        """List all todos."""
+        if all:
+            typer.echo("All todos:")
+            for todo in self.todos:
+                typer.echo(f"- {todo}")
+        else:
+            typer.echo("Active todos:")
+            for todo in self.active_todos:
+                typer.echo(f"- {todo}")
+
+    def add(self, name: str):
+        """Add a new todo."""
+        if name == "":
+            raise ValueError("Todo name cannot be empty")
+        self.todos.append(name)
+        typer.echo(f"Added todo '{name}'")
+
+    def done(self, id: int):
+        """Mark a todo as done."""
+        if id < 0 or id >= len(self.todos):
+            raise ValueError("Todo ID out of range")
+        self.active_todos.remove(self.todos[id])
+        typer.echo(f"Marked todo {id} as done")
+
+    def delete(self, id: int):
+        """Delete a todo."""
+        if id < 0 or id >= len(self.todos):
+            raise ValueError("Todo ID out of range")
+        self.todos.remove(self.todos[id])
+        typer.echo(f"Deleted todo {id}")
+
+    def __init__(self):
+        self.todos = []
+        self.active_todos = []
+
+if __name__ == "__main__":
+    typer.run(TodoPlugin())
+
 ```
 
 ## Development setup

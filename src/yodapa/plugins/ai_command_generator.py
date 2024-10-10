@@ -43,7 +43,7 @@ class AICommandGenerator:
 
     def generate_command(self, plugin_name: str, prompt: str):
         """
-        Generate a new plugin command based on the provided prompt.
+        Generate code for a new plugin command based on the provided prompt.
 
         Args:
             prompt (str): The description or functionality of the desired command.
@@ -92,7 +92,7 @@ class AICommandGenerator:
         try:
             # Interact with the Ollama LLM
             generated_code = self._communicate_with_ollama(ai_prompt)
-            typer.echo(f"Generated code:\n{generated_code}")
+            typer.echo(f"🤖 Generated code:\n{generated_code}")
 
             # Define the plugin file path
             # plugin_file = self.output_dir / f"{plugin_name.lower()}_plugin.py"
