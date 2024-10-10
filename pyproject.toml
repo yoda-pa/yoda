@@ -19,6 +19,10 @@ pyyaml = "^6.0.2"
 mkdocs = "^1.6.1"
 mkdocs-material = "^9.5.39"
 ollama = "^0.3.3"
+uvicorn = {extras = ["standard"], version = "^0.31.1"}
+fastapi = {extras = ["standard"], version = "^0.115.0"}
+supervisor = "^4.2.5"
+sqlmodel = "^0.0.22"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.3"
