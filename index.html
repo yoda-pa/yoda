@@ -12,11 +12,11 @@
       
       
       
-        <link rel="next" href="plugins/">
+        <link rel="next" href="config/">
       
       
       <link rel="icon" href="assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.39">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.40">
     
     
       
@@ -208,7 +208,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="plugins/" class="md-tabs__link">
+        <a href="config/" class="md-tabs__link">
           
   
   Documentation
@@ -475,11 +475,11 @@
   
   
     <li class="md-nav__item">
-      <a href="plugins/" class="md-nav__link">
+      <a href="config/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Plugins
+    Config Management
   </span>
   
 
@@ -496,11 +496,32 @@
   
   
     <li class="md-nav__item">
-      <a href="modules/" class="md-nav__link">
+      <a href="plugins/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Modules
+    Plugin Management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pluginlist/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Plugin list
   </span>
   
 
@@ -641,96 +662,130 @@ yoda --help
 <p>Yoda is designed to be extensible. You can write your own plugins or use the AI to generate one for you.</p>
 <h3 id="list-plugins">List plugins</h3>
 <p>The help command will list all the available plugins.</p>
-<pre><code class="language-bash">$ yoda --help
+<pre><code>❯ yoda --help
+
+ Usage: yoda [OPTIONS] COMMAND [ARGS]...                                    
+
+╭─ Options ────────────────────────────────────────────────────────────────╮
+│ --install-completion          Install completion for the current shell.  │
+│ --show-completion             Show completion for the current shell, to  │
+│                               copy it or customize the installation.     │
+│ --help                        Show this message and exit.                │
+╰──────────────────────────────────────────────────────────────────────────╯
+╭─ Commands ───────────────────────────────────────────────────────────────╮
+│ ai       AI command. Allows you to communicate with your local LLMs      │
+│ config   Config management                                               │
+│ dev                                                                      │
+│ init     Init yoda configurations                                        │
+│ plugin   Commands to manage plugins                                      │
+│ url                                                                      │
+╰──────────────────────────────────────────────────────────────────────────╯
+</code></pre>
+<p>You can find the details for each plugin with the <code>--help</code> flag. Some examples:</p>
+<pre><code>❯ yoda ai --help
+
+ Usage: yoda ai [OPTIONS] COMMAND [ARGS]...                                 
+
+ AI command. Allows you to communicate with your local LLMs                 
+
+╭─ Options ────────────────────────────────────────────────────────────────╮
+│ --help          Show this message and exit.                              │
+╰──────────────────────────────────────────────────────────────────────────╯
+╭─ Commands ───────────────────────────────────────────────────────────────╮
+│ chat               Chat with the AI model based on the provided prompt.  │
+│ generate-command   Generate code for a new plugin command based on the   │
+│                    provided prompt.                                      │
+╰──────────────────────────────────────────────────────────────────────────╯
+</code></pre>
+<pre><code>❯ yoda dev --help
+
+ Usage: yoda dev [OPTIONS] COMMAND [ARGS]...                                
+
+╭─ Options ────────────────────────────────────────────────────────────────╮
+│ --help          Show this message and exit.                              │
+╰──────────────────────────────────────────────────────────────────────────╯
+╭─ Commands ───────────────────────────────────────────────────────────────╮
+│ checksite          Check if a site is up and running                     │
+│ coinflip           Flip a coin!                                          │
+│ generatepassword   Generates a secure password                           │
+│ speedtest          Test your internet connection                         │
+│ whois              Check whois info for a domain name                    │
+╰──────────────────────────────────────────────────────────────────────────╯
 </code></pre>
 <h3 id="write-your-own-plugin-for-yoda">Write your own plugin for Yoda</h3>
 <p>Simply create a class with the <code>@yoda_plugin(name="plugin-name")</code> decorator and add methods to it. The non-private
 methods will be automatically added as sub-commands to Yoda, with the command being the name you provide to the
 decorator.</p>
 <pre><code class="language-python">import typer
-from yodapa.plugin_manager.decorator import yoda_plugin
 
-
-@yoda_plugin(name=&quot;hi&quot;)
-class HiPlugin:
-    &quot;&quot;&quot;
+app = typer.Typer(help=&quot;&quot;&quot;
     Hi plugin. Say hello.
 
     Example:
+
         $ yoda hi hello --name MP
+
         $ yoda hi hello
-    &quot;&quot;&quot;
+    &quot;&quot;&quot;)
 
-    def hello(self, name: str = None):
-        &quot;&quot;&quot;Say hello.&quot;&quot;&quot;
-        name = name or &quot;Padawan&quot;
-        typer.echo(f&quot;Hello {name}!&quot;)
 
-    def _private_method_should_not_be_added(self):
-        &quot;&quot;&quot;This method should not be added as a command.&quot;&quot;&quot;
-        raise NotImplementedError()
+@app.command()
+def hello(name: str = None):
+    &quot;&quot;&quot;Say hello.&quot;&quot;&quot;
+    name = name or &quot;Padawan&quot;
+    typer.echo(f&quot;Hello {name}!&quot;)
 </code></pre>
 <h3 id="use-ai-to-generate-your-own-plugin">Use AI to generate your own plugin</h3>
-<pre><code class="language-bash">$ yoda ai generate-command todo &quot;todo list that keeps track of your todos&quot;
+<pre><code class="language-bash">$ yoda ai generate-command weather &quot;show weather for the provided location&quot;
 
 🤖 Generated code:
 
-import typer
+import requests
+from typing import Optional
 
-from yodapa.plugin_manager.decorator import yoda_plugin
-
-
-@yoda_plugin(name=&quot;todo&quot;)
-class TodoPlugin:
-    &quot;&quot;&quot;
-    Todo plugin. Keeps track of your todos.
+app = typer.Typer(help=&quot;&quot;&quot;
+    Show weather for a given location.
 
     Example:
-        $ yoda todo list --all
-        $ yoda todo add &quot;Finish assignment&quot;
-        $ yoda todo done 1
-        $ yoda todo delete 2
-    &quot;&quot;&quot;
 
-    def list(self, all: bool = False):
-        &quot;&quot;&quot;List all todos.&quot;&quot;&quot;
-        if all:
-            typer.echo(&quot;All todos:&quot;)
-            for todo in self.todos:
-                typer.echo(f&quot;- {todo}&quot;)
-        else:
-            typer.echo(&quot;Active todos:&quot;)
-            for todo in self.active_todos:
-                typer.echo(f&quot;- {todo}&quot;)
+        $ yoda weather London
 
-    def add(self, name: str):
-        &quot;&quot;&quot;Add a new todo.&quot;&quot;&quot;
-        if name == &quot;&quot;:
-            raise ValueError(&quot;Todo name cannot be empty&quot;)
-        self.todos.append(name)
-        typer.echo(f&quot;Added todo '{name}'&quot;)
+        $ yoda weather -l London
+    &quot;&quot;&quot;)
 
-    def done(self, id: int):
-        &quot;&quot;&quot;Mark a todo as done.&quot;&quot;&quot;
-        if id &lt; 0 or id &gt;= len(self.todos):
-            raise ValueError(&quot;Todo ID out of range&quot;)
-        self.active_todos.remove(self.todos[id])
-        typer.echo(f&quot;Marked todo {id} as done&quot;)
+@app.command()
+def weather(location: str, units: Optional[str] = None):
+    &quot;&quot;&quot;Show the current weather for a given location.&quot;&quot;&quot;
+    # Set up your API key or database connection here
+    api_key = &quot;YOUR_API_KEY&quot;
+    db_conn = None  # Initialize your DB connection here
 
-    def delete(self, id: int):
-        &quot;&quot;&quot;Delete a todo.&quot;&quot;&quot;
-        if id &lt; 0 or id &gt;= len(self.todos):
-            raise ValueError(&quot;Todo ID out of range&quot;)
-        self.todos.remove(self.todos[id])
-        typer.echo(f&quot;Deleted todo {id}&quot;)
+    # Use the requests library to make an HTTP request to the API
+    url = f&quot;https://api.openweathermap.org/data/2.5/weather?q={location}&amp;appid={api_key}&quot;
+    response = requests.get(url)
 
-    def __init__(self):
-        self.todos = []
-        self.active_todos = []
+    # If the response is successful, parse the JSON data and return it in a format that typer can display
+    if response.status_code == 200:
+        data = response.json()
+        temperature = data[&quot;main&quot;][&quot;temp&quot;]
+        humidity = data[&quot;main&quot;][&quot;humidity&quot;]
+        wind = data[&quot;wind&quot;][&quot;speed&quot;]
+        pressure = data[&quot;main&quot;][&quot;pressure&quot;]
 
-if __name__ == &quot;__main__&quot;:
-    typer.run(TodoPlugin())
+        typer.echo(f&quot;Weather for {location}:&quot;)
+        typer.echo(f&quot;\tTemperature: {temperature}°C&quot;)
+        typer.echo(f&quot;\tHumidity: {humidity}%&quot;)
+        typer.echo(f&quot;\tWind speed: {wind} m/s&quot;)
+        typer.echo(f&quot;\tPressure: {pressure} hPa&quot;)
 
+    # If the response is not successful, print an error message
+    else:
+        typer.echo(f&quot;Error: {response.status_code}&quot;)
+</code></pre>
+<p>.. or chat with Yoda:</p>
+<pre><code class="language-bash">❯ yoda ai chat &quot;How are you?&quot;
+🤖 AI response:
+I am well, young one. The Force is strong with me.
 </code></pre>
 <h2 id="development-setup">Development setup</h2>
 <pre><code class="language-bash"># 1. Install poetry from their website: https://python-poetry.org/docs/#installation
