@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "yodapa"
-version = "0.4.0"
+version = "0.5.0"
 description = "Personal Assistant on the command line"
 authors = ["Man Parvesh Singh Randhawa <manparveshsinghrandhawa@gmail.com>"]
 license = "MIT"
@@ -9,7 +9,7 @@ packages = [
     { include = "yodapa", from = "src" }
 ]
 repository = "https://github.com/yoda-pa/yoda/tree/v2"
-homepage = "https://yoda-pa.github.io/"
+homepage = "https://yoda-pa.github.io/yoda"
 
 [tool.poetry.dependencies]
 python = "^3.9"
@@ -19,6 +19,11 @@ pyyaml = "^6.0.2"
 mkdocs = "^1.6.1"
 mkdocs-material = "^9.5.39"
 ollama = "^0.3.3"
+uvicorn = { extras = ["standard"], version = "^0.31.1" }
+fastapi = { extras = ["standard"], version = "^0.115.0" }
+supervisor = "^4.2.5"
+sqlmodel = "^0.0.22"
+requests = "^2.32.3"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.3"
@@ -32,4 +37,4 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-yoda = "cli.yoda:app"
+yoda = "yodapa.yoda:app"
