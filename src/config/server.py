@@ -81,3 +81,6 @@ async def delete_plugin(plugin_name: str, session: SessionDep):
     session.delete(plugin)
     session.commit()
     return {"message": "Plugin deleted successfully"}
+
+# Run server using:
+# fastapi dev src/config/server.py --port 1111

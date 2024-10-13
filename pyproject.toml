@@ -23,6 +23,7 @@ uvicorn = {extras = ["standard"], version = "^0.31.1"}
 fastapi = {extras = ["standard"], version = "^0.115.0"}
 supervisor = "^4.2.5"
 sqlmodel = "^0.0.22"
+requests = "^2.32.3"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.3"

@@ -1,7 +1,6 @@
 import importlib
-import inspect
 import pkgutil
-from typing import List
+from typing import List, Tuple
 
 import typer
 
@@ -14,7 +13,7 @@ class PluginManager:
     def __init__(self, app: typer.Typer, config: ConfigManager):
         self.app: typer.Typer = app
         self.config: ConfigManager = config
-        self.plugins: List = []
+        self.plugins: List[Tuple[str, typer.Typer]] = []
 
     def discover_plugins(self):
         """Discover plugins in the 'plugins' directory and the local plugins directory."""
@@ -27,11 +26,9 @@ class PluginManager:
             # print("finder", finder, "name", name, "ispkg", ispkg)
             try:
                 module = importlib.import_module(f'yodapa.plugins.{name}')
-                for attribute_name in dir(module):
-                    plugin_class = getattr(module, attribute_name)
-                    if inspect.isclass(plugin_class) and hasattr(plugin_class(), "typer_app"):
-                        plugin_instance = plugin_class()
-                        self.plugins.append(plugin_instance)
+                if hasattr(module, "app") and isinstance(module.app, typer.Typer):
+                    plugin_app: typer.Typer = module.app
+                    self.plugins.append((name, plugin_app))
             except Exception as e:
                 typer.echo(f"Failed to load plugin {name}: {e}", err=True)
 
@@ -55,14 +52,9 @@ class PluginManager:
                     module = importlib.util.module_from_spec(spec)
                     spec.loader.exec_module(module)
 
-                    # typer.echo(f"Imported module: {module.__name__}")
-
-                    # Find the plugin class in the module (same as above)
-                    for attribute_name in dir(module):
-                        plugin_class = getattr(module, attribute_name)
-                        if inspect.isclass(plugin_class) and hasattr(plugin_class(), "typer_app"):
-                            plugin_instance = plugin_class()
-                            self.plugins.append(plugin_instance)
+                    if hasattr(module, "app") and isinstance(module.app, typer.Typer):
+                        plugin_app: typer.Typer = module.app
+                        self.plugins.append((name, plugin_app))
                 except Exception as e:
                     typer.echo(f"Failed to load local plugin {name}: {e}", err=True)
 
@@ -71,12 +63,12 @@ class PluginManager:
 
     def load_plugins(self):
         """Load the plugins into the yoda typer app."""
-        for plugin in self.plugins:
+        for name, plugin in self.plugins:
             try:
-                self.app.add_typer(plugin.typer_app, name=plugin.name, help=f"{plugin.name} plugin commands")
+                self.app.add_typer(plugin, name=name)
                 # typer.echo(f"Loaded plugin: {plugin.name}")
             except Exception as e:
-                typer.echo(f"Error loading plugin {plugin.name}: {e}", err=True)
+                typer.echo(f"Error loading plugin {name}: {e}", err=True)
 
     def enable_plugin(self, plugin_name: str):
         # TODO: implement

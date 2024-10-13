@@ -8,6 +8,7 @@ class ConfigManager:
     """Configuration manager class. Manages the configuration of Yoda."""
 
     def __init__(self):
+        self.base_url = "http://localhost:1111"
         self.config_file = self.get_default_config_file()
         self.config: Dict[str, Any] = dict()
         self.load()
