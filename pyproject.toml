@@ -9,7 +9,7 @@ packages = [
     { include = "yodapa", from = "src" }
 ]
 repository = "https://github.com/yoda-pa/yoda/tree/v2"
-homepage = "https://yoda-pa.github.io/"
+homepage = "https://yoda-pa.github.io/yoda"
 
 [tool.poetry.dependencies]
 python = "^3.9"
@@ -37,4 +37,4 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-yoda = "cli.yoda:app"
+yoda = "yodapa.yoda:app"
