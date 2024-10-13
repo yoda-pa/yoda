@@ -69,7 +69,7 @@ def set_config_value(key: str, value: str):
         print(f"[green]Configuration set:[/] {key} = {value}")
     except sqlite3.OperationalError as e:
         if "no such table" in str(e):
-            print("[red]Yoda config not initialized. Use [white]`yoda config init`[red] to initialize[/]")
+            print("[red]Yoda config not initialized. Use [white]`yoda init`[red] to initialize[/]")
         else:
             print(f"An error occurred: {e}")
     finally:
@@ -94,7 +94,7 @@ def get_config_value(key: str):
             print(f"[red]Configuration key [white]'{key}'[red] not found.[/]")
     except sqlite3.OperationalError as e:
         if "no such table" in str(e):
-            print("[red]Yoda config not initialized. Use [white]`yoda config init`[red] to initialize[/]")
+            print("[red]Yoda config not initialized. Use [white]`yoda init`[red] to initialize[/]")
         else:
             print(f"An error occurred: {e}")
     finally:
@@ -127,7 +127,7 @@ def list_configurations():
 
     except sqlite3.OperationalError as e:
         if "no such table" in str(e):
-            print("[red]Yoda config not initialized. Use [white]`yoda config init`[red] to initialize[/]")
+            print("[red]Yoda config not initialized. Use [white]`yoda init`[red] to initialize[/]")
         else:
             print(f"An error occurred: {e}")
     finally:

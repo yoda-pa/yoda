@@ -54,7 +54,7 @@ def enable_plugin(name: str):
 
     except sqlite3.OperationalError as e:
         if "no such table" in str(e):
-            print("[red]Yoda config not initialized. Use [white]`yoda config init`[red] to initialize[/]")
+            print("[red]Yoda config not initialized. Use [white]`yoda init`[red] to initialize[/]")
         else:
             print(f"An error occurred: {e}")
     finally:
@@ -86,7 +86,7 @@ def disable_plugin(name: str):
 
     except sqlite3.OperationalError as e:
         if "no such table" in str(e):
-            print("[red]Yoda config not initialized. Use [white]`yoda config init`[red] to initialize[/]")
+            print("[red]Yoda config not initialized. Use [white]`yoda init`[red] to initialize[/]")
         else:
             print(f"An error occurred: {e}")
     finally:
