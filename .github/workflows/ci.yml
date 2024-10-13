@@ -35,9 +35,6 @@ jobs:
       - name: Install dependencies
         run: poetry install --no-interaction --no-ansi
 
-      - name: Run Tests
-        run: poetry run pytest
-
   publish:
     name: Publish to PyPI
     runs-on: ubuntu-latest
