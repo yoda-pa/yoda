@@ -1160,6 +1160,20 @@ files = [
 ]
 
 [[package]]
+name = "python-whois"
+version = "0.9.4"
+description = "Whois querying and parsing of domain registration information."
+optional = false
+python-versions = "*"
+files = [
+    {file = "python_whois-0.9.4-py3-none-any.whl", hash = "sha256:17d60f25524fc811a1f6a66f0298c1e5534551d7a01a77dd5f6406426da734e1"},
+    {file = "python_whois-0.9.4.tar.gz", hash = "sha256:77bc7347bf815d65ccd196711c29837652f07585aedad3c3c04dd885651fd7a7"},
+]
+
+[package.dependencies]
+python-dateutil = "*"
+
+[[package]]
 name = "pyyaml"
 version = "6.0.2"
 description = "YAML parser and emitter for Python"
@@ -1959,4 +1973,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "fa25d94d6d6a234d8da80094757826db2a550c1d52e067b467aefa44763e8175"
+content-hash = "c32371696f1652d9501ad30cfd35fa727d1041f23ddc8703b7c62f1cedc17405"
