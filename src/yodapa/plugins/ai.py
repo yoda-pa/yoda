@@ -8,7 +8,8 @@ def _communicate_with_ollama(prompt: str):
     try:
         response = ollama.chat(
             model="codellama",
-            messages=[{"role": "user", "content": prompt}],
+            messages=[{"role": "system", "content": "You should talk like Yoda from star wars"},
+                      {"role": "user", "content": prompt}],
             stream=False,
         )
         # typer.echo(f"Received response from Ollama: {response['message']['content'].strip()}")
@@ -55,11 +56,15 @@ def generate_command(plugin_name: str, prompt: str):
 
     # Construct the prompt for the AI model
     ai_prompt = f"""
-Generate a Python Typer plugin class named "{plugin_name}" with a single command and multiple subcommands as required based on the following description:
+Generate a Python Typer app named "{plugin_name}" with multiple commands as required based on the following description:
 
 {prompt}.
-
-The plugin should follow the existing structure, using the 'yoda_plugin' decorator and include appropriate docstrings. An example of the expected output is provided below:
+    """
+    try:
+        response = ollama.chat(
+            model="codellama",
+            messages=[{"role": "system", "content": """You are an expert python programmer. You must use all the python best practices to write the most efficient python code. Provide complete working code for all the subcommands. Provide full working code. If the plugin requires storage, use local storage like files or sqlite, whichever is easier to use.
+You need to generate a typer command line app. An example app can be found below:
 ```python
 import typer
 
@@ -80,26 +85,19 @@ def hello(name: str = None):
     name = name or "Padawan"
     typer.echo(f"Hello {{name}}!")
 ```   
-    
+
 You must only return the generated code for the plugin class. All the details for the plugin class should be added in the docstring.
-You must use all the python best practices to write the most efficient python code. Provide complete working code for all the subcommands.
-    """
-
-    try:
-        # Interact with the Ollama LLM
-        generated_code = _communicate_with_ollama(ai_prompt)
+When the user provides a description for their requirement, you must use all the best practices required to implement what they need.
+            """},
+                      {"role": "user", "content": prompt}],
+            stream=False,
+        )
+        # typer.echo(f"Received response from Ollama: {response['message']['content'].strip()}")
+        generated_code = response['message']['content'].strip()
         typer.echo(f"🤖 Generated code:\n{generated_code}")
+    except ollama.ResponseError as e:
+        typer.echo(f"Error communicating with Ollama: {e}", err=True)
+        typer.echo(f"Failed to communicate with Ollama: {e}", err=True)
 
-        # Define the plugin file path
-        # plugin_file = self.output_dir / f"{plugin_name.lower()}_plugin.py"
-        #
-        # # Write the generated code to the plugin file
-        # with open(plugin_file, "w") as f:
-        #     f.write(generated_code)
-        # typer.echo(f"Generated plugin saved to {plugin_file}")
-        #
-        # typer.echo(f"Plugin '{plugin_name}' has been generated and saved to {plugin_file}")
-
-    except Exception as e:
-        typer.echo(f"Error generating plugin: {e}", err=True)
-        typer.echo(f"Failed to generate plugin: {e}", err=True)
+        typer.echo("If you don't have ollama installed, you can install it by going through the instructions on "
+                   "their website: https://ollama.com/ and installing the codellama model")

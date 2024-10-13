@@ -33,6 +33,16 @@ The help command will list all the available plugins.
 $ yoda --help
 ```
 
+![img.png](img.png)
+
+You can find the details for each plugin with the `--help` flag. Some examples:
+
+![img_1.png](img_1.png)
+
+![img_2.png](img_2.png)
+
+![img_3.png](img_3.png)
+
 ### Write your own plugin for Yoda
 
 Simply create a class with the `@yoda_plugin(name="plugin-name")` decorator and add methods to it. The non-private
@@ -41,27 +51,23 @@ decorator.
 
 ```python
 import typer
-from yodapa.plugin_manager.decorator import yoda_plugin
 
-
-@yoda_plugin(name="hi")
-class HiPlugin:
-    """
+app = typer.Typer(help="""
     Hi plugin. Say hello.
 
     Example:
+
         $ yoda hi hello --name MP
+
         $ yoda hi hello
-    """
+    """)
 
-    def hello(self, name: str = None):
-        """Say hello."""
-        name = name or "Padawan"
-        typer.echo(f"Hello {name}!")
 
-    def _private_method_should_not_be_added(self):
-        """This method should not be added as a command."""
-        raise NotImplementedError()
+@app.command()
+def hello(name: str = None):
+    """Say hello."""
+    name = name or "Padawan"
+    typer.echo(f"Hello {name}!")
 ```
 
 ### Use AI to generate your own plugin
@@ -72,62 +78,32 @@ $ yoda ai generate-command todo "todo list that keeps track of your todos"
 🤖 Generated code:
 
 import typer
+from weather import Weather
 
-from yodapa.plugin_manager.decorator import yoda_plugin
+app = typer.Typer(help="Show weather for a given location")
 
+@app.command()
+def weather(location: str):
+    """Show weather for a given location."""
+    try:
+        weather_data = Weather(location).get_weather()
+        print(f"Weather for {location}:")
+        print(f"Temperature: {weather_data['temperature']}")
+        print(f"Description: {weather_data['description']}")
+    except KeyError as error:
+        print("Invalid location")
 
-@yoda_plugin(name="todo")
-class TodoPlugin:
-    """
-    Todo plugin. Keeps track of your todos.
+This code uses the `Weather` class from the `weather` library to retrieve weather data for a given location. The
+`location` argument is passed as a command-line argument, and the `get_weather()` method of the `Weather` object returns
+a dictionary containing the current temperature and description of the weather in the given location.
 
-    Example:
-        $ yoda todo list --all
-        $ yoda todo add "Finish assignment"
-        $ yoda todo done 1
-        $ yoda todo delete 2
-    """
-
-    def list(self, all: bool = False):
-        """List all todos."""
-        if all:
-            typer.echo("All todos:")
-            for todo in self.todos:
-                typer.echo(f"- {todo}")
-        else:
-            typer.echo("Active todos:")
-            for todo in self.active_todos:
-                typer.echo(f"- {todo}")
-
-    def add(self, name: str):
-        """Add a new todo."""
-        if name == "":
-            raise ValueError("Todo name cannot be empty")
-        self.todos.append(name)
-        typer.echo(f"Added todo '{name}'")
-
-    def done(self, id: int):
-        """Mark a todo as done."""
-        if id < 0 or id >= len(self.todos):
-            raise ValueError("Todo ID out of range")
-        self.active_todos.remove(self.todos[id])
-        typer.echo(f"Marked todo {id} as done")
-
-    def delete(self, id: int):
-        """Delete a todo."""
-        if id < 0 or id >= len(self.todos):
-            raise ValueError("Todo ID out of range")
-        self.todos.remove(self.todos[id])
-        typer.echo(f"Deleted todo {id}")
-
-    def __init__(self):
-        self.todos = []
-        self.active_todos = []
-
-if __name__ == "__main__":
-    typer.run(TodoPlugin())
+The code uses a try-except block to catch any errors that may occur when retrieving the weather data, such as invalid
+locations. In this case, it prints an error message to the console indicating that the location is invalid.
 
 ```
+
+.. or chat with Yoda:
+![img_5.png](img_5.png)
 
 ## Development setup
 
