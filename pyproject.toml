@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "yodapa"
-version = "0.4.0"
+version = "0.5.0"
 description = "Personal Assistant on the command line"
 authors = ["Man Parvesh Singh Randhawa <manparveshsinghrandhawa@gmail.com>"]
 license = "MIT"
@@ -19,8 +19,8 @@ pyyaml = "^6.0.2"
 mkdocs = "^1.6.1"
 mkdocs-material = "^9.5.39"
 ollama = "^0.3.3"
-uvicorn = {extras = ["standard"], version = "^0.31.1"}
-fastapi = {extras = ["standard"], version = "^0.115.0"}
+uvicorn = { extras = ["standard"], version = "^0.31.1" }
+fastapi = { extras = ["standard"], version = "^0.115.0" }
 supervisor = "^4.2.5"
 sqlmodel = "^0.0.22"
 requests = "^2.32.3"

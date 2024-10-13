@@ -7,25 +7,25 @@ from rich import print
 from rich.table import Table
 
 app = typer.Typer(help="Config management")
-sqlite_file = Path.home() / ".yoda" / "yoda.sqlite3"
+config_sqlite_file = Path.home() / ".yoda" / "yoda.sqlite3"
 
 
 def get_db_connection() -> Connection:
-    conn = sqlite3.connect(sqlite_file)
+    conn = sqlite3.connect(config_sqlite_file)
     return conn
 
 
 @app.command(name="init")
 def initialize_config():
     """Initializes a sqlite db that will store the config"""
-    if sqlite_file.exists():
+    if config_sqlite_file.exists():
         delete_old = typer.confirm("This file already exists. Do you want to continue?")
 
         if not delete_old:
             return
 
         # delete old file
-        sqlite_file.unlink()
+        config_sqlite_file.unlink()
 
     conn = get_db_connection()
 
