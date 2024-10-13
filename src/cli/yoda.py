@@ -3,7 +3,7 @@ from typing import Annotated, Optional
 import typer
 
 from yodapa.config import ConfigManager
-from yodapa.plugin_manager.plugin import PluginManager
+from yodapa.plugin import PluginManager
 
 
 class Yoda:
