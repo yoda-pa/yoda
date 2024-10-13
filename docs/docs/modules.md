@@ -1,3 +1,0 @@
-# Modules
-
-::: yodapa.config.ConfigManager
