@@ -116,6 +116,7 @@ def get_plugin_list():
             print("[red]Yoda config not initialized. Use [white]`yoda config init`[red] to initialize[/]")
         else:
             print(f"An error occurred: {e}")
+        return list()
     finally:
         if conn:
             conn.close()
