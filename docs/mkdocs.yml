@@ -27,8 +27,9 @@ plugins:
 nav:
   - Home: index.md
   - Documentation:
-      - Plugins: plugins.md
-      - Modules: modules.md
+      - Config Management: config.md
+      - Plugin Management: plugins.md
+      - Plugin list: pluginlist.md
   - About:
       - Contributors: contributors.md
       - License: license.md

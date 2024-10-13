@@ -1,40 +1,21 @@
-# Plugin Management
-
-## Commands
+# Config Management
 
 ```
-❯ yoda plugin --help
+❯ yoda config --help
                                                                                                                                                        
- Usage: yoda plugin [OPTIONS] COMMAND [ARGS]...                                                                                                        
+ Usage: yoda config [OPTIONS] COMMAND [ARGS]...                                                                                                        
                                                                                                                                                        
- Commands to manage plugins                                                                                                                            
+ Config management                                                                                                                                     
                                                                                                                                                        
 ╭─ Options ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
 │ --help          Show this message and exit.                                                                                                         │
 ╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Commands ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│ disable   Disable a plugin                                                                                                                          │
-│ enable    Enable a plugin                                                                                                                           │
-│ list      List all available plugins                                                                                                                │
-│ refresh   Re-discovers all available plugins and enables them                                                                                       │
+│ get    Get value of a key set in yoda config                                                                                                        │
+│ init   Initializes a sqlite db that will store the config                                                                                           │
+│ list   List all key-value pairs in the config                                                                                                       │
+│ set    Set a value for a key in config                                                                                                              │
 ╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
-
-❯ yoda plugin list
-    Yoda Plugins    
-┏━━━━━━━━┳━━━━━━━━━┓
-┃ Name   ┃ Enabled ┃
-┡━━━━━━━━╇━━━━━━━━━┩
-│ config │ Yes     │
-│ plugin │ Yes     │
-│ ai     │ Yes     │
-│ bye    │ No      │
-│ dev    │ Yes     │
-│ hi     │ No      │
-│ url    │ Yes     │
-│ dummy  │ No      │
-└────────┴─────────┘
 ```
 
-## Docs
-
-::: yodapa.core.plugin
+::: yodapa.core.config
