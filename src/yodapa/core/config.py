@@ -1,18 +1,12 @@
 import sqlite3
-from pathlib import Path
-from sqlite3 import Connection
 
 import typer
 from rich import print
 from rich.table import Table
 
+from yodapa.core.util import config_sqlite_file, _refresh_plugins, get_db_connection
+
 app = typer.Typer(help="Config management")
-config_sqlite_file = Path.home() / ".yoda" / "yoda.sqlite3"
-
-
-def get_db_connection() -> Connection:
-    conn = sqlite3.connect(config_sqlite_file)
-    return conn
 
 
 @app.command(name="init")
@@ -44,8 +38,19 @@ def initialize_config():
             enabled BOOLEAN NOT NULL
         )
     """)
+
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS url (
+            name TEXT PRIMARY KEY,
+            url TEXT NOT NULL
+        )
+    """)
+
     conn.commit()
     conn.close()
+
+    # in addition to creating new tables, we must also load the available plugins
+    _refresh_plugins()
 
 
 @app.command(name="set")

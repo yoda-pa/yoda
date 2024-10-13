@@ -1432,6 +1432,17 @@ files = [
 ]
 
 [[package]]
+name = "speedtest-cli"
+version = "2.1.3"
+description = "Command line interface for testing internet bandwidth using speedtest.net"
+optional = false
+python-versions = "*"
+files = [
+    {file = "speedtest-cli-2.1.3.tar.gz", hash = "sha256:5e2773233cedb5fa3d8120eb7f97bcc4974b5221b254d33ff16e2f1d413d90f0"},
+    {file = "speedtest_cli-2.1.3-py2.py3-none-any.whl", hash = "sha256:75ff32c91af9ac1ce2b905476d6e92bd9eb2c0783f9e7d1939d74605c7d0b9ea"},
+]
+
+[[package]]
 name = "sqlalchemy"
 version = "2.0.35"
 description = "Database Abstraction Library"
@@ -1948,4 +1959,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "3a68926b858c3ac2074bfc9d02e5f5eb108542dcd526f32b361d2b30ee2d2377"
+content-hash = "fa25d94d6d6a234d8da80094757826db2a550c1d52e067b467aefa44763e8175"
