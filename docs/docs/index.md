@@ -73,33 +73,51 @@ def hello(name: str = None):
 ### Use AI to generate your own plugin
 
 ```bash
-$ yoda ai generate-command todo "todo list that keeps track of your todos"
+$ yoda ai generate-command weather "show weather for the provided location"
 
 🤖 Generated code:
 
-import typer
-from weather import Weather
+import requests
+from typing import Optional
 
-app = typer.Typer(help="Show weather for a given location")
+app = typer.Typer(help="""
+    Show weather for a given location.
+
+    Example:
+
+        $ yoda weather London
+
+        $ yoda weather -l London
+    """)
 
 @app.command()
-def weather(location: str):
-    """Show weather for a given location."""
-    try:
-        weather_data = Weather(location).get_weather()
-        print(f"Weather for {location}:")
-        print(f"Temperature: {weather_data['temperature']}")
-        print(f"Description: {weather_data['description']}")
-    except KeyError as error:
-        print("Invalid location")
-
-This code uses the `Weather` class from the `weather` library to retrieve weather data for a given location. The
-`location` argument is passed as a command-line argument, and the `get_weather()` method of the `Weather` object returns
-a dictionary containing the current temperature and description of the weather in the given location.
-
-The code uses a try-except block to catch any errors that may occur when retrieving the weather data, such as invalid
-locations. In this case, it prints an error message to the console indicating that the location is invalid.
-
+def weather(location: str, units: Optional[str] = None):
+    """Show the current weather for a given location."""
+    # Set up your API key or database connection here
+    api_key = "YOUR_API_KEY"
+    db_conn = None  # Initialize your DB connection here
+    
+    # Use the requests library to make an HTTP request to the API
+    url = f"https://api.openweathermap.org/data/2.5/weather?q={location}&appid={api_key}"
+    response = requests.get(url)
+    
+    # If the response is successful, parse the JSON data and return it in a format that typer can display
+    if response.status_code == 200:
+        data = response.json()
+        temperature = data["main"]["temp"]
+        humidity = data["main"]["humidity"]
+        wind = data["wind"]["speed"]
+        pressure = data["main"]["pressure"]
+        
+        typer.echo(f"Weather for {location}:")
+        typer.echo(f"\tTemperature: {temperature}°C")
+        typer.echo(f"\tHumidity: {humidity}%")
+        typer.echo(f"\tWind speed: {wind} m/s")
+        typer.echo(f"\tPressure: {pressure} hPa")
+        
+    # If the response is not successful, print an error message
+    else:
+        typer.echo(f"Error: {response.status_code}")
 ```
 
 .. or chat with Yoda:

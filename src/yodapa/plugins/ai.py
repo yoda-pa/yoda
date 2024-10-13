@@ -1,5 +1,6 @@
 import ollama
 import typer
+from rich.console import Console
 
 app = typer.Typer(help="AI command. Allows you to communicate with your local LLMs")
 
@@ -61,39 +62,41 @@ Generate a Python Typer app named "{plugin_name}" with multiple commands as requ
 {prompt}.
     """
     try:
-        response = ollama.chat(
-            model="codellama",
-            messages=[{"role": "system", "content": """You are an expert python programmer. You must use all the python best practices to write the most efficient python code. Provide complete working code for all the subcommands. Provide full working code. If the plugin requires storage, use local storage like files or sqlite, whichever is easier to use.
-You need to generate a typer command line app. An example app can be found below:
-```python
-import typer
-
-app = typer.Typer(help=\"\"\"
-    Hi plugin. Say hello.
-
-    Example:
-
-        $ yoda hi hello --name MP
-
-        $ yoda hi hello
-    \"\"\")
-
-
-@app.command()
-def hello(name: str = None):
-    \"\"\"Say hello.\"\"\"
-    name = name or "Padawan"
-    typer.echo(f"Hello {{name}}!")
-```   
-
-You must only return the generated code for the plugin class. All the details for the plugin class should be added in the docstring.
-When the user provides a description for their requirement, you must use all the best practices required to implement what they need.
-            """},
-                      {"role": "user", "content": prompt}],
-            stream=False,
-        )
-        # typer.echo(f"Received response from Ollama: {response['message']['content'].strip()}")
-        generated_code = response['message']['content'].strip()
+        console = Console()
+        with console.status("[bold green]Waiting for AI response..."):
+            response = ollama.chat(
+                model="codellama",
+                messages=[{"role": "system", "content": """You are an expert python programmer. You must use all the python best practices to write the most efficient python code. Provide complete working code for all the subcommands. Provide full working code. If the plugin requires storage, use local storage like files or sqlite, whichever is easier to use.
+    You need to generate a typer command line app. An example app can be found below:
+    ```python
+    import typer
+    
+    app = typer.Typer(help=\"\"\"
+        Hi plugin. Say hello.
+    
+        Example:
+    
+            $ yoda hi hello --name MP
+    
+            $ yoda hi hello
+        \"\"\")
+    
+    
+    @app.command()
+    def hello(name: str = None):
+        \"\"\"Say hello.\"\"\"
+        name = name or "Padawan"
+        typer.echo(f"Hello {{name}}!")
+    ```   
+    
+    You must only return the generated code for the plugin class. All the details for the plugin class should be added in the docstring.
+    When the user provides a description for their requirement, you must use all the best practices required to implement what they need.
+                """},
+                          {"role": "user", "content": ai_prompt}],
+                stream=False,
+            )
+            # typer.echo(f"Received response from Ollama: {response['message']['content'].strip()}")
+            generated_code = response['message']['content'].strip()
         typer.echo(f"🤖 Generated code:\n{generated_code}")
     except ollama.ResponseError as e:
         typer.echo(f"Error communicating with Ollama: {e}", err=True)
