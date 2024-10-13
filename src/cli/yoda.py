@@ -2,15 +2,10 @@ from typing import Annotated, Optional
 
 import typer
 
-from yodapa.plugin import discover_plugins, load_plugins
-from yodapa.plugins.plugin import get_enabled_plugins
+from yodapa.core.plugin import init_plugins
 
 app = typer.Typer()
-plugins = discover_plugins()
-
-enabled_plugins = get_enabled_plugins()
-
-load_plugins(app, [(plugin_name, typer_app) for plugin_name, typer_app in plugins if plugin_name in enabled_plugins])
+init_plugins(app)
 
 
 @app.command()
