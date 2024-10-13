@@ -12,8 +12,8 @@ PROTECTED_PLUGINS = ["config", "plugin"]
 app = typer.Typer(help="Commands to manage plugins")
 
 
-@app.command(name="list")
-def list_plugins():
+def get_plugin_list():
+    """Get plugin list from sqlite3"""
     conn = None
     try:
         conn = get_db_connection()
@@ -21,18 +21,7 @@ def list_plugins():
         cursor.execute("SELECT name, enabled FROM plugins")
         rows = cursor.fetchall()
 
-        if not rows:
-            print("[yellow] No plugins found.[/]")
-            return
-
-        table = Table(title="Yoda Plugins")
-        table.add_column("Name", style="cyan", no_wrap=True)
-        table.add_column("Enabled")
-
-        for key, value in rows:
-            table.add_row(key, "[green]Yes[/]" if value == 1 else "[red]No[/]")
-
-        print(table)
+        return rows
 
     except sqlite3.OperationalError as e:
         if "no such table" in str(e):
@@ -42,6 +31,29 @@ def list_plugins():
     finally:
         if conn:
             conn.close()
+
+
+def get_enabled_plugins():
+    """Get plugin list from sqlite3"""
+    return set(name for name, enabled in get_plugin_list() if enabled)
+
+
+@app.command(name="list")
+def list_plugins():
+    rows = get_plugin_list()
+
+    if not rows:
+        print("[yellow] No plugins found.[/]")
+        return
+
+    table = Table(title="Yoda Plugins")
+    table.add_column("Name", style="cyan", no_wrap=True)
+    table.add_column("Enabled")
+
+    for key, value in rows:
+        table.add_row(key, "[green]Yes[/]" if value == 1 else "[red]No[/]")
+
+    print(table)
 
 
 @app.command(name="enable")
@@ -73,6 +85,10 @@ def enable_plugin(name: str):
 
 @app.command(name="disable")
 def disable_plugin(name: str):
+    if name in PROTECTED_PLUGINS:
+        print(f"[italic]{name}[/] [red]is an internal plugin that cannot be disabled[/]")
+        return
+
     conn = None
     try:
         conn = get_db_connection()
