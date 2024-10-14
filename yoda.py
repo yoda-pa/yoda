@@ -177,6 +177,9 @@ def money(ctx, input):
     status: check config\n
     exp: add an expense\n
     exps: view all expenses\n
+    deposit: deposit money to account\n
+    deposits: viwe all deposits\n
+    reset: remove account\n
     convert: Convert from one currency to other\n
     """
     input = util.get_arguments(ctx, -1)
