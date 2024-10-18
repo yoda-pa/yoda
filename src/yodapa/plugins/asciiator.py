@@ -1,16 +1,16 @@
 from PIL import Image
 import os
 import typer
+from rich import print
 
 app = typer.Typer(help="""
     Asciiator plugin. Convert an image to ASCII art.
 
     Example:
 
-        $ yoda asciiator process "{path to image file}" -s // save output locally
-        $ yoda asciiator process "{path to image file}" -t // display output on terminal
-        $ yoda asciiator process "{path to image file}" -s -t // both the actions
-      
+        $ yoda asciiator file "{path to image file}" // save output locally
+        $ yoda asciiator show "{path to image file}" // display output on terminal
+        $ yoda asciiator both "{path to image file}" // both the actions
     """)
 
 ASCII_CHARS = ["#", "?", "%", ".", "S", "+", ".", "*", ":", ",", "@"]
@@ -22,7 +22,7 @@ def handle_image_conversion(image_filepath):
     except Exception as e:
         print(f"Unable to open image file {image_filepath}.")
         print(e)
-        return
+        return None
     
     new_width = 100
     (original_width, original_height) = image.size
@@ -31,7 +31,6 @@ def handle_image_conversion(image_filepath):
     
     image = image.resize((new_width, new_height)).convert("L")
     
-    # Adjust the range width to scale pixel values correctly
     range_width = 256 // len(ASCII_CHARS)
     
     pixels_to_chars = "".join(
@@ -48,35 +47,52 @@ def handle_image_conversion(image_filepath):
     
     return "\n".join(image_ascii)
 
+def save_ascii_art(image_ascii, image_file_path):
+    directory = os.path.dirname(image_file_path)
+    base_name = os.path.splitext(os.path.basename(image_file_path))[0]
+    output_file_path = os.path.join(directory, f"{base_name}_ascii.txt")
+    
+    with open(output_file_path, 'w') as f:
+        f.write(image_ascii)
+    
+    print(f"ASCII art saved to {output_file_path}")
+
 @app.command()
-def process(input_data: str, save: bool = typer.Option(False, "-s", help="Save output to a file"), display: bool = typer.Option(False, "-t", help="Display output in terminal")):
+def file(image_path: str):
     """
-    Process an image and convert it to ASCII.
-    
-    Args:
-    - input_data: Path to the image file.
-    - save: Save the ASCII output to a text file.
-    - display: Display the ASCII output in the terminal.
+    Save the ASCII art to a text file.
     """
-    image_file_path = input_data
-    data = handle_image_conversion(image_file_path)
+    data = handle_image_conversion(image_path)
     
-    if not data:
+    if data:
+        save_ascii_art(data, image_path)
+    else:
         print("Error converting image.")
-        return
+
+@app.command()
+def show(image_path: str):
+    """
+    Display the ASCII art in the terminal.
+    """
+    data = handle_image_conversion(image_path)
     
-    if save:
-        directory = os.path.dirname(image_file_path)
-        base_name = os.path.splitext(os.path.basename(image_file_path))[0]
-        output_file_path = os.path.join(directory, f"{base_name}_ascii.txt")
-        
-        with open(output_file_path, 'w') as f:
-            f.write(data)
-        
-        print(f"ASCII art saved to {output_file_path}")
-    
-    if display:
+    if data:
         print(data)
+    else:
+        print("Error converting image.")
+
+@app.command()
+def both(image_path: str):
+    """
+    Save the ASCII art to a file and display it in the terminal.
+    """
+    data = handle_image_conversion(image_path)
+    
+    if data:
+        save_ascii_art(data, image_path)
+        print(data)
+    else:
+        print("Error converting image.")
 
 if __name__ == "__main__":
     app()
