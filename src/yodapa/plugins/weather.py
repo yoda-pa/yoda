@@ -13,7 +13,7 @@ app = typer.Typer(help="""
 
     """)
 
-@app.command()
+@app.command(name="get")
 def get_weather(location):
     location_id = location.strip().replace(" ", "+")
 
