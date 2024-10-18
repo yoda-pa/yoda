@@ -7,7 +7,7 @@ app = typer.Typer(help="""
 
     Example:
 
-        $ yoda weather get_weather "New York" 
+        $ yoda weather get "New York" 
         
         // New York is an example, replace with desired location
 
