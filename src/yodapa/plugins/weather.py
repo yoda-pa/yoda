@@ -7,11 +7,13 @@ app = typer.Typer(help="""
 
     Example:
 
-        $ yoda weather get_weather "New York" // New York is an example, replace with desired location
+        $ yoda weather get "New York" 
+        
+        // New York is an example, replace with desired location
 
     """)
 
-@app.command()
+@app.command(name="get")
 def get_weather(location):
     location_id = location.strip().replace(" ", "+")
 
