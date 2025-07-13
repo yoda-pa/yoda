@@ -1,0 +1,24 @@
+name: Update Homebrew Tap
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  update-tap:
+    name: Update Homebrew Tap
+    runs-on: ubuntu-latest
+    steps:
+    - name: Update Homebrew formula
+      uses: mislav/bump-homebrew-formula-action@v3
+      with:
+        formula-name: yoda-cli
+        formula-path: Formula/yoda-cli.rb
+        homebrew-tap: 94solutions/homebrew-tap
+        download-url: https://github.com/94solutions/yoda/releases/download/${{ github.event.release.tag_name }}/yoda-cli.rb
+        commit-message: |
+          Update yoda-cli to ${{ github.event.release.tag_name }}
+          
+          Automated update via GitHub Actions
+      env:
+        COMMITTER_TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}

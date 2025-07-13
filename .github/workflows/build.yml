@@ -281,6 +281,31 @@ jobs:
         end
         EOF
         
+    - name: Update Homebrew Tap
+      run: |
+        VERSION=${{ steps.version.outputs.version }}
+        
+        # Clone the tap repository
+        git clone https://github.com/94solutions/homebrew-tap.git tap-repo
+        cd tap-repo
+        
+        # Configure git
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        
+        # Create Formula directory if it doesn't exist
+        mkdir -p Formula
+        
+        # Copy the formula
+        cp ../homebrew/yoda-cli.rb Formula/yoda-cli.rb
+        
+        # Commit and push
+        git add Formula/yoda-cli.rb
+        git commit -m "Update yoda-cli to ${VERSION}" || echo "No changes to commit"
+        git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/94solutions/homebrew-tap.git
+        
+        cd ..
+        
     - name: Create release
       uses: softprops/action-gh-release@v1
       with:
