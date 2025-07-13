@@ -152,13 +152,14 @@ jobs:
     - name: Create RPM package
       run: |
         VERSION=${{ steps.version.outputs.version }}
-        mkdir -p rpm/BUILD rpm/RPMS rpm/SOURCES rpm/SPECS rpm/SRPMS
-        mkdir -p rpm/BUILD/yoda-${VERSION}/usr/local/bin
+        TOPDIR=$(pwd)/rpm
+        mkdir -p ${TOPDIR}/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
+        mkdir -p ${TOPDIR}/BUILD/yoda-${VERSION}/usr/local/bin
         
-        cp artifacts/yoda-linux-amd64/yoda-linux-amd64 rpm/BUILD/yoda-${VERSION}/usr/local/bin/yoda
-        chmod +x rpm/BUILD/yoda-${VERSION}/usr/local/bin/yoda
+        cp artifacts/yoda-linux-amd64/yoda-linux-amd64 ${TOPDIR}/BUILD/yoda-${VERSION}/usr/local/bin/yoda
+        chmod +x ${TOPDIR}/BUILD/yoda-${VERSION}/usr/local/bin/yoda
         
-        cat > rpm/SPECS/yoda.spec << EOF
+        cat > ${TOPDIR}/SPECS/yoda.spec << EOF
         Name: yoda
         Version: ${VERSION}
         Release: 1
@@ -181,9 +182,9 @@ jobs:
         - Release ${VERSION}
         EOF
         
-        cd rpm/BUILD && tar czf ../SOURCES/yoda-${VERSION}.tar.gz yoda-${VERSION}/
-        rpmbuild -bb --define "_topdir $(pwd)/rpm" rpm/SPECS/yoda.spec
-        cp rpm/RPMS/x86_64/yoda-${VERSION}-1.x86_64.rpm .
+        cd ${TOPDIR}/BUILD && tar czf ../SOURCES/yoda-${VERSION}.tar.gz yoda-${VERSION}/
+        rpmbuild -bb --define "_topdir ${TOPDIR}" ${TOPDIR}/SPECS/yoda.spec
+        cp ${TOPDIR}/RPMS/x86_64/yoda-${VERSION}-1.x86_64.rpm .
         
     - name: Create Chocolatey package
       run: |
