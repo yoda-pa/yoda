@@ -1,0 +1,323 @@
+name: Build and Release
+
+on:
+  push:
+    branches: [ main, master ]
+    tags: [ 'v*' ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: .
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: '1.24'
+        
+    - name: Cache Go modules
+      uses: actions/cache@v3
+      with:
+        path: ~/go/pkg/mod
+        key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+        restore-keys: |
+          ${{ runner.os }}-go-
+          
+    - name: Install dependencies
+      run: go mod download
+      
+    - name: Run tests
+      run: go test -v ./...
+      
+    - name: Run linter
+      uses: golangci/golangci-lint-action@v3
+      with:
+        version: latest
+        working-directory: .
+
+  build:
+    name: Build Binaries
+    needs: test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: .
+    strategy:
+      matrix:
+        include:
+          - goos: linux
+            goarch: amd64
+            suffix: linux-amd64
+          - goos: linux
+            goarch: arm64
+            suffix: linux-arm64
+          - goos: darwin
+            goarch: amd64
+            suffix: darwin-amd64
+          - goos: darwin
+            goarch: arm64
+            suffix: darwin-arm64
+          - goos: windows
+            goarch: amd64
+            suffix: windows-amd64
+            extension: .exe
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: '1.24'
+        
+    - name: Get version
+      id: version
+      run: |
+        if [[ $GITHUB_REF == refs/tags/* ]]; then
+          echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+        else
+          echo "version=3.0.0-dev-${GITHUB_SHA::7}" >> $GITHUB_OUTPUT
+        fi
+        
+    - name: Build binary
+      env:
+        GOOS: ${{ matrix.goos }}
+        GOARCH: ${{ matrix.goarch }}
+        CGO_ENABLED: 0
+      run: |
+        VERSION=${{ steps.version.outputs.version }}
+        COMMIT=${GITHUB_SHA::7}
+        go build -ldflags "-X main.version=${VERSION} -X main.commit=${COMMIT}" \
+          -o bin/yoda-${{ matrix.suffix }}${{ matrix.extension }} ./cmd/yoda
+          
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: yoda-${{ matrix.suffix }}
+        path: bin/yoda-${{ matrix.suffix }}${{ matrix.extension }}
+
+  package:
+    name: Create Packages
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Download all artifacts
+      uses: actions/download-artifact@v3
+      with:
+        path: artifacts/
+        
+    - name: Get version
+      id: version
+      run: echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+      
+    - name: Install packaging tools
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y rpm build-essential
+        
+    - name: Create DEB package
+      run: |
+        VERSION=${{ steps.version.outputs.version }}
+        mkdir -p deb/usr/local/bin
+        mkdir -p deb/DEBIAN
+        
+        cp artifacts/yoda-linux-amd64/yoda-linux-amd64 deb/usr/local/bin/yoda
+        chmod +x deb/usr/local/bin/yoda
+        
+        cat > deb/DEBIAN/control << EOF
+        Package: yoda
+        Version: ${VERSION}
+        Architecture: amd64
+        Maintainer: 94Solutions <hi@94solutions.com>
+        Description: Personal Assistant CLI
+         Yoda is a modern, extensible command-line personal assistant built in Go.
+         It features a plugin-based architecture, local AI integration via Ollama,
+         and a focus on privacy and performance.
+        Depends: libc6
+        Priority: optional
+        Section: utils
+        EOF
+        
+        dpkg-deb --build deb yoda_${VERSION}_amd64.deb
+        
+    - name: Create RPM package
+      run: |
+        VERSION=${{ steps.version.outputs.version }}
+        mkdir -p rpm/BUILD rpm/RPMS rpm/SOURCES rpm/SPECS rpm/SRPMS
+        mkdir -p rpm/BUILD/yoda-${VERSION}/usr/local/bin
+        
+        cp artifacts/yoda-linux-amd64/yoda-linux-amd64 rpm/BUILD/yoda-${VERSION}/usr/local/bin/yoda
+        chmod +x rpm/BUILD/yoda-${VERSION}/usr/local/bin/yoda
+        
+        cat > rpm/SPECS/yoda.spec << EOF
+        Name: yoda
+        Version: ${VERSION}
+        Release: 1
+        Summary: Personal Assistant CLI
+        License: MIT
+        Group: Applications/System
+        BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
+        
+        %description
+        Yoda is a modern, extensible command-line personal assistant built in Go.
+        It features a plugin-based architecture, local AI integration via Ollama,
+        and a focus on privacy and performance.
+        
+        %files
+        %defattr(-,root,root,-)
+        /usr/local/bin/yoda
+        
+        %changelog
+        * $(date +'%a %b %d %Y') 94Solutions <noreply@94solutions.com> - ${VERSION}-1
+        - Release ${VERSION}
+        EOF
+        
+        cd rpm/BUILD && tar czf ../SOURCES/yoda-${VERSION}.tar.gz yoda-${VERSION}/
+        rpmbuild -bb --define "_topdir $(pwd)/rpm" rpm/SPECS/yoda.spec
+        cp rpm/RPMS/x86_64/yoda-${VERSION}-1.x86_64.rpm .
+        
+    - name: Create Chocolatey package
+      run: |
+        VERSION=${{ steps.version.outputs.version }}
+        mkdir -p chocolatey/tools
+        
+        cp artifacts/yoda-windows-amd64/yoda-windows-amd64.exe chocolatey/tools/yoda.exe
+        
+        cat > chocolatey/yoda.nuspec << EOF
+        <?xml version="1.0" encoding="utf-8"?>
+        <package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
+          <metadata>
+            <id>yoda</id>
+            <version>${VERSION}</version>
+            <packageSourceUrl>https://github.com/94solutions/yoda</packageSourceUrl>
+            <owners>94Solutions</owners>
+            <title>Yoda Personal Assistant CLI</title>
+            <authors>94Solutions</authors>
+            <projectUrl>https://github.com/94solutions/yoda</projectUrl>
+            <licenseUrl>https://github.com/94solutions/yoda/blob/main/v3/LICENSE</licenseUrl>
+            <requireLicenseAcceptance>false</requireLicenseAcceptance>
+            <description>Yoda is a modern, extensible command-line personal assistant built in Go. It features a plugin-based architecture, local AI integration via Ollama, and a focus on privacy and performance.</description>
+            <summary>Personal Assistant CLI with AI integration</summary>
+            <tags>cli assistant ai golang productivity</tags>
+          </metadata>
+          <files>
+            <file src="tools/**" target="tools" />
+          </files>
+        </package>
+        EOF
+        
+        cat > chocolatey/tools/chocolateyinstall.ps1 << 'EOF'
+        $ErrorActionPreference = 'Stop'
+        $toolsDir = "$(Split-Path -parent $MyInvocation.MyCommand.Definition)"
+        $packageName = 'yoda'
+        $url = Join-Path $toolsDir 'yoda.exe'
+        
+        Install-BinFile -Name $packageName -Path $url
+        EOF
+        
+        cat > chocolatey/tools/chocolateyuninstall.ps1 << 'EOF'
+        $ErrorActionPreference = 'Stop'
+        $packageName = 'yoda'
+        
+        Uninstall-BinFile -Name $packageName
+        EOF
+        
+        # Install choco if not available (for local testing)
+        if ! command -v choco &> /dev/null; then
+          echo "Chocolatey not available, creating package manually"
+          cd chocolatey && zip -r ../yoda.${VERSION}.nupkg *
+        else
+          cd chocolatey && choco pack
+          mv yoda.${VERSION}.nupkg ../
+        fi
+        
+    - name: Create Homebrew formula
+      run: |
+        VERSION=${{ steps.version.outputs.version }}
+        mkdir -p homebrew
+        
+        # Calculate SHA256 for macOS binaries
+        AMD64_SHA=$(sha256sum artifacts/yoda-darwin-amd64/yoda-darwin-amd64 | cut -d' ' -f1)
+        ARM64_SHA=$(sha256sum artifacts/yoda-darwin-arm64/yoda-darwin-arm64 | cut -d' ' -f1)
+        
+        cat > homebrew/yoda.rb << EOF
+        class Yoda < Formula
+          desc "Personal Assistant CLI with AI integration"
+          homepage "https://github.com/94solutions/yoda"
+          version "${VERSION}"
+          
+          if Hardware::CPU.arm?
+            url "https://github.com/94solutions/yoda/releases/download/v${VERSION}/yoda-darwin-arm64"
+            sha256 "${ARM64_SHA}"
+          else
+            url "https://github.com/94solutions/yoda/releases/download/v${VERSION}/yoda-darwin-amd64"
+            sha256 "${AMD64_SHA}"
+          end
+          
+          def install
+            if Hardware::CPU.arm?
+              bin.install "yoda-darwin-arm64" => "yoda"
+            else
+              bin.install "yoda-darwin-amd64" => "yoda"
+            end
+          end
+          
+          test do
+            system "#{bin}/yoda", "--version"
+          end
+        end
+        EOF
+        
+    - name: Create release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          artifacts/yoda-*/yoda-*
+          yoda_*.deb
+          yoda-*.rpm
+          yoda.*.nupkg
+          homebrew/yoda.rb
+        body: |
+          ## Installation
+          
+          ### macOS (Homebrew)
+          ```bash
+          # Add our tap (first time only)
+          brew tap 94solutions/tap https://github.com/94solutions/homebrew-tap.git
+          
+          # Install yoda
+          brew install yoda
+          ```
+          
+          ### Windows (Chocolatey)
+          ```powershell
+          choco install yoda --source https://github.com/94solutions/yoda/releases/download/v${{ steps.version.outputs.version }}/
+          ```
+          
+          ### Debian/Ubuntu
+          ```bash
+          wget https://github.com/94solutions/yoda/releases/download/v${{ steps.version.outputs.version }}/yoda_${{ steps.version.outputs.version }}_amd64.deb
+          sudo dpkg -i yoda_${{ steps.version.outputs.version }}_amd64.deb
+          ```
+          
+          ### RHEL/CentOS/Fedora
+          ```bash
+          wget https://github.com/94solutions/yoda/releases/download/v${{ steps.version.outputs.version }}/yoda-${{ steps.version.outputs.version }}-1.x86_64.rpm
+          sudo rpm -i yoda-${{ steps.version.outputs.version }}-1.x86_64.rpm
+          ```
+          
+          ### Manual Installation
+          Download the appropriate binary for your platform and place it in your PATH.
+        draft: false
+        prerelease: ${{ contains(github.ref, 'alpha') || contains(github.ref, 'beta') || contains(github.ref, 'rc') }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
