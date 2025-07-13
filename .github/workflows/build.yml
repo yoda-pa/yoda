@@ -302,7 +302,7 @@ jobs:
         # Commit and push
         git add Formula/yoda-cli.rb
         git commit -m "Update yoda-cli to ${VERSION}" || echo "No changes to commit"
-        git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/94solutions/homebrew-tap.git
+        git push https://x-access-token:${{ secrets.HOMEBREW_TAP_TOKEN }}@github.com/94solutions/homebrew-tap.git
         
         cd ..
         
