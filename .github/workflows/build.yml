@@ -253,8 +253,8 @@ jobs:
         AMD64_SHA=$(sha256sum artifacts/yoda-darwin-amd64/yoda-darwin-amd64 | cut -d' ' -f1)
         ARM64_SHA=$(sha256sum artifacts/yoda-darwin-arm64/yoda-darwin-arm64 | cut -d' ' -f1)
         
-        cat > homebrew/yoda.rb << EOF
-        class Yoda < Formula
+        cat > homebrew/yoda-cli.rb << EOF
+        class YodaCli < Formula
           desc "Personal Assistant CLI with AI integration"
           homepage "https://github.com/94solutions/yoda"
           version "${VERSION}"
@@ -289,17 +289,17 @@ jobs:
           yoda_*.deb
           yoda-*.rpm
           yoda.*.nupkg
-          homebrew/yoda.rb
+          homebrew/yoda-cli.rb
         body: |
           ## Installation
           
           ### macOS (Homebrew)
           ```bash
           # Add our tap (first time only)
-          brew tap 94solutions/tap https://github.com/94solutions/homebrew-tap.git
+          brew tap 94solutions/tap
           
-          # Install yoda
-          brew install yoda
+          # Install yoda-cli (avoids conflict with existing yoda package)
+          brew install 94solutions/tap/yoda-cli
           ```
           
           ### Windows (Chocolatey)
