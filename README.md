@@ -2,6 +2,7 @@
 
 [![Go Version](https://img.shields.io/badge/Go-1.24+-blue.svg)](https://golang.org)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Build and Release](https://github.com/94solutions/yoda/actions/workflows/build.yml/badge.svg)](https://github.com/94solutions/yoda/actions/workflows/build.yml)
 
 Yoda is a modern, extensible command-line personal assistant built in Go. It features a plugin-based architecture, local AI integration via Ollama, and a focus on privacy and performance.
 
