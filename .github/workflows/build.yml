@@ -7,6 +7,10 @@ on:
   pull_request:
     branches: [ main, master ]
 
+permissions:
+  contents: write
+  packages: write
+
 jobs:
   test:
     name: Test
