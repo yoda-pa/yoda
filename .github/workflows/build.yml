@@ -97,7 +97,7 @@ jobs:
           -o bin/yoda-${{ matrix.suffix }}${{ matrix.extension }} ./cmd/yoda
           
     - name: Upload artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: yoda-${{ matrix.suffix }}
         path: bin/yoda-${{ matrix.suffix }}${{ matrix.extension }}
