@@ -153,11 +153,11 @@ jobs:
       run: |
         VERSION=${{ steps.version.outputs.version }}
         TOPDIR=$(pwd)/rpm
-        mkdir -p ${TOPDIR}/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
-        mkdir -p ${TOPDIR}/BUILD/yoda-${VERSION}/usr/local/bin
+        mkdir -p ${TOPDIR}/{BUILD,BUILDROOT,RPMS,SOURCES,SPECS,SRPMS}
+        mkdir -p ${TOPDIR}/BUILDROOT/yoda-${VERSION}-1.x86_64/usr/local/bin
         
-        cp artifacts/yoda-linux-amd64/yoda-linux-amd64 ${TOPDIR}/BUILD/yoda-${VERSION}/usr/local/bin/yoda
-        chmod +x ${TOPDIR}/BUILD/yoda-${VERSION}/usr/local/bin/yoda
+        cp artifacts/yoda-linux-amd64/yoda-linux-amd64 ${TOPDIR}/BUILDROOT/yoda-${VERSION}-1.x86_64/usr/local/bin/yoda
+        chmod +x ${TOPDIR}/BUILDROOT/yoda-${VERSION}-1.x86_64/usr/local/bin/yoda
         
         cat > ${TOPDIR}/SPECS/yoda.spec << EOF
         Name: yoda
@@ -166,7 +166,7 @@ jobs:
         Summary: Personal Assistant CLI
         License: MIT
         Group: Applications/System
-        BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
+        BuildArch: x86_64
         
         %description
         Yoda is a modern, extensible command-line personal assistant built in Go.
@@ -182,7 +182,6 @@ jobs:
         - Release ${VERSION}
         EOF
         
-        cd ${TOPDIR}/BUILD && tar czf ../SOURCES/yoda-${VERSION}.tar.gz yoda-${VERSION}/
         rpmbuild -bb --define "_topdir ${TOPDIR}" ${TOPDIR}/SPECS/yoda.spec
         cp ${TOPDIR}/RPMS/x86_64/yoda-${VERSION}-1.x86_64.rpm .
         
