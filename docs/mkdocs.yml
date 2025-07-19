@@ -1,7 +1,7 @@
 site_name: Yoda PA
-site_url: https://yoda-pa.github.io/yoda
-repo_url: https://github.com/yoda-pa/yoda
-repo_name: yoda-pa/yoda
+site_url: https://yoda.manparvesh.com
+repo_url: https://github.com/manparvesh/yoda
+repo_name: manparvesh/yoda
 edit_uri: edit/main/docs/
 
 theme:

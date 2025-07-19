@@ -8,8 +8,8 @@ readme = "README.md"
 packages = [
     { include = "yodapa", from = "src" }
 ]
-repository = "https://github.com/yoda-pa/yoda/tree/v2"
-homepage = "https://yoda-pa.github.io/yoda"
+repository = "https://github.com/manparvesh/yoda/tree/v2"
+homepage = "https://yoda.manparvesh.com"
 
 [tool.poetry.dependencies]
 python = "^3.9"

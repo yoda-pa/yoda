@@ -1,6 +1,6 @@
 # Yoda PA
 
-[![Github CI](https://github.com/yoda-pa/yoda/actions/workflows/ci.yml/badge.svg)](https://github.com/yoda-pa/yoda/actions/workflows/ci.yml)
+[![Github CI](https://github.com/manparvesh/yoda/actions/workflows/ci.yml/badge.svg)](https://github.com/manparvesh/yoda/actions/workflows/ci.yml)
 [![PyPI version](https://badge.fury.io/py/yodapa.svg)](https://badge.fury.io/py/yodapa)
 
 Personal Assistant on the command line.
